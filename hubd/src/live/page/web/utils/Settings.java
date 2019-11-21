@@ -50,7 +50,7 @@ public class Settings {
 
 	public static String REPO;
 
-	public static String HOST_HTTP;
+	public static String STANDARD_HOST;
 	public static String HOST_API;
 	public static String HOST_CDN;
 	public static String HTTP_PROTO;
@@ -126,7 +126,7 @@ public class Settings {
 			REPO = props.getProperty("REPO");
 
 			PROJECT_NAME = props.getProperty("PROJECT_NAME", null);
-			HOST_HTTP = props.getProperty("HOST_HTTP");
+			STANDARD_HOST = props.getProperty("STANDARD_HOST");
 			HOST_API = props.getProperty("HOST_API");
 			HOST_CDN = props.getProperty("HOST_CDN");
 			HTTP_PROTO = props.getProperty("HTTP_PROTO", "https://");
@@ -228,7 +228,7 @@ public class Settings {
 	}
 
 	public static String getFullHttp() {
-		return HTTP_PROTO + HOST_HTTP;
+		return HTTP_PROTO + STANDARD_HOST;
 	}
 
 	public static String getFullHttp(String lng) {

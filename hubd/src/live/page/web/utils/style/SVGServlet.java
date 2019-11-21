@@ -41,7 +41,7 @@ public class SVGServlet extends BaseServlet {
 	@Override
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException {
 
-		if (!req.getServerName().equals(Settings.HOST_HTTP) && !req.getServerName().equals(Settings.HOST_CDN) && !Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
+		if (!req.getServerName().equals(Settings.STANDARD_HOST) && !req.getServerName().equals(Settings.HOST_CDN) && !Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
 			resp.sendError(404, "Not found");
 			return;
 		}

@@ -85,7 +85,7 @@ public class UPSocket implements ServletContextListener {
 			}
 
 			String origine = (String) prop.get("origin");
-			if (!session.isSecure() || (origine != null && !origine.endsWith(Settings.HOST_HTTP))) {
+			if (!session.isSecure() || (origine != null && !origine.endsWith(Settings.STANDARD_HOST))) {
 				session.close();
 				return;
 			}

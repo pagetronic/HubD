@@ -17,12 +17,16 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-@WebServlet(urlPatterns = {"/HOST_HTTP"}, displayName = "baseHost")
+@WebServlet(urlPatterns = {"/STANDARD_HOST"}, displayName = "baseHost")
 public class HostServlet extends GlobalControl {
 
+	/**
+	 * Standard Host when site use subdomains
+	 */
 	@Override
 	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
 
+		//Exclude Google file for property verification .. TODO to correct or test
 		if (req.getRequestURI().startsWith("/google") && req.getRequestURI().endsWith(".html")) {
 			URL res = req.getServletContext().getResource(req.getRequestURI());
 			if (res != null) {

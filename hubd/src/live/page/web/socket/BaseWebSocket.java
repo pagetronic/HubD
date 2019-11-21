@@ -117,7 +117,7 @@ public class BaseWebSocket {
 
 		try {
 			String origine = (String) session.getUserProperties().get("origin");
-			if (!session.isSecure() || (origine != null && !origine.endsWith(Settings.HOST_HTTP)) || !session.getUserProperties().containsKey("hl")) {
+			if (!session.isSecure() || (origine != null && !origine.endsWith(Settings.STANDARD_HOST)) || !session.getUserProperties().containsKey("hl")) {
 				session.close();
 				return;
 			}

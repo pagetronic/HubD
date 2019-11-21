@@ -324,7 +324,7 @@ public class UiStyleServlet extends BaseServlet {
 
 			Json constants = new Json().put("max_file_size", Settings.MAX_FILE_SIZE)
 					.put("apiurl", Settings.getApiHTTP()).put("cdnurl", Settings.getCDNHttp())
-					.put("domain", Settings.HOST_HTTP).put("logo", Settings.getLogo() + "@256x256")
+					.put("domain", Settings.STANDARD_HOST).put("logo", Settings.getLogo() + "@256x256")
 					.put("files_type", Settings.FILES_TYPE).put("vapId", Settings.VAPID_PUB).put("debug", Fx.IS_DEBUG)
 					.put("domains", Settings.getDomains());
 

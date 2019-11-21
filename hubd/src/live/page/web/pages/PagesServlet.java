@@ -43,7 +43,7 @@ public class PagesServlet extends HttpServlet {
 		if (!page.getString("url", "").equals(uri) || !page.getString("domain", "").equals(req.getServerName())) {
 
 			String base = "";
-			if (!req.getServerName().equals(Settings.HOST_HTTP) && !Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
+			if (!req.getServerName().equals(Settings.STANDARD_HOST) && !Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
 				base = Settings.getFullHttp();
 			}
 

@@ -9,7 +9,7 @@ UI_LOGO=/ui/logo
 
 REPO=/data/repo/PageBase/sites/example
 
-HOST_HTTP=example.com
+STANDARD_HOST=example.com
 HOST_API=api.example.com
 HOST_CDN=cdn.example.com
 HTTP_PROTO=https://

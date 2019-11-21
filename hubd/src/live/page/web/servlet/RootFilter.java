@@ -53,7 +53,7 @@ public class RootFilter implements Filter {
 			return;
 		}
 
-		if ((!host.equals(Settings.HOST_HTTP) || !req.getScheme().equals(Settings.HTTP_PROTO.replace("://", "")))
+		if ((!host.equals(Settings.STANDARD_HOST) || !req.getScheme().equals(Settings.HTTP_PROTO.replace("://", "")))
 				&& (!host.equals(Settings.HOST_CDN) || !req.getScheme().equals(Settings.HTTP_PROTO.replace("://", "")))
 				&& !host.equals(Settings.HOST_API)
 				&& !Settings.LANGS_DOMAINS.containsValue(host)
@@ -66,12 +66,13 @@ public class RootFilter implements Filter {
 		}
 
 
-		if (!Settings.LANGS_DOMAINS.containsValue(host) && host.equals(Settings.HOST_HTTP) && !Arrays.asList("/auth", "/token", "/oauth").contains(requestURI)) {
-			req.getRequestDispatcher("/HOST_HTTP").forward(req, resp);
+		if (!Settings.LANGS_DOMAINS.containsValue(host) && host.equals(Settings.STANDARD_HOST) && !Arrays.asList("/auth", "/token", "/oauth").contains(requestURI)) {
+			// redirect to standard Host
+			req.getRequestDispatcher("/STANDARD_HOST").forward(req, resp);
 			return;
 		}
 
-		if (req.getServerName().equals(Settings.HOST_HTTP)) {
+		if (req.getServerName().equals(Settings.STANDARD_HOST)) {
 			if (requestURI.equals("/") || requestURI.equals("/index.html")) {
 				req.getRequestDispatcher("/index").forward(req, resp);
 				return;

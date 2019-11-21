@@ -21,7 +21,7 @@ public class BaseCookie extends Cookie {
 	public BaseCookie(String value) {
 		super(Settings.COOKIE_NAME, value);
 		setPath("/");
-		setDomain(Settings.HOST_HTTP);
+		setDomain(Settings.STANDARD_HOST);
 		setSecure(true);
 		setHttpOnly(true);
 		setMaxAge(Settings.COOKIE_DELAY);
@@ -32,7 +32,7 @@ public class BaseCookie extends Cookie {
 	public BaseCookie(String key, String value) {
 		super(key, value);
 		setPath("/");
-		setDomain(Settings.HOST_HTTP);
+		setDomain(Settings.STANDARD_HOST);
 		setMaxAge(Settings.COOKIE_DELAY);
 	}
 

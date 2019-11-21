@@ -21,11 +21,11 @@ public class ErrorServlet extends HttpServlet {
 		req.setCanonical(null);
 
 
-		if ((Settings.LANGS_DOMAINS.size() > 1 && req.getServerName().equals(Settings.HOST_HTTP)) || !Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
+		if ((Settings.LANGS_DOMAINS.size() > 1 && req.getServerName().equals(Settings.STANDARD_HOST)) || !Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
+			// redirect to standard Host
+			req.getRequestDispatcher("/STANDARD_HOST").forward(req, resp);
 
-			req.getRequestDispatcher("/HOST_HTTP").forward(req, resp);
-
-		} else if (req.getServerName().equals(Settings.HOST_HTTP) || Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
+		} else if (req.getServerName().equals(Settings.STANDARD_HOST) || Settings.LANGS_DOMAINS.containsValue(req.getServerName())) {
 
 			req.setAttribute("error", "Error " + resp.getStatus());
 			req.setAttribute("message", req.getAttribute("javax.servlet.error.message"));

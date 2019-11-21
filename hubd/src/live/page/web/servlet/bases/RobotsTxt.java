@@ -31,7 +31,7 @@ public class RobotsTxt extends BaseServlet {
 
 			req.getServletContext().getNamedDispatcher("default").forward(req, resp);
 
-		} else if (req.getServerName().equals(Settings.HOST_HTTP)) {
+		} else if (req.getServerName().equals(Settings.STANDARD_HOST)) {
 
 			resp.getWriter().write("User-agent: *\n" + "Allow: /\n\n" + "User-agent: ia_archiver\n" + "Disallow: /");
 

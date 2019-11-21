@@ -44,7 +44,7 @@ public abstract class FullServlet implements javax.servlet.Servlet {
 
 		String host = httpreq.getServerName();
 
-		if (host == null || (!host.equals(Settings.HOST_HTTP) && !host.equals(Settings.HOST_API) && !host.equals(Settings.HOST_CDN) && !Settings.LANGS_DOMAINS.containsValue(host))) {
+		if (host == null || (!host.equals(Settings.STANDARD_HOST) && !host.equals(Settings.HOST_API) && !host.equals(Settings.HOST_CDN) && !Settings.LANGS_DOMAINS.containsValue(host))) {
 			ServletUtils.redirect301(Settings.getFullHttp(), httpresp);
 			return;
 		}

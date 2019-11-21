@@ -10,6 +10,9 @@ import live.page.web.utils.Settings;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Light weight servlet
+ */
 public abstract class BaseServlet implements Servlet {
 
 	abstract public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException;

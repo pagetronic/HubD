@@ -42,7 +42,7 @@ public class CookiesUtils {
 					if (cookie.getName().equals(Settings.COOKIE_NAME)) {
 						cookie.setHttpOnly(true);
 						cookie.setSecure(true);
-						cookie.setDomain(Settings.HOST_HTTP);
+						cookie.setDomain(Settings.STANDARD_HOST);
 					}
 					cookie.setMaxAge(0);
 					resp.addCookie(cookie);
