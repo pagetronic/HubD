@@ -34,6 +34,10 @@ import java.util.regex.Pattern;
 
 public class ApiServlet extends FullServlet {
 
+
+	/**
+	 * Redirect user to correct function on API request
+	 */
 	@Override
 	public void serviceApi(ApiServletRequest req, ApiServletResponse resp) {
 
@@ -46,7 +50,7 @@ public class ApiServlet extends FullServlet {
 				try {
 					URI uriOrigin = new URI(origin);
 					authorized = Settings.LANGS_DOMAINS.containsValue(uriOrigin.getHost()) && uriOrigin.getScheme().equals(Settings.HTTP_PROTO.replace("://", ""));
-				} catch (Exception ex) {
+				} catch (Exception ignore) {
 				}
 				if (authorized) {
 					resp.setHeader("Access-Control-Allow-Origin", origin);
@@ -72,6 +76,7 @@ public class ApiServlet extends FullServlet {
 
 			Users user;
 
+			//User use an OAuth procedure
 			if (api != null && req.getHeader("Authorization") != null) {
 
 				String access_token = req.getHeader("Authorization").replaceFirst(Pattern.compile("^Bearer ", Pattern.CASE_INSENSITIVE).pattern(), "");
@@ -139,6 +144,7 @@ public class ApiServlet extends FullServlet {
 
 
 			} else {
+				//User use a cookie procedure
 				user = BaseSession.getOrCreateUser(req, resp);
 				if (user == null && BaseCookie.getAuth(req) != null && !BaseSession.sessionExists(req)) {
 					BruteLocker.add(ServletUtils.realIp(req));
@@ -198,32 +204,53 @@ public class ApiServlet extends FullServlet {
 		}
 	}
 
+	/**
+	 * Do Get request on API with no authentication
+	 */
 	public void doGetApiPublic(ApiServletRequest req, ApiServletResponse resp) throws IOException, ServletException {
 		resp.setStatus(500);
 		resp.sendResponse(new Json("error", "METHOD_NOT_FOUND"));
 	}
 
+	/**
+	 * Do Get request on API with authenticated users
+	 */
 	public void doGetApiAuth(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException, ServletException {
 		doGetApiPublic(req, resp);
 	}
 
+	/**
+	 * Do Get request on API editor group privilege
+	 */
 	public void doGetApiEditor(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException, ServletException {
 		doGetApiAuth(req, resp, user);
 	}
 
+	/**
+	 * Do Post request on API with no authentication
+	 */
 	public void doPostApiPublic(ApiServletRequest req, ApiServletResponse resp, Json data) throws IOException, ServletException {
 		resp.setStatus(500);
 		resp.sendResponse(new Json("error", "METHOD_NOT_FOUND"));
 	}
 
+	/**
+	 * Do Post request on API with authenticated users
+	 */
 	public void doPostApiAuth(ApiServletRequest req, ApiServletResponse resp, Json data, Users user) throws IOException, ServletException {
 		doPostApiPublic(req, resp, data);
 	}
 
+	/**
+	 * Do Post request on API editor group privilege
+	 */
 	public void doPostApiEditor(ApiServletRequest req, ApiServletResponse resp, Json data, Users user) throws IOException, ServletException {
 		doPostApiAuth(req, resp, data, user);
 	}
 
+	/**
+	 * Go to Web service when does not match API service
+	 */
 	@Override
 	public void serviceWeb(WebServletRequest req, WebServletResponse resp) {
 		try {

@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.net.URI;
 
 public abstract class FullServlet implements javax.servlet.Servlet {
+
+	/**
+	 * Test the service needed, API or Standard web
+	 */
 	@Override
 	public void service(ServletRequest request, ServletResponse response) throws IOException, ServletException {
 

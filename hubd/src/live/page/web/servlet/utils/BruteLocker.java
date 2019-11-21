@@ -14,10 +14,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Lock access for a time
+ */
 @WebListener
 public class BruteLocker implements ServletContextListener {
 
-	public static final int DELAY = 6;
+	public static final int DELAY = 6; // lock for 6 seconds
 	private static final List<String> banned = new ArrayList<>();
 	private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
