@@ -9,8 +9,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+/**
+ * Add specials functions and Velocity tags/directives in templates
+ */
 @WebListener
-public class MatchesTemplate extends BaseTemplate implements ServletContextListener {
+public class ExempleTemplate extends BaseTemplate implements ServletContextListener {
 
 	@Override
 	public Class[] getUserDirective() {
@@ -25,7 +28,7 @@ public class MatchesTemplate extends BaseTemplate implements ServletContextListe
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
-		setTemplate(new MatchesTemplate());
+		setTemplate(new ExempleTemplate());
 
 	}
 
