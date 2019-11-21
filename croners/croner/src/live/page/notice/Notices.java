@@ -37,6 +37,10 @@ public class Notices {
 		}));
 	}
 
+	/**
+	 *  Notification croner
+	 *   TODO: bugs
+	 */
 	public static void cron() {
 		service.submit(() -> {
 
@@ -81,6 +85,9 @@ public class Notices {
 		});
 	}
 
+	/**
+	 *  Send webpush notification to suscribers
+	 */
 	private static void webPush(Json data) throws Exception {
 
 

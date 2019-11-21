@@ -7,6 +7,9 @@ import live.page.notice.Notices;
 
 public class Cron {
 
+	/**
+	 * Start cron needed
+	 */
 	public static void main(String[] args) {
 		Notices.cron();
 	}
