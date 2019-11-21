@@ -39,7 +39,7 @@ public class CookiesUtils {
 			Cookie[] cookies = req.getCookies();
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals(Settings.COOKIE_NAME)) {
+					if (cookie.getName().equals(Settings.getCookieName())) {
 						cookie.setHttpOnly(true);
 						cookie.setSecure(true);
 						cookie.setDomain(Settings.STANDARD_HOST);

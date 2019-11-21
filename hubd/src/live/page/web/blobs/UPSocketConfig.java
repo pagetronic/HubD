@@ -41,7 +41,7 @@ public class UPSocketConfig extends Configurator {
 
 			String[] cookies_ = cookies.get(0).split("; ");
 			for (String element : cookies_) {
-				if (element.split("=")[0].equals(Settings.COOKIE_NAME)) {
+				if (element.split("=")[0].equals(Settings.getCookieName())) {
 					session_id = element.split("=")[1];
 				}
 				if (element.split("=")[0].equals("tz")) {

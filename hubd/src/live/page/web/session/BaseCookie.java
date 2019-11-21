@@ -19,7 +19,7 @@ public class BaseCookie extends Cookie {
 	private String sameSite = null;
 
 	public BaseCookie(String value) {
-		super(Settings.COOKIE_NAME, value);
+		super(Settings.getCookieName(), value);
 		setPath("/");
 		setDomain(Settings.STANDARD_HOST);
 		setSecure(true);
@@ -50,7 +50,7 @@ public class BaseCookie extends Cookie {
 				return null;
 			}
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(Settings.COOKIE_NAME) && !cookie.getValue().equals("")) {
+				if (cookie.getName().equals(Settings.getCookieName()) && !cookie.getValue().equals("")) {
 					return new BaseCookie(cookie);
 				}
 			}

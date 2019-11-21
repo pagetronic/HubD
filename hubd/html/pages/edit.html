@@ -138,8 +138,8 @@
 				#if($revision.page.url)<a class="flexable button" href="$revision.page.url">$svg.fa_icon_newspaper_o $revision.page.title</a>#end
 				#if(!$revision.remove && $revision.childrens.size()==0 && $revision.origine!='draft')
 				<button class="flexable short delete_page">$svg.mi_delete_forever #lang('DELETE_PAGE')</button>
-				</div>
 				#end
+				</div>
 			</div>
 		</div>
 	#end

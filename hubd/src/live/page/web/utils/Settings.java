@@ -13,9 +13,8 @@ import java.util.*;
 
 public class Settings {
 
-	public static final String HUB_REPO = "/data/repo/hubd";
+	public static String HUB_REPO;
 
-	public static final String ADMIN_ID = "00000000000000000000000000";
 	public static final long CTRL_PERIOD = 30L; // template and style cache in seconds
 
 	public static final long START_COUNT = 1356048000000L; // Fri, 21 Dec 2012
@@ -55,7 +54,7 @@ public class Settings {
 	public static String HOST_CDN;
 	public static String HTTP_PROTO;
 	public static String PROJECT_NAME;
-	public static String COOKIE_NAME;
+	private static String COOKIE_NAME;
 	public static Json LANGS_DOMAINS;
 	public static String DB_USER;
 	public static char[] DB_PASS;
@@ -119,6 +118,8 @@ public class Settings {
 
 			props.load(reader);
 
+			HUB_REPO = props.getProperty("HUB_REPO", "/data/repo/HubD/hubd");
+
 			SITE_TITLE = props.getProperty("SITE_TITLE", null);
 
 			LOGO_TITLE = props.getProperty("LOGO_TITLE", null);
@@ -131,8 +132,7 @@ public class Settings {
 			HOST_CDN = props.getProperty("HOST_CDN");
 			HTTP_PROTO = props.getProperty("HTTP_PROTO", "https://");
 
-
-			COOKIE_NAME = props.getProperty("COOKIE_NAME", "session") + ((Fx.IS_DEBUG) ? "Dev2" : "Id2");
+			COOKIE_NAME = props.getProperty("COOKIE_NAME", "session");
 
 			LANGS_DOMAINS = new Json();
 			for (String langs_domains : props.getProperty("LANGS_DOMAINS", null).split(" ")) {
@@ -220,6 +220,10 @@ public class Settings {
 		}
 	}
 
+
+	public static String getCookieName() {
+		return COOKIE_NAME + (Fx.IS_DEBUG ? "Dev" : "");
+	}
 
 	public static long getHttpExpires() {
 		Calendar cal = Calendar.getInstance();
