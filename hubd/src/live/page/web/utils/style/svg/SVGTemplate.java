@@ -5,6 +5,9 @@ package live.page.web.utils.style.svg;
 
 import live.page.web.utils.style.SVGServlet;
 
+/**
+ * Function used in templates and class for get simplified SVG, external SVG (use xlink)
+ */
 public class SVGTemplate {
 
 	public static String get(String name_id) {

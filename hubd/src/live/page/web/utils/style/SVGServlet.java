@@ -38,6 +38,9 @@ public class SVGServlet extends BaseServlet {
 	}
 
 
+	/**
+	 * Get compiled SVG file with only SVGs used
+	 */
 	@Override
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException {
 
@@ -91,6 +94,9 @@ public class SVGServlet extends BaseServlet {
 		}
 	}
 
+	/**
+	 * Periodical verifications of change
+	 */
 	public static void control() {
 		Date current = new Date(0);
 		for (File file : getFilesToScan()) {
@@ -100,11 +106,11 @@ public class SVGServlet extends BaseServlet {
 
 				if (mfile.find(0)) {
 					Date lastmode = new Date(file.lastModified());
-					if (current == null || lastmode.after(current)) {
+					if (lastmode.after(current)) {
 						current = lastmode;
 					}
 				}
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 		}
 		if (current.getTime() > svgSrcDate.getTime()) {
@@ -115,12 +121,18 @@ public class SVGServlet extends BaseServlet {
 		}
 	}
 
+	/**
+	 * Build SVG on init
+	 */
 	@Override
 	public void init(ServletConfig config) {
 		build();
 		super.init(config);
 	}
 
+	/**
+	 * Build or rebuilt SVG file
+	 */
 	public static void build() {
 		svgSrc = buildSvg();
 		svgGZip = Compressors.gzipCompressor(svgSrc);
@@ -128,6 +140,9 @@ public class SVGServlet extends BaseServlet {
 		UiStyleServlet.buildJs();
 	}
 
+	/**
+	 * Get list of file to scan for SVG use
+	 */
 	private static List<File> getFilesToScan() {
 		List<File> files = new ArrayList<>();
 		files.addAll(Fx.listFiles(Settings.REPO + "/html", "js", "html"));
@@ -140,6 +155,10 @@ public class SVGServlet extends BaseServlet {
 		return files;
 	}
 
+
+	/**
+	 * Build or rebuilt SVG and get Byte for compression
+	 */
 	private static byte[] buildSvg() {
 		try {
 			Map<String, String> materialIcons = new HashMap<>();
@@ -202,6 +221,10 @@ public class SVGServlet extends BaseServlet {
 
 	}
 
+
+	/**
+	 * Get last date of change
+	 */
 	public static Date getDate() {
 		return svgSrcDate;
 	}

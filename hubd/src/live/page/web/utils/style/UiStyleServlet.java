@@ -33,27 +33,38 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Cosmetic servlet, send CSS, JS an fonts. Aggregate, clean and compress files.
+ * Convert fonts in Base64/CSS for better loading experience.
+ */
 @WebServlet(name = "UI Servlet", urlPatterns = {"/ui/*"}, loadOnStartup = 1)
 public class UiStyleServlet extends BaseServlet {
 
+	//control change of files for update
 	private final ScheduledExecutorService control = Executors.newSingleThreadScheduledExecutor();
 
-	private static String uiJs = null;
-	private static String uiCss = null;
-	private static String uiFonts = null;
+	//No compression
+	private static String uiJs = null; //Normal JavaScript
+	private static String uiCss = null; //Normal CSS
+	private static String uiFonts = null; //Normal Fonts
 
-	private static byte[] uiJsGZip = null;
-	private static byte[] uiCssGZip = null;
-	private static byte[] uiFontsGZip = null;
+	//Bzip compression
+	private static byte[] uiJsGZip = null; //Bzip JavaScript
+	private static byte[] uiCssGZip = null; //Bzip CSS
+	private static byte[] uiFontsGZip = null; //Bzip Fonts
 
-	private static byte[] uiJsBRZip = null;
-	private static byte[] uiCssBRZip = null;
-	private static byte[] uiFontsBRZip = null;
 
+	//Brotli compression
+	private static byte[] uiJsBRZip = null; //Brotli JavaScript
+	private static byte[] uiCssBRZip = null; //Brotli CSS
+	private static byte[] uiFontsBRZip = null; //Brotli Fonts
+
+	//Uniques names
 	private static String nameJs = null;
 	private static String nameCss = null;
 	private static String nameFonts = null;
 
+	//Date of changes
 	private static Date date_js = new Date(0);
 	private static Date date_css = new Date(0);
 	private static Date date_fonts = new Date(0);
@@ -74,6 +85,9 @@ public class UiStyleServlet extends BaseServlet {
 		date_js = date_css = null;
 	}
 
+	/**
+	 * Periodical verifications of change
+	 */
 	private void control() {
 		List<File> csss = Fx.listFiles(Settings.REPO + "/html", "css");
 		csss.addAll(Fx.listFiles(Settings.HUB_REPO + "/libs", "css"));
@@ -103,6 +117,9 @@ public class UiStyleServlet extends BaseServlet {
 
 	}
 
+	/**
+	 * Send result who depends on client or Debug
+	 */
 	@Override
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException {
 
@@ -197,6 +214,10 @@ public class UiStyleServlet extends BaseServlet {
 
 	}
 
+
+	/**
+	 * Send corrects headers to client
+	 */
 	private void send(HttpServletResponse resp, List<String> accept, Date date, byte[] uiGZip, byte[] uiBRZip, String ui) throws IOException {
 		resp.setDateHeader("Last-Modified", date.getTime());
 		ServletOutputStream out = resp.getOutputStream();
@@ -216,6 +237,9 @@ public class UiStyleServlet extends BaseServlet {
 		}
 	}
 
+	/**
+	 * Concat, date and compress CSS files
+	 */
 	private void buildCss() {
 		if (!Fx.IS_DEBUG) {
 			try {
@@ -234,6 +258,9 @@ public class UiStyleServlet extends BaseServlet {
 		nameCss = "/ui/css-" + Hidder.encodeDate(date_css) + ".css";
 	}
 
+	/**
+	 * Concat, date and compress Fonts files
+	 */
 	private void buildFonts() {
 
 		try {
@@ -268,6 +295,9 @@ public class UiStyleServlet extends BaseServlet {
 
 	}
 
+	/**
+	 * Get all Css as String
+	 */
 	private String getCss() throws IOException {
 
 		StringWriter wrt = new StringWriter();
@@ -297,6 +327,9 @@ public class UiStyleServlet extends BaseServlet {
 		return css_data;
 	}
 
+	/**
+	 * Concat, date and compress JavaScript files
+	 */
 	public static void buildJs() {
 		if (!Fx.IS_DEBUG) {
 			try {
@@ -314,6 +347,9 @@ public class UiStyleServlet extends BaseServlet {
 
 	}
 
+	/**
+	 * Get all JavaScript as String
+	 */
 	private static String getJs() throws IOException {
 
 		try (StringWriter wrt = new StringWriter()) {
@@ -366,12 +402,17 @@ public class UiStyleServlet extends BaseServlet {
 		}
 	}
 
-
+	/**
+	 * Get copyright for file header
+	 */
 	private static String getCopyright() {
 		String copy = Fx.getResource("/res/copyright");
 		return (copy == null) ? "" : copy + "\n";
 	}
 
+	/**
+	 * Get all links for css (Regular CSS or all files if debug
+	 */
 	public static List<String> getCssLinks() {
 		List<String> uiCssFiles = new ArrayList<>();
 		if (Fx.IS_DEBUG) {
@@ -396,14 +437,23 @@ public class UiStyleServlet extends BaseServlet {
 	}
 
 
+	/**
+	 * Get CSS Fonts file
+	 */
 	public static String getFontsLink() {
 		return nameFonts == null ? null : Settings.getCDNHttp() + nameFonts;
 	}
 
+	/**
+	 * Get JavaScript file
+	 */
 	public static String getJsLink() {
 		return Settings.getCDNHttp() + (nameJs != null ? nameJs : "/ui/debug.js");
 	}
 
+	/**
+	 * Get last Date
+	 */
 	private static Date controleDate(Date date, File file) {
 		if (date == null || file.lastModified() > date.getTime()) {
 			return new Date(file.lastModified());
@@ -411,6 +461,9 @@ public class UiStyleServlet extends BaseServlet {
 		return date;
 	}
 
+	/**
+	 * Get preload header
+	 */
 	public static String getPreloadHeader() {
 		List<String> csss = getCssLinks();
 		if (getFontsLink() != null) {

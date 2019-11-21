@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Parse and manipulate SVG for easy use
+ */
 public class SVGParser {
 
 	private static final Map<String, String> sizes = new HashMap<>();

@@ -6,7 +6,6 @@ package live.page.web.utils.style.svg;
 import live.page.web.servlet.HttpServlet;
 import live.page.web.servlet.wrapper.WebServletRequest;
 import live.page.web.servlet.wrapper.WebServletResponse;
-import live.page.web.session.Users;
 import live.page.web.utils.Fx;
 
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +14,18 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Servlet for choose a SVG in the possibles
+ */
 @WebServlet(name = "SVGIcons preview", urlPatterns = {"/icons"})
 public class SVGListServlet extends HttpServlet {
 
 	@Override
 	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException {
-		if (Fx.IS_DEBUG) {
-			doGetEditor(req, resp, null);
-		} else {
+		if (!Fx.IS_DEBUG) {
 			resp.sendError(404, "Not found");
+			return;
 		}
-	}
-
-	@Override
-	public void doGetEditor(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
 
 		req.setTitle("Icons");
 		req.setAttribute("admin_active", "icons");
