@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Enumeration;
 
+/**
+ * Base wrapper for Servlet Requests
+ */
 public class BaseServletRequest extends HttpServletRequestWrapper {
 
 	public String lng = "fr";
@@ -31,7 +34,9 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 		setAttribute("pub", Settings.PUBS);
 	}
 
-
+	/**
+	 * Try to get the ID
+	 */
 	public String getId() {
 		if (getAttribute("_id") != null) {
 			return getAttribute("_id").toString();
@@ -43,6 +48,9 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 
 	}
 
+	/**
+	 * Get the correct request URI after @WebFilter modification
+	 */
 	@Override
 	public String getRequestURI() {
 		if (getAttribute("requestURI") != null) {
@@ -51,6 +59,9 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 		return super.getRequestURI();
 	}
 
+	/**
+	 * Parse parameter as Integer
+	 */
 	public int getInteger(String key, int def) {
 		try {
 			return Integer.valueOf(getParameter(key));
@@ -60,6 +71,9 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 	}
 
 
+	/**
+	 * Parse parameter as Double = dotted number
+	 */
 	public double getDouble(String key, double def) {
 		try {
 			return Double.valueOf(getParameter(key));
@@ -68,6 +82,9 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 		}
 	}
 
+	/**
+	 * Parse parameter as String
+	 */
 	public String getString(String key, String def) {
 		if (getParameter(key) != null) {
 			return getParameter(key);
@@ -76,11 +93,17 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 
 	}
 
+	/**
+	 * Get lang detected
+	 */
 	public String getLng() {
 		return lng;
 	}
 
 
+	/**
+	 * Test if request contains parameter
+	 */
 	public boolean contains(String key) {
 		Enumeration<String> attr = super.getParameterNames();
 		while (attr.hasMoreElements()) {
@@ -92,10 +115,17 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 	}
 
 
+	/**
+	 * Get Real IP with proxy identification
+	 */
 	public String getRealIp() {
 		return ServletUtils.realIp(this);
 	}
 
+
+	/**
+	 * Get Data saved in session
+	 */
 	public Json getSessionData() {
 		BaseCookie cookie = BaseCookie.getAuth(this);
 		if (cookie == null) {
@@ -114,6 +144,9 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 	}
 
 
+	/**
+	 * Save Data in session
+	 */
 	public void setSessionData(Json data) {
 		BaseCookie cookie = BaseCookie.getAuth(this);
 		if (cookie == null) {
@@ -122,6 +155,10 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 		Db.updateOne("Sessions", Filters.eq("_id", cookie.getValue()), new Json("$set", new Json("data", data)));
 	}
 
+
+	/**
+	 * Get User-Agent string
+	 */
 	public String getUserAgent() {
 		return getHeader(HttpHeaders.USER_AGENT);
 	}
