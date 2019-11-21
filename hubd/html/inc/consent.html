@@ -1,0 +1,9 @@
+<script type="text/javascript">
+function lscr(src){var s,r,t;r=false;s=document.createElement('script');s.async='async';s.type='text/javascript';s.src=src;t=document.getElementsByTagName('script')[0];t.parentNode.insertBefore(s,t);}
+function lscran() {#if(!$debug)lscr('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');#if(!$user && !$user.editor)lscr('https://www.googletagmanager.com/gtag/js?id=$analytics');#end#end}
+function consent(){var ca=decodeURIComponent(document.cookie).split(';');for(var i=0;i<ca.length;i++){var c=ca[i];if(c.indexOf("consent=")>=0){return true}}return false;}
+if(navigator.cookieEnabled && !consent()) {var div=document.createElement('div');div.id='consent';div.innerHTML='<p>'+"#lang('COOKIES_JOKE','base64')"+'</p>';var accept=document.createElement('button');
+accept.innerHTML = "#lang('ACCEPT_COOKIES','lowercase')";accept.onclick=function(){lscran();var d=new Date();d.setTime(new Date().getTime() + 31536000000);document.cookie="consent=yes;expires="+d.toUTCString()+";path=/";
+div.style.opacity = 0.5;setTimeout(function(){document.body.removeChild(div)},700)}
+div.appendChild(accept);document.body.appendChild(div)}else{lscran()}
+</script>

@@ -1,0 +1,289 @@
+
+.divSelectable li img, .divSelectable li svg {
+    float: right;
+    margin: 0px 0px 0px 5px;
+    width: 16px;
+    height: 16px;
+}
+
+.divSelectable {
+    position: relative;
+    overflow: visible;
+}
+
+.select.divSelectable {
+    position: relative;
+}
+
+.select.open {
+    padding: 0px;
+    height: 30px;
+}
+
+.divSelectable .popSelectable {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1000;
+    width: 200px;
+    border-radius: 4px;
+    font-weight: normal;
+    border: 1px solid #BBB;
+}
+
+.divSelectable.select .popSelectable {
+    box-shadow: none;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+
+}
+
+.select.divSelectable .popSelectable {
+    position: absolute;
+    top: 0px;
+}
+
+.divSelectable .popSelectable:before, .divSelectable.above .popSelectable:after {
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-top: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    transform: rotate(45deg);
+    background: linear-gradient(135deg, #f9f9f9 0%, #f9f9f9 7px, rgba(255, 255, 255, 0) 7px, rgba(255, 255, 255, 0) 100%);
+    left: 9px;
+    top: -6px;
+}
+
+.divSelectable.above {
+    bottom: 10px;
+}
+
+.divSelectable.above .popSelectable:after {
+    top: auto;
+    bottom: -6px;
+    transform: rotate(-135deg);
+}
+
+.divSelectable.above .popSelectable:before {
+    content: "";
+    display: none;
+}
+
+.divSelectable.coverSelectable .popSelectable:before, .divSelectable.coverSelectable .popSelectable:after, .divSelectable.select .popSelectable:before, .divSelectable.select .popSelectable:after {
+    display: none;
+}
+
+.divSelectable .quickSelectable {
+    box-shadow: none;
+    border-radius: 0px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.divSelectable.nosearch, .divSelectable.nosearch .quickSelectable {
+    border-radius: 4px;
+}
+
+.divSelectable .quickSelectable li {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.divSelectable input {
+    flex: 0 0 auto;
+    margin: 0;
+    border-radius: 0px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top: none;
+}
+
+.select.divSelectable input {
+    border-left: none;
+    border-right: none;
+    background: none;
+}
+
+.divSelectable.above input {
+    border-radius: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom: none;
+    border-top: 1px solid #D7D7D7;
+}
+
+.divSelectable .quickSelectable {
+    border-top: 0px;
+    border-radius: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.divSelectable.above .quickSelectable {
+    border-bottom: 0px;
+    border-radius: 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 2px -2px 4px -2px #666;
+}
+
+.divSelectable .quickSelectable .quickSelectable {
+    margin-top: 0px;
+}
+
+.quickSelectable.quickmenu {
+    border-radius: 3px;
+}
+
+.quickSelectable {
+    color: #333;
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    box-shadow: 2px 2px 4px -2px #666;
+    text-align: left;
+    max-height: 170px;
+    overflow: auto;
+    overflow-x: hidden;
+    background: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 3px;
+}
+
+.quickSelectable::-webkit-scrollbar {
+    height: 6px;
+}
+
+.quickSelectable {
+    box-shadow: 1px 2px 4px -2px #666;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top: 0px;
+}
+
+.quickSelectable.above {
+    box-shadow: 1px -2px 4px -2px #666;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom: 0px;
+}
+
+.quickSelectable li {
+    position: relative;
+    border-top: 1px solid #CCC;
+    color: #333;
+    padding: 5px 7px 5px 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    background: #FFF;
+}
+
+.quickSelectable ul {
+    list-style: none;
+    padding: 0px 0px 8px 8px;
+    margin: 10px 0px -5px -5px;
+}
+
+.quickSelectable ul li, .quickSelectable ul li:first-child {
+    border: 1px solid #CCC;
+    border-bottom: none;
+}
+
+.quickSelectable ul li, .quickSelectable ul li:first-child {
+    border-bottom: none;
+}
+
+.quickSelectable ul li:last-child {
+    border: 1px solid #CCC;
+}
+
+
+.divSelectable li span {
+    color: #333;
+    font-style: normal;
+}
+
+.quickSelectable li small {
+    display: block;
+    color: #888;
+}
+
+.quickSelectable li svg {
+    margin-right: 3px;
+}
+
+.quickSelectable li:first-child {
+    border-top: none;
+}
+
+.quickSelectable li {
+    background: #FFF !important;
+}
+
+.quickSelectable li:hover, .quickSelectable li.active {
+    background: #EEE !important;
+}
+
+.quickSelectable li.disable:hover, .quickSelectable li.disable {
+    background: #FFF !important;
+}
+
+.quickSelectable li.disable {
+    background: none;
+    cursor: default;
+}
+
+.childrensSelectable {
+    display: block;
+    float: right;
+    text-align: center;
+    margin: -2px -5px -3px 0px;
+    color: #CCC;
+    transition: 200ms;
+}
+
+.childrensSelectable:after {
+    content: "\203A";
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+.childrensSelectable:hover {
+    color: #000;
+    transition-delay: 0ms;
+}
+
+.coverSelectable .popSelectable {
+    z-index: 10000;
+    position: fixed;
+    box-shadow: 0px 0px 0px 10000px rgba(0, 0, 0, 0.70);
+    max-width: 400px;
+    max-height: 80%;
+    margin: auto;
+    left: 10%;
+    right: 10%;
+    top: 20%;
+    bottom: 25%;
+    border-radius: 3px;
+    width: auto;
+}
+
+.coverSelectable .quickSelectable {
+    position: initial;
+    border-radius: 0px 0px 3px 3px;
+    flex: 10 1 auto;
+    max-height: initial;
+    overflow: auto;
+}
+
+
+.divSelectable.above .popSelectable {
+    flex-direction: column-reverse;
+    bottom: 5px;
+}

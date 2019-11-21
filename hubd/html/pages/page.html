@@ -1,0 +1,218 @@
+#parse("/inc/top.html")
+<div id="middle" class="page">
+	#parse("/inc/breadcrumb.html")
+	<article itemprop="articleBody" id="article" class="cooltxt">
+		<h1 itemprop="headline">#if($page.top_title && $page.top_title.length()>0)${page.top_title}#else${page.title}#end</h1>
+		#if($page.top_title && $page.top_title.length()>0)
+			<meta itemprop="alternateName" content="$page.title"/>#end
+			<em class="infos">#set($created="#since($page.date,2, true)")
+			#if($page.date)#lang('ARTICLE_PUBLISHED','ucfirst') $created.replace('dateCreated','datePublished')#end
+			#if($page.update)#set($modified="#since($page.update,2, true)")#if($page.date && $page.update), #end#lang('UPDATED', "$modified.replace('dateCreated','dateModified')")#else
+				<meta itemprop="dateModified" content="$Fx.isoDate($page.date)"/>#end.
+			#if($page.users.size()>0)$Fx.author($page.users, "#lang('AND')")#else<span itemprop="author">$site_title</span>#end.</em>
+			#if($page.logo)
+				<div class="img">
+					<a href="$page.logo"><img itemprop="image" src="$page.logo@360x240.jpg" width="360" height="240"/>
+						#foreach($doc in $page.docs)#if($doc.text && $doc.url == $page.logo)<span>$doc.text</span>#end#end
+					</a>
+				</div>
+			#else
+				<meta itemprop="image" content="$ui_logo@192x192"/>
+			#end
+		#if(${page.intro} && ${page.intro}!='')
+			<header class="intro" itemprop="mainEntityOfPage">
+				<p>${page.intro}
+					#if($page.parents.size()>0 && $page.text && $page.text!='')
+					<span class="rating" rating="Pages($page.id)"#if($page.review && $page.review.count>0) itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"#end>
+						#if($page.review && $page.review.count>0)
+						Noté <span itemprop="ratingValue" class="value">$page.review.value</span> sur <span itemprop="bestRating">5</span> avec <span itemprop="ratingCount" class="count">$page.review.count</span> votes
+						<meta itemprop="worstRating" content="1" />
+						#end
+					</span>
+					#end
+				</p>
+			</header>
+		#end
+		<div class="both"></div>
+		#if($page.text && $page.text.length()>200)
+			#set($anchors=$Fx.jumper($page.text))
+			#if($anchors && $anchors.size()>0)
+				<nav id="ancrage" class="ancrage">
+					<ol>
+						#foreach($anchor in $anchors)
+							<li><a href="$anchor.link">$svg.fa_icon_hashtag$anchor.title</a></li>#end
+						<li><a href="#question">$svg.fa_icon_question_circle#lang('POST_QUESTION')</a></li>
+						#if($page.docs && $page.docs.size()>1)
+							<li><a href="#photos">$svg.mi_photo#lang('PHOTOS')</a></li>
+						#end
+						#if($page.threads && $page.threads.result.size()>0)
+							<li><a href="#questions">$svg.mi_question_answer#lang('QUESTIONS')</a></li>
+						#end
+					</ol>
+				</nav>
+			#end
+		#end
+		<div class="both"></div>
+
+		#if($page.parents.size()>0 && $page.intro && $page.text)
+		<div id="pubtop">#parse('/pubs/pubtop.html')</div>
+		<div class="both"></div>
+		#end
+
+		<div itemprop="text">
+			#parse("/pubs/pubin.html")
+			#parsepage($page,"$pubin")
+		</div>
+		#if(!$req.paging)
+			#if($page.parents.size()>0 && $page.text && $page.text!='')
+			<h5>#lang('YOUR_RATING')</h5>
+			<div class="rating" rating="Pages($page.id)">
+				#if($page.review && $page.review.count>0)
+					<span class="value">$page.review.value</span>
+					<span class="count">$page.review.count</span>
+				#end
+			</div>
+			#end
+			#if($page.docs && $page.docs.size()>1)
+				<div class="photos">
+					#foreach($doc in $page.docs)
+						#if($doc.type.startsWith('image'))
+							<div class="img" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+								<a itemprop="url" href="$doc.url"><img itemprop="thumbnail" src="$doc.url@360x240.jpg" width="220" height="146"/>
+									#if($doc.text)
+										<span>$doc.text</span>
+									#end
+								</a>
+							</div>
+						#end
+					#end
+				</div>
+			#end
+			#if($page.childrens && $page.childrens.size()>0)
+				<nav class="ancrage" style="margin-top:20px">
+					<ol>
+						#foreach($item in $page.childrens)
+							<li><a href="$item.url">#if($item.logo)<img src="$item.logo@40x25.jpg" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end $item.title</a></li>
+						#end
+						#foreach($item in $page.parents)
+							<li><a href="$item.url">#if($item.logo)<img src="$item.logo@40x25.jpg" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end $item.title</a></li>
+						#end
+						#if($page.threads && $page.threads.result.size()>0)
+							<li><a href="#questions"><img src="$ui_logo@40x25" width="40" height="25"/>#lang('QUESTIONS')</a></li>
+						#end
+					</ol>
+				</nav>
+			#end
+		#end
+	</article>
+	#if($page.text && $page.text!='')#parse('/pubs/pubbottom.html')#end
+
+	#if(!$req.paging)
+		<div id="publink">#parse("/pubs/publink.html")</div>
+		#parse("/pages/qrbox.html")
+	#end
+	#if ($page.threads.result.size()>0)
+		<div class="forums" id="forums">
+			#if($page.threads.paging.prev ||$page.threads.paging.next)
+				<div class="pagination">
+					#if($req.paging)<a class="button" href="$page.url">$svg.fa_icon_newspaper_o &nbsp; $page.title</a>#end
+					#pagination($page.threads.paging, $page.url, true, 'forums')
+				</div>
+			#end
+			<a name="questions"></a>
+			<h2>#lang('QUESTIONS')</h2>
+			<ul class="threads">
+				#foreach( $thread in $page.threads.result)
+					#parse('/threads/thread_item.html')
+				#end
+			</ul>
+			<div class="pagination">
+				#if($req.paging)<a href="$page.url">$svg.fa_icon_newspaper_o &nbsp; $page.title</a>#end
+				#pagination($page.threads.paging, $page.url, true, 'forums')
+			</div>
+		</div>
+	#end
+	#if($req.paging)
+		<div id="publink">#parse("/pubs/publink.html")</div>
+		#parse("/pages/qrbox.html")
+	#end
+	#if($page.parents.size()>0)
+	<div id="relaxed">
+		#parse("/pubs/relaxed.html")
+	</div>
+	#end
+
+	<div class="publisher" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+		#lang('PUBLICATION_DIRECTOR'):
+		<span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://laurent.page.live/logo.png" /></span>
+		<span itemprop="name">Laurent PAGE</span>, #lang('EMAIL'): <span itemprop="email">laurent@page.live</span>, #lang('PHONE'): <span itemprop="telephone">+262 262 92 66 38</span>, site:<span itemprop="url">https://page.live/</span>
+	</div>
+
+</div>
+<script type="text/javascript">
+	sys.push(function () {
+		sys.pages.init();
+	});
+</script>
+#set($pubdisplay=false)
+<div id="lateral">
+
+	#if($page.parents.size()>0 || $user.editor)
+		<ul class="links" id="parents">
+			<li class="hr">#lang('ARTICLES_PARENTS')</li>
+			#foreach( $item in $page.parents )
+				<li id="$item.id">
+					<a href="${item.url}">#if($item.logo)<img src="$item.logo@40x25.jpg" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end $item.title</a>
+				</li>
+			#end
+		</ul>
+	#end
+	#if( $page.childrens.size()>0 || $user.editor)
+		<ul class="links" id="childrens">
+			<li class="hr">#lang('ARTICLES_CHILDRENS')</li>
+			#foreach( $item in $page.childrens )
+				<li id="$item.id">
+					<a href="${item.url}">#if($item.logo)<img src="$item.logo@40x25.jpg" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end $item.title</a>
+				</li>
+				#if($page.parents.size()>0 && $page.childrens.size()>=10 && $velocityCount==$Fx.middle($page.childrens.size()))
+					<li class="ln" id="latlinks">
+						#parse("/pubs/latlinks.html")
+						#set($pubdisplay=true)
+					</li>
+				#end
+			#end
+		</ul>
+	#end
+	#if($page.forums.size() > 0 || $user.editor)
+		<ul class="links" id="links_forum">
+			<li class="hr">#lang('FORUM')</li>
+			#foreach($forum in $page.forums)
+				<li id="$forum.id"><a href="$forum.url">$svg.mi_message$forum.title</a></li>
+			#end
+		</ul>
+	#end
+	#if($page.sisters.size()>0)
+		<ul class="links">
+			<li class="hr">#lang('ARTICLES_SISTERS')</li>
+			#foreach( $item in $page.sisters )
+				<li>
+					<a href="${item.url}">#if($item.logo)<img src="$item.logo@40x25.jpg" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end $item.title</a>
+				</li>
+			#end
+		</ul>
+	#end
+	<ul class="links" id="latlinksbottom">
+		<li class="ln">
+			#parse("/pubs/latlinks_bottom.html")
+			#set($pubdisplay=true)
+		</li>
+	</ul>
+	#if($user.editor)
+		<script type="text/javascript">
+			sys.push(function () {
+				sys.pages.admin.init('$page.id');
+			});
+		</script>
+	#end
+</div>
+#parse("/inc/bottom.html")

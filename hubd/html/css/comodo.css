@@ -1,0 +1,186 @@
+
+#comodo {
+    position: relative;
+    height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    background: linear-gradient(to bottom, #fcfcfc 0%, #f0f0f0 100%);
+    padding: 2px 6px 2px 3px;
+    text-align: left;
+    font-size: 16px;
+    color: #777;
+}
+
+#comodo a {
+    color: #777;
+}
+
+#comodo svg {
+    fill: #AAA;
+    height: 18px;
+    width: 18px;
+    margin-bottom: -2px;
+}
+
+#comodo > form, #comodo #remote > div, #comodo #remote > a, #comodo .opener {
+    display: flex;
+    background: #FFF;
+    margin: 0px 0px 0px 4px;
+    padding: 0px 3px 1px 3px;
+    border-radius: 4px;
+    border: 1px solid #CCC;
+    align-items: center;
+    height: 25px;
+    white-space: nowrap;
+}
+
+#comodo form, #comodo #remote, #comodo logo {
+    margin: 2px 0px 3px 0px;
+}
+
+#comodo logo {
+    font-size: 25px;
+    text-shadow: 0 0 2px #BBB;
+    padding-right: 4px;
+    width: auto;
+    white-space: nowrap;
+    display: block;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#comodo logo a {
+    background: url(/ui/logo@28x28) 5px 50% no-repeat;
+    font-weight: bold;
+    align-items: center;
+    padding-left: 37px;
+    text-decoration: none;
+}
+
+#comodo logo strong {
+    display: block;
+    letter-spacing: -1px;
+}
+
+#comodo .search {
+    flex: 3 1 auto;
+    max-width: 600px;
+}
+
+#comodo .search input {
+    font-size: 14px;
+    line-height: 14px;
+    color: #777;
+    border: none;
+    background: transparent;
+    flex: 3;
+    min-width: 30px;
+    width: 100%;
+    text-overflow: ellipsis;
+    margin: 1px 3px 0px 0px;
+}
+
+#comodo .search svg {
+    margin: 4px 1px -3px 0px;
+    cursor: pointer;
+}
+
+#comodo .search button {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#open {
+    display: none;
+}
+
+#remote {
+    display: flex;
+    width: auto;
+    flex: 0 0 auto;
+}
+
+#comodo #remote #user span {
+    height: 20px;
+}
+
+#comodo #remote #user img {
+    border-radius: 4px;
+    width: 20px;
+    margin: 2px 0px 0px 0px;
+    background-repeat: no-repeat;
+    background-color: #FFF;
+}
+
+#comodo #remote #user span.info {
+    margin: 3px 3px 0px 4px;
+}
+
+#comodo #remote #user svg {
+    width: 14px;
+    height: 15px;
+    margin: 2px 3px 0px 1px;
+}
+
+#comodo #remote #bell {
+    display: flex;
+    position: relative;
+    overflow: visible;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+}
+
+#comodo #remote #bell span.info {
+    padding: 3px 2px 3px 4px;
+}
+
+#comodo #remote #bell .active svg {
+    margin-top: 2px;
+    fill: #C20000;
+}
+
+#comodo #remote #bell .inactive {
+    display: block;
+    padding-top: 3px;
+}
+
+#comodo #remote #bell .active {
+    display: none;
+    padding-top: 1px;
+}
+
+#comodo #remote #bell.unread .inactive {
+    display: none;
+}
+
+#comodo #remote #bell.unread .active {
+    display: block;
+}
+
+#comodo #remote #cash svg {
+    fill: #AAA;
+    margin: 1px 3px 0px 5px;
+}
+
+#comodo #remote #cash span {
+    padding-left: 3px;
+}
+
+#comodo #remote div#searchmob {
+    display: none;
+}
+
+#comodo #remote div#searchmob svg, #comodo .opener svg {
+    margin: 4px 2px 0px 2px;
+}
+
+#comodo .opener {
+    display: none;
+}

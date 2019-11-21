@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>page-live-croner</artifactId>
+    <name>CronerD</name>
+    <version>1.0</version>
+    <description>waste of time</description>
+    <organization>
+        <name>Laurent PAGE</name>
+        <url>https://page.live/</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>L. Page Licence</name>
+        </license>
+    </licenses>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <parent>
+        <groupId>live.page</groupId>
+        <artifactId>hubd</artifactId>
+        <version>2.1.2</version>
+        <relativePath>../../</relativePath>
+    </parent>
+    <build>
+        <finalName>page-live-croner</finalName>
+        <sourceDirectory>src</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <release>11</release>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <index>true</index>
+                        <manifest>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <groupId>live.page</groupId>
+                    <artifactId>page-live-croner</artifactId>
+                    <file>target/page-live-croner.jar</file>
+                    <version>${project.version}</version>
+                    <packaging>jar</packaging>
+                    <localRepositoryPath>../../repository</localRepositoryPath>
+                    <createChecksum>true</createChecksum>
+                    <generatePom>true</generatePom>
+                    <pomFile>pom.xml</pomFile>
+                    <updateReleaseInfo>true</updateReleaseInfo>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    <dependencies>
+
+        <dependency>
+            <groupId>live.page</groupId>
+            <artifactId>page-live-hubd</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+        <!-- webpush -->
+        <dependency>
+            <groupId>nl.martijndwars</groupId>
+            <artifactId>web-push</artifactId>
+            <version>5.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.62</version>
+        </dependency>
+        <!-- /webpush -->
+    </dependencies>
+
+</project>

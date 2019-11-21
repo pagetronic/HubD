@@ -1,0 +1,88 @@
+
+form.search input {
+    flex: 5;
+    min-width: 200px;
+}
+
+form.search input, form.search .flexible {
+    margin: 0px 0px 7px 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+form.search input, form.search .flexible {
+    margin-right: 6px;
+}
+
+.searcher, .searcher a {
+    color: #555;
+}
+
+.searcher ul {
+    list-style: none;
+    padding: 10px 0px 0px 0px;
+}
+
+.searcher li {
+    display: block;
+    border-right: none;
+    margin: 0px 0px 8px 0px;
+    padding: 5px 5px 7px 9px;
+    position: relative;
+}
+
+.searcher li:after, .searcher li:last-child:before {
+    content: '';
+    display: block;
+    position: absolute;
+    border-bottom: 1px dashed #DDD;
+    left: -5px;
+    right: 0px;
+    top: -5px;
+    height: 1px;
+}
+
+.searcher li:last-child:before {
+    bottom: -5px;
+    top: auto;
+}
+
+.searcher li h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.searcher li svg {
+    fill: #666;
+    font-size: 16px;
+    height: 20px;
+    width: 20px;
+    float: left;
+    margin: -1px 3px -3px 0px;
+}
+
+.searcher li img {
+    margin: 0px 4px 0px 0px;
+    float: left;
+}
+
+.searcher li p {
+    padding-top: 3px;
+    clear: both;
+}
+
+.searcher li p span {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.searcher li p, .searcher li p a {
+    color: #006B00;
+    font-style: italic;
+    font-size: 12px;
+    margin: 0px;
+}
+
+.searcher li p a {
+    text-decoration: underline;
+}

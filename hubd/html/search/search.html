@@ -1,0 +1,29 @@
+#parse("/inc/top.html")
+<div id="middle" class="searcher">
+
+    <form method="GET" action="/search" class="search flexo flexible">
+        <input class="input  flexable" type="text" placeholder="#lang('SEARCH','lowercase')" autocomplete="off" name="q" value="$!q"/>
+        <button class="flexable" type="submit">$svg.mi_search <txt>#lang('SEARCH')</txt></button>
+    </form>
+        #if($search.result && $search.result.size()>0)
+        <ul class="selectable">
+            #foreach( $result in $search.result )
+            <li>
+                <h3>$result.svg<a href="$result.url">$result.title#if($result.replies) ( $result.replies #if($result.replies>1)#lang('REPLIES')#else#lang('REPLY')#end )#end</a></h3>
+                #if($result.logo)<img src="$result.logo@40x28" width="40" height="28"/>#end
+                #clean($result.intro, 1000)
+                <p><span><a href="/">$site_title</a> ›&#160;</span>#foreach($bread in $result.breadcrumb)<span><a href="$bread.url">$bread.title</a> ›&#160;</span>#end<span><a href="$result.url">$result.title</a></span></p>
+            </li>
+            #end
+        </ul>
+        #else
+        #if($q)
+            <p><strong>#lang('NO_RESULTS')</strong></p>
+        #end
+        #end
+        <div class="pagination">
+            #pagination($search.paging, $search_url)
+        </div>
+</div>
+#parse("/inc/bottom.html")
+

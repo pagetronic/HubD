@@ -1,0 +1,39 @@
+#parse("/inc/top.html")
+<div id="middle" class="user">
+
+	#parse("/inc/breadcrumb.html")
+	<div class="profile">
+		<div class="flexible">
+			<div class="avatar" id="avatar">
+				<picture>
+					<img src="$userdata.avatar@100x100" alt="avatar" width="100" height="100"/>
+				</picture>
+			</div>
+			<div class="flexable">
+				<h1>$userdata.name</h1>
+				<p>#lang('USER_JOIN', "#since($userdata.join)"), #lang('USER_LAST_ACTIVITY', "#since($userdata.last)")</p>
+			</div>
+		</div>
+	</div>
+
+	#if ($posts.result.size()>0)
+	<div class="posts">
+		<h2>#lang('POSTS')</h2>
+		#foreach( $post in $posts.result )
+		#parse('/threads/post_item.html')
+		#end
+		<div class="pagination">
+			#pagination($posts.paging)
+		</div>
+	</div>
+	#end
+	#if($user.id==$userdata.id)
+	<script type="text/javascript">
+        sys.push(function () {
+            sys.profile.avatar($('#avatar'));
+        });
+	</script>
+	#end
+
+</div>
+#parse("/inc/bottom.html")

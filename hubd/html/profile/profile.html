@@ -1,0 +1,34 @@
+#parse("/inc/top.html")
+<div id="middle" class="profile">
+    #if(!$user)
+    #parse("/profile/login.html")
+    #else
+    <h1>#lang('USER_MANAGEMENT')</h1>
+    <div class="flexible">
+        <div class="avatar" id="avatar">
+            <picture>
+                <img src="$user.avatar@100x100" alt="avatar"
+                     width="100" height="100"/>
+            </picture>
+        </div>
+        <script type="text/javascript">
+            sys.push(function () {
+                sys.profile.avatar($('#avatar'));
+            });
+        </script>
+        <div class="flexable">
+            <h2>${user.name}</h2>
+            <p>${user.email}</p>
+            <p>#lang('USER_JOIN', "#since($user.join, 3)"), #lang('USER_LAST_ACTIVITY', "#since($user.last)")</p>
+        </div>
+    </div>
+    #end
+    <div class="item cookies">
+        #parse('/profile/cookies.html')
+    </div>
+    <div class="item #if(!$webpushs || $webpushs.result.size()==0) none#end" id="pushs">
+        #parse('/profile/webpush.html')
+    </div>
+</div>
+
+#parse("/inc/bottom.html")

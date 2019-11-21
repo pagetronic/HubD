@@ -1,0 +1,115 @@
+<div class="#if($post.remove)removed #{end}post" id="$post.id"#if($post.id!=$thread.id) itemprop="comment" itemid="$!thread.url#$post.id" itemscope="" itemtype="https://schema.org/Comment"#end>
+
+	<div class="infos">
+		<author itemprop="author" itemscope itemtype="https://schema.org/Person">
+		#if($post.user.id)
+		<a itemprop="url" href="$post.user.url" class="avatar">
+			<figure>
+				$Fx.avatar($post.user.avatar, true)
+				<figcaption>
+					<name itemprop="name">$post.user.name</name>
+					#if($post.user.coins) <span>$post.user.coins <em>#if($post.user.coins>0)#lang('COINS')#else#lang('COIN')#end</em></span>#end
+				</figcaption>
+			</figure>
+		</a>
+		#else
+		<span class="avatar">
+				<figure>
+					$Fx.avatar($post.user.avatar)
+					<figcaption><name itemprop="name">#lang('ANONYMOUS')</name></figcaption>
+				</figure>
+			</span>
+		#end
+		</author>
+		#lang('POST_DATE', "#since( ${post.date}, 2, true )")#if(${post.update}), #lang('UPDATED', "#since( ${post.update}, 2 )")#end
+		#if($post.id!=$thread.id)<a itemprop="url" rel="nofollow" href="#if($thread.url)$thread.url#else/threads#end?post=${post.id}#${post.id}" class="anchor">#date($post.date, "FULL") ${svg.fa_icon_anchor}</a>#end
+	</div>
+	<div class="content">
+		#if($post.text)
+		<div itemprop="text">
+			#parsepost($post.text, $post.docs, $post.links)
+		</div>
+		#end
+		<div class="tips">
+			#foreach( $comment in $post.comments )
+			#parse("/threads/post_item_tips.html")
+			#end
+		</div>
+		#if($post.docs && $post.docs.size() > 0 )
+		<div class="imgs">
+			#foreach( $doc in $post.docs )
+			<div class="img">
+				<figure>
+					<a href="${http_cdn}/files/$doc.id">
+						<img itemprop="image" width="224" height="126" src="${http_cdn}/files/$doc.id@224x126"/>
+						#if($doc.text)
+						<span>$doc.text</span>
+						#end
+					</a>
+				</figure>
+			</div>
+			#end
+		</div>
+		#end
+
+		#if($post.link)
+		<div class="links">
+			<h2><a href="$post.link.url" itemprop="mainEntityOfPage">$post.link.title</a></h2>
+			#if($post.link.image)
+			<div class="thumb"><img itemprop="image" src="$post.link.image@290x180.jpg" width="290" height="180"/></div>
+			#end
+			<p>$post.link.description</p>
+			<div class="url"><img src="$http_cdn/files/$Fx.baseSite($post.link.url)/favicon.ico@16x16.png"/> <a href="$post.link.url">$Fx.getDomain($post.link.url)</a></div>
+		</div>
+		#end
+
+	</div>
+	<div class="foot">
+		<div class="vote">
+			#if($user && $user.id!=$post.user.id)
+			<div class="coin active" onclick="sys.coin.congrate(this,'Posts($post.id)')"><span itemprop="upvoteCount">#if($post.coins)${post.coins}#{else}0#end</span> ${svg.fa_icon_angellist}</div>
+			#else
+			<div class="coin">
+				<span itemprop="upvoteCount">#if($post.coins)${post.coins}#{else}0#end</span>
+			</div>
+			#end
+		</div>
+		#if($post.id==$thread.id)
+		<div class="rating" rating="Posts($thread.id)"#if($thread.review && $thread.review.count>0) itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"#end>
+			#if($thread.review && $thread.review.count>0)
+			<span itemprop="ratingValue" class="value">$thread.review.value</span>
+			<span itemprop="bestRating">5</span>
+			<span itemprop="ratingCount" class="count">$thread.review.count</span>
+			<meta itemprop="worstRating" content="1" />
+			#end
+		</div>
+		#end
+		<div class="space"></div>
+		<div class="cmd">
+			#if($user.editor)
+				<span title="#lang('SPLIT')" onclick="sys.admin_forums.split('$post.id', '$thread.id')">$svg.mi_call_split</span>
+			#end
+			#if($post.changes && $post.changes >0)
+				<span title="#lang('HISTORY')" onclick="sys.threads.history({id:'$post.id'})" class="history">$post.changes${svg.mi_restore}</span>
+			#end
+			#if($user && !$req.remove)
+			#if($user.editor || $user.id==$post.user.id)
+				<span title="#lang('EDIT')" onclick="sys.threads.edit({id:'$post.id'})">${svg.fa_icon_pencil}</span>
+			#end
+			#if($user && $user.id!=$post.user.id)
+				<span title="#lang('REPORT')" onclick="sys.threads.report({id:'$post.id'})">${svg.fa_icon_bug}</span>
+			#end
+			#if($user)
+				<span title="#lang('RAPID_COMMENT')" onclick="sys.threads.rapid('$post.id')">${svg.mi_reply}</span>
+			#end
+			#end
+			#if($user && ($user.editor || $user.id==$post.user.id))
+			#if($post.remove)
+				<span title="#lang('RESTORE')" onclick="sys.threads.remove({id:'$post.id',restore:true})">${svg.mi_rotate_left}</span>
+			#else
+				<span title="#lang('DELETE')" onclick="sys.threads.remove({id:'$post.id'})">${svg.fa_icon_trash_o}</span>
+			#end
+			#end
+		</div>
+	</div>
+</div>

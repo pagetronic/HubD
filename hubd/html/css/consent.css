@@ -1,0 +1,65 @@
+#consent {
+    position: absolute;
+    z-index: 20000;
+    top: 30%;
+    right: 0;
+    left: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.70);
+    box-shadow: 0px 0px 0px 10000px rgba(0, 0, 0, 0.70);
+}
+
+#consent > div {
+    margin: auto;
+    max-width: 90%;
+    width: 500px;
+    color: #FFF;
+    font-weight: bold;
+    padding: 10px 12px 8px 12px;
+    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0px 0px 15px 0px rgba(195, 172, 7, 0.70);
+    border: 2px solid #FFF;
+    border-radius: 10px;
+    font-size: 14px;
+
+}
+
+#consent p {
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+#consent p a {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+#consent .btnperso {
+    margin: 8px 0px;
+    display: block;
+    white-space: nowrap;
+}
+
+#consent .btnperso a {
+    text-decoration: none;
+    border: 1px solid #FFF;
+    padding: 2px 10px 4px 10px;
+    border-radius: 6px;
+}
+
+#consent .btnperso a:hover {
+    text-decoration: underline;
+}
+
+#consent button {
+    margin: 10px auto auto auto;
+    display: block;
+}
+
+@media all and (max-width: 795px) {
+    #consent {
+        top: 10%;
+        position: fixed;
+    }
+}

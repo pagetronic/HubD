@@ -1,0 +1,117 @@
+#parse("/inc/top.html")
+<style type="text/css">
+	.bx strong {
+		display: inline-block;
+	}
+
+	.bx > div {
+		display: flex;
+	}
+	.bx > div > span {
+		flex: 1 0 auto;
+	}
+	.bx > div > span, .bx strong {
+		min-height: 10px;
+		min-width: 10px;
+	}
+
+	.bx form textarea {
+		margin: 0px;
+	}
+	.bx .remove {
+		float: right;
+	}
+
+</style>
+
+#set($local=($req.local==''))
+<div id="middle" class="users_admin selectable">
+	<div id="top_float">
+		<div class="flex">
+			<div class="flexitem">
+				<button class="add" >#lang('ADD_LANG_ITEM')</button>
+				#if($local)
+				<a class="button" href="/admin/langs">Base Lang</a>
+				#else
+				<a class="button" href="?local">Local Lang</a>
+				#end
+			</div>
+		</div>
+	</div>
+	#foreach($lang in $langs)
+	<div class="bx" key="$lang.key">
+		<em class="remove">$svg.mi_delete_forever</em>
+		<strong lng="key">$lang.key</strong>
+		#foreach($lng in $langs_availables)
+		#set( $item = $langs.get($lang.key).get($lng) )
+		<div><em>$lng:</em><span lng="$lng">#if($item)$escape.escapeXml11($item)#end</span></div>
+		#end
+	</div>
+	#end
+	<script type="text/javascript">
+		sys.push(function () {
+			$('.remove').css({cursor: 'pointer'}).click(function () {
+				var parent = $(this).parents('[key]:eq(0)');
+				confirm(lang.get('DELETE'), '<p>' + lang.get('DELETE') + '?</p>', 3, function () {
+					api.post('/admin/langs', {
+						action: "remove",
+						key: parent.attr("key"),
+						local: $local
+					}, function () {
+						parent.slowRemove();
+					});
+				});
+			});
+			$('#top_float .add').click(function () {
+				api.post('/admin/langs', {
+					action: 'create',
+					local: $local
+				}, function () {
+					$('#center').scrollTo(0);
+					ajax.reload();
+
+				});
+			});
+			$('[lng]').each(function () {
+				$(this).editable('/admin/langs', {
+					event: 'dblclick',
+					submit: 'ok',
+					type: 'textarea',
+					action: $('<button name="translate" value="true" />').html('$svg.mi_g_translate').on('mousedown', function (e) {
+						var ln = $(this).parents('form').parent();
+						ln.text('...');
+						api.post('/admin/langs', {
+							action: 'translate',
+							key: ln.parents('[key]:eq(0)').attr("key"),
+							lng: ln.attr("lng"),
+							local: $local
+						}, function (rez) {
+							ln.text(rez.translation);
+							var top = $('#middle').scrollTop();
+							ajax.reload(true, function () {
+								$('#middle').scrollTop(top);
+							});
+						});
+					}),
+					data: function () {
+						return {
+							action: 'update',
+							key: $(this).parents('[key]:eq(0)').attr("key"),
+							lng: $(this).attr("lng"),
+							local: $local
+						}
+					}
+				});
+			});
+			$('input[type=checkbox]').on('change', function () {
+				api.post('/admin/langs', {
+					action: "update",
+					key: $(this).parents('[key]:eq(0)').attr("key"),
+					js: $(this).is(':checked'),
+					local: $local
+				});
+			});
+		});
+	</script>
+</div>
+#parse("/inc/bottom.html")

@@ -1,0 +1,106 @@
+.profile .avatar picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 91px;
+}
+
+.profile .avatar picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 91px;
+    padding: 2px 9px 2px 8px;
+}
+
+.profile .avatar {
+    padding: 0px 20px 0px 0px;
+    position: relative;
+    text-align: center;
+    flex: 0 0 100px;
+}
+
+.avatar .change {
+    background-color: rgba(0, 0, 0, 0.62);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.62);
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    left: 29%;
+    top: 27%;
+    width: 35%;
+    height: 40%;
+    border-radius: 100px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 2px 2px 0px;
+}
+
+.avatar:hover .change {
+    display: flex;
+}
+
+.avatar .change svg {
+    fill: #FFF;
+    width: 60%;
+    height: 60%;
+}
+
+.profile #pushs, .profile .cookies {
+    padding-top: 15px;
+}
+
+.profile #pushs ul {
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+    list-style: none;
+}
+
+.profile #pushs li {
+    position: relative;
+    padding: 10px 0px 0px 10px;
+}
+
+.profile #pushs li:after {
+    content: '';
+    display: block;
+    height: 10px;
+    clear: both;
+}
+
+.profile #pushs span, .profile #pushs strong {
+    display: block;
+}
+
+.profile #pushs strong img {
+    float: left;
+    margin: 0px 5px 1px 0px;
+}
+
+.profile #pushs .delete {
+    position: absolute;
+    cursor: pointer;
+    top: 3px;
+    right: 3px;
+}
+
+.login_page {
+    display: flex;
+}
+
+.login_page > div {
+    flex: 1 1 50%;
+    margin-right: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login_page > div > :last-child {
+    flex: 1 0 auto;
+}
+
+@media all and (max-width: 1025px) {
+    .login_page {
+        display: block;
+    }
+}
+

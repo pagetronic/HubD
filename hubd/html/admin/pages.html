@@ -1,0 +1,54 @@
+#parse("/inc/top.html")
+<style type="text/css">
+	ol {
+		border-left: 1px solid #CCC;
+		margin-bottom: 10px;
+	}
+	ol span:hover input {
+		background: #EEE
+	}
+</style>
+<div id="middle" class="admin_pages">
+
+	<script type="text/javascript">
+		sys.push(function () {
+			function getChilds(where, parent) {
+				api.post('/admin/pages', {action: 'get', parent: parent}, function (rez) {
+					if (rez.result.length == 0) {
+						return;
+					}
+					var ul = $('<ol/>');
+					where.append(ul);
+					for (var i in rez.result) {
+						var item = rez.result[i];
+						var span = $('<span class="flexible"/>');
+						var li = $('<li/>').attr('id', item.id).append(span);
+						var input = $('<input class="flexable"/>');
+						input.on('change', function () {
+							var ele = $(this);
+							api.post('/admin/pages', {action: 'top_title', id: ele.parents('li:eq(0)').attr('id'), top_title: ele.val()}, function (rez) {
+								if (rez.ok) {
+									ele.pulse();
+								}
+							});
+						});
+
+						span.append($('<span class="button flexable"/>').html('x').on('click', function () {
+							$(this).parents('li:eq(0)').remove();
+						}));
+						span.append(input);
+						span.append($('<a class="button flexable"/>').attr('target', '_blank').attr('href', item.url).html('#'));
+
+						input.val( item.top_title !=  undefined ? item.top_title : item.title);
+
+						ul.append(li);
+						getChilds(li, item.id);
+					}
+				});
+			}
+
+			getChilds($('#middle'), null);
+		});
+	</script>
+</div>
+#parse("/inc/bottom.html")

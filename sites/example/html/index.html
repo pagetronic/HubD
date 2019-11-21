@@ -1,0 +1,36 @@
+#parse("/inc/top.html")
+<div id="middle" class="forum">
+	<ul class="threads" id="posts_list">
+		#foreach( $thread in $threads.result)
+			#parse('/threads/thread_item.html')
+		#end
+	</ul>
+	<div class="pagination">
+		#if($user.editor)
+			<button onclick="sys.admin_forums.order()" title="#lang('ORDER_CATEGORIES')">$svg.mi_format_align_right</button>
+			<button onclick="sys.admin_forums.create()" title="#lang('CREATE_CATEGORY')">$svg.mi_playlist_add</button>
+		#end
+		#pagination($threads.paging)
+	</div>
+
+	<div class="publisher" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+		<p>
+			#foreach($lang in $langs_domains)
+				<a hreflang="$lang.key" href="https://$lang.value/">#lang("COUNTRY",$lang.key)</a>#modulo(' &#8211; ',' &#8211; ','')
+			#end
+		</p>
+		#lang('PUBLICATION_DIRECTOR'):
+		<span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://laurent.page.live/logo.png" /></span>
+		<span itemprop="name">Laurent PAGE</span>, #lang('EMAIL'): <span itemprop="email">laurent@page.live</span>, #lang('PHONE'): <span itemprop="telephone">+262 262 92 66 38</span>, <span itemprop="url">https://page.live/</span>
+	</div>
+</div>
+#if($user.editor)
+<script type="text/javascript">
+	sys.push(function () {
+		sys.admin_forums.init();
+	});
+</script>
+#end
+#parse("/index/latteral.html")
+#parse("/inc/bottom.html")
+

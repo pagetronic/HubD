@@ -1,0 +1,468 @@
+#parse("/inc/top.html")
+<div id="middle">
+    <style type="text/css">
+        .scraps svg, .scraps img {
+            width: 14px;
+            height: 14px;
+            margin-bottom: -2px;
+        }
+
+        .scraps {
+            margin: 0px 0px 0px 5px;
+            padding: 0px;
+        }
+
+        ul.scraps > li {
+            margin-bottom: 10px;
+            padding: 0px 0px 15px 10px;
+            border-bottom: 1px solid #9a9a9a;
+            list-style: none;
+        }
+
+        .scraps ol {
+            margin-bottom: 5px;
+        }
+
+        .scraps ol li {
+            margin-top: 5px;
+            padding: 5px 0px 5px 5px;
+            border-bottom: 1px dotted #9a9a9a;
+        }
+
+        .scraps li:last-child {
+            border-bottom: none;
+        }
+
+        .scraps .format {
+            margin-top: 10px;
+        }
+
+        .checker svg {
+            cursor: pointer;
+            opacity: 0.3;
+        }
+
+        .checker.active svg {
+            opacity: 1;
+        }
+    </style>
+    <div class="pagination">
+        <button class="button" add>$svg.mi_add_circle&nbsp;#lang('CREATE')</button>
+        #pagination($sites.paging)
+        <a class="button#if($req.sort=='last') active#end" href="/admin/scrap#if($req.sort!='last')?sort=last#end">$svg.mi_sort
+            last</a>
+    </div>
+    <ul class="scraps">
+        #foreach( $site in $sites.result)
+        <li>
+            <em>#since($site.date, 2)</em><br/>
+            <h3>$site.title</h3>
+            <strong>Url:</strong>
+            <img src="$http_cdn/files/$Fx.baseSite($site.url)/favicon.ico@14x14.png"/> <span class="selectable">$site.url</span>#if($site.aggregater)
+            $svg.fa_icon_rss_square#end<br/>
+            #if($site.cleaner)<strong>Cleaner:</strong><span class="selectable">$site.cleaner</span><br/>#end
+            #if($site.scraps.size()>1)
+            <ol>#end
+                #foreach($scrap in $site.scraps)
+                #if($site.scraps.size()>1)
+                <li>#end
+                    #if($scrap.forums)<strong>Forum:</strong>#foreach($forum in $scrap.forums)#modulo$forum#end<br/>#end
+                    #if($scrap.zone)<strong>Zone:</strong> <span class="selectable">$scrap.zone</span><br/>#end
+                    #if($scrap.include)<strong>Include:</strong> <span class="selectable">$scrap.include</span><br/>#end
+                    #if($site.scraps.size()>1)
+                </li>
+                #end
+                #end
+                #if($site.scraps.size()>1)
+            </ol>
+            #end
+            #if($site.aggregater)<strong>Link</strong> <span class="selectable">$site.link</span><br/>#end
+            #if($site.exclude)<strong>Exclude:</strong> <span class="selectable">$site.exclude</span><br/>#end
+            <strong>Last:</strong> #if($site.last)<em>#since($site.last, 2)</em>#{else}never#end<br/>
+            <span class="flexo flexible" style="margin-top: 5px">
+                <button class="flexable" edit="$site.id">$svg.mi_edit #lang('EDIT','lowercase')</button>
+                <button class="flexable" refresh="$site.id">$svg.fa_icon_refresh refresh</button>
+                <button class="flexable" delete="$site.id">$svg.mi_delete_forever #lang('DELETE','lowercase')</button>
+            </span>
+
+        </li>
+        #end
+    </ul>
+
+
+    <div class="pagination">#pagination($sites.paging)</div>
+
+    <script type="text/javascript">
+        sys.push(function () {
+            var popForm = function (id) {
+
+                if (id !== undefined) {
+                    if ($('[idpop=' + id + ']').trigger('pulse').length > 0) {
+                        return;
+                    }
+                } else {
+                    id = null;
+                }
+
+                var popin = pop(false, 300, 290);
+                if (id !== undefined) {
+                    popin.pop.attr('idpop', id);
+                }
+                popin.header('$svg.fa_icon_feed Aggregate');
+
+                var cnt = $('<div />');
+
+                var url = $('<input type="url" class="flexable expand" placeholder="https://" />');
+                var cleaner = $('<input type="text" class="flexable expand" placeholder="/cleaner:pattern/@/cleaner:pattern/" />');
+
+                var scrapsdiv = $('<div />');
+                var scraps = [];
+                var addForum = function (count) {
+                    if (count !== undefined) {
+                        for (var i = 0; i < count; i++) {
+                            addForum();
+                        }
+                        return;
+                    }
+
+                    var scrap = $('<div class="scrap flexo flexable flexible expand" style="margin-bottom: 10px"/>');
+                    var forums = $('<select class="flexable expand" add="sys.admin_forums.create" placeholder="forum" url="/forums" multiple="multiple" />');
+                    var zone = $('<input class="flexable expand" type="text" placeholder="html .zone a" />');
+                    var include = $('<input class="flexable expand" type="text" placeholder="include: url tag,filter" />');
+
+                    zone.attr('title', zone.attr('placeholder'));
+                    include.attr('title', include.attr('placeholder'));
+                    scrapsdiv.append(scrap.append(zone).append(include).append(forums));
+                    forums.selectable();
+                    if (scraps.length === 0) {
+                        scrap.append($('<button class="flexable short" />').html('$svg.mi_add').on('click', function () {
+                            addForum();
+                        }));
+                    } else {
+                        scrap.append($('<button class="flexable short"/>').html('$svg.mi_remove').on('click', function () {
+                            var index = scrap.index();
+                            scraps = scraps.filter(function (e, i) {
+                                return (i !== index);
+                            });
+                            scrap.slowRemove();
+                        }));
+                    }
+                    scrapsdiv.append(scrap);
+                    var data = {
+                        zone: zone,
+                        include: include,
+                        forums: forums
+                    };
+                    scraps.push(data);
+                    return data;
+                };
+                addForum(1);
+
+                var getSraps = function () {
+                    var datas = [];
+                    $.each(scraps, function () {
+                        var data = {};
+                        if (this.zone.val() !== '' && this.zone.val() !== null) {
+                            data.zone = this.zone.val();
+                        }
+                        if (this.include.val() !== '' && this.include.val() !== null) {
+                            data.include = this.include.val();
+                        }
+                        if (this.forums.val() !== '' && this.forums.val() !== null) {
+                            data.forums = this.forums.val();
+                        }
+                        datas.push(data)
+                    });
+                    return datas;
+                };
+                var aggregater = $('<button class="checker flexable short" />').html('$svg.fa_icon_rss_square');
+                aggregater.checked = false;
+                aggregater.check = function (checked) {
+                    if (checked || (checked === undefined && !aggregater.checked)) {
+                        aggregater.addClass("active");
+                        aggregater.checked = true;
+                        scrapper.append(link);
+                    } else {
+                        aggregater.removeClass("active");
+                        aggregater.checked = false;
+                        link.detach();
+                    }
+                };
+
+
+                aggregater.on('click', function () {
+                    aggregater.check();
+                });
+                var link = $('<input type="text" placeholder="html .link a" />');
+                var exclude = $('<textarea placeholder="exclude: title,description,url tag,filter" />');
+                var preview = $('<div />');
+                var infos = $('<div />');
+
+
+                url.attr('title', url.attr('placeholder'));
+                cleaner.attr('title', cleaner.attr('placeholder'));
+                link.attr('title', link.attr('placeholder'));
+                exclude.attr('title', exclude.attr('placeholder'));
+
+                var save = $('<button/>').addClass('flexable').html('$svg.mi_reply ' + lang.get('SAVE'));
+                var test = $('<button/>').addClass('flexable');
+
+                var scrapper = $('<div class="flexible"/>');
+
+                cnt.append($('<div class="flexible flexo" style="margin-bottom: 10px"/>').append(url).append(aggregater));
+                cnt.append($('<div class="flexible flexo" style="margin-bottom: 10px"/>').append(cleaner));
+
+                url.on('change input click blur focus', function () {
+                    if (this.value.startsWith("https://www.youtube.com/channel/")) {
+                        aggregater.hide();
+                        url.parent().removeClass('flexo');
+                        link.hide();
+                        scrapsdiv.find('.scrap:not(:first)').remove();
+                        scraps = [scraps[0]];
+                        scrapsdiv.find('.scrap').find('input, button').hide();
+                        scrapsdiv.find('.scrap').removeClass('flexo');
+                    } else {
+                        aggregater.show();
+                        url.parent().addClass('flexo');
+                        link.show();
+                        scrapsdiv.find('.scrap').find('input, button').show();
+                        scrapsdiv.find('.scrap').addClass('flexo');
+                    }
+                });
+
+                cnt.append(scrapsdiv);
+
+
+                infos.append(scrapper);
+
+                cnt.append(infos);
+
+                cnt.append($('<div class="flexible"/>').append(exclude));
+
+                popin.append(cnt);
+
+                cnt.append(preview);
+
+
+                var error = function () {
+                    $('.error_input').removeClass('error_input');
+                    var hasError = false;
+                    if (url.val() === '') {
+                        url.addClass('error_input');
+                        hasError = true;
+                    }
+
+                    if (!url.val().startsWith("https://www.youtube.com/channel/")) {
+
+                        $.each(scraps, function () {
+                            if (this.zone.val() === '' || this.zone.val() === null) {
+                                this.zone.addClass('error_input');
+                                hasError = true;
+                            }
+                        });
+                        if (aggregater.checked && link.val() === '') {
+                            link.addClass('error_input');
+                            hasError = true;
+                        }
+                    }
+
+                    return hasError;
+                };
+
+                var previewScrap = function () {
+                    test.html('$svg.mi_remove_red_eye ' + lang.get('PREVIEW')).off('click').one('click', function () {
+                        if (error()) {
+                            return;
+                        }
+
+                        var list = $('<ol />');
+                        preview.html(list);
+                        var act = socket.send({
+                            action: "scrap",
+                            data: {
+                                url: url.val(),
+                                cleaner: cleaner.val(),
+                                scraps: getSraps(),
+                                aggregater: aggregater.checked,
+                                link: link.val(),
+                                exclude: exclude.val()
+                            }
+                        }, function (rez) {
+                            if (rez.finish !== undefined) {
+                                previewScrap();
+                            } else if (rez.error !== undefined) {
+                                alert(rez.error);
+                            } else if (rez.url !== undefined) {
+                                var item = $('<li />').css({clear: 'both'});
+                                item.append($('<h4 />').append($('<a />').attr('href', rez.url).html(rez.title)));
+                                var description = $('<p />').html(rez.description);
+                                if (rez.logos.length > 0) {
+                                    item.prepend($('<img />')
+                                        .css({float: 'right', clear: 'both', marginBottom: 10})
+                                        .attr('src', constants.cdnurl + '/files/' +
+                                            encodeURI(rez.logos[0].replace(/^([^\\#]+).*/g, "$1")).replace("?", encodeURIComponent("?")) + '@110x80.jpg')
+                                    );
+                                }
+                                item.append(description);
+                                list.append(item);
+                            }
+
+                            return true;
+                        });
+
+                        test.html('$svg.mi_refresh ' + lang.get('CANCEL')).off('click').one('click', function () {
+                            socket.abort(act);
+                            previewScrap();
+                        });
+
+                    });
+                };
+                previewScrap();
+
+                save.on('click', function () {
+                    var haseError = error();
+
+                    $.each(scraps, function (i) {
+                        if (this.forums.val() === '' || this.forums.val() === null) {
+                            this.forums.next().addClass('error_input');
+                            haseError = true;
+                        }
+                    });
+                    if (haseError) {
+                        return;
+                    }
+                    popin.loading(true);
+                    api.post('/admin/scrap', {
+                        action: 'scrap',
+                        type: 'save',
+                        id: id,
+                        url: url.val(),
+                        cleaner: cleaner.val(),
+                        scraps: getSraps(),
+                        aggregater: aggregater.checked,
+                        link: link.val(),
+                        exclude: exclude.val()
+                    }, function (rez) {
+                        if (rez.ok) {
+                            ajax.reload();
+                            popin.close();
+                        } else {
+                            popin.loading(false);
+                            preview.html($('<strong class="error"/>').text('error'));
+                        }
+
+                    }, function () {
+                        popin.loading(false);
+                        preview.html($('<strong class="error"/>').text('error'));
+
+                    })
+                });
+
+                popin.footer($('<div class="flexible flexo submit"/>').append(save).append(test));
+
+                exclude.autosize();
+
+                return {
+                    save: save,
+                    test: test,
+                    popin: popin,
+                    url: url,
+                    cleaner: cleaner,
+                    link: link,
+                    scraps: scraps,
+                    addForum: addForum,
+                    aggregater: aggregater,
+                    exclude: exclude,
+                    preview: preview
+                }
+            };
+            $('button[delete]').on('click', function () {
+                var del = $(this);
+                var li = del.parents('li:eq(0)');
+                li.fadeTo(300, 0.4);
+                sys.confirm(lang.get("DELETE"), lang.get("DELETE_CONFIRM") + ' ?', -1, function () {
+                    api.post('/admin/scrap', {
+                        action: 'scrap',
+                        type: 'delete',
+                        id: del.attr('delete')
+                    }, function (rez) {
+                        if (rez.ok) {
+                            li.fadeTo(300, 0, function () {
+                                li.remove();
+                            });
+                        } else {
+                            li.fadeTo(300, 1);
+                        }
+                    }, function () {
+                        li.fadeTo(300, 1);
+                    });
+                }, function () {
+                    li.fadeTo(300, 1);
+                });
+            });
+
+
+            $('button[edit]').on('click', function () {
+                var id = $(this).attr('edit');
+                var form = popForm(id);
+
+                form.popin.loading(true);
+                api.post('/admin/scrap', {
+                    action: 'scrap',
+                    type: 'edit',
+                    id: id
+                }, function (rez) {
+
+                    var title = rez.title;
+                    if (title === undefined) {
+                        title = rez.url.replace('https://', '').replace('http://', '')
+                    }
+                    form.popin.header('$svg.fa_icon_feed ' + title);
+
+                    form.url.val(rez.url).trigger('change');
+                    form.cleaner.val(rez.cleaner).trigger('change');
+
+                    form.aggregater.check(rez.aggregater);
+                    form.aggregater.trigger('change');
+                    form.link.val(rez.link).trigger('change');
+                    form.exclude.val(rez.exclude);
+                    form.addForum(rez.scraps.length - 1);
+                    $.each(rez.scraps, function (i) {
+                        form.scraps[i].zone.val(this.zone);
+                        form.scraps[i].include.val(this.include);
+                        form.scraps[i].forums.trigger('live.page.web.search', [this.forums]);
+                    });
+                    form.popin.loading(false);
+                    form.exclude.trigger('change');
+
+                }, function () {
+                    form.popin.loading(false);
+                    form.popin.close();
+                });
+            });
+
+            $('button[refresh]').on('click', function () {
+                var refresh = $(this);
+                api.post('/admin/scrap', {
+                    action: 'scrap',
+                    type: 'refresh',
+                    id: refresh.attr('refresh')
+                }, function (rez) {
+                    if (rez.ok) {
+                        refresh.parents('li').pulse();
+                    } else {
+                        sounds.play('failure');
+                    }
+                }, function () {
+                    sounds.play('failure');
+                });
+            });
+            $('button[add]').on('click', function () {
+                popForm();
+                return false;
+            });
+        })
+        ;
+    </script>
+</div>
+#parse("/inc/bottom.html")

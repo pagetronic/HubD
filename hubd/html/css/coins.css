@@ -1,0 +1,55 @@
+
+.coin svg {
+    fill: #CCC;
+    margin: 0px 0px 0px 4px;
+    display: inline-block;
+    width: 20px;
+}
+
+.coin span {
+    padding: 1px 7px 1px 7px;
+    border-radius: 4px;
+    border: 1px solid #CCC;
+    margin-right: 2px;
+    font-weight: bold;
+    color: #CCC;
+    font: bold 12px Verdana, Geneva, sans-serif;
+    float: left;
+}
+
+.coin.active {
+    cursor: pointer;
+}
+
+.coin.active:hover {
+    color: #477A21;
+    fill: #477A21;
+}
+
+.coin.active span:after, #toolbar .coin span:after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-top: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    transform: rotate(135deg);
+    background: #FFF;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 51%);
+    position: absolute;
+    margin: 4px 0px 0px 5px;
+}
+
+.coin.active:hover span {
+    border-color: #477A21;
+    color: #477A21;
+}
+
+.coin.active:hover span:after {
+    border-top: solid 1px #477A21;
+    border-left: solid 1px #477A21;
+}
+
+.coin.active:hover svg {
+    fill: #477A21;
+}
+

@@ -1,0 +1,132 @@
+
+#notices {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    min-height: 60px;
+    width: 350px;
+    max-width: 75%;
+    right: 18px;
+    top: 39px;
+    background: #EEE;
+    z-index: 100;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+    box-shadow: 1px 1px 10px 0px rgba(51, 51, 51, 0.67);
+    text-align: left;
+    max-height: 75%;
+}
+
+#notices #notices_cmd {
+    position: relative;
+    flex: 0 0 0px;
+    background: #FFF;
+    text-align: right;
+    height: 20px;
+}
+
+#notices #notices_cmd:before {
+    content: '';
+    position: absolute;
+    background-image: linear-gradient(to bottom, rgba(51, 51, 51, 0.28) 0px, transparent 5px);
+    height: 6px;
+    bottom: -6px;
+    right: 0px;
+    left: 0px;
+}
+
+#notices ul {
+    flex: 50;
+    border-top: 1px solid #EEE;
+    padding: 0px;
+    overflow: auto;
+    overflow-y: scroll;
+}
+
+#notices ul li {
+    margin: 7px 7px;
+}
+
+#notices a {
+    display: block;
+    background: #FFF;
+    text-decoration: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    opacity: 0.4;
+    border: 1px solid #CCC;
+}
+
+#notices a .title {
+    display: block;
+    font-weight: bold;
+}
+
+#notices a.unread {
+    opacity: 1;
+}
+
+#notices a em {
+    float: right;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+#notices a .title {
+    padding: 0px;
+    margin: 0px;
+    font-weight: bold;
+}
+
+#notices .remove {
+    margin-left: 7px;
+    font-weight: bold;
+}
+
+#notices .remove:hover {
+    color: red;
+}
+
+#notices .readall, #notices .close {
+    display: inline-block;
+    fill: #666;
+}
+
+
+
+#notices:before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 3000;
+    width: 12px;
+    height: 12px;
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    transform: rotate(45deg);
+    background: linear-gradient(to bottom right, #fff 0px, #fff 50%, transparent 50%, transparent 100%);
+    top: -7px;
+    right: 50%;
+}
+
+
+@media all and (max-width: 795px) {
+    #notices {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        z-index: 10000;
+        border-radius: 0px;
+        border: none;
+        max-height: initial;
+        min-height: initial;
+        width: initial;
+        max-width: initial;
+    }
+
+    #notices:before {
+        display: none;
+    }
+}

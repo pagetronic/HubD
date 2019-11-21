@@ -1,0 +1,79 @@
+.flexible {
+    display: flex;
+}
+
+.flexible .flexable {
+    width: 100%;
+    margin: 0px 3px 0px 3px;
+    white-space: nowrap;
+}
+
+.flexible button.flexable, .flexible .button.flexable {
+    margin: 0px;
+    padding: 2px 7px;
+}
+
+.flexible .flexable.short {
+    flex: 1 1 1%;
+}
+
+.flexible .flexable.tiers {
+    flex: 1 1 33%;
+}
+
+.flexible .flexable.expand {
+    flex: 1 1 100%;
+}
+
+.flexible .flexible {
+    flex-flow: nowrap;
+    flex-grow: 0;
+    margin-bottom: 0px;
+}
+
+.flexible .flexible .flexable {
+    width: auto;
+}
+
+.grower {
+    flex-grow: 100000;
+}
+
+.flexo .flexable {
+    text-overflow: ellipsis;
+    width: auto;
+    white-space: nowrap;
+    margin: 0px;
+    min-width: auto;
+    border-radius: 0px;
+    border-right: none;
+}
+
+.flexo > :first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.flexo > :last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-right: 1px solid #ccc;
+}
+
+
+.flexible button.flexable.disabled {
+    cursor: default;
+
+}
+
+.flexible button.flexable.disabled:active {
+    cursor: default;
+    background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+
+}
+
+
+.format.flexible {
+    margin: 0px 0px 0px 0px;
+    overflow: auto;
+}

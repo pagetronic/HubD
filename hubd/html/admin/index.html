@@ -1,0 +1,51 @@
+#parse("/inc/top.html")
+<div id="middle">
+
+    <ul>
+        <li><a href="javascript:sys.adminWebPush()">Web Push</a></li>
+        <li><a href="/admin/posts">Lasts Posts</a></li>
+        #if($debug)
+        <li><a href="/admin/langs">Langs</a></li>
+        #end
+        <li><a href="/admin/ratings">Lastest ratings</a></li>
+        <li><a href="/admin/scrap">Scrapper</a></li>
+        <li><a href="/admin/pages">Pages Meta Titles</a></li>
+        <li><a href="/admin/301">Redirect 301</a></li>
+
+    </ul>
+    <script type="text/javascript">
+        sys.push(function () {
+            sys.adminWebPush = function () {
+                var popin = pop(false);
+                popin.header('$svg.mi_notifications_none Web Push All');
+                var title = $('<input type="text" />').attr('placeholder', lang.get('TITLE'));
+                var text = $('<textarea rows="5" />').attr('placeholder', lang.get('TEXT'));
+                var url = $('<input type="url" />').attr('placeholder', 'https://').val('https://' + document.location.host);
+                popin.append(title);
+                popin.append(text.autosize());
+                popin.append(url);
+                var send = $('<button/>').addClass('flexable').html('$svg.mi_reply ' + lang.get('SEND'));
+                popin.footer($('<div class="flexible flexo submit"/>').append(send));
+                send.on('click', function () {
+                    popin.loading(true);
+                    api.post('/admin', {
+                        action: 'webpush',
+                        title: title.val(),
+                        text: text.val(),
+                        url: url.val()
+                    }, function (rez) {
+                        if (rez.ok) {
+                            popin.close();
+                            sys.toast('Push:' + rez.count, 3000);
+                        } else {
+                            popin.loading(false);
+                        }
+                    }, function () {
+                        popin.loading(false);
+                    })
+                });
+            };
+        });
+    </script>
+</div>
+#parse("/inc/bottom.html")

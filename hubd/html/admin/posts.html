@@ -1,0 +1,19 @@
+#parse("/inc/top.html")
+<div id="middle" class="posts">
+    #parse("/inc/breadcrumb.html")
+    <div class="pagination">
+        #pagination($posts.paging, '/admin/posts', false)
+    </div>
+    #foreach( $post in $posts.result )
+    #parse("/threads/post_item.html")
+    #end
+    <div class="pagination">
+        #pagination($posts.paging, '/admin/posts', false)
+    </div>
+    <script type="text/javascript">
+        sys.push(function () {
+            $('.pagination:eq(0) a:eq(2)').focus();
+        });
+    </script>
+</div>
+#parse("/inc/bottom.html")

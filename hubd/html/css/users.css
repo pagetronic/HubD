@@ -1,0 +1,49 @@
+
+.avatar {
+    font-size: 11px;
+    text-align: center;
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0px 4px 0px 0px;
+}
+
+.avatar picture {
+    display: inline-block;
+    padding: 2px 5px 2px 5px;
+    border-radius: 41px;
+    box-shadow: 1px 1px 4px rgba(51, 51, 51, 0.25);
+}
+
+.avatar figcaption {
+    white-space: nowrap;
+    width: 97%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.avatar picture img {
+    display: block;
+    width: 55px;
+    height: 55px;
+    border-radius: 41px;
+    background-repeat: no-repeat;
+    border: 1px solid #D7D7D7;
+    box-shadow: 0px 0px 0px 2px #FFF;
+    background-color: #FFF;
+    background-position: 50% 50%;
+}
+
+.user .posts .avatar {
+    display:none;
+}
+.user .posts .post {
+    margin-left: 5px;
+}
+
+.user .posts .post:before {
+    display:none;
+}
+
+

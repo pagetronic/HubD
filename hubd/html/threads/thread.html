@@ -1,0 +1,179 @@
+#parse("/inc/top.html")
+<div id="middle" class="posts">
+    #parse("/inc/breadcrumb.html")
+    <div class="pagination" style="float:right">
+        #if($user && $user.editor)
+        #if(!$req.remove)
+        <a class="button" title="#lang('RELOCATE')" id="relocater">$svg.fa_icon_location_arrow</a>
+        <a class="button" href="$thread.url?remove" title="#lang('REMOVEDS')">$svg.mi_restore</a>
+        #else
+        <a class="button" href="$thread.url" title="#lang('POST')">$svg.fa_icon_check</a>
+        #end
+        #end
+    </div>
+    <h1 itemprop="headline">$title</h1>
+    <span itemprop="image" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="$ui_logo@250x250" /></span>
+
+    #set($post=$thread)#parse("/threads/post_item.html")
+    <div id="paging"></div>
+    #if($thread.posts.paging.prev || $thread.posts.paging.next)
+    <div class="pagination">
+        #pagination($thread.posts.paging, $thread.url, false,"paging")
+    </div>
+    #end
+    #if( $thread.posts.result.size()==0)
+    <div id="pushadd"></div>
+    <div></div>
+    #end
+    #foreach( $post in $thread.posts.result )
+    #parse("/threads/post_item.html")
+    #if($velocityLast)
+    <div id="pushadd"></div>
+    <div></div>
+    #end
+    #if($pub && !$user && ($velocityCount+4)%6==1 && !$velocityLast)
+    <div class="post pub" id="post$velocityCount">
+        <a href="/profile" class="avatar">
+            <picture>
+                <img src="$ui_logo@55x55" width="55" height="55"/>
+            </picture>
+        </a>
+        #set($idcloser="post$velocityCount")
+        #parse("/pubs/inposts.html")
+    </div>
+    #end
+    #end
+    #if(!$user && $pub)
+    <div class="post pub" id="postlinks">
+        <a href="/profile" class="avatar">
+            <picture>
+                <img src="$ui_logo@55x55" width="55" height="55"/>
+            </picture>
+        </a>
+        #parse("/pubs/postlinks.html")
+    </div>
+    #end
+    <div class="post" id="reply">
+        <a href="#if( $user )$user.url#else/profile#end" class="avatar">
+            <figure>
+                #if($user.avatar)
+                $Fx.avatar($user.avatar)
+                <figcaption>
+                    <name>$user.name</name>
+                    #if($user.coins) <span>$user.coins <em>#if($user.coins>0)#lang('COINS')#else#lang('COIN')#end</em></span>#end
+                </figcaption>
+                #else
+                $Fx.avatar("$ui_logo")
+                #end
+            </figure>
+        </a>
+        <div class="boxarea">
+            #if(!$user)
+            <div class="login">
+                <h3>#lang('ACCOUNT_OAUTH')</h3>
+                <div class="flexible flexo" style="margin-top: 5px">
+                    #parse("/profile/oauth.html")
+                    <a class="button flexable" href="/profile">$svg.fa_icon_user_circle_o
+                        #lang('ACCOUNT_CREATE','lowercase')</a>
+                </div>
+            </div>
+            #else
+            <input type="hidden" name="parent" value="Posts($thread.id)"/>
+            #end
+        </div>
+
+    </div>
+
+    <div class="pagination">
+        <button follow="Posts($thread.id)">$svg.mi_notifications_none#lang('FOLLOW')</button>
+        #if($thread.posts.paging.next || $thread.posts.paging.prev)
+        #pagination($thread.posts.paging, $thread.url, false,"paging")
+        #end
+    </div>
+    <script type="text/javascript">
+        sys.push(function () {
+            sys.threads.init_thread('$thread.id');
+        });
+    </script>
+    #if($highlight)
+    <script type="text/javascript">
+        sys.push(function () {
+            $("$highlight").pulse(500);
+        });
+    </script>
+    #end
+    #if($user)
+    <script type="text/javascript">
+        sys.push(function () {
+            sys.profile.avatar($('#reply .avatar'));
+        });
+    </script>
+    #end
+    <meta itemprop="datePublished" content="$Fx.isoDate($thread.date)"/>
+    <meta itemprop="dateModified" content="$Fx.isoDate($thread.last.date)"/>
+    <meta itemprop="commentCount" content="$thread.replies"/>
+
+    <div class="publisher" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+        #lang('PUBLICATION_DIRECTOR'):
+        <span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://laurent.page.live/logo.png" /></span>
+        <span itemprop="name">Laurent PAGE</span>, #lang('EMAIL'): <span itemprop="email">laurent@page.live</span>, #lang('PHONE'): <span itemprop="telephone">+262 262 92 66 38</span>, site:<span itemprop="url">https://page.live/</span>
+    </div>
+    <div id="relaxed">
+        #parse("/pubs/relaxed.html")
+    </div>
+</div>
+<div id="lateral">
+    #set($pagesids=[])
+    #if($thread.forums.size()>0)
+    <ul class="links" id="parents">
+        <li class="hr">#lang('FORUM_CATEGORY')</li>
+        #foreach( $forum in $thread.forums)
+        <li id="$forum.id"><a href="$forum.url">$svg.mi_view_headline $forum.title</a></li>
+        #end
+    </ul>
+    #end
+    #if($user.editor || ($thread.pages && $thread.pages.size()>0))
+    <ul class="links" id="pages">
+        <li class="hr">#lang('PAGES')</li>
+        #foreach( $page in $thread.pages)
+        #if($pagesids.add($page.id))#end
+        <li id="$page.id"><a itemprop="mainEntityOfPage" href="$page.url">
+            #if($page.logo)<img src="$page.logo@40x25" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end
+            #if($page.top_title && $page.top_title.length()>0)$page.top_title#else$page.title#end</a></li>
+        #end
+    </ul>
+    #end
+    <ul class="links">
+        #if($thread.pages && $thread.pages.size()==0)
+        <li class="hr">#lang('PAGES')</li>
+        #end
+        #foreach($forum in $thread.forums)
+        #foreach( $page in $forum.pages)
+        #if($user.editor || !$pagesids.contains($page.id))
+        <li id="$page.id"><a itemprop="mainEntityOfPage" href="$page.url">
+            #if($page.logo)<img src="$page.logo@40x25" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end
+            #if($page.top_title && $page.top_title.length()>0)$page.top_title#else$page.title#end</a></li>
+        #end
+        #end
+        #end
+    </ul>
+    #if($thread.branche && $thread.branche.size()>0)
+    <ul class="links">
+        <li class="hr">#lang('POSTS_SAME')</li>
+        #foreach( $thread in $thread.branche)
+        <li><a itemprop="sameAs" href="$thread.url"#if($thread.replies==0) rel="nofollow"#end>$svg.mi_message $thread.title
+                <span>#if($thread.text)$Fx.couper($thread.text, 150)#else#if($thread.link)$Fx.couper($thread.link.description, 200)#end#end // #if($thread.replies>0)$thread.replies #if($thread.replies > 1)#lang('REPLIES')#else#lang('REPLY')#end#else#lang('NO_REPLY')#end</span>
+            </a></li>
+        #end
+    </ul>
+    #end
+</div>
+
+#if($user.editor)
+<script type="text/javascript">
+    sys.push(function () {
+        sys.admin_threads.init('$thread.id');
+    });
+</script>
+#end
+#parse("/inc/bottom.html")

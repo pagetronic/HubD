@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html#if($lng) dir="#lang('DIR')" class="#lang('DIR')" lang="#lang('LANG')"#end>
+<head>
+<meta charset="UTF-8" />
+<title>$meta_title#parse("/inc/icon.html")</title>
+#if ( $description && $description!="" )
+<meta name="description" content="$Fx.escape($description)" />
+#end
+$robotsmetas
+#if ( $unavailable_after )
+<meta name="googlebot" content="unavailable_after: $unavailable_after">
+#end
+#if ( $canonical && $canonical!="" )
+<link rel="canonical" href="${canonical.replace('&','&amp;')}" />
+#end
+#foreach($hreflang in $hreflangs)
+<link rel="alternate" href="$hreflang.url.replace('&','&amp;')" hreflang="$hreflang.lng" />
+#end
+<link rel="shortcut icon" type="image/x-icon" href="$http_cdn/favicon.ico" />
+<link rel="icon" sizes="192x192" type="image/png" href="$ui_logo@192x192" />
+<link rel="icon" sizes="32x32" type="image/png" href="$ui_logo@32x32" />
+<link rel="search" type="application/opensearchdescription+xml" href="$http_site/opensearch.xml" title="$site_title" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="theme-color" content="$theme_color" />
+<link rel="manifest" href="$http_site/manifest.json" />
+#if($analytics)
+    <script async type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=$analytics"></script>
+#end
+<script type="text/javascript">
+window.dataLayer = window.dataLayer || [];function gtag() {window.dataLayer.push(arguments);}
+<!--(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;-->
+var sys={$:[],analytics:"$!analytics",debug:$debug,lng:'$lng',#if(!$user)user:{id:null}#{else}user:{id:'$user.id',admin:$user.admin,editor:$user.editor,parent:#if($user.original)true#{else}false#end}#end,sets:#if($user.settings)$user.settings#else{}#end,push:function(f){sys.$.push(f)}};
+</script>
+#if($pub)
+    <script async type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+#end
+<script async type="text/javascript" src="$jslink"></script>
+#foreach($csslink in $csslinks)
+<link rel="stylesheet" type="text/css" href="$csslink" />
+#end
+#if($fontslinks)<script async type="text/javascript">var fts=document.createElement('link');fts.rel='stylesheet';fts.href='$fontslinks';document.head.insertBefore(fts,document.head.childNodes[document.head.childNodes.length-1].nextSibling)</script>#end
+</head>
+<body>
+<div id="window">

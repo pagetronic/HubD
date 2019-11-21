@@ -1,0 +1,29 @@
+#comodo #remote #switch {
+    display: block;
+    padding: 0px 7px 1px 7px;
+}
+
+#comodo #remote #switch span {
+    display: inline-block;
+    margin: 4px 0px 0px 0px;
+}
+
+.createaccount .logo {
+    padding-bottom: 10px;
+}
+
+.createaccount .logo:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.createaccount .logo .img {
+    border: none;
+    padding: 0px;
+    margin: 0px 0px 0px 15px;
+}
+
+.createaccount .logo button {
+    float: left;
+}

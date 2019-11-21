@@ -1,0 +1,41 @@
+
+.base {
+    font-size: 20px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.base h1 {
+    background-image: url(/ui/logo@300x300);
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+    font-size: 0px;
+    margin: auto 20px 10px 20px;
+
+}
+
+.base li {
+    display: inline-block;
+    padding: 3px 10px 0px 10px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transform: rotate(-10deg);
+}
+
+.base li a {
+    border-bottom: 2px solid #818181;
+}
+
+.base a:hover {
+    text-decoration: none;
+    color: #818181;
+    border-bottom: 2px solid #152f1b;
+}
+
+@media (max-width: 300px) {
+    .base {
+        padding-top: 0px;
+    }
+}

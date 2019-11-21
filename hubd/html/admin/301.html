@@ -1,0 +1,23 @@
+#parse("/inc/top.html")
+<div id="middle">
+	<div style="max-width: 400px; margin: auto" id="form">
+		<h2>301 redirect</h2>
+		<input type="text" name="url" placeholder="Segment"/>
+		<select name="destination" url="/edit" placeholder="Destination"></select>
+		<button id="redirect">redirect</button>
+	</div>
+	<script type="text/javascript">
+		sys.push(function () {
+			$('[name=destination]').selectable();
+			$('#redirect').on('click', function () {
+				api.post('/admin/301', {action: 'redirect', id: $('[name=destination]').val(), url: $('[name=url]').val()}, function (rez) {
+					if (rez.ok) {
+						$('#form').pulse();
+						$('[name=url], [name=destination]').val('').trigger('change');
+					}
+				});
+			});
+		})
+	</script>
+</div>
+#parse("/inc/bottom.html")

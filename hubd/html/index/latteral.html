@@ -1,0 +1,23 @@
+<div id="lateral">
+    <ul class="links" id="pages">
+        <li class="hr">#lang('LAST_UPDATES')</li>
+        #foreach( $item in $pages.result )
+        <li id="$item.id">
+            <a href="${item.url}">
+                #if($item.logo)<img src="$item.logo@40x25.jpg" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end $item.title
+            </a>
+            #if($item.intro)
+            <p>$item.intro.replaceAll('</?[a-z]+>','')</p>
+            #end
+        </li>
+        #end
+    </ul>
+</div>
+<script type="text/javascript">
+    sys.push(function () {
+        $('#lateral').on('click', 'li', function () {
+            document.location.href = $(this).find('a').attr('href');
+            return false;
+        });
+    });
+</script>

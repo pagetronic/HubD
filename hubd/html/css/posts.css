@@ -1,0 +1,565 @@
+.forum .hx {
+    margin-left: 59px;
+}
+
+.post textarea {
+    margin-top: 8px;
+    height: 100px;
+    min-height: 100px !important;
+}
+
+.forum #post input {
+    margin-top: 2px;
+}
+
+.forum #post textarea.reduce {
+    margin-bottom: 0px;
+}
+
+.forum #post textarea, .forum #post input {
+    color: #444;
+    background-color: #FCFCFC;
+    margin-bottom: 0px;
+}
+
+
+.forum #post {
+    clear: both;
+}
+
+.posts .rating {
+    margin-left: 5px;
+}
+
+.posts .rating svg {
+    width: 16px;
+    height: 16px;
+
+}
+
+.posts .content em {
+    color: #777;
+}
+
+.posts .content a {
+    text-decoration: none;
+    border-bottom: 1px dashed #333;
+}
+
+.posts .content .img a {
+    border: none;
+}
+
+.posts .foot {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: auto;
+}
+
+.posts .foot div {
+    white-space: nowrap;
+}
+
+.posts .foot svg {
+    width: 18px;
+    height: 18px;
+    fill: #CCC;
+    cursor: pointer;
+}
+
+.posts .infos {
+    font-size: 11px;
+    font-style: italic;
+    color: #999;
+    margin: -4px 10px 5px 0px;
+    padding-bottom: 5px;
+}
+
+
+.posts .infos:after {
+    content: '';
+    display: block;
+    clear: right;
+}
+
+.posts .infos .anchor {
+    float: right;
+    margin-right: -10px;
+    margin-left: 5px;
+    color: #999;
+}
+
+.posts .infos a svg {
+    width: 9px;
+    height: 9px;
+    fill: #CCC;
+}
+
+.posts .rapidbox {
+    display: flex;
+    border-top: 1px solid #F3F3F3;
+    padding: 7px 0px 0px 0px;
+    height: 36px;
+}
+
+.posts .rapidbox textarea {
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    font-size: 14px;
+    display: block;
+    flex: 10;
+    background: #FFF;
+}
+
+#more {
+    text-align: center;
+}
+
+#more .pagination:before {
+    display: none;
+}
+
+#more .pagination {
+    display: inline-flex;
+    margin: 5px 5px 10px 5px;
+}
+
+.rapidbox .accept {
+    display: block;
+    color: #CCC;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.rapidbox .accept svg {
+    fill: #CCC;
+    width: 15px;
+    height: 12px;
+}
+
+#pushadd {
+    text-align: right;
+    text-align: right;
+    padding: 0px 10px 0px 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#pushadd a {
+    display: inline-block;
+    text-decoration: underline;
+    color: #555;
+    padding-bottom: 5px;
+}
+
+.posts .tips span {
+    float: right;
+    cursor: pointer;
+}
+
+.posts .tips span svg {
+    fill: #CCC;
+    width: 15px;
+    height: 15px;
+}
+
+.posts .tips span:hover svg {
+    fill: #477A21;
+}
+
+.posts .tips p {
+    border-top: 1px solid #F3F3F3;
+    padding: 7px 0px 7px 0px;
+    font-style: italic;
+    font-size: 12px;
+    color: #666;
+    line-height: 13px;
+    min-height: 21px;
+    margin: 0px;
+    clear: both;
+}
+
+.posts .tips a {
+    border: none;
+}
+
+.posts .tips p em {
+    display: block;
+    font-size: 9px;
+    float: left;
+    margin-right: 4px;
+    padding-right: 4px;
+    line-height: 9px;
+}
+
+.posts .tips p em time {
+    display: block;
+}
+
+.posts .tips img {
+    float: left;
+    border-radius: 10px;
+    margin: -1px 7px 0px 2px;
+    box-shadow: 0px 0px 3px #333;
+    border: 1px solid #FFF;
+    opacity: 0.9;
+}
+
+.posts .tips p a {
+    color: #666;
+}
+
+.posts textarea, .posts input {
+    font-size: 16px;
+}
+
+
+.posts .boxarea {
+    padding: 0px 3px 7px 2px;
+}
+
+.posts .boxarea.collapse {
+    padding: 0px 3px 0px 2px;
+}
+
+.posts .boxarea .collapsed {
+
+    padding-bottom: 5px;
+}
+
+.posts .boxarea .submit {
+    margin-top: 5px;
+}
+
+.posts .cmd span:hover svg {
+    fill: #477A21;
+}
+
+.posts .boxarea icon {
+    margin: 4px 0px 10px 3px;
+}
+
+.posts h1, .forum h1 {
+    font-size: 23px;
+    user-select: text;
+}
+
+.posts h1 {
+    padding: 4px 0px 7px 0px;
+}
+
+.posts .question {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px 8px 0px 0px;
+}
+
+.posts .question .data {
+    white-space: nowrap;
+    font-size: 12px;
+    text-align: right;
+}
+
+.posts .link a {
+    border-bottom: 1px dotted #333;
+}
+
+.posts .question strong {
+    flex: 3 1 auto;
+    margin-top: -3px;
+    font-size: 22px;
+    color: #777;
+}
+
+.posts .question strong a {
+    color: #777;
+}
+
+.posts .question:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.post, .message {
+    padding: 6px 7px 6px 7px;
+    margin: 5px 6px 13px 85px;
+    border-radius: 10px;
+    border: 1px solid #CCC;
+    position: relative;
+    box-shadow: 1px 1px 4px rgba(51, 51, 51, 0.25);
+    background-color: #FFF;
+    min-height: 46px;
+    clear: both;
+}
+
+.post_transfer {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.50);
+    box-shadow: 1px 1px 4px rgba(51, 51, 51, 0.25);
+    border: 1px solid #CCC;
+}
+
+.post.pub {
+    min-height: 57px;
+    padding-bottom: 15px;
+}
+
+.post .content {
+    font-size: 1.1em;
+    border-bottom: 1px solid #F3F3F3;
+    min-height: 32px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.post .content.reduce {
+    height: 100px;
+    overflow: hidden;
+}
+
+.post:before {
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 14px;
+    border-top: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    transform: rotate(-45deg);
+    left: -8px;
+    top: 23px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 55%, rgba(255, 255, 255, 0) 56%, rgba(255, 255, 255, 0) 100%);
+}
+
+.post .content .img img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.post .avatar {
+    position: absolute;
+    left: -83px;
+    top: 0px;
+    width: 67px;
+}
+
+.post .history {
+    font-size: 10px;
+    color: #CCC;
+    font-style: italic;
+}
+
+.post .error {
+    font-size: 12px;
+    color: #980000;
+    display: block;
+}
+
+.forum .post .avatar img {
+    height: 40px;
+    width: 40px;
+}
+
+.forum .post .avatar {
+    left: -76px;
+    top: 4px;
+}
+
+#post.post:before {
+    top: 21px;
+}
+
+#post.post {
+    padding: 10px 10px 0px 10px;
+    margin: 6px 6px 17px 72px;
+}
+
+.posts .boxarea.collapse .collapsed {
+    height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0px;
+}
+
+
+#reply.post {
+    padding: 5px 10px 5px 10px;
+}
+
+#history {
+    width: 600px;
+}
+
+#history .change {
+    border-bottom: 1px solid #CCC;
+    padding: 5px 0px 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#history .change:last-child {
+    border-bottom: none;
+
+}
+
+#history .change:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+#history .change .time, #history .change .name {
+    font-size: 10px;
+    font-style: italic;
+    color: #999;
+    padding: 0px 0px 3px 0px;
+    white-space: nowrap;
+}
+
+#history .change .name {
+    float: left;
+}
+
+#history .change .time {
+    float: right;
+    text-align: right;
+    padding: 0px 0px 3px 3px;
+
+}
+
+#history .change .avatar {
+    flex: 0 0 auto;
+    margin: 2px 3px 0px 0px;
+}
+
+#history .change .infos {
+    flex: 5 0;
+}
+
+#history .change .infos p {
+    margin: 0px;
+    clear: left;
+    padding: 0px 0px 5px 0px;
+}
+
+.splitable {
+    opacity: 0.4;
+}
+
+@media (min-width: 701px) {
+    .post .avatar figcaption span {
+        position: absolute;
+        font-size: 7px;
+        line-height: 7px;
+        color: #000;
+        right: 9px;
+        top: 30px;
+        background: #FFF;
+        padding: 1px 3px 1px 3px;
+        border-radius: 20px;
+        opacity: 0.9;
+        box-shadow: 1px 1px 4px rgba(51, 51, 51, 0.25);
+    }
+
+    .post .avatar figcaption span em {
+        display: none;
+    }
+}
+
+@media (min-width: 901px) {
+    .post .avatar figcaption span {
+        font-size: 8px;
+        line-height: 8px;
+        top: 48px;
+        right: 0px;
+        padding: 2px 4px;
+    }
+
+    .cmd_top {
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+}
+
+@media all and (max-width: 900px) {
+
+    .post {
+        margin-left: 65px;
+        margin-right: 0px;
+    }
+
+    .post .avatar {
+        top: 7px;
+        left: -75px;
+    }
+
+    .post .avatar picture {
+        padding: 1px 4px 1px 4px;
+    }
+
+    .post .avatar picture img {
+        width: 40px;
+        height: 40px;
+        box-shadow: 0px 0px 0px 1px #FFF;
+    }
+}
+
+@media all and (max-width: 700px) {
+    .post {
+        margin-left: 0px;
+        padding: 6px;
+    }
+
+    .post:before {
+        display: none;
+    }
+
+    .post .infos {
+        margin-bottom: 10px;
+        padding: 3px 0px 8px 0px;
+        border-bottom: 1px solid #F3F3F3;
+    }
+
+    .post .avatar {
+        position: initial;
+        padding: 0px;
+    }
+
+    .post.pub {
+        background: none;
+        box-shadow: none;
+        border: none;
+        padding: 0px;
+        min-height: 0px;
+    }
+
+    .post .avatar picture {
+        float: left;
+        padding: 1px 3px 1px 3px;
+        margin: 0px 6px 5px -2px;
+        display: inline-block;
+    }
+
+    .post .avatar figcaption {
+        display: inline;
+    }
+
+    .post .avatar picture img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .post.pub .avatar {
+        display: none;
+    }
+
+    #reply.post .avatar {
+        display: none;
+    }
+
+}

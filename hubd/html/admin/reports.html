@@ -1,0 +1,18 @@
+#parse("/inc/top.html")
+<div id="middle" class="reports">
+	#parse("/inc/breadcrumb.html")
+	<h1>$title</h1>
+	<ul class="messages">
+		#foreach( $report in $reports)
+			<li id="$report.id" class="message"#if($report.processed) style="opacity:0.3"#end>
+				#since($report.date)
+				#parsepost($report.message)
+				<p><strong>$report.item</strong> : <strong>$report.url</strong></p>
+				<div class="foot">
+					<span title="#lang('PROCESSED')" onclick="sys.admin.ckeckReport('$report.id')">$svg.mi_check</span>
+				</div>
+			</li>
+		
+		#end
+	</ul>
+#parse("/inc/bottom.html")

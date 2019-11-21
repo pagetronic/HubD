@@ -1,0 +1,21 @@
+<div id="menu">
+	<ul id="cmd">
+		#foreach($menu in $menus)
+		<li id="$menu.id"><a href="$menu.url" #if($menu.active) class="active"#end>$svg.fa_icon_comment_o$menu.title</a></li>
+		#end
+		<li><a href="/copyright" #if($active=='copyright') class="active" #end>$svg.mi_copyright#lang('COPYRIGHT')</a></li>
+		#if( $user.editor )
+		<li><a href="/reports" #if($active=='reports') class="active" #end rel="nofollow">$svg.fa_icon_bug#lang('REPORTS') #if($reports_count && $reports_count>0)($reports_count)#end</a></li>
+		#end
+		#if( $user.admin )
+		<li><a href="/admin" #if($active=='admin') class="active" #end rel="nofollow">${svg.mi_directions_boat}Admin</a></li>
+		#end
+		<li><a href="/profile" #if($active=='profile') class="active" #end rel="nofollow">$svg.mi_account_circle#if( $user )${user.name}#else#lang('PROFILE')#end</a></li>
+
+	</ul>
+	<script type="text/javascript">
+		sys.push(function () {
+			sys.menu.init();
+		});
+	</script>
+</div>

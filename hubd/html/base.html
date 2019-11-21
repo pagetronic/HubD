@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="x-default">
+<head>
+<meta charset="UTF-8" />
+<title>$meta_title</title>
+$robotsmetas
+#if ( $canonical && $canonical!="" )
+<link rel="canonical" href="${canonical.replace('&','&amp;')}" />
+#end
+#foreach($lang in $langs_domains)
+<link rel="alternate" href="https://$lang.value/" hreflang="$lang.key" />
+#end
+<link rel="shortcut icon" type="image/x-icon" href="$http_cdn/favicon.ico" />
+<link rel="icon" sizes="192x192" type="image/png" href="$ui_logo@192x192" />
+<link rel="icon" sizes="32x32" type="image/png" href="$ui_logo@32x32" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="theme-color" content="$theme_color" />
+#foreach($csslink in $csslinks)
+<link rel="stylesheet" type="text/css" href="$csslink" />
+#end
+#if($fontslinks)
+<script async type="text/javascript">
+var fts=document.createElement('link');fts.rel='stylesheet';fts.href='$fontslinks';
+document.head.insertBefore(fts,document.head.childNodes[document.head.childNodes.length-1].nextSibling)
+</script>
+#end
+<script type="text/javascript">
+window.dataLayer = window.dataLayer || [];function gtag() {window.dataLayer.push(arguments);}
+<!--(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;-->
+var sys={$:[],lng:'$lng',user:{id:null},admin:false,editor:false,parent:false,push:function(f){sys.$.push(f)}};
+</script>
+<script async type="text/javascript" src="$jslink"></script>
+</head>
+<body>
+<div class="base">
+<h1>$title</h1>
+<ul>
+#foreach($lang in $langs_domains)
+<li><a hreflang="$lang.key" href="https://$lang.value/">#lang("LANG_$lang.key.toUpperCase()")</a></li>
+#end
+</ul>
+</div>
+</body>
+</html>

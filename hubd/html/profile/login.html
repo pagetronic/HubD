@@ -1,0 +1,74 @@
+<div class="login_page">
+    #if($activate)
+    <script type="text/javascript">
+        try {
+            history.replaceState(undefined, undefined, '/profile');
+        } catch (e) {
+        }
+    </script>
+    <div>
+        <form id="password" class="option">
+            <h3>#lang('ACCOUNT_CHANGE_PASSWORD')</h3>
+            <input type="hidden" name="activate" value="$activate"/>
+            <input required type="text" class="none" name="email" value="$email"/>
+            <input required type="password" placeholder="#lang('PASSWORD_NEW','ucfirst')" autocomplete="new-password"
+                   name="password"/>
+            <button type="submit" name="action" value="password">$svg.mi_lock_outline #lang('ACCOUNT_CHANGE_PASSWORD')</button>
+        </form>
+    </div>
+    #else
+    <div>
+        <div id="oauth" class="option">
+            <h3>#lang('ACCOUNT_OAUTH')</h3>
+            <p>#lang('OAUTH_BLABLA') <br/>
+                <span class="oauth flexo flexible">#parse("/profile/oauth.html")</span>
+            </p>
+
+        </div>
+        <form id="login" method="post" class="option">
+            <h3>#lang('ACCOUNT_CONNECT')</h3>
+            <p>
+                <input required type="email" placeholder="#lang('EMAIL','ucfirst')" name="email" autocomplete="email"/>
+                <input required type="password" placeholder="#lang('PASSWORD','ucfirst')" name="password"
+                       autocomplete="current-password"/>
+                <button type="submit" name="action" value="login">$svg.fa_icon_sign_in #lang('CONNECT')</button>
+            </p>
+            <script type="text/javascript">
+
+            </script>
+        </form>
+    </div>
+    <div>
+        <form id="register" method="post" class="option">
+            <h3>#lang('ACCOUNT_CREATE')</h3>
+            <p>
+                #if(!$activate_sub)
+                <input required minlength="4" maxlength="25" type="text" placeholder="#lang('NAME','ucfirst')"
+                       name="name" value="$!name" autocomplete="name"/>
+                #end
+                <input required type="email" placeholder="#lang('EMAIL','ucfirst')" name="email" value="$!email"
+                       autocomplete="email"/>
+                <input required minlength="5" maxlength="25" type="password" placeholder="#lang('PASSWORD','ucfirst')"
+                       autocomplete="new-password" name="new-password" value="$!password"/>
+                <button type="submit" name="action" value="register">$svg.fa_icon_user_circle_o
+                    #lang('ACCOUNT_CREATE')
+                </button>
+            </p>
+        </form>
+        <form id="recover" method="post" class="option">
+            <h3>#lang('ACCOUNT_RECOVER')</h3>
+            <p>
+                <input required type="email" placeholder="#lang('EMAIL','ucfirst')" name="email" value="$!email"
+                       autocomplete="email"/>
+                <button type="submit" name="action" value="recover">$svg.fa_icon_history #lang('RECOVER')</button>
+            </p>
+        </form>
+    </div>
+    #end
+    <script type="text/javascript">
+        sys.push(function () {
+
+            login.init();
+        });
+    </script>
+</div>

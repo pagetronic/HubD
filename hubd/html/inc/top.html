@@ -1,0 +1,48 @@
+#parse("/inc/meta.html")
+<div id="comodo" itemid="$http_site/" itemscope itemtype="https://schema.org/WebSite">
+	<div class="opener" to="menu">$svg.fa_icon_dedent</div>
+    <logo><strong><a href="/">$logo_title#if($debug)<span style="color:red; font-size:15px">&#128030;</span>#end</a></strong></logo>
+	<meta itemprop="url" content="$http_site/"/>
+	<meta itemprop="image" content="$logo@512x512"/>
+	<meta itemprop="version" content="4.0"/>
+
+	<form method="GET" action="/search" class="search" itemprop="potentialAction" itemscope itemtype="https://schema.org/SearchAction">
+		<meta itemprop="target" content="$http_site/search?q={q}"/>
+        <input itemprop="query-input" type="text" class="search" name="q" autocomplete="off" placeholder="#lang('SEARCH','lowercase')" value="$!q" saver="search" required/><span onclick="$('form.search').submit()">$svg.mi_search</span>
+	</form>
+	<div id="remote">
+		<div id="searchmob"><a rel="nofollow" href="/search">$svg.mi_search</a></div>
+		#if( $user )
+			<div id="coins"><span>${user.coins}</span> $svg.fa_icon_angellist</div>
+			<div id="bell"#if($user.notices>0) class="unread"#end onclick="sys.notices.view()">
+				<span class="info">$user.notices</span><span class="active">$svg.mi_notifications_active</span><span class="inactive">$svg.mi_notifications</span>
+			</div>
+			
+			#if($user.editor)
+				#if($page && $page.url)
+					<a href="$page.url?edit" title="#lang('EDIT')">$svg.fa_icon_pencil</a>
+				#end
+				<a href="/draft" title="#lang('DRAFTS','lowercase')">$svg.fa_icon_paperclip $draft_count</a>
+
+				<div id="switch">
+					<span class="list">
+						$svg.mi_group
+					</span>
+					<span class="add">
+						$svg.mi_group_add
+					</span>
+				</div>
+				<script type="text/javascript">
+					sys.push(function(){
+					    sys.admin.switcher();
+					});
+				</script>
+			#end
+			<a id="user" #if($user.original) href="/switch"#{else} onclick="data.set('autologin', false, true); return true" href="/logout"#end><img width="20" height="20" style="background-image: url('#if( $user.avatar )${user.avatar}#{else}$ui_logo#{end}@20x20')" /><span class="info">$user.name</span> $svg.mi_exit_to_app</a>
+		#end
+	</div>
+	<div class="opener lat" to="lateral">$svg.fa_icon_indent</div>
+</div>
+<div id="content">
+    <div id="center"#if($active=='documents') itemid="$canonical.replace('&','&amp;')" itemscope="" itemtype="https://schema.org/Article"#end#if($thread) itemid="$thread.url" itemscope="" itemtype="https://schema.org/DiscussionForumPosting"#end>
+		#parse("/inc/menu.html")

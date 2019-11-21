@@ -1,0 +1,22 @@
+#parse("/inc/top.html")
+<div id="middle">
+	<ul>
+		#foreach($rating in $ratings)
+		<li ratage="$rating.id"><strong>$rating.rate</strong> - $rating.avg/$rating.count <a href="$rating.url">$rating.title</a> ($rating.type - #since($rating.date) - $rating.ip)</li>
+		#end
+	</ul>
+	<script type="text/javascript">
+        sys.push(function () {
+            $('li[ratage]').each(function () {
+                var rate = $(this);
+                var span = $('<strong/>').html('✖').css({marginRight: 15, cursor: 'pointer'});
+                rate.prepend(span);
+                span.on('click', function () {
+                    api.post('/admin', {action: 'remove_rating', id: rate.attr('ratage')});
+                    rate.slowRemove(150);
+                });
+            })
+        })
+	</script>
+</div>
+#parse("/inc/bottom.html")

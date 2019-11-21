@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>live.page</groupId>
+    <artifactId>hubd</artifactId>
+    <version>2.1.2</version>
+    <packaging>pom</packaging>
+    <name>HubD Global</name>
+    <description>waste of time</description>
+    <licenses>
+        <license>
+            <name>L. Page Licence</name>
+        </license>
+    </licenses>
+    <modules>
+        <module>hubd</module>
+        <module>croners/croner</module>
+        <module>croners/example-croner</module>
+        <module>sites/example</module>
+    </modules>
+    <repositories>
+        <repository>
+            <id>maven2-bis</id>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>bintray-nitram509-jbrotli</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/nitram509/jbrotli</url>
+        </repository>
+        <repository>
+            <id>page-live</id>
+            <url>repository</url>
+        </repository>
+    </repositories>
+
+</project>

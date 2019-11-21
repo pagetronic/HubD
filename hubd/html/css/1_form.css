@@ -1,0 +1,388 @@
+
+.button, button, .pagination a, .pagination em {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-bottom: 0;
+    line-height: 20px;
+    color: #333;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background: #f5f5f5 linear-gradient(to bottom, #fff, #e6e6e6) repeat-x;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-bottom-color: #b3b3b3;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: auto;
+    font-size: 13px;
+}
+
+.button, button {
+    user-select: none;
+}
+
+.pagination em {
+    background: #EEE;
+    color: #999;
+}
+
+.pagination em svg {
+    fill: #999;
+}
+
+.button:hover, button:hover, .pagination a:hover {
+    text-decoration: underline;
+}
+
+button.red {
+    background: red;
+    color: #FFF;
+}
+
+button.green {
+    background: green;
+    color: #FFF;
+}
+
+.button.active, button.active {
+    background-image: linear-gradient(to top, #fff, #e6e6e6);
+}
+
+.button:active, button:active, .pagination a:active {
+    background-image: linear-gradient(to top, #fff, #e6e6e6);
+}
+
+button svg, .button svg, button img, .button img {
+    width: 16px;
+    height: 16px;
+    margin-bottom: -3px;
+    fill: #666;
+}
+
+button.mini {
+    padding: 1px 10px 1px 5px;
+}
+
+button.mini svg {
+    width: 10px;
+    height: 10px;
+    margin: -2px 2px -1px 0px;
+}
+
+button.disabled, .button.disabled {
+    cursor: default;
+    opacity: 0.8;
+}
+
+textarea, .textarea, input, .input, select, .select {
+    border-radius: 5px;
+    color: #444;
+    text-align: left;
+    padding: 4px 7px 5px 7px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid #D7D7D7;
+    background: #FAFAFA;
+    resize: none;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+span.clear {
+    float: right;
+    cursor: pointer;
+    margin: -1px 0px -2px 0px;
+}
+
+span.clear svg {
+    fill: #888;
+    height: 16px;
+    width: 16px;
+}
+
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    -moz-outline: none;
+    -webkit-outline: none;
+    -o-outline: none;
+    outline: none;
+}
+
+label input[type=checkbox] {
+    display: inline;
+    width: auto;
+}
+
+::placeholder {
+    color: #808080;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #808080;
+}
+
+select:invalid, .select .placeholder {
+    color: #808080;
+}
+
+.input.above, input.above, .select.above {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.input.below, input.below, .select.below {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.select .clear, .select .add {
+    color: #999;
+    cursor: pointer;
+    font-size: 0px;
+}
+
+.select .clear svg, .select .add svg {
+    width: 14px;
+    height: 14px;
+}
+
+.select .clear {
+    margin: 1px 0px 0px -1px;
+}
+
+.select .add {
+    margin: -1px 0px 0px 3px;
+}
+
+.select {
+    display: inline-flex;
+    align-items: center;
+    overflow: visible;
+    white-space: nowrap;
+    min-width: 125px;
+    position: relative;
+    flex-wrap: nowrap;
+}
+
+.select > * {
+    flex: 0 1 auto;
+}
+
+.select .text::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+.select .text {
+    display: inline-flex;
+    align-items: center;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+}
+
+.select .text svg {
+    margin-right: 3px;
+    flex: 0 0 auto;
+}
+
+.select .text.ui-sortable .val {
+    cursor: move;
+}
+
+.select:after, select:after {
+    content: '';
+    width: 8px;
+    height: 7px;
+    margin: -5px 2px 0px 3px;
+    background: linear-gradient(45deg, transparent 0%, transparent 50%, #777 50%, #777 100%);
+    transform: rotate(135deg);
+}
+
+.select.open:after {
+    display: none;
+}
+
+.select.open {
+    flex-wrap: wrap;
+}
+
+.select .searcher:before {
+    content: ' ';
+}
+
+.select.input .searcher:before {
+    display: none;
+}
+
+select option {
+    color: #333;
+}
+
+.select.multiple .text .val {
+    flex: 0 0 auto;
+    border: 1px solid #D7D7D7;
+    border-radius: 3px;
+    padding: 2px 0px 3px 5px;
+    background: #FFF;
+    font-size: 9px;
+    margin: 1px 4px 1px 0px;
+    box-shadow: 1px 1px 1px 0px rgba(204, 204, 204, 0.50);
+}
+
+.select.multiple .clear svg {
+    width: 9px;
+    height: 9px;
+    margin: 0px 2px -1px 1px;
+}
+
+.select.multiple {
+    white-space: normal;
+}
+
+.receivefile {
+    position: absolute;
+    z-index: 15000;
+}
+
+.receivefile svg {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(3px 3px 7px rgba(0, 0, 0, 0.5));
+}
+
+.imgs {
+    padding: 0px 0px 5px 0px;
+}
+
+.imgs:after {
+    content: '';
+    display: block;
+    clear: both;
+
+}
+
+.imgs .img {
+    margin-right: 5px;
+}
+
+.imgs .img .add, .imgs .img .rm {
+    padding: 0px;
+    position: absolute;
+    right: 24px;
+    top: 3px;
+    height: 16px;
+    width: 16px;
+    text-align: center;
+    cursor: pointer;
+    background: #000000;
+    border-radius: 20px;
+    border: 1px solid #FFF;
+}
+
+.imgs .img .rm {
+    right: 3px;
+    top: 3px;
+}
+
+.imgs .img .add svg, .imgs .img .rm svg {
+    width: 16px;
+    height: 16px;
+    fill: #CCC;
+}
+
+.imgs .img .add:hover svg, .imgs .img .rm:hover svg {
+    fill: #fff;
+}
+
+.imgs .img input {
+    font-size: 10px;
+    margin: 6px 0px 3px 0px;
+    display: block;
+}
+
+.img span, .img figcaption {
+    font-size: 10px;
+    padding-top: 5px;
+    display: block;
+    width: 80%;
+    text-align: center;
+    margin: auto;
+}
+
+.option, .bx {
+    margin-bottom: 10px;
+    border: 1px solid #CCC;
+    padding: 4px 6px 3px 6px;
+    border-radius: 9px;
+}
+
+.option h3 {
+    padding-bottom: 5px;
+}
+
+.option p {
+    padding-top: 1px;
+}
+
+.pagination svg.follow, .pagination svg.unfollow, .pagination > [follow] > svg, svg.follow, svg.unfollow {
+    width: 14px;
+    height: 14px;
+    margin: 2px 3px -2px 0px;
+}
+
+svg.follow {
+    fill: #31771D;
+}
+
+svg.unfollow {
+    fill: #980000;
+}
+
+
+.format .flexo:last-child button {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top: 0px;
+}
+
+.format textarea:first-child {
+    border-bottom-left-radius: 0px;
+    margin-bottom: 0px;
+    display: block;
+}
+
+.format .flexo:first-child button {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom: 0px;
+}
+
+.format textarea:last-child {
+    border-top-left-radius: 0px;
+    margin-bottom: 0px;
+    display: block;
+}
+
+.posts .boxarea textarea {
+    border-bottom-left-radius: 0px;
+    margin-bottom: 0px;
+    display: block;
+}

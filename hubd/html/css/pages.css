@@ -1,0 +1,324 @@
+#middle.page {
+    padding: 10px 15px 10px 15px;
+    background-color: #FFF;
+}
+
+#middle.page_edit {
+    background: #FFF;
+}
+
+.cooltxt {
+    font-size: 1.8em;
+    color: #333;
+}
+
+.cooltxt section, .cooltxt section, .cooltxt .intro {
+    margin: 10px 0px;
+}
+
+.cooltxt > ins {
+    margin: 15px 0px;
+}
+
+.cooltxt article > section {
+    padding-left: 7px;
+}
+
+.cooltxt .img {
+    float: right;
+    clear: right;
+    position: relative;
+    padding: 10px;
+    margin: 15px 0px 5px 10px;
+    text-shadow: 1px 1px 2px #CCCCCC;
+    background: #FFF;
+    border: 1px solid #CCC;
+}
+
+.cooltxt .img a {
+    border: none;
+}
+
+.cooltxt .img legend {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.cooltxt quote {
+
+    background: #EEE;
+    color: #666;
+    border: 1px solid #333;
+    display: inline-block;
+    padding: 15px;
+    font-style: italic;
+}
+
+#qrbox, .page .forums {
+    padding: 5px 0px 10px 0px;
+    margin: 10px 0px 10px 0px;
+}
+
+#qrbox h2 {
+    font-style: italic;
+    padding-bottom: 10px;
+}
+
+#qrbox .close {
+    float: right;
+    margin: -11px -11px 0px 0px;
+    cursor: pointer;
+}
+
+#qrbox .close svg {
+    fill: #666;
+}
+
+#qrbox {
+    box-sizing: border-box;
+    background: #FFF;
+    z-index: 20001;
+}
+
+
+nav.ancrage {
+    margin: 0px 0px 20px 0px;
+    clear: both;
+}
+
+nav#ancrage.ancrage {
+    margin-top: 20px;
+}
+
+nav.ancrage, nav.ancrage ol {
+    list-style: none;
+    padding: 0px;
+}
+
+nav.ancrage ol {
+    margin: 0px;
+    padding: 0px;
+}
+
+nav.ancrage li a {
+    text-decoration: none;
+    display: block;
+    margin: 5px 0px;
+    padding: 10px 10px 10px 12px;
+    border-radius: 10px 10px 10px 10px;
+    border: 1px solid #CCC;
+    color: #676565;
+}
+
+nav.ancrage li ul {
+    float:right;
+    list-style: none;
+    padding-left: 5px;
+    margin:5px 0px 0px 5px;
+    padding: 0px;
+}
+
+nav.ancrage li li {
+    display:inline-block;
+    border:none;
+    background:none;
+}
+nav.ancrage li li a {
+    border:none;
+    font-size: 0.5em;
+    padding: 5px 8px 5px 8px;
+    margin:0px 3px 0px 0px;
+    box-shadow:none;
+
+}
+
+nav.ancrage li a:hover {
+    color: #FFF;
+}
+
+nav.ancrage img {
+    float: right;
+    margin-top: 2px;
+}
+
+nav.ancrage svg {
+    float: right;
+    margin-top: 5px;
+    fill: #AAA;
+    width: 22px;
+    height: 22px;
+
+}
+
+nav.ancrage a:hover svg {
+    fill: #FFF;
+
+}
+
+.cooltxt .infos {
+    font-style: italic;
+    font-size: 0.7em;
+}
+
+.cooltxt header p {
+    margin: 8px 0px 5px 0px;
+    font-size: 125%;
+}
+
+.cooltxt ol, .cooltxt ul {
+    margin: 0px 0px 5px 10px;
+    padding: 0px 10px 5px 25px;
+}
+
+.cooltxt p {
+    margin: 5px 0px 10px 0px;
+}
+
+.cooltxt p a, .cooltxt li a {
+    text-decoration: none;
+    border-bottom: 1px dashed #333;
+}
+
+.page_edit h1 {
+    margin-bottom: 15px;
+}
+
+.page_edit .item {
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.page_edit .item:after {
+    content: ' ';
+    display: block;
+    clear: both;
+}
+
+.page_edit .item label:after {
+    content: ':';
+    color: #333;
+}
+
+.page_edit .liaisons {
+    padding: 5px 0px 3px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.page_edit .liaisons .label, .page_edit .liaisons button {
+    margin-bottom: 5px;
+}
+
+.page_edit .liaisons button {
+    padding: 1px 4px 0px 5px;
+    margin-right: 5px;
+}
+
+.page_edit .liaisons button#author_add {
+    padding-right: 7px;
+}
+
+.page_edit #pages_parents .parent:first-child {
+    color: #FFF;
+    font-weight: bold;
+}
+
+
+.page_edit legend {
+    padding-bottom: 3px;
+}
+
+#sp_links {
+    position: absolute;
+    width: 352px;
+    z-index: 1000;
+    margin-top: 0px;
+    padding-top: 2px;
+}
+
+#sp_links input {
+    border-radius: 5px 5px 0px 0px;
+    margin: 0px;
+    box-shadow: 2px 2px 5px #CCC;
+}
+
+ul.sp_result {
+    position: absolute;
+    list-style: none;
+    padding: 0px;
+    background: #FFF;
+    box-shadow: 2px 2px 5px #CCC;
+    border-radius: 0px 0px 5px 5px;
+    border: 1px solid #CCC;
+    max-height: 200px;
+    overflow: auto;
+    width: 350px;
+    margin-top: -9px;
+    text-align: left;
+    z-index: 1000;
+}
+
+#sp_links .sp_result {
+    position: initial;
+    margin-top: -1px;
+}
+
+ul.sp_result li {
+    border-bottom: 1px solid #CCC;
+    padding: 6px 2px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+ul.sp_result li:hover, ul.sp_result li.gr {
+    background: #EEE;
+}
+
+ul.sp_result li:last-child {
+    border-bottom: none;
+}
+
+.page_edit #edit_form {
+    padding-bottom: 50px;
+}
+
+.photos {
+    padding: 5px 0px 10px 0px;
+}
+
+.photos .img {
+    display: inline-block;
+    float: none;
+    margin: 0px 5px 10px 0px;
+}
+
+.publisher {
+    font-style: italic;
+    color: #999;
+    padding: 15px 0px;
+    text-align: center;
+}
+
+
+@media all and (max-width: 550px) {
+
+    .cooltxt .img {
+        float: none;
+        padding: 0px;
+        margin: 10px 0px 0px 0px;
+        border: none;
+    }
+
+    .cooltxt .img img, .cooltxt .img {
+        height: auto;
+        width: 100%;
+    }
+
+    .photos .img {
+        width: 100%;
+
+    }
+}

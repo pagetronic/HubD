@@ -1,0 +1,101 @@
+#parse("/inc/top.html")
+<div id="middle" class="forum">
+	#parse("/inc/breadcrumb.html")
+	<h1>#if($forum.meta_title)$forum.meta_title#else$forum.title#end</h1>
+	<em class="infos">#parsepost($forum.text)</em>
+	<div class="posts">
+		<div class="post" id="post">
+			<a href="#if( $user )/users/${user.id}#else/profile#end" class="avatar">
+				<picture>
+					#if($user.avatar)
+					<img src="$user.avatar@40x40" width="40" height="40"/>
+					#else
+					<img src="$ui_logo@40x40" width="40" height="40"/>
+					#end
+				</picture>
+			</a>
+			<div class="boxarea">
+				#if($forum) <input type="hidden" name="parent" value="Forums($forum.id)"/> #end
+			</div>
+		</div>
+		<script type="text/javascript">
+            sys.push(function () {
+                sys.threads.init_forum("$!{forum.id}");
+                #if($user)sys.profile.avatar($('#post .avatar'));#end
+            });
+		</script>
+	</div>
+	<div id="pushadd"></div>
+	<div id="paging" class="pagination">
+		<button follow="Forums($forum.id)">$svg.mi_notifications_none#lang('FOLLOW')</button>
+		#if($user)
+		#if(!$req.remove)
+		#if($user.editor)
+		<button onclick="sys.admin_forums.order()" title="#lang('ORDER_CATEGORIES')">$svg.mi_format_align_right</button>
+		<button onclick="sys.admin_forums.create({id:'$forum.id', text:'$Fx.escape($forum.title)'})" title="#lang('CREATE_CATEGORY')">$svg.mi_playlist_add</button>
+		<button onclick="sys.admin_forums.edit('$forum.id')" title="#lang('FORUM_EDIT')">$svg.fa_icon_pencil_square</button>
+		<a href="$forum.url?remove" title="#lang('REMOVEDS')">$svg.mi_restore</a>
+		#end
+		#else
+		<a href="$forum.url" title="#lang('POST')">$svg.fa_icon_check</a>
+		#end
+		#end
+		#pagination($threads.paging, $forum.url)
+	</div>
+	<ul class="threads" id="posts_list">
+		#foreach( $thread in $threads.result)
+		#parse('/threads/thread_item.html')
+		#if(( ( $velocityCount - 2) % 18 )==1 && !$user)
+		#set($idcloser="inforum$velocityCount")
+			#parse("/pubs/inforum.html")
+		#end
+		#end
+	</ul>
+		<div class="pagination">#pagination($threads.paging, $forum.url)</div>
+</div>
+<div id="lateral">
+
+	#if($forum.childrens.size()>0 || ($user.editor && $forum.id))
+	<ul class="links" id="childrens">
+		<li class="hr">#lang('FORUM_CHILDRENS')</li>
+		#foreach( $forum in $forum.childrens)
+		<li id="$forum.id"><a href="$forum.url">$svg.mi_view_headline $forum.title</a></li>
+		#end
+	</ul>
+	#end
+
+	#if($forum.pages.size()>0 || ($user.editor && $forum.id) )
+	<ul class="links" id="pages">
+		<li class="hr">#lang('PAGES')</li>
+		#foreach( $page in $forum.pages)
+		<li id="$page.id"><a href="$page.url">#if($page.logo)<img src="$page.logo@40x25" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end #if($page.top_title && $page.top_title.length()>0)$page.top_title#else$page.title#end</a></li>
+		#end
+	</ul>
+	#end
+
+	#if($forum.parents.size()>0 || ($user.editor && $forum.id))
+	<ul class="links" id="parents">
+		<li class="hr">#lang('FORUM_PARENTS')</li>
+		#foreach( $forum in $forum.parents)
+		<li id="$forum.id"><a href="$forum.url">$svg.mi_view_headline $forum.title</a></li>
+		#end
+	</ul>
+	#end
+	#if($forum.sisters.size()>0)
+	<ul class="links" id="sisters">
+		<li class="hr">#lang('FORUM_SISTERS')</li>
+		#foreach( $forum in $forum.sisters)
+		<li id="$forum.id"><a href="$forum.url">$svg.mi_view_headline $forum.title</a></li>
+		#end
+	</ul>
+	#end
+	#if($user.editor && $forum.id)
+	<script type="text/javascript">
+        sys.push(function () {
+            sys.admin_forums.init('$forum.id');
+        });
+	</script>
+	#end
+</div>
+
+#parse("/inc/bottom.html")

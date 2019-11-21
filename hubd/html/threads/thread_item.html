@@ -1,0 +1,54 @@
+<li class="#if($thread.remove)removed #end" id="$thread.id">
+	#if($thread.user.id)
+	<a href="$thread.user.url" class="avatar">
+		<figure>
+			<picture>
+				<img src="$thread.user.avatar@40x40" width="40" height="40" />
+			</picture>
+		</figure>
+	</a>
+	#else
+	#if($thread.link.image)
+	<span class="avatar">
+		<figure>
+			<picture>
+				<img src="$thread.link.image@40x40" width="40" height="40" />
+			</picture>
+		</figure>
+	</span>
+	#else
+	<span class="avatar">
+		<figure>
+			<picture>
+				<img src="$ui_logo@40x40" width="40" height="40" />
+			</picture>
+		</figure>
+	</span>
+	#end
+	#end
+	<span class="title">
+		<strong><a href="$thread.url#if($thread.remove)?remove#end"#if(!$thread.index) rel="nofollow"#end>$thread.title</a></strong>
+		<span class="infos">
+			#if($thread.link.description)
+				$Fx.couper($thread.link.description,500)
+			#else
+				#if($thread.text)$Fx.clean($thread.text,500)#end
+			#end
+			<span class="breadcrumb">
+				#if($thread.link.url)
+					<a href="$thread.link.url"><img src="$http_cdn/files/$Fx.baseSite($thread.link.url)/favicon.ico@12x12.png"/>$Fx.ucfirst($Fx.domain($thread.link.url))</a> ›
+				#end
+				#foreach( $bread in $thread.breadcrumb )#if ($thread.breadcrumb.size()==1 || $bread.url!='/questions')
+					<a href="$bread.url#if($thread.remove)?remove#end">$bread.title</a>#if(!$velocityLast) › #end
+				#end#end
+			</span>
+			<small>
+				<span>#lang('POST_DATE',"#since($thread.date,2)")#if($thread.replies>0), ${thread.replies} #if(${thread.replies} > 1 )#lang('REPLIES')#else#lang('REPLY')#end#end,</span>
+				<span>#if($thread.replies<=0)#lang('NO_REPLY')#end #if($thread.replies > 0)#lang('LAST_REPLY') #since($thread.last.date,2)#end</span>
+			</small>
+		</span>
+	</span>
+	<a class="jump#if(!$thread.last.id) brown#end" href="$thread.url#if($thread.remove)?remove#end#if($thread.last.id)#$thread.last.id#end"#if(!$thread.index) rel="nofollow"#end class="b" title="#if($thread.replies==0)#lang('NO_REPLY')#else#lang('LAST_REPLY')#end">
+		#if($thread.last && $thread.last.user)<img title="$Fx.escape($thread.last.user.name)" src="$thread.last.user.avatar@18x18" />#end$svg.fa_icon_chevron_circle_right
+	</a>
+</li>

@@ -1,0 +1,6 @@
+@media print {
+    #menu, #lateral, #comodo, #ancrage, ins, input, textarea, .input, .textarea, button, .button, .links {
+        display: none !important;
+        display: none;
+    }
+}

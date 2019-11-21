@@ -1,0 +1,12 @@
+<p #if($comment.remove)class="removed" #{end} id="${post.id}_${comment.index}">
+	#if($user.editor || $user.id==$comment.user.id)
+		#if($comment.remove)
+			<span title="#lang('RESTORE')" onclick="sys.threads.remove($('#${post.id}_${comment.index}'), {id:'$post.id',comment:$comment.index,restore:true})">${svg.mi_rotate_left}</span>
+		#else
+			<span title="#lang('DELETE')" onclick="sys.threads.remove($('#${post.id}_${comment.index}'), {id:'$post.id',comment:$comment.index})">${svg.fa_icon_trash_o}</span>
+		#end
+	#end
+	<img src="$comment.user.avatar@20x20" width="20" height="20"/>
+	<em> ${comment.user.name} #since(${comment.date})</em>
+	${comment.text}
+</p>

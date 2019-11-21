@@ -1,0 +1,6 @@
+<div id="breadcrumb">
+	<span vocab="https://schema.org/" typeof="BreadcrumbList">
+		<span property="itemListElement" typeof="ListItem"><meta class="none" property="position" content="1" /><a href="/" property="item" typeof="WebPage"><span property="name">$site_title</span></a></span> › #foreach( $bread in $breadcrumb )#if( $bread )<span property="itemListElement" typeof="ListItem"><meta property="position" content="#set($count=$velocityCount+2)$count" /> <a href="$bread.url" property="item" typeof="WebPage"><span property="name">$bread.title</span></a></span> › #end#end
+	</span>
+	<strong class="title" itemprop="name">#if($breadcrumb_title)${breadcrumb_title}#else${title}#end</strong>
+</div>

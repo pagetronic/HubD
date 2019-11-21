@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>$title [$Fx.ucfirst($lng)]</ShortName>
+    <Image height="32" width="32" type="image/x-icon">$http_cdn/favicon.ico</Image>
+    #foreach($size in [16,24,32,64,128,192,256])
+    <Image height="$size" width="$size" type="image/png">$ui_logo@${size}x$size</Image>
+    #end
+    <Url type="text/html" method="get" template="$http_site/search?q={searchTerms}"/>
+</OpenSearchDescription>

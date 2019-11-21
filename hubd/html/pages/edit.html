@@ -1,0 +1,200 @@
+#parse("/inc/top.html")
+<div id="middle" class="page_edit">
+	<div class="cmd_top flexo flexible">
+		#if($revision.page.url)<a class="flexable button" href="$revision.page.url">$svg.fa_icon_newspaper_o $revision.page.title</a>#end
+		#if(!$revision.remove && $revision.childrens.size()==0 && $revision.origine!='draft')
+			<button class="flexable" class="delete_page">$svg.mi_delete_forever #lang('DELETE_PAGE')</button>
+		#end
+		#if(!$revision.remove)
+			<button class="flexable save_edit">$svg.fa_icon_pencil #lang('SAVE_AND_PUBLISH')</button>
+		#end
+		#if(!$revision.page)
+			<button class="flexable save_draft">$svg.fa_icon_paperclip #lang('SAVE_DRAFT')</button>
+		#end
+		#if($revision.origine=='draft')
+			<button class="flexable delete_draft">$svg.mi_delete_forever #lang('DELETE_DRAFT')</button>
+		#end
+	</div>
+	#if($revision.page)
+		<h1>#lang('PAGE_EDIT')</h1>
+	#else
+		<h1>#lang('PAGE_CREATE')</h1>
+	#end
+	#if($revision.remove)
+		<h3><span class="error">#lang('REMOVED')</span></h3>
+	#else
+		<div id="edit_form">
+			<div class="item">
+				<label>#lang('AUTHORS')</label>
+				<div class="liaisons">
+					<button id="author_add" >$svg.mi_person_add </button>
+					#foreach($user in $revision.users)
+						<div class="label user">#if($user.avatar)<img src="$http_cdn/files/$user.avatar@20x20" />#end$user.name<input type="hidden" name="users[]" value="$user.id" /></div>
+					#end
+				</div>
+			</div>
+			<div class="item">
+				<label>#lang('LAST_URL_SEGMENT')</label>
+				<legend>#lang('URL_AUTO')</legend>
+				<input type="text" autocomplete="off" name="url" value="#if($url)$url#else$!{revision.url}#end"/>
+			</div>
+			<div class="item">
+				<label>#lang('TITLE')</label>
+				<legend>#lang('TITLE_EXPLAIN')</legend>
+				<input type="text" autocomplete="off" name="title" value="$Fx.escape($!revision.title)"/>
+			</div>
+			<div class="item">
+				<label>#lang('BIG_TITLE')</label>
+				<legend>#lang('SEO_UTILS')</legend>
+				<input type="text" autocomplete="off" name="top_title" value="$Fx.escape($!revision.top_title)"/>
+			</div>
+			<div class="item">
+				<label>#lang('INTRO')</label>
+				<legend>#lang('INTRO_EXPLAIN')</legend>
+				<textarea name="intro" rows="3" cols="10" autosize>$!{revision.intro}</textarea>
+			</div>
+			<div class="item">
+				<label>#lang('PAGES_PARENTS')</label>
+				<legend>#lang('FIRST_FOR_RACINE')</legend>
+				<div class="liaisons">
+					<button id="parents_liaisons">$svg.mi_playlist_add</button>
+					#foreach($parent in $revision.parents)
+						<div class="label">$parent.title<input type="hidden" name="parents[]" value="$parent.id"/></div>
+					#end
+				</div>
+			</div>
+			<div class="item">
+				<label>#lang('PAGES_CHILDRENS')</label>
+				<legend>#lang('CHILDRENS_EXPLAINS')</legend>
+				<!-- TODO: sortable -->
+				<div class="liaisons">
+					<button id="childrens_liaisons"#if($revision.origine=='draft') deletable="true"#end>$svg.mi_playlist_add</button>
+					#foreach($children in $revision.childrens)
+						<div class="label"><a href="$children.url">$children.title</a><input type="hidden" name="childrens[]" value="$children.id"/></div>
+					#end
+				</div>
+			</div>
+			<div class="item">
+				<label>#lang('PHOTOS')</label>
+				<legend>#lang('PHOTOS_EXPLAINS')</legend>
+				<div>
+					<button id="send_file">$svg.mi_cloud_upload #lang('SEND_FILES')</button>
+				</div>
+				<input type="file" class="none" id="blobboxer" accept="image/*" multiple="true"/>
+				<div class="imgs" id="imgs"></div>
+				<label>Doc Id</label>
+				<input name="docs[]" value="" placeholder="docid" autocomplete="off" />
+
+			</div>
+			<div class="item">
+				<label>#lang('TEXT')</label>
+				<legend>#lang('TEXTE_EXPLAINS')</legend>
+					<div class="flexible flexo" style="position: sticky; top:0px; margin-bottom: 5px">
+						<button class="flexable links_tag">[Objs(id) text]</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'<strong>','</strong>')">
+							<strong>bold</strong>
+						</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'<em>','</em>')">
+							<em>italic</em>
+						</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'\n== ',' ==\n\n')">
+							<strong>h2</strong>
+						</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'\n=== ',' ===\n\n')">
+							<strong>h3</strong>
+						</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'\n==== ',' ====\n\n')">
+							<strong>h4</strong>
+						</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'\t')">tab</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'« ',' »')">« »</button>
+						<button class="flexable" onclick="ocode.tag($('#tarea'),'','<br />\n')">&lt;br /&gt;</button>
+						<button class="flexable" onclick="ocode.lowercase($('#tarea'))">abc</button>
+						<button class="flexable" onclick="ocode.uppercase($('#tarea'))">ABC</button>
+					</div>
+					<textarea id="tarea" name="text" rows="25" cols="10" autosize>$!{revision.text}</textarea>
+
+			</div>
+			#if($revision.page.id)<input type="hidden" name="id" value="$revision.page.id"/>#end
+			#if($revision)<input type="hidden" name="revision" value="$revision.id"/>#end
+			#if($revision.origine=='draft')<input type="hidden" name="draft" value="draft"/>#end
+			#if($revision.date)<input type="hidden" name="date" value="$revision.date" />#end
+			<div class="flexible">
+				#if(!$revision.page)
+				<div class="flexable flexible flexo short">
+					<button class="flexable save_draft">$svg.fa_icon_paperclip #lang('SAVE_DRAFT')</button>
+					<button class="flexable save_edit">$svg.fa_icon_pencil #lang('PUBLISH')</button>
+				</div>
+				#end
+				#if($revision.origine=='draft')
+					<div class="space"></div>
+					<button class="flexable short delete_draft">$svg.mi_delete_forever #lang('DELETE')</button>
+				#end
+				#if($revision.page)
+					<button class="flexable save_edit">$svg.fa_icon_pencil #lang('SAVE_AND_PUBLISH')</button>
+				#end
+				<div class="space"></div>
+				<div class="flexable flexible flexo short">
+				#if($revision.page.url)<a class="flexable button" href="$revision.page.url">$svg.fa_icon_newspaper_o $revision.page.title</a>#end
+				#if(!$revision.remove && $revision.childrens.size()==0 && $revision.origine!='draft')
+				<button class="flexable short delete_page">$svg.mi_delete_forever #lang('DELETE_PAGE')</button>
+				</div>
+				#end
+			</div>
+		</div>
+	#end
+</div>
+<div id="lateral">
+
+	<ul class="links">
+		<li>
+			<a href="/draft">#lang('DRAFT_NEW')</a>
+		</li>
+		#if($drafts)
+		<li class="hr">#lang('DRAFTS')</li>
+		#foreach( $draft in $drafts )
+		<li>#if($revision.id==$draft.id)
+				<strong>#if($draft.editor)#if($draft.title)$draft.title#else#lang('NO_TITLE')#end<br/>$draft.editor.name: #end#since($draft.edit,2)
+					#if($draft.editor)<img src="$http_cdn/files/$draft.editor.avatar@25x25" />#end</strong>
+			#else
+				<a href="/draft/$draft.id">#if($draft.editor)#if($draft.title)$draft.title#else#lang('NO_TITLE')#end<br/>$draft.editor.name: #end#since($draft.edit,2)
+					#if($draft.editor)<img src="$http_cdn/files/$draft.editor.avatar@25x25" />#end
+				</a>
+			#end
+		</li>
+		#end
+		#end
+		#if($revision.page)
+		<li class="hr">#lang('MODIFICATIONS_HISTORY')</li>
+		#if(!$revision.revisions || $revision.revisions.size()==0)
+			<li>
+				<strong>#if($revision.page.user)<img src="$http_cdn/files/$revision.page.user.avatar@25x25" />$revision.page.user.name: #end#since($revision.page.date,2)</strong>
+			</li>
+		#else
+			#foreach( $link in $revision.revisions )
+				<li>
+					#if($velocityCount==0 && $revision.page.url)
+						#if(!$link.selected)
+							<a href="$revision.page.url?edit">$svg.fa_icon_newspaper_o$revision.page.title</a>
+						#else
+							<strong>$svg.fa_icon_newspaper_o$revision.page.title</strong>
+						#end
+					#else
+						#if(!$link.selected)
+								<a href="/edit/$link.id">#if($link.editor)$link.editor.name: #end#since($link.edit,2)#if($link.editor.avatar)<img src="$http_cdn/files/$link.editor.avatar@25x25" />#end</a>
+						#else
+							<strong>#if($link.editor)$link.editor.name: #end#since($link.edit,2)#if($link.editor.avatar)<img src="$http_cdn/files/$link.editor.avatar@25x25" />#end</strong>
+						#end
+					#end
+				</li>
+			#end
+		#end
+		#end
+	</ul>
+</div>
+<script type="text/javascript">
+	sys.push(function () {
+		sys.pages.edit.init('$!revision.page.id', #if($revision.docs)$revision.docs#else[]#end);
+	});
+</script>
+#parse("/inc/bottom.html")

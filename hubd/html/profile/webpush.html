@@ -1,0 +1,34 @@
+<h3>#lang('BROWSER_NOTIFICATIONS')</h3>
+<ul>
+    #foreach($webpush in $webpushs.result)
+    <li id="$webpush.id" class="option">
+        <span title="#lang('DELETE')" onclick="sys.profile.webpushRemove('$webpush.id')" class="delete">$svg.mi_clear</span>
+        #if($webpush.user.id)
+        <strong class="user">
+            <img src="$webpush.user.avatar@50x50" height="50" width="50"/>$webpush.user.name
+        </strong>
+        #end
+        <span class="date">
+            #lang('DATE', 'ucfirst'): #date($webpush.date) (#since($webpush.date,2))
+            #if($webpush.date!=$webpush.update),
+                #lang('UPDATE', 'lowercase'): #date($webpush.update) (#since($webpush.update,2))
+            #end
+        </span>
+        #if($webpush.device)
+        <span class="device">$!webpush.device.device $!webpush.device.os</span>
+        #end
+        <em class="objs none">#foreach($obj in $webpush.obj)#modulo$obj#end</em>
+    </li>
+    #end
+</ul>
+#if($webpushs.paging.next ||$webpushs.paging.prev)
+#set($pager="push")
+<div class="pagination">#pagination($webpushs.paging)</div>
+#set($pager="")
+#end
+
+<script type="text/javascript">
+    sys.push(function () {
+        sys.profile.webpush();
+    });
+</script>

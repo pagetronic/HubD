@@ -1,0 +1,207 @@
+@media all and (max-width: 1300px) {
+    .cooltxt {
+        font-size: 1.3em;
+    }
+
+    ul.links li {
+        font-size: 80%;
+    }
+
+    ul.links svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    ul.links li img {
+        width: 35px;
+        height: auto;
+    }
+
+    nav.ancrage li a img {
+        margin-top: -4px;
+    }
+
+    nav.ancrage li a svg {
+        margin-top: 1px;
+    }
+}
+
+@media all and (max-width: 1023px) {
+
+    #lateral {
+        position: fixed;
+        bottom: 0px;
+        top: 44px;
+        height: initial;
+        width: 100%;
+        overflow: auto;
+        box-shadow: -3px 0px 3px 0px #CCC;
+        z-index: 10000;
+        right: -100%;
+        transition: right 0.2s cubic-bezier(.3, .73, .3, .74);
+    }
+
+    #lateral.open {
+        right: 0px;
+    }
+
+    #comodo .opener.lat {
+        display: block;
+    }
+}
+
+@media all and (max-width: 679px) {
+    #center {
+        display: inline;
+    }
+
+    #lateral {
+        position: initial;
+        border-top: 1px solid #CCC;
+    }
+
+    body, html {
+        position: initial;
+        height: initial;
+        width: initial;
+        overflow: auto;
+    }
+
+    #middle {
+        margin-top: 44px;
+        padding-top: 10px;
+        overflow: hidden;
+        padding-bottom: 10px;
+    }
+
+
+    #window {
+        display: block;
+        height: initial;
+        width: initial;
+    }
+
+    #comodo {
+        position: fixed;
+        z-index: 1000;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        transition: 0.2s cubic-bezier(.3, .73, .3, .74);
+
+    }
+
+    #comodo .opener {
+        display: block;
+    }
+
+    #comodo.hider {
+        top: -44px;
+    }
+
+    #menu.hider, #lateral.hider {
+        top: 0px;
+    }
+
+    #menu:before {
+        display: none;
+    }
+
+
+    #menu {
+        position: fixed;
+        bottom: 0px;
+        top: 44px;
+        height: initial;
+        width: 100%;
+        transition: 0.2s cubic-bezier(.3, .73, .3, .74);
+        overflow: auto;
+        box-shadow: 3px 0px 3px 0px #CCC;
+        left: -100%;
+        z-index: 10001;
+    }
+
+    #menu.open {
+        left: 0px;
+    }
+
+    #menu:after {
+        display: none;
+    }
+
+
+    #menu ul a:before {
+        background-position-x: -3px !important;
+    }
+
+    #menu li.home {
+        display: block;
+        border-top: 1px solid #CCC;
+    }
+
+    #menu li:nth-child(2) {
+        border-top: none;
+    }
+
+    ul.links li, ul.links li.hr {
+        border-right: none;
+        border-left: none;
+    }
+
+    #middle.page {
+        padding-right: 8px;
+        padding-left: 8px;
+        padding-bottom: 0px;
+    }
+
+    .threads li.pub .avatar {
+        display: none;
+    }
+
+
+    .pagination.top {
+        float: none;
+    }
+
+}
+
+@media (max-width: 635px) {
+
+    #comodo .search, #comodo #remote span.info {
+        display: none;
+    }
+
+    #comodo #remote div#searchmob {
+        display: block;
+    }
+
+    .cooltxt {
+        font-size: 1.2em;
+    }
+
+    nav.ancrage li a img {
+        margin-top: -3px;
+    }
+
+    nav.ancrage li a svg {
+        margin-top: 0px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .pagination {
+        align-items: center;
+
+    }
+
+    .pagination:after {
+        content: '';
+        flex: 1 1 auto;
+    }
+
+    .pagination txt {
+        display: none;
+    }
+}

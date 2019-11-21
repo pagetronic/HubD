@@ -1,0 +1,136 @@
+
+ul.links {
+    list-style: none;
+    padding: 0px 0px 0px 0px;
+    position: relative;
+}
+
+ul.links li {
+    background-image: linear-gradient(to bottom, #fcfcfc, #f0f0f0);
+    border: 1px solid #CCC;
+    margin-top: -1px;
+}
+
+ul.links li:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+ul.links li:hover {
+    background: #f1f1f1;
+}
+
+ul.links li a, ul.links li strong {
+    position: relative;
+    margin: 0px;
+    color: #888;
+    padding: 8px 11px 8px 20px;
+    display: block;
+    text-decoration: none;
+    font-size: 1.1em;
+    line-height: 1.3em;
+    font-weight: bold;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+ul.links li p {
+    padding: 0px;
+    margin: -2px 10px 10px 7px;
+}
+
+ul.links li img {
+    float: right;
+    margin: -3px -5px 0px 5px;
+}
+
+ul.links li strong {
+    background: #DDD;
+    color: #444;
+    cursor: default;
+}
+
+ul.links li a:before, ul.links li strong:before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 5px;
+    bottom: 6px;
+    width: 6px;
+}
+
+ul.links li a svg, ul.links li strong svg {
+    float: right;
+    fill: #AAA;
+}
+
+ul.links li em {
+    float: right;
+    white-space: nowrap;
+    font-size: 14px;
+    margin-top: 4px;
+    color: #AAA;
+}
+
+ul.links li span {
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    color: #AAA;
+}
+
+ul.links li.ln:before, ul.links li.hr:before {
+    display: none;
+}
+
+ul.links li.ln {
+    background: #F7F7F7;
+    padding: 0px 0px 10px 10px;
+    height: auto;
+    border: 1px solid #CCC;
+}
+
+ul.links li ins {
+}
+
+ul.links li.hr {
+    position: relative;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1em;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 7px 5px 2px;
+    border: 1px solid #CCC;
+    border-top: none;
+    background-image: linear-gradient(to bottom, #fcfcfc, #f0f0f0);
+}
+
+ul.links li.hr:first-letter {
+    text-transform: uppercase;
+}
+
+
+ul.links li .add, ul.links li .remove {
+    float: left;
+    cursor: pointer;
+    margin: -1px 3px -5px 0px;
+}
+
+ul.links li .remove {
+    display: block;
+    margin: -1px 19px 0px -1px;
+    z-index: 1;
+    position: relative;
+    top: 9px;
+    left: 17px;
+    opacity: 0.6;
+}
+
+ul.links li .remove:hover {
+    opacity: 1;
+}

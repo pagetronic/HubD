@@ -1,0 +1,93 @@
+
+.arbo {
+    padding-left: 10px;
+    user-select: none;
+}
+
+.arbo ul {
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+
+.arbo ul li {
+    position: relative;
+    font-size: 17px;
+    cursor: default;
+    white-space: nowrap;
+    display: block;
+}
+
+.arbo li ul {
+    min-height: 20px;
+}
+
+.arbo li {
+    margin-left: 10px;
+}
+
+.arbo > ul ul {
+    margin: -8px 0px 10px 8px;
+    padding: 12px 0px 10px 0px;
+    display: none;
+    border-left: 2px solid #EEE;
+}
+
+.arbo ul:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.arbo li.deployed > ul {
+    display: block;
+}
+
+.arbo .deploy {
+    float: left;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    border-radius: 0px;
+    margin: 5px 8px 0px 0px;
+    background: linear-gradient(to top right, transparent 0%, transparent 45%, #FC3D32 45%, #FC3D32 100%);
+    transition: transform 100ms;
+}
+
+.arbo .deployed > .deploy {
+    transform: rotate(135deg);
+    margin: 1px 5px 0px 4px;
+}
+
+.arbo .nochilds > .deploy {
+    background: #FC3D32;
+    border-radius: 10px;
+    cursor: default;
+    margin: 5px 6px 0px 2px;
+}
+
+.arbo .add svg, .arbo .duplicate svg, .arbo .remove svg {
+    background: #9a0303;
+    fill: #FFF;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0px 0px -2px 2px;
+    opacity: 0.3;
+}
+
+.arbo span:hover svg {
+    opacity: 1;
+}
+
+.arbo .duplicate svg {
+    width: 16px;
+}
+
+.arbo .remove svg {
+    margin-left: 5px;
+}

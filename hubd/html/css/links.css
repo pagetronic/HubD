@@ -1,0 +1,88 @@
+.links {
+    padding: 0px 0px 5px 0px;
+}
+
+.links .flex {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.links .close, .links .refresh {
+    cursor:pointer;
+    float: right;
+}
+
+.links h2, .links p {
+    cursor: text;
+    margin-bottom: 5px;
+}
+
+.posts .content .links .url a {
+    border: none;
+    text-decoration: underline;
+}
+
+.links .url img {
+    float: left;
+    margin: 2px 2px -2px 0px;
+}
+
+.links .flex input, .links .flex textarea, .links .flex h2, .links .flex p {
+    flex: 1 1 auto;
+    margin-right: 5px;
+}
+
+.links h2, .links h2 a {
+    color: #9a9a9a;
+}
+
+.links h2:after, .links p a:after {
+    content: ' ';
+}
+
+.links .thumb {
+    position: relative;
+    min-height: 50px;
+    float: right;
+    margin: 10px 0px 10px 10px;
+}
+
+.links .url a {
+    color: #006B00;
+    font-weight: bold;
+}
+
+.links .choice {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+
+.links .choice svg {
+    fill: #EEE;
+    stroke: #666;
+    stroke-width: 2px;
+    stroke-position: outside;
+    opacity: 0.7;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.links .choice span:hover svg {
+    opacity: 1;
+}
+
+@media all and (max-width: 500px) {
+    .links .thumb {
+        float: none;
+        width: 100%;
+        margin: 0px;
+    }
+
+    .links .thumb img {
+        width: 100%;
+        height: auto;
+    }
+
+}

@@ -1,0 +1,8 @@
+#parse("/inc/top.html")
+<div id="middle" class="gallery">
+	
+	#foreach($photo in $docs)
+		<img src="${http_cdn}/files/$photo.id@224x126" width="224" height="126"/>
+	#end
+</div>
+#parse("/inc/bottom.html")

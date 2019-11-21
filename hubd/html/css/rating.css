@@ -1,0 +1,29 @@
+.rating, .rating span {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.rating {
+    font-size: 0px;
+}
+
+.rating svg {
+    fill: #BBB;
+    width: 35px;
+    height: 35px;
+    filter: drop-shadow(1px 1px 2px #CCC);
+    stroke: #999;
+    stroke-width: 1px;
+    stroke-linecap: round;
+    transition: 0.1s cubic-bezier(.3, .73, .3, .74);
+}
+
+header .rating svg {
+    width: 20px;
+    height: 20px;
+}
+
+.rating .light svg {
+    fill: #FFD700;
+    transition: 0.1s cubic-bezier(.3, .73, .3, .74);
+}

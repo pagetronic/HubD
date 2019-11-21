@@ -1,0 +1,28 @@
+#menu a:before, ul.links li.hr:before, .pop h2:before {
+    content: initial;
+    display: none;
+}
+
+#menu a {
+    padding-left: 10px;
+}
+
+#menu a svg {
+    margin: 0px 5px -4px 0px;
+    height: 22px;
+    width: 22px;
+    fill: #AAA;
+}
+
+#menu a.active svg, #menu a:hover svg {
+    fill: #002395;
+}
+
+#menu li:nth-child(2) {
+    border-top: none;
+}
+
+#menu li:first-child {
+    border-top: 1px solid #CCC;
+    border-bottom: none;
+}

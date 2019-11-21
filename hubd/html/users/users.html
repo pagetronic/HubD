@@ -1,0 +1,50 @@
+#parse("/inc/top.html")
+<div id="middle" class="users">
+
+	#parse("/inc/breadcrumb.html")
+	<h1>#lang('USERS')</h1>
+	<form method="GET" action="/users" class="search flexible">
+        <div class="flexo flexable flexible">
+            <input class="flexable" type="text" placeholder="#lang('SEARCH','lowercase')" autocomplete="off" name="q" value="#if($req.q)$Fx.escape($req.q)#end"/>
+            <button class="flexable" type="submit">$svg.mi_search #lang('SEARCH')</button>
+        </div>
+    #if(!$req.paging)
+        #set($mediator="<em>$svg.mi_supervisor_account #lang('USERS')</em>")
+    #else
+        #set($mediator="<a class='button' href='/users'>$svg.mi_supervisor_account #lang('USERS')</a>")
+    #end
+	<div class="flexable pagination">
+		#pagination($users.paging)
+	</div>
+    </form>
+	<ul class="threads">
+		#foreach( $user in $users.result)
+		<li id="$user.id">
+			<a href="/users#if($user.id)/$user.id#end" class="avatar">
+				<picture>
+					<img alt="#if($user.name)$Fx.escape($user.name)#else#lang('ANONYMOUS')#end" src="$user.avatar@40x40"/>
+				</picture>
+			</a>
+			<span class="title">
+					<strong><a href="/users/${user.id}">$user.name</a></strong>
+					<small>
+						$user.posts #lang('POSTS')
+						<span class="coins">
+							#if($user.coins)$user.coins#{else}0#end$svg.fa_icon_angellist
+						</span>
+					</small>
+				</span>
+			<span class="infos" style="text-align: right">
+				<small>
+					#lang('USER_JOIN','ucfirst', "#date($user.join)")<br/>
+					#if($user.last)
+					#lang('USER_LAST_ACTIVITY','ucfirst', "#since($user.last)")
+					#end
+				</small>
+			</span>
+		</li>
+		#end
+	</ul>
+	<div class="pagination">#pagination($users.paging)</div>
+</div>
+#parse("/inc/bottom.html")

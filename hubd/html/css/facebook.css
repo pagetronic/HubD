@@ -1,0 +1,20 @@
+@keyframes Focuser {
+    0% {
+        border: 2px solid #3658996e;
+    }
+    50% {
+        border: 2px solid #365899;
+    }
+    100% {
+        border: 2px solid #3658996e;
+    }
+}
+
+.facefollow {
+    float: right;
+    margin: -5px 0px 11px 0px;
+    border: 2px solid #365899;
+    border-radius: 7px;
+    padding: 1px;
+    animation: Focuser 1.5s infinite;
+}

@@ -1,0 +1,310 @@
+
+.threads {
+    padding: 0px 0px 10px 0px;
+}
+
+.threads a, .threads {
+    color: #666;
+}
+
+.threads li {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    background-color: #FFF;
+    margin: 9px 5px 5px 71px;
+    border-radius: 15px;
+    border: 1px solid #CCC;
+    font-size: 1.6em;
+    box-shadow: 1px 1px 2px rgba(51, 51, 51, 0.25);
+    list-style: none;
+    min-height: 37px;
+    padding: 8px 10px 8px 10px;
+    line-height: 0.75em;
+}
+
+.threads li .infos {
+    font-size: 0.65em;
+}
+
+.threads li .infos .breadcrumb a {
+    color: #333;
+}
+
+.threads li .infos .breadcrumb {
+    white-space: nowrap;
+    display: block;
+}
+
+.threads li .infos .breadcrumb img {
+    width: 12px;
+    height: 12px;
+    margin: 0px 3px -1px 0px;
+}
+
+.threads li .infos ul.quick {
+    margin: -1px 0px 0px 0px;
+}
+
+.threads li .infos a:hover {
+    text-decoration: underline;
+}
+
+.threads li .infos span.flexible {
+    margin: 8px 0px 0px 0px;
+}
+
+.threads li .title {
+    display: block;
+    font-size: 0.8em;
+    overflow: hidden;
+    flex: 3 1 auto;
+}
+
+.threads li .title a:hover {
+    text-decoration: underline;
+}
+
+.threads li .admin {
+    margin-right: 4px;
+    flex: 0 0 auto;
+    display: block;
+}
+
+.threads li .admin span {
+    display: block;
+    padding-bottom: 2px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.threads li .admin span:hover {
+    opacity: 1;
+}
+
+.threads li .jump {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    flex: 0 0 auto;
+    border-radius: 25px;
+    padding: 0px 3px;
+    position: relative;
+}
+
+.threads li .jump img {
+    height: 18px;
+    width: 18px;
+    border-radius: 18px;
+    position: absolute;
+    right: -1px;
+    bottom: -7px;
+    box-shadow: 1px 1px 3px 0px #9a9a9a;
+    background: #FFF;
+    border: 1px solid #FFF;
+}
+
+.threads li .jump svg {
+    width: 36px;
+    height: 36px;
+}
+
+.threads svg {
+    height: 15px;
+    width: 15px;
+}
+
+.threads li.loading:before {
+    display: none;
+}
+
+.threads li.loading {
+    padding: 0px;
+    margin: 9px 15px 0px 0px;
+}
+
+.threads li strong a {
+    display: block;
+    text-decoration: none;
+}
+
+.threads li small {
+    color: #333;
+    display: block;
+}
+
+.threads li small span {
+    display: inline-block;
+}
+
+.threads li a:hover {
+    text-decoration: underline;
+}
+
+.threads li:before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-top: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    transform: rotate(-45deg);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 22px, rgba(255, 255, 255, 0) 22px, rgba(255, 255, 255, 0) 100%);
+    position: absolute;
+    left: -9px;
+    top: 10px;
+}
+
+.threads li:hover {
+    background-color: #EDF8E5;
+}
+
+.threads li.pub {
+    padding-top: 0px;
+    min-height: 45px;
+}
+
+.threads li.pub:hover {
+    background-color: #FFFFFF;
+}
+
+.threads li:hover:before {
+    background: linear-gradient(135deg, #EDF8E5 0%, #EDF8E5 22px, rgba(255, 255, 255, 0) 22px, rgba(255, 255, 255, 0) 100%);
+}
+
+.threads li.pub:hover:before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 22px, rgba(255, 255, 255, 0) 22px, rgba(255, 255, 255, 0) 100%);
+}
+
+.threads li:before {
+    margin-top: 8px;
+}
+
+.threads .avatar {
+    position: absolute;
+    left: -68px;
+    top: 2px;
+    flex: 0 0 auto;
+}
+
+.threads .avatar picture img {
+    width: 40px;
+    height: 40px;
+}
+
+
+.admin_threads {
+    position: absolute;
+    z-index: 1000;
+    box-shadow: 1px 1px 10px #333;
+    border-radius: 10px;
+    max-width: 600px;
+}
+
+@media all and (max-width: 900px) {
+    .cmd_top {
+        float: none;
+        text-align: right;
+        justify-content: flex-end;
+    }
+
+    .threads li {
+        display: block;
+        position: relative;
+        margin: 0px 0px 10px 0px;
+        padding: 7px 7px 7px 7px;
+    }
+
+    .threads li:before {
+        display: none;
+    }
+
+    .threads li strong a {
+        margin-right: 25px;
+    }
+
+    .threads li .admin {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+    }
+
+    .threads li .admin span {
+
+        display: inline-block;
+    }
+
+    .threads li .avatar {
+        position: initial;
+        box-shadow: none;
+        height: 50px;
+        margin-right: 3px;
+        float: left;
+    }
+
+    .threads li .title {
+        display: inline;
+    }
+
+    .threads li .title strong {
+        font-size: 0.85em;
+    }
+
+    .threads li .jump {
+        position: absolute;
+        right: 0px;
+        top: 5px;
+    }
+
+    .threads li .jump img {
+        height: 14px;
+        width: 14px;
+        right: 2px;
+        bottom: -8px;
+    }
+
+    .threads li .jump svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .threads li small {
+        text-align: right;
+    }
+
+    .threads li:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    #post.post .avatar {
+        display: none;
+    }
+
+    #post.post {
+        margin: 0px 0px 10px 0px;
+    }
+
+    #post.post:before {
+        display: none;
+    }
+
+    .threads li .infos .breadcrumb {
+        white-space: normal;
+    }
+
+    .threads li .infos .breadcrumb a {
+        white-space: nowrap;
+    }
+
+}
+
+@media all and (max-width: 500px) {
+
+    .threads li .title strong {
+        font-size: 0.75em;
+    }
+}

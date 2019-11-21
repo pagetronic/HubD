@@ -1,0 +1,88 @@
+#menu ul {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    text-align: left;
+    overflow: auto;
+    height: 100%;
+}
+
+#menu ul {
+    position: relative;
+}
+
+#menu ul ul {
+    margin: 2px 6px 6px 10px;
+}
+
+#menu ul ul a:before {
+    display: none;
+}
+
+#menu ul ul li {
+    float: left;
+    border: none;
+}
+
+#menu ul ul a {
+    font-size: 9px;
+    line-height: 11px;
+    height: auto;
+    padding: 0px 5px 0px 0px;
+}
+
+#menu li li a:hover, #menu li li a, #menu li:hover li a {
+    background: none;
+}
+
+#menu ul ul a:hover {
+    text-decoration: underline;
+}
+
+#menu li {
+    color: #333;
+    overflow: hidden;
+    border-bottom: 1px solid #CCC;
+}
+
+#menu > ul > li:nth-child(2) {
+    border-top: 1px solid #CCC;
+}
+
+#menu > ul > li {
+    background: linear-gradient(to top, #f1f1f1 0%, #fcfcfc 100%);
+}
+
+#menu > ul > li:hover > a, #menu a.active {
+    background: linear-gradient(to top, #fcfcfc 0%, #f6f6f6 100%);
+}
+
+#menu a {
+    display: block;
+    white-space: nowrap;
+    font-size: 1.2em;
+    line-height: 39px;
+    color: #999;
+    text-decoration: none;
+    height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0px 10px 0px 0px;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#menu li.home {
+    display: none;
+}
+@media all and (max-width: 795px) {
+
+    #menu ul ul a {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
