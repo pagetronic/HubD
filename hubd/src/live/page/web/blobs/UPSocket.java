@@ -81,6 +81,9 @@ public class UPSocket implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Control user authorization and secure connection
+	 */
 	@OnOpen
 	public void onOpen(Session session) throws IOException {
 		try {
@@ -94,7 +97,6 @@ public class UPSocket implements ServletContextListener {
 			String origine = (String) prop.get("origin");
 			if (!session.isSecure() || (origine != null && !origine.endsWith(Settings.STANDARD_HOST))) {
 				session.close();
-				return;
 			}
 
 		} catch (Exception e) {
@@ -102,6 +104,9 @@ public class UPSocket implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Close on error for restart procedure
+	 */
 	@OnError
 	public void onError(Session session, Throwable t) throws IOException {
 		if (session.isOpen()) {
