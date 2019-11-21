@@ -32,7 +32,7 @@ public class WebServletResponse extends BaseServletResponse {
 	public void sendText(String msg) throws IOException {
 		try {
 			setHeader(HttpHeaders.CONTENT_TYPE, "text/plain; charset=utf-8");
-		} catch (Exception e) {
+		} catch (Exception ignore) {
 		}
 		getWriter().write(msg);
 	}
