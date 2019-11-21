@@ -24,13 +24,18 @@
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
         <repository>
+            <id>page-live</id>
+            <url>repository</url>
+        </repository>
+        <repository>
             <id>bintray-nitram509-jbrotli</id>
             <name>bintray</name>
             <url>http://dl.bintray.com/nitram509/jbrotli</url>
         </repository>
         <repository>
-            <id>page-live</id>
-            <url>repository</url>
+            <id>yuicompressor-repo</id>
+            <name>yuicompressor repository</name>
+            <url>https://raw.github.com/pagetronic/yuicompressor/repository/</url>
         </repository>
     </repositories>
 
