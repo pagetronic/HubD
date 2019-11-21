@@ -20,6 +20,9 @@ import java.util.Map;
 public class HttpServlet extends ApiServlet {
 
 
+	/**
+	 * Redirect user to correct function
+	 */
 	@Override
 	public void serviceWeb(WebServletRequest req, WebServletResponse resp) {
 
@@ -71,32 +74,50 @@ public class HttpServlet extends ApiServlet {
 			Fx.log(e.getMessage(), HttpServlet.class);
 			try {
 				resp.sendError(500, "error unknown");
-			} catch (Exception ex) {
+			} catch (Exception ignore) {
 			}
 
 		}
 	}
 
+	/**
+	 * Do control before all, return true or false
+	 */
 	public boolean controlWeb(Users user, WebServletRequest req, WebServletResponse resp) throws ServletException, IOException {
 		return true;
 	}
 
+	/**
+	 * Do on Post with no authentication
+	 */
 	public void doPostPublic(WebServletRequest req, WebServletResponse resp, Json data) throws IOException, ServletException {
 		resp.sendError(404);
 	}
 
+	/**
+	 * Do on Post with authenticated users
+	 */
 	public void doPostAuth(WebServletRequest req, WebServletResponse resp, Json data, Users user) throws IOException, ServletException {
 		doPostPublic(req, resp, data);
 	}
 
+	/**
+	 * Do Get with no authentication
+	 */
 	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
 		resp.sendError(404, "Not found");
 	}
 
+	/**
+	 * Do Get with authenticated users
+	 */
 	public void doGetAuth(WebServletRequest req, WebServletResponse resp, Users user) throws IOException, ServletException {
 		doGetPublic(req, resp);
 	}
 
+	/**
+	 * Do Get with editor group privilege
+	 */
 	public void doGetEditor(WebServletRequest req, WebServletResponse resp, Users user) throws IOException, ServletException {
 		if (controlWeb(user, req, resp)) {
 			doGetAuth(req, resp, user);
