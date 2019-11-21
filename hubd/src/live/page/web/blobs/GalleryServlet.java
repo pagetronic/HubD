@@ -20,7 +20,7 @@ public class GalleryServlet extends HttpServlet {
 	@Override
 	public void doGetApiAuth(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException {
 
-		resp.sendResponse(BlobsService.getFiles(user.getId(), req.getString("paging", null)));
+		resp.sendResponse(BlobsDb.getFiles(user.getId(), req.getString("paging", null)));
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class GalleryServlet extends HttpServlet {
 		switch (data.getString("action", "")) {
 
 			case "text":
-				rez = BlobsService.updateText(data, user);
+				rez = BlobsDb.updateText(data, user);
 				break;
 
 		}

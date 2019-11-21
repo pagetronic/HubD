@@ -49,6 +49,9 @@ import java.util.*;
 public class BlobsUtils {
 
 
+	/**
+	 * Put file in database
+	 */
 	public static String putFile(File file, String user_id, String ip, String name, String type) {
 		try {
 			autoRotate(file);
@@ -71,6 +74,9 @@ public class BlobsUtils {
 		return null;
 	}
 
+	/**
+	 * Rotate file with Exif data in the correct order
+	 */
 	private static void autoRotate(File file) {
 		try {
 			BufferedImage originalImage = ImageIO.read(file);
@@ -147,6 +153,10 @@ public class BlobsUtils {
 		}
 	}
 
+
+	/**
+	 * Download external image and return file and contentType
+	 */
 	public static Blob downloadAsBlob(String url) {
 		CloseableHttpClient httpclient = null;
 		HttpGet request = null;
@@ -234,14 +244,24 @@ public class BlobsUtils {
 		}
 	}
 
+
+	/**
+	 * Download external image and resize big images
+	 */
 	public static String downloadToDb(String url, int maxwidth) {
 		return downloadToDb(url, new Json(), maxwidth);
 	}
 
+	/**
+	 * Download external image and put in Db and return ID from DB
+	 */
 	public static String downloadToDb(String url) {
 		return downloadToDb(url, new Json(), -1);
 	}
 
+	/**
+	 * Download external image and put in Db with initial infos
+	 */
 	public static String downloadToDb(String url, Json blob, int maxwidth) {
 
 		try {
@@ -284,6 +304,9 @@ public class BlobsUtils {
 	}
 
 
+	/**
+	 * Get external image size
+	 */
 	public static int[] getSize(String url) {
 
 		Blob blob = downloadAsBlob(url);
@@ -297,23 +320,6 @@ public class BlobsUtils {
 		} catch (Exception e) {
 			return new int[]{};
 		}
-	}
-
-	public static List<Bson> getBlobsPipeline(Aggregator grouper) {
-		List<Bson> pipeline = new ArrayList<>();
-		pipeline.add(Aggregates.unwind("$docs", new UnwindOptions().preserveNullAndEmptyArrays(true).includeArrayIndex("pos_doc")));
-		pipeline.add(Aggregates.lookup("BlobFiles", "docs", "_id", "docs"));
-		pipeline.add(Aggregates.unwind("$docs", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("docs", new Json("_id", true).put("size", true).put("text", true))
-		));
-		pipeline.add(Aggregates.sort(Sorts.ascending("pos_doc")));
-
-		pipeline.add(Aggregates.group("$_id", grouper.getGrouper(Accumulators.push("docs", "$docs"))));
-		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("docs", new Json("$filter", new Json("input", "$docs").put("as", "docs").put("cond", new Json("$ne", Arrays.asList("$$docs._id", new BsonUndefined())))))
-		));
-		return pipeline;
 	}
 
 }

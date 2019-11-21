@@ -10,6 +10,11 @@ import live.page.web.servlet.wrapper.BaseServletResponse;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
+
+
+/**
+ * CDN/Image/File servlet
+ */
 @WebServlet(urlPatterns = {"/files/*"})
 public class FilesServlet extends BaseServlet {
 

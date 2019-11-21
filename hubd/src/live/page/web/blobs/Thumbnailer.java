@@ -30,8 +30,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Thumbnail service
+ */
 public class Thumbnailer {
 
+	/**
+	 * Make a thumbnail from URL or DB image
+	 */
 	public static Json makeDb(String blob, String type, int width, int height) {
 		try {
 			if (blob.matches("^https?://.*")) {
@@ -97,6 +103,9 @@ public class Thumbnailer {
 		return null;
 	}
 
+	/**
+	 * Make a thumbnail from File
+	 */
 	public static Json makeFile(File file, String file_id, String type, int width, int height) {
 
 		Json cache = new Json().put("blob", file_id).put("width", width).put("height", height).put("format", type).put("date", new Date());
@@ -214,6 +223,9 @@ public class Thumbnailer {
 
 	}
 
+	/**
+	 * Resize image
+	 */
 	public static BufferedImage resize(BufferedImage img, int width, int height, String outputformat) {
 		BufferedImage resized = new BufferedImage(width, height,
 				outputformat.equals("jpg") || outputformat.equals("jpeg") ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB
@@ -229,6 +241,9 @@ public class Thumbnailer {
 	}
 
 
+	/**
+	 * Get cached thumbnail from DB
+	 */
 	public static Json getCache(String blob, String format, int width, int height) {
 
 		List<Bson> filters = new ArrayList<>();
@@ -250,6 +265,9 @@ public class Thumbnailer {
 		return cache;
 	}
 
+	/**
+	 * Search and find favicon
+	 */
 	private static Blob getFavicon(String blob) {
 
 		try {

@@ -16,9 +16,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Upload Websocket
+ */
 @ServerEndpoint(value = "/up", configurator = UPSocketConfig.class)
 public class UPSocket implements ServletContextListener {
-
+	/**
+	 * Initial informations about file
+	 */
 	@OnMessage
 	public void onMessage(String msg, boolean isLast, Session session) throws IOException {
 		Json data = new Json(msg);
@@ -34,7 +39,9 @@ public class UPSocket implements ServletContextListener {
 			session.close();
 		}
 	}
-
+	/**
+	 * Receive file after initial informations
+	 */
 	@OnMessage
 	public void onMessage(byte[] bytes, boolean isLast, Session session) throws IOException {
 		Map<String, Object> prop = session.getUserProperties();

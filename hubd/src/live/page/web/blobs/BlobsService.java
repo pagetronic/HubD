@@ -37,6 +37,9 @@ import java.util.regex.Pattern;
 
 public class BlobsService {
 
+	/**
+	 * Thumbnail process local file situated in war/webContent folder
+	 */
 	public static void processLocal(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
 		try {
@@ -115,6 +118,10 @@ public class BlobsService {
 
 	}
 
+
+	/**
+	 * Thumbnail process local file situated in war/webContent folder
+	 */
 	public static void doGetThumb(BaseServletRequest req, BaseServletResponse resp) throws IOException {
 
 		Pattern pattern = Pattern.compile(".*@([0-9]{1,4})(x[0-9]{1,4})?(\\.jpg|\\.png)?$");
@@ -182,6 +189,10 @@ public class BlobsService {
 
 	}
 
+
+	/**
+	 * Thumbnail process db file
+	 */
 	public static void doGetBlob(BaseServletRequest req, BaseServletResponse resp) throws IOException {
 
 		Json file = Db.getDb("BlobFiles").find(Filters.eq("_id", req.getId())).first();
@@ -208,6 +219,9 @@ public class BlobsService {
 		}
 	}
 
+	/**
+	 * Send corrects headers, does not use the Tag header, we prefer a long time expiration date.
+	 */
 	public static void doHeaders(HttpServletRequest req, HttpServletResponse resp, Json file) {
 
 		resp.setContentType(file.getString("type"));
@@ -223,63 +237,9 @@ public class BlobsService {
 			resp.setHeader("Content-Disposition",
 					((req.getQueryString() != null && req.getQueryString().equals("attachment")) ? "attachment" : "inline") +
 							"; filename=" + filename + "");
-		} catch (Exception e) {
+		} catch (Exception ignore) {
 		}
 		resp.setContentType(file.getString("type"));
-	}
-
-	public static Json getFiles(String user_id, String paging_str) {
-
-
-		Aggregator grouper = new Aggregator("name", "type", "size", "date", "url");
-
-		Paginer paginer = new Paginer(paging_str, "-date", 30);
-
-		Bson paging_filter = paginer.getFilters();
-
-		List<Bson> pipeline = new ArrayList<>();
-
-		List<Bson> filters = new ArrayList<>();
-
-		filters.add(Filters.eq("user", user_id));
-
-		if (paging_filter != null) {
-			filters.add(paging_filter);
-		}
-
-		pipeline.add(Aggregates.match(Filters.and(Filters.and(filters))));
-
-		pipeline.add(paginer.getFirstSort());
-		pipeline.add(paginer.getLimit());
-
-		pipeline.add(Aggregates.project(grouper.getProjection().put("url", new Json("$concat", Arrays.asList(Settings.getCDNHttp(), "/files/", "$_id")))));
-
-		pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
-
-		pipeline.add(paginer.getLastSort());
-
-
-		return paginer.getResult("BlobFiles", pipeline);
-
-	}
-
-	public static Json updateText(Json data, Users user) {
-		List<Bson> filters = new ArrayList<>();
-		filters.add(Filters.eq("_id", data.getId()));
-		if (!user.getEditor()) {
-			filters.add(Filters.eq("user", user.getId()));
-		}
-		return new Json("ok", Db.updateOne("BlobFiles", Filters.and(filters), new Json("$set", new Json("text", Fx.normalizePost(data.getString("text"))))).getModifiedCount() > 0);
-	}
-
-	public static boolean remove(Users user, String id) {
-		Json file = Db.findByIdUser("BlobFiles", id, user.getId());
-		if (file == null) {
-			return false;
-		}
-		Db.deleteOne("BlobFiles", Filters.eq("_id", file.getId()));
-		Db.deleteMany("BlobChunks", Filters.eq("f", file.getId()));
-		return true;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Laurent PAGE, Apache Licence 2.0
+ * Copyright unknown
  */
 package live.page.web.utils;
 

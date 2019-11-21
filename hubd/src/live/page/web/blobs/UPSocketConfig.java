@@ -14,8 +14,12 @@ import javax.websocket.server.ServerEndpointConfig.Configurator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Control authorization, lang and timezone
+ */
 public class UPSocketConfig extends Configurator {
 
+	//passe lang to sub protocol .. ...better solution?
 	@Override
 	public String getNegotiatedSubprotocol(List<String> supported, List<String> requested) {
 		return super.getNegotiatedSubprotocol(Settings.getLangs(), requested);

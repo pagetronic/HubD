@@ -4,7 +4,7 @@
 package live.page.web.posts.utils;
 
 import com.mongodb.client.model.*;
-import live.page.web.blobs.BlobsUtils;
+import live.page.web.blobs.BlobsDb;
 import live.page.web.db.Aggregator;
 import live.page.web.db.Db;
 import live.page.web.db.ParentParser;
@@ -68,7 +68,7 @@ public class ThreadsAggregator {
 		pipeline.addAll(getCommentsPipeline(grouper, remove));
 
 
-		pipeline.addAll(BlobsUtils.getBlobsPipeline(grouper));
+		pipeline.addAll(BlobsDb.getBlobsPipeline(grouper));
 
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
@@ -358,7 +358,7 @@ public class ThreadsAggregator {
 				.put("changes", new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$changes", new BsonUndefined())), 0, new Json("$size", "$changes"))))
 		));
 
-		pipeline.addAll(BlobsUtils.getBlobsPipeline(grouper));
+		pipeline.addAll(BlobsDb.getBlobsPipeline(grouper));
 		pipeline.addAll(LinkerAggregator.getPipeline("text", grouper));
 
 
@@ -602,7 +602,7 @@ public class ThreadsAggregator {
 
 		pipeline.addAll(ForumsAggregator.getBreadCrumbPipeline(grouper));
 
-		pipeline.addAll(BlobsUtils.getBlobsPipeline(grouper));
+		pipeline.addAll(BlobsDb.getBlobsPipeline(grouper));
 
 		pipeline.add(Aggregates.graphLookup("Forums", new Json("$arrayElemAt", Arrays.asList("$forums", 0)), "parents.0", "_id", "urls_parents", new GraphLookupOptions().depthField("depth").maxDepth(50)));
 
