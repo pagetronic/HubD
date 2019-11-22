@@ -5,7 +5,6 @@ package live.page.web.search;
 
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.TextSearchOptions;
 import live.page.web.db.Pipeliner;
 import live.page.web.utils.Fx;
 import live.page.web.utils.ObjsUtils;
@@ -52,7 +51,7 @@ public class SearchUtils {
 
 			Pipeliner searcher = ObjsUtils.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
 			pipeline.add(Aggregates.lookup(Fx.ucfirst(collection), searcher
-							.addFilter(Filters.text(query, new TextSearchOptions().language(lng)))
+							.addFilter(Filters.text(query))
 							.getSearcher(),
 					collection));
 		}
@@ -78,7 +77,7 @@ public class SearchUtils {
 	private static Json searchOne(String query, String lng, String collection, String paging_str) throws Exception {
 		Paginer paginer = new Paginer(paging_str, "-score", limit);
 		Pipeliner searcher = ObjsUtils.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
-		return paginer.getResult(Fx.ucfirst(collection), searcher.addFilter(Filters.text(query, new TextSearchOptions().language(lng))).setLng(lng).getSearcher());
+		return paginer.getResult(Fx.ucfirst(collection), searcher.addFilter(Filters.text(query)).setLng(lng).getSearcher());
 	}
 
 

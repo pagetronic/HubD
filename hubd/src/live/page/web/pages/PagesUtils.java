@@ -604,7 +604,7 @@ public class PagesUtils {
 
 		if (!data.getString("search", "").equals("")) {
 
-			filters.add(Filters.text(data.getString("search"), new TextSearchOptions()));
+			filters.add(Filters.text(data.getString("search")));
 		}
 		if (data.containsKey("filter")) {
 			filters.add(Filters.nin("_id", data.getList("filter")));
