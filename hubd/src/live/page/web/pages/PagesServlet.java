@@ -61,7 +61,7 @@ public class PagesServlet extends HttpServlet {
 		req.setBreadCrumbTitle(page.getString("title"));
 		req.setBreadCrumb(page.getListJson("breadcrumb"));
 		if (!page.getString("intro", "").equals("")) {
-			req.setDescription(Fx.couper(Fx.textbrut(page.getString("intro")), 400));
+			req.setDescription(Fx.truncate(Fx.textbrut(page.getString("intro")), 400));
 		}
 
 		if (page.getString("logo") != null) {

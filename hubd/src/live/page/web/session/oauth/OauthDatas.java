@@ -11,14 +11,14 @@ public enum OauthDatas {
 	facebook("facebook", Settings.FACEBOOK_OAUTH_CLIENT_ID, Settings.FACEBOOK_OAUTH_CLIENT_SECRET, "email", "https://graph.facebook.com/oauth/authorize", "https://graph.facebook.com/oauth/access_token", "https://graph.facebook.com/me?fields=id,email,picture,name,first_name,last_name,locale,timezone,verified", "&auth_type=reauthenticate"),
 	live("live", Settings.LIVE_OAUTH_CLIENT_ID, Settings.LIVE_OAUTH_CLIENT_SECRET, "wl.emails", "https://login.live.com/oauth20_authorize.srf", "https://login.live.com/oauth20_token.srf", "https://apis.live.net/v5.0/me", "");
 
-	private String provider;
-	private String client_id;
-	private String client_secret;
-	private String scope;
-	private String authorize;
-	private String token;
-	private String userinfo;
-	private String parameters;
+	private final String provider;
+	private final String client_id;
+	private final String client_secret;
+	private final String scope;
+	private final String authorize;
+	private final String token;
+	private final String userinfo;
+	private final String parameters;
 
 	OauthDatas(String provider, String client_id, String client_secret, String scope, String authorize, String token, String userinfo, String parameters) {
 		this.provider = provider;

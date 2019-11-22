@@ -196,7 +196,7 @@ public class MessagesUtils {
 
 		if (subject != null) {
 			subject = Fx.normalizePost(subject);
-			subject = Fx.couper(subject, 55);
+			subject = Fx.truncate(subject, 55);
 		}
 		text = Fx.normalizePost(text);
 
@@ -216,7 +216,7 @@ public class MessagesUtils {
 				return new Json("error", "INVALID_DATA");
 			}
 			if (subject == null || subject.length() == 0) {
-				subject = Fx.couper(text, 50);
+				subject = Fx.truncate(text, 50);
 			}
 			recipients.add(user.getId());
 			messages = new Json("recipients", recipients).put("user", user.getId()).put("date", date).put("last", date).put("subject", subject).add("messages", message);

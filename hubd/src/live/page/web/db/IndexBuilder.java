@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class IndexBuilder {
 
-	private static IndexesStore indexes = baseIndexes();
+	private static final IndexesStore indexes = baseIndexes();
 
 	private static IndexesStore baseIndexes() {
 
@@ -42,7 +42,7 @@ public class IndexBuilder {
 		);
 
 		indexes.addIndex("Sessions",
-				IndexData.get(new Json("expire", -1), "expire", Settings.COOKIE_DELAY.longValue(), TimeUnit.SECONDS)
+				IndexData.get(new Json("expire", -1), "expire", (long) Settings.COOKIE_DELAY, TimeUnit.SECONDS)
 		);
 
 		indexes.addIndex("Notices",
@@ -349,8 +349,8 @@ public class IndexBuilder {
 	}
 
 	public static class IndexesStore {
-		private List<String> colindex = new ArrayList<>();
-		private Map<String, List<IndexModel>> collection_indexes = new HashMap<>();
+		private final List<String> colindex = new ArrayList<>();
+		private final Map<String, List<IndexModel>> collection_indexes = new HashMap<>();
 
 
 		public IndexesStore() {

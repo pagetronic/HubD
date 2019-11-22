@@ -58,7 +58,7 @@ public class ApiUtils {
 
 		if (app == null) {
 			app = new Json();
-			app.put("name", name == null ? user.getString("name") + " App" : Fx.couper(name, 255));
+			app.put("name", name == null ? user.getString("name") + " App" : Fx.truncate(name, 255));
 			String client_id = Fx.getSecureKey();
 			while (Db.exists("ApiApps", Filters.eq("client_id", client_id))) {
 				client_id = Fx.getSecureKey();

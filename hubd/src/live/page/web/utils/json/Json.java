@@ -107,11 +107,19 @@ public class Json implements Map<String, Object>, Serializable, Bson {
 		}
 	}
 
+	/**
+	 * @param key
+	 * @return null or a truncated string
+	 */
 	public String getString(String key) {
 		if (key == null) {
 			return null;
 		}
-		return Fx.couper(get(key, String.class), 1000);
+		String val = get(key, String.class);
+		if (val == null) {
+			return null;
+		}
+		return Fx.truncate(val, 1000);
 	}
 
 	public String getString(String key, String def) {
@@ -131,7 +139,7 @@ public class Json implements Map<String, Object>, Serializable, Bson {
 	}
 
 	public String getText(String key) {
-		return Fx.couper(get(key, String.class), 100000);
+		return get(key, String.class);
 	}
 
 	public String getText(String key, String def) {
@@ -499,5 +507,4 @@ public class Json implements Map<String, Object>, Serializable, Bson {
 		keys.forEach((key) -> prepend(key, get(key)));
 		return this;
 	}
-
 }

@@ -35,7 +35,7 @@ public class Cleaner extends Directive {
 					.replaceAll("<([^>]+)>", "");
 
 			if (node.jjtGetNumChildren() > 1) {
-				text = Fx.couper(text, (int) node.jjtGetChild(1).value(context));
+				text = Fx.truncate(text, (int) node.jjtGetChild(1).value(context));
 			}
 			writer.write(text);
 			return true;

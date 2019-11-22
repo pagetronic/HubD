@@ -94,8 +94,8 @@ public class Notices {
 		String tag = data.getString("tag");
 		List<String> titles = data.getList("title");
 		List<String> messages = data.getList("message");
-		String title = Fx.couper(StringUtils.join(titles, " / "), 2000);
-		String body = Fx.couper(StringUtils.join(messages, " / "), 2000);
+		String title = Fx.truncate(StringUtils.join(titles, " / "), 2000);
+		String body = Fx.truncate(StringUtils.join(messages, " / "), 2000);
 
 		Json config = data.getJson("config");
 

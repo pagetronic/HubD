@@ -20,13 +20,21 @@ public class Mailer {
 			Fx.log(message);
 			return true;
 		}
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+
 
 		try {
+			Properties props = new Properties();
+			props.put("mail.smtp.starttls.enable", Settings.SMTP_MAIL_TLS);
+
+			if (Settings.SMTP_MAIL_USER != null || Settings.SMTP_MAIL_PASSWD != null) {
+				props.put("mail.smtp.auth", "true");
+			}
+			if (Settings.SMTP_MAIL_HOST != null) {
+				props.put("mail.smtp.host", Settings.SMTP_MAIL_HOST);
+			}
+			if (Settings.SMTP_MAIL_PORT != null) {
+				props.put("mail.smtp.port", Settings.SMTP_MAIL_PORT);
+			}
 
 			Message mail = new MimeMessage(Session.getInstance(props, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {

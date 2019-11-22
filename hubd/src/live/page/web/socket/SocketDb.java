@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 @WebListener
 public class SocketDb implements ServletContextListener {
 
-	private ExecutorService executor = Executors.newSingleThreadExecutor();
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 
 	@Override

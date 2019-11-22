@@ -20,7 +20,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 
 public class JsonProvider implements CodecProvider {
 
-	private BsonTypeClassMap bsonTypeClassMap = new BsonTypeClassMap();
+	private final BsonTypeClassMap bsonTypeClassMap = new BsonTypeClassMap();
 
 	public JsonProvider() {
 	}
@@ -56,19 +56,19 @@ public class JsonProvider implements CodecProvider {
 
 	public static class BaseCodec implements CollectibleCodec<Json> {
 
-		private static String ID_FIELD_NAME = "_id";
+		private static final String ID_FIELD_NAME = "_id";
 
-		private static CodecRegistry DEFAULT_REGISTRY = fromProviders(asList(new ValueCodecProvider(), new BsonValueCodecProvider(), new DocumentCodecProvider()));
+		private static final CodecRegistry DEFAULT_REGISTRY = fromProviders(asList(new ValueCodecProvider(), new BsonValueCodecProvider(), new DocumentCodecProvider()));
 
-		private static BsonTypeClassMap DEFAULT_BSON_TYPE_CLASS_MAP = new BsonTypeClassMap();
+		private static final BsonTypeClassMap DEFAULT_BSON_TYPE_CLASS_MAP = new BsonTypeClassMap();
 
-		private BsonTypeCodecMap bsonTypeCodecMap;
+		private final BsonTypeCodecMap bsonTypeCodecMap;
 
-		private CodecRegistry registry;
+		private final CodecRegistry registry;
 
-		private IdGenerator idGenerator;
+		private final IdGenerator idGenerator;
 
-		private Transformer valueTransformer;
+		private final Transformer valueTransformer;
 
 		public BaseCodec() {
 			this(DEFAULT_REGISTRY, DEFAULT_BSON_TYPE_CLASS_MAP);

@@ -68,14 +68,14 @@ public class TagSince extends Directive {
 
 	}
 
-	private static double DAYS_PER_YEAR = 365.24225D;
-	private static double M_PER_SECOND = 1000D;
-	private static double M_PER_MINUTE = 60D * M_PER_SECOND;
-	private static double M_PER_HOUR = 60D * M_PER_MINUTE;
-	private static double M_PER_DAY = 24D * M_PER_HOUR;
-	private static double M_PER_WEEKS = 7D * M_PER_DAY;
-	private static double M_PER_MONTH = Math.floor((DAYS_PER_YEAR / 12D) * M_PER_DAY);
-	private static double M_PER_YEAR = Math.floor(DAYS_PER_YEAR * M_PER_DAY);
+	private static final double DAYS_PER_YEAR = 365.24225D;
+	private static final double M_PER_SECOND = 1000D;
+	private static final double M_PER_MINUTE = 60D * M_PER_SECOND;
+	private static final double M_PER_HOUR = 60D * M_PER_MINUTE;
+	private static final double M_PER_DAY = 24D * M_PER_HOUR;
+	private static final double M_PER_WEEKS = 7D * M_PER_DAY;
+	private static final double M_PER_MONTH = Math.floor((DAYS_PER_YEAR / 12D) * M_PER_DAY);
+	private static final double M_PER_YEAR = Math.floor(DAYS_PER_YEAR * M_PER_DAY);
 
 	public static String formatSince(long durationInit, String lng, int level) {
 

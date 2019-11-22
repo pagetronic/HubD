@@ -7,7 +7,7 @@ import live.page.web.utils.json.Json;
 
 public class SocketMessage {
 
-	private Json datas = new Json();
+	private final Json datas = new Json();
 
 	public SocketMessage() {
 

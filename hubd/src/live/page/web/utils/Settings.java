@@ -13,256 +13,223 @@ import java.util.*;
 
 public class Settings {
 
-	public static String HUB_REPO;
 
-	public static final long CTRL_PERIOD = 30L; // template and style cache in seconds
+	private static Properties settings = load();
 
-	public static final long START_COUNT = 1356048000000L; // Fri, 21 Dec 2012
-	public static final int MAX_AGE = 31556930; // real one year 31556930.4
+	//Dir for the base templates and others like style/fonts/javascript..
+	public static final String HUB_REPO = settings.getProperty("HUB_REPO", "/data/repo/HubD/hubd");
 
-	public static final long MAX_FILE_SIZE = 1024 * 1024 * 10; // 10Mo
+	//Dir for the specifics templates and others like style/fonts/javascript..
+	public static final String REPO = settings.getProperty("REPO");
 
-	public static final Map<String, String> CONTENT_TYPES = new HashMap<>();
-	public static boolean PUBS = true;
+	// template and style control delay in seconds
+	public static final long CTRL_PERIOD = 30L;
 
-	public static String SALT;
-	public static long FLOOD_DELAY = 4000L;
+	// End of the world, or new.. ..Fri, 21 Dec 2012
+	public static final long START_COUNT = 1356048000000L;
 
-	public static List<String> VALID_PARENTS = new ArrayList<>(Arrays.asList("Posts", "Forums", "Pages"));
+	// Real one year 31556930.4
+	public static final int MAX_AGE = 31556930;
 
-	static {
-		CONTENT_TYPES.put("pdf", "application/pdf");
-		CONTENT_TYPES.put("png", "image/png");
-		CONTENT_TYPES.put("jpg", "image/jpeg");
-		CONTENT_TYPES.put("jpeg", "image/jpeg");
-		CONTENT_TYPES.put("txt", "text/plain");
-	}
+	// Files can not exceed 10Mo
+	public static final long MAX_FILE_SIZE = 1024 * 1024 * 10;
 
-	public static final Integer COOKIE_DELAY = 30 * 24 * 3600;
+	// AdSense or not
+	public static final boolean PUBS = Boolean.valueOf(settings.getProperty("PUBS", "false"));
+
+	// Salt for passwords
+	public static final String SALT = settings.getProperty("SALT", "qsfsd~sfs#f55q@d8re6qze4sq6666683");
+
+	// Flood delay, delay before post other
+	public static final long FLOOD_DELAY = Long.valueOf(settings.getProperty("FLOOD_DELAY", "5000"));
+
+
+	// List of keys available for parent form an item
+	public static final List<String> VALID_PARENTS = getValidParents();
+
+
+	// Delay for cookie
+	public static final int COOKIE_DELAY = 30 * 24 * 3600;
+
+	// File chunck size, size of an entry in database
 	public static final int CHUNCK_SIZE = 128 * 1024;
 
 
-	public static String SITE_TITLE;
-	public static String LOGO_TITLE;
-	public static String UI_LOGO;
+	// Global site title
+	public static final String SITE_TITLE = settings.getProperty("SITE_TITLE");
+	// Site title used in header bar
+	public static final String LOGO_TITLE = settings.getProperty("LOGO_TITLE");
+	// Logo address for all default
+	public static final String UI_LOGO = settings.getProperty("UI_LOGO", "/ui/logo");
 
 
-	public static String REPO;
+	// The base host, the host used by default
+	public static final String STANDARD_HOST = settings.getProperty("STANDARD_HOST");
+	// The host used for Api and Web posting
+	public static final String HOST_API = settings.getProperty("HOST_API");
 
-	public static String STANDARD_HOST;
-	public static String HOST_API;
-	public static String HOST_CDN;
-	public static String HTTP_PROTO;
-	public static String PROJECT_NAME;
-	private static String COOKIE_NAME;
-	public static Json LANGS_DOMAINS;
-	public static String DB_USER;
-	public static char[] DB_PASS;
-	public static String DB_NAME;
+	// The host used for content delivery
+	public static final String HOST_CDN = settings.getProperty("HOST_CDN");
 
+	// The protocol used
+	public static final String HTTP_PROTO = settings.getProperty("HTTP_PROTO", "https://");
 
-	public static boolean MENU_FORUM = false;
+	// The project name, user as Server signature and Threads names
+	public static final String PROJECT_NAME = settings.getProperty("PROJECT_NAME");
 
-	public static String SMTP_MAIL_USER;
-	public static String SMTP_MAIL_PASSWD;
+	// The name of the cookie session
+	private static final String COOKIE_NAME = settings.getProperty("COOKIE_NAME", "session");
 
-	public static String GOOGLE_SEARCH_API;
-	public static String BING_SEARCH_API;
+	// All host by language
+	public static final Json LANGS_DOMAINS = getLangsDomains();
 
-
-	public static String GCM_SENDER_ID;
-	public static String GOOGLE_PUSH_KEY;
-
-	public static String VAPID_PUB;
-	public static String VAPID_PRIV;
-
-	public static String GOOGLE_OAUTH_CLIENT_ID;
-	public static String GOOGLE_OAUTH_CLIENT_SECRET;
-	public static String FACEBOOK_OAUTH_CLIENT_ID;
-	public static String FACEBOOK_OAUTH_CLIENT_SECRET;
-	public static String LIVE_OAUTH_CLIENT_ID;
-	public static String LIVE_OAUTH_CLIENT_SECRET;
-
-	public static String TWITTER_OAUTH_CLIENT_ID;
-	public static String TWITTER_OAUTH_CLIENT_SECRET;
-
-	public static String PAYPAL_OAUTH_CLIENT_ID;
-	public static String PAYPAL_OAUTH_CLIENT_SECRET;
-
-	public static String TWITTER_CONSUMER_KEY;
-	public static String TWITTER_CONSUMER_SECRET;
-	public static String TWITTER_ACCESS_TOKEN;
-	public static String TWITTER_TOKEN_SECRET;
-
-	public static String YOUTUBE_API_KEY;
+	// MongoDb username
+	public static final String DB_USER = settings.getProperty("DB_USER");
+	// MongoDb password
+	public static final char[] DB_PASS = settings.getProperty("DB_PASS", "").toCharArray();
+	// MongoDb database
+	public static final String DB_NAME = settings.getProperty("DB_NAME");
 
 
-	public static boolean NOUI = false;
+	// Calculation and include special breadcrumb menu
+	public static final boolean MENU_FORUM = Boolean.valueOf(settings.getProperty("MENU_FORUM", "false"));
+
+	// SMTP host for send email
+	public static final String SMTP_MAIL_HOST = settings.getProperty("SMTP_MAIL_HOST");
+	// SMTP password for send email
+	public static final String SMTP_MAIL_PORT = settings.getProperty("SMTP_MAIL_PORT");
+	// SMTP user for send email
+	public static final String SMTP_MAIL_USER = settings.getProperty("SMTP_MAIL_USER");
+	// SMTP password for send email
+	public static final String SMTP_MAIL_PASSWD = settings.getProperty("SMTP_MAIL_PASSWD");
+	// SMTP starttls for send email
+	public static final String SMTP_MAIL_TLS = settings.getProperty("SMTP_MAIL_TLS", "false");
 
 
-	public static String THEME_COLOR;
+	// Google cloud sender id used in webpush
+	public static final String GCM_SENDER_ID = settings.getProperty("GCM_SENDER_ID");
+	// Firebase webpush key
+	public static final String GOOGLE_PUSH_KEY = settings.getProperty("GOOGLE_PUSH_KEY");
+
+	// VAPID public for webpush
+	public static final String VAPID_PUB = settings.getProperty("VAPID_PUB");
+	// VAPID private for webpush
+	public static final String VAPID_PRIV = settings.getProperty("VAPID_PRIV");
+
+	// Google login with OAuth
+	public static final String GOOGLE_OAUTH_CLIENT_ID = settings.getProperty("GOOGLE_OAUTH_CLIENT_ID");
+	public static final String GOOGLE_OAUTH_CLIENT_SECRET = settings.getProperty("GOOGLE_OAUTH_CLIENT_SECRET");
+
+	// Facebook login with OAuth
+	public static final String FACEBOOK_OAUTH_CLIENT_ID = settings.getProperty("FACEBOOK_OAUTH_CLIENT_ID");
+	public static final String FACEBOOK_OAUTH_CLIENT_SECRET = settings.getProperty("FACEBOOK_OAUTH_CLIENT_SECRET");
+
+	// Microsoft Live login with OAuth
+	public static final String LIVE_OAUTH_CLIENT_ID = settings.getProperty("LIVE_OAUTH_CLIENT_ID");
+	public static final String LIVE_OAUTH_CLIENT_SECRET = settings.getProperty("LIVE_OAUTH_CLIENT_SECRET");
+
+	// Twitter login with OAuth
+	public static final String TWITTER_OAUTH_CLIENT_ID = settings.getProperty("TWITTER_OAUTH_CLIENT_ID");
+	public static final String TWITTER_OAUTH_CLIENT_SECRET = settings.getProperty("TWITTER_OAUTH_CLIENT_SECRET");
 
 
-	public static String ANALYTICS;
-
-	public static List<String> FILES_TYPE = new ArrayList<>();
-
-	static {
-
-		String file = "/res/settings";
-
-		try {
-			Properties props = new Properties();
-			InputStream props_stream = Settings.class.getResourceAsStream(file);
-			Reader reader = new InputStreamReader(props_stream, StandardCharsets.UTF_8);
-
-			props.load(reader);
-
-			HUB_REPO = props.getProperty("HUB_REPO", "/data/repo/HubD/hubd");
-
-			SITE_TITLE = props.getProperty("SITE_TITLE", null);
-
-			LOGO_TITLE = props.getProperty("LOGO_TITLE", null);
-			UI_LOGO = props.getProperty("UI_LOGO", null);
-			REPO = props.getProperty("REPO");
-
-			PROJECT_NAME = props.getProperty("PROJECT_NAME", null);
-			STANDARD_HOST = props.getProperty("STANDARD_HOST");
-			HOST_API = props.getProperty("HOST_API");
-			HOST_CDN = props.getProperty("HOST_CDN");
-			HTTP_PROTO = props.getProperty("HTTP_PROTO", "https://");
-
-			COOKIE_NAME = props.getProperty("COOKIE_NAME", "session");
-
-			LANGS_DOMAINS = new Json();
-			for (String langs_domains : props.getProperty("LANGS_DOMAINS", null).split(" ")) {
-				String[] langs_domains_ = langs_domains.split(":");
-				LANGS_DOMAINS.put(langs_domains_[0], langs_domains_[1]);
-			}
+	// Paypal login with OAuth
+	public static final String PAYPAL_OAUTH_CLIENT_ID = settings.getProperty("PAYPAL_OAUTH_CLIENT_ID");
+	public static final String PAYPAL_OAUTH_CLIENT_SECRET = settings.getProperty("PAYPAL_OAUTH_CLIENT_SECRET");
 
 
-			SALT = props.getProperty("SALT", "qsfsd~sfs#f55q@d8re6qze4sq6666683");
-
-			DB_USER = props.getProperty("DB_USER");
-			DB_NAME = props.getProperty("DB_NAME");
-			DB_PASS = props.getProperty("DB_PASS").toCharArray();
-
-			if (props.getProperty("NOUI", "false").equals("true")) {
-				NOUI = true;
-			}
+	// YouTube API Key for scrap data
+	public static final String YOUTUBE_API_KEY = settings.getProperty("YOUTUBE_API_KEY");
 
 
-			if (props.getProperty("MENU_FORUM", "false").equals("true")) {
-				MENU_FORUM = true;
-			}
+	// Disable all base UI exempt libs for specials projects
+	public static final boolean NOUI = Boolean.valueOf(settings.getProperty("NOUI", "false"));
 
-			if (props.getProperty("PUBS", "true").equals("false")) {
-				PUBS = false;
-			}
+	// Theme color (address bar in chrome mobile)
+	public static final String THEME_COLOR = settings.getProperty("THEME_COLOR", "#FFFFFF");
 
-			SMTP_MAIL_USER = props.getProperty("SMTP_MAIL_USER", null);
-			SMTP_MAIL_PASSWD = props.getProperty("SMTP_MAIL_PASSWD", null);
+	// Google Analytics project ID
+	public static final String ANALYTICS = settings.getProperty("ANALYTICS");
 
-			GCM_SENDER_ID = props.getProperty("GCM_SENDER_ID", null);
-			GOOGLE_PUSH_KEY = props.getProperty("GOOGLE_PUSH_KEY", null);
-
-			VAPID_PUB = props.getProperty("VAPID_PUB", null);
-			VAPID_PRIV = props.getProperty("VAPID_PRIV", null);
-
-			GOOGLE_SEARCH_API = props.getProperty("GOOGLE_SEARCH_API", null);
-			BING_SEARCH_API = props.getProperty("BING_SEARCH_API", null);
-
-			GOOGLE_OAUTH_CLIENT_ID = props.getProperty("GOOGLE_OAUTH_CLIENT_ID", null);
-			GOOGLE_OAUTH_CLIENT_SECRET = props.getProperty("GOOGLE_OAUTH_CLIENT_SECRET", null);
-			FACEBOOK_OAUTH_CLIENT_ID = props.getProperty("FACEBOOK_OAUTH_CLIENT_ID", null);
-			FACEBOOK_OAUTH_CLIENT_SECRET = props.getProperty("FACEBOOK_OAUTH_CLIENT_SECRET", null);
-			LIVE_OAUTH_CLIENT_ID = props.getProperty("LIVE_OAUTH_CLIENT_ID", null);
-			LIVE_OAUTH_CLIENT_SECRET = props.getProperty("LIVE_OAUTH_CLIENT_SECRET", null);
-
-			PAYPAL_OAUTH_CLIENT_ID = props.getProperty("PAYPAL_OAUTH_CLIENT_ID", null);
-			PAYPAL_OAUTH_CLIENT_SECRET = props.getProperty("PAYPAL_OAUTH_CLIENT_SECRET", null);
-
-			TWITTER_OAUTH_CLIENT_ID = props.getProperty("TWITTER_OAUTH_CLIENT_ID", null);
-			TWITTER_OAUTH_CLIENT_SECRET = props.getProperty("TWITTER_OAUTH_CLIENT_SECRET", null);
-
-			TWITTER_CONSUMER_KEY = props.getProperty("TWITTER_CONSUMER_KEY", null);
-			TWITTER_CONSUMER_SECRET = props.getProperty("TWITTER_CONSUMER_SECRET", null);
-			TWITTER_ACCESS_TOKEN = props.getProperty("TWITTER_ACCESS_TOKEN", null);
-			TWITTER_TOKEN_SECRET = props.getProperty("TWITTER_TOKEN_SECRET", null);
-
-			YOUTUBE_API_KEY = props.getProperty("YOUTUBE_API_KEY", null);
-
-			ANALYTICS = props.getProperty("ANALYTICS", null);
-
-			THEME_COLOR = props.getProperty("THEME_COLOR", "#FFFFFF");
-
-			if (!props.getProperty("VALID_PARENTS", "").equals("")) {
-				VALID_PARENTS.addAll(Arrays.asList(props.getProperty("VALID_PARENTS").split(",")));
-			}
-
-			FLOOD_DELAY = Long.valueOf(props.getProperty("FLOOD_DELAY", "5000"));
-
-			if (!props.getProperty("FILES_TYPE", "").equals("")) {
-				for (String type : props.getProperty("FILES_TYPE").split(",")) {
-					type = type.replace(" ", "");
-					if (!type.equals("")) {
-						FILES_TYPE.add(type);
-					}
-				}
-			}
-			reader.close();
-
-			props_stream.close();
-
-		} catch (Exception e) {
-			Fx.log("Error in " + file);
-			e.printStackTrace();
-		}
-	}
+	//Files type authorized as upload
+	public static final List<String> FILES_TYPE = Arrays.asList(settings.getProperty("FILES_TYPE", "image/png,image/jpeg,image/jpg").split("[ ]?+,[ ]?+"));
 
 
+	/**
+	 * @return cookie name with a different value when debug
+	 */
 	public static String getCookieName() {
 		return COOKIE_NAME + (Fx.IS_DEBUG ? "Dev" : "");
 	}
 
+	/**
+	 * @return value from max age for header expire
+	 */
 	public static long getHttpExpires() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.SECOND, MAX_AGE);
 		return cal.getTimeInMillis();
 	}
 
+	/**
+	 * @return standard host address with protocol
+	 */
 	public static String getFullHttp() {
 		return HTTP_PROTO + STANDARD_HOST;
 	}
 
+	/**
+	 * @return host address from language with protocol
+	 */
 	public static String getFullHttp(String lng) {
 		return HTTP_PROTO + getDomain(lng);
 	}
 
+	/**
+	 * @return content delivery address with protocol
+	 */
 	public static String getCDNHttp() {
 		return HTTP_PROTO + HOST_CDN;
 	}
 
+	/**
+	 * @return api address with protocol
+	 */
 	public static String getApiHTTP() {
 		return HTTP_PROTO + HOST_API;
 	}
 
+	/**
+	 * @return logo address with protocol
+	 */
 	public static String getLogo() {
 		return Settings.getCDNHttp() + Settings.UI_LOGO;
 	}
 
+	/**
+	 * @return languages codes lang available
+	 */
 	public static List<String> getLangs() {
 		return Settings.LANGS_DOMAINS.keyList();
 	}
 
+	/**
+	 * @return language from domain
+	 */
 	public static String getLang(String domain) {
 		return Settings.LANGS_DOMAINS.findKey(domain);
 	}
 
+	/**
+	 * @return domain from language
+	 */
 	public static String getDomain(String lang) {
 		return Settings.LANGS_DOMAINS.getString(lang);
 	}
 
+	/**
+	 * @return all domains
+	 */
 	public static List<String> getDomains() {
 		List<String> domains = new ArrayList<>();
 		Settings.LANGS_DOMAINS.values().forEach(obj -> {
@@ -270,4 +237,50 @@ public class Settings {
 		});
 		return domains;
 	}
+
+	/**
+	 * load properties from settings file
+	 */
+	private static Properties load() {
+		Properties settings = new Properties();
+		String file = "/res/settings";
+		try {
+			InputStream props_stream = Settings.class.getResourceAsStream(file);
+			Reader reader = new InputStreamReader(props_stream, StandardCharsets.UTF_8);
+			settings.load(reader);
+			reader.close();
+			props_stream.close();
+		} catch (Exception e) {
+			Fx.log("Error in " + file);
+			e.printStackTrace();
+			return null;
+		}
+		return settings;
+	}
+
+	/**
+	 * Find valid parents from settings file
+	 */
+	private static List<String> getValidParents() {
+		List<String> VALID_PARENTS = new ArrayList<>(Arrays.asList("Posts", "Forums", "Pages"));
+		for (String valid : settings.getProperty("VALID_PARENTS").split("[ ]?+,[ ]?+")) {
+			if (!VALID_PARENTS.contains(valid)) {
+				VALID_PARENTS.add(valid);
+			}
+		}
+		return VALID_PARENTS;
+	}
+
+	/**
+	 * Find languages and domains associations from settings file
+	 */
+	private static Json getLangsDomains() {
+		Json LANGS_DOMAINS = new Json();
+		for (String langs_domains : settings.getProperty("LANGS_DOMAINS", null).split(" ")) {
+			String[] langs_domains_ = langs_domains.split(":");
+			LANGS_DOMAINS.put(langs_domains_[0], langs_domains_[1]);
+		}
+		return LANGS_DOMAINS;
+	}
+
 }

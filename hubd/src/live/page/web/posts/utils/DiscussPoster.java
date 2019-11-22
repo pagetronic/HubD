@@ -41,7 +41,7 @@ public class DiscussPoster {
 		}
 
 		if (data.getString("title", "").equals("") && data.containsKey("page")) {
-			data.put("title", Fx.couper(data.getString("text"), 60));
+			data.put("title", Fx.truncate(data.getString("text"), 60));
 		}
 
 		if (data.getId() != null) {
@@ -157,7 +157,7 @@ public class DiscussPoster {
 		}
 
 		if (!isReply) {
-			post.put("title", data.getString("title", Fx.couper(data.getString("text"), 70)));
+			post.put("title", data.getString("title", Fx.truncate(data.getString("text"), 70)));
 		}
 		post.put("date", date).put("last", new Json("date", date)).put("update", date).put("replies", 0);
 

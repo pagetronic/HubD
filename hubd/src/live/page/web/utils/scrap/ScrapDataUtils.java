@@ -140,7 +140,7 @@ public class ScrapDataUtils {
 			}
 		}
 
-		rez.put("description", Fx.couper(Jsoup.clean(description.toString(), "/", new Whitelist()), max));
+		rez.put("description", Fx.truncate(Jsoup.clean(description.toString(), "/", new Whitelist()), max));
 
 		rez.put("logos", logos);
 		rez.put("url", page.location());
@@ -284,7 +284,7 @@ public class ScrapDataUtils {
 	}
 
 	private static class ImagesSortedStore {
-		private List<ImageElement> list = new ArrayList<>();
+		private final List<ImageElement> list = new ArrayList<>();
 
 		public List<String> getSorted() {
 			list.sort((img1, img2) -> {
@@ -317,9 +317,9 @@ public class ScrapDataUtils {
 
 
 		private class ImageElement {
-			String src;
-			int width;
-			int height;
+			final String src;
+			final int width;
+			final int height;
 
 			public ImageElement(String src, int width, int height) {
 				this.src = src;

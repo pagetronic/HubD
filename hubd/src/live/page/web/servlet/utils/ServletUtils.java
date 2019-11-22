@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class ServletUtils {
 
 	/**
-	 *  Get Real IP with proxy identification
+	 * Get Real IP with proxy identification
 	 */
 	public static String realIp(HttpServletRequest req) {
 		String ip = req.getHeader("X-FORWARDED-FOR");

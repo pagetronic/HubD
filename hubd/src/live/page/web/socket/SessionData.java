@@ -11,12 +11,12 @@ import java.util.List;
 
 public class SessionData {
 
-	private Session session;
+	private final Session session;
 	private String user_id = null;
 	private String lng = null;
-	private Date date = new Date();
+	private final Date date = new Date();
 
-	private List<String> elements = new ArrayList<>();
+	private final List<String> elements = new ArrayList<>();
 
 	private StringWriter temp_message = new StringWriter();
 
@@ -93,7 +93,7 @@ public class SessionData {
 		return session.isOpen();
 	}
 
-	private List<String> aborts = new ArrayList<>();
+	private final List<String> aborts = new ArrayList<>();
 
 	public void abort(String act) {
 		aborts.add(act);

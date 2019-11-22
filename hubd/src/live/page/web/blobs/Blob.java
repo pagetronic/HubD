@@ -6,8 +6,8 @@ package live.page.web.blobs;
 import java.io.File;
 
 public class Blob {
-	File file;
-	String contentType;
+	final File file;
+	final String contentType;
 
 	public Blob(File file, String contentType) {
 		this.file = file;

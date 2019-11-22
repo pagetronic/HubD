@@ -162,7 +162,7 @@
         <li class="hr">#lang('POSTS_SAME')</li>
         #foreach( $thread in $thread.branche)
         <li><a itemprop="sameAs" href="$thread.url"#if($thread.replies==0) rel="nofollow"#end>$svg.mi_message $thread.title
-                <span>#if($thread.text)$Fx.couper($thread.text, 150)#else#if($thread.link)$Fx.couper($thread.link.description, 200)#end#end // #if($thread.replies>0)$thread.replies #if($thread.replies > 1)#lang('REPLIES')#else#lang('REPLY')#end#else#lang('NO_REPLY')#end</span>
+                <span>#if($thread.text)$Fx.truncate($thread.text, 150)#else#if($thread.link)$Fx.truncate($thread.link.description, 200)#end#end // #if($thread.replies>0)$thread.replies #if($thread.replies > 1)#lang('REPLIES')#else#lang('REPLY')#end#else#lang('NO_REPLY')#end</span>
             </a></li>
         #end
     </ul>

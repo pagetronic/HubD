@@ -20,8 +20,8 @@ import java.util.Map;
 
 public class WebServletResponse extends BaseServletResponse {
 
-	private BaseTemplate template = BaseTemplate.getTemplate();
-	private long start = System.currentTimeMillis();
+	private final BaseTemplate template = BaseTemplate.getTemplate();
+	private final long start = System.currentTimeMillis();
 
 	public WebServletResponse(ServletResponse response) throws IOException {
 		super(response);

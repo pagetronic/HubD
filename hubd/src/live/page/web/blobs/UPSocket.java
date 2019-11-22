@@ -39,6 +39,7 @@ public class UPSocket implements ServletContextListener {
 			session.close();
 		}
 	}
+
 	/**
 	 * Receive file after initial informations
 	 */

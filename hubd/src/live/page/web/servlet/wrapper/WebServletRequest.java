@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class WebServletRequest extends BaseServletRequest {
 
-	private Users user = null;
+	private final Users user = null;
 
 	public WebServletRequest(ServletRequest request) throws IOException {
 		super(request);

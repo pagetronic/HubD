@@ -30,7 +30,7 @@
 		<strong><a href="$thread.url#if($thread.remove)?remove#end"#if(!$thread.index) rel="nofollow"#end>$thread.title</a></strong>
 		<span class="infos">
 			#if($thread.link.description)
-				$Fx.couper($thread.link.description,500)
+				$Fx.truncate($thread.link.description,500)
 			#else
 				#if($thread.text)$Fx.clean($thread.text,500)#end
 			#end

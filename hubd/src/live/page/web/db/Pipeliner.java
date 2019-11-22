@@ -17,11 +17,11 @@ import java.util.List;
 
 public abstract class Pipeliner {
 
-	protected Paginer paginer;
+	protected final Paginer paginer;
 	protected String type = null;
 	protected String lng = null;
 
-	private List<Bson> filters = new ArrayList<>();
+	private final List<Bson> filters = new ArrayList<>();
 
 
 	public Pipeliner(String type, Paginer paginer) {

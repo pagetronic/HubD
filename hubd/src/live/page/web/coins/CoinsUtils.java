@@ -13,8 +13,8 @@ import java.util.Date;
 
 public class CoinsUtils {
 
-	public static int THREAD = 2;
-	public static int POST = 1;
+	public static final int THREAD = 2;
+	public static final int POST = 1;
 
 	public static Json congrate(String user_id, String element) {
 

@@ -36,8 +36,8 @@ public class TwitterOauth {
 	private static final String request_token = "https://api.twitter.com/oauth/request_token";
 	private static final String access_token = "https://api.twitter.com/oauth/access_token";
 	private static final String verify_credentials = "https://api.twitter.com/1.1/account/verify_credentials.json";
-	private static String oauth_consumer_key = Settings.TWITTER_OAUTH_CLIENT_ID;
-	private static String oauth_consumer_secret = Settings.TWITTER_OAUTH_CLIENT_SECRET;
+	private static final String oauth_consumer_key = Settings.TWITTER_OAUTH_CLIENT_ID;
+	private static final String oauth_consumer_secret = Settings.TWITTER_OAUTH_CLIENT_SECRET;
 
 	public static String getAuthorize() {
 

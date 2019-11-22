@@ -31,7 +31,7 @@ public class Fx {
 	public static final boolean IS_DEBUG = java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp");
 	public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; // Warning.. Z necessary for next
 
-	private static SecureRandom random = new SecureRandom(Settings.SALT.getBytes());
+	private static final SecureRandom random = new SecureRandom(Fx.getUnique().getBytes());
 
 	public static String getSecureKey() {
 		String big = new BigInteger(280, random).toString(Character.MAX_RADIX);
@@ -88,7 +88,7 @@ public class Fx {
 	}
 
 
-	public static String couper(String chaine, int length) {
+	public static String truncate(String chaine, int length) {
 		if (chaine == null) {
 			return null;
 		}

@@ -25,10 +25,10 @@ import java.util.List;
 public class Paginer {
 
 	protected Json paging = new Json();
-	protected int limit;
+	protected final int limit;
 	public Direction direction = Direction.FIRST;
-	protected String key;
-	protected int order;
+	protected final String key;
+	protected final int order;
 
 	public int order() {
 		return order;

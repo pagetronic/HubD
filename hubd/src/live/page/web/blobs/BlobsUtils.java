@@ -8,11 +8,6 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.jpeg.JpegDirectory;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Sorts;
-import com.mongodb.client.model.UnwindOptions;
-import live.page.web.db.Aggregator;
 import live.page.web.db.Db;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
@@ -29,8 +24,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
-import org.bson.BsonUndefined;
-import org.bson.conversions.Bson;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
@@ -44,7 +37,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.Date;
+import java.util.Iterator;
 
 public class BlobsUtils {
 

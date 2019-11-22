@@ -13,7 +13,7 @@ import java.util.*;
 
 public class PolyPaginer extends Paginer {
 
-	private Set<String> keys;
+	private final Set<String> keys;
 
 	public PolyPaginer(String paging_str, String sort_str, int limit, Set<String> keys) {
 		super(paging_str, sort_str, limit);

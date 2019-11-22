@@ -5,29 +5,30 @@ package live.page.web.servlet;
 
 import live.page.web.servlet.wrapper.BaseServletRequest;
 import live.page.web.servlet.wrapper.BaseServletResponse;
+import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Light weight servlet
+ * Light weight servlet used for simplified services
  */
 public abstract class BaseServlet implements Servlet {
 
 	abstract public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException;
 
 	@Override
-	public void service(ServletRequest req_, ServletResponse resp_) throws IOException {
-
-
-		BaseServletRequest req = new BaseServletRequest(req_);
-		BaseServletResponse resp = new BaseServletResponse(resp_);
+	public void service(ServletRequest req, ServletResponse resp) {
 
 		try {
-			doService(req, resp);
+			doService(new BaseServletRequest(req), new BaseServletResponse(resp));
 		} catch (Exception e) {
-			resp.setStatus(500);
+			if (Fx.IS_DEBUG) {
+				e.printStackTrace();
+			}
+			((HttpServletResponse) resp).setStatus(500);
 		}
 	}
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Aggregator extends ArrayList<BsonField> {
 
-	private List<String> keys = new ArrayList<>();
+	private final List<String> keys = new ArrayList<>();
 
 	public Aggregator(String... keys_) {
 		for (String key : keys_) {

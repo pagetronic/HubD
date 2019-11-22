@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SearchUtils {
-	private static int limit = 10;
+	private static final int limit = 10;
 
 	public static Json search(String query, String lng, String type, String paging_str) {
 		try {
@@ -87,6 +87,6 @@ public class SearchUtils {
 			return null;
 		}
 		query = Normalizer.normalize(query, Normalizer.Form.NFKC).replaceAll("(</?[^>]+>)", "");
-		return Fx.couper(query, 150);
+		return Fx.truncate(query, 150);
 	}
 }

@@ -36,11 +36,11 @@ public class FxTemplate {
 		return ele;
 	}
 
-	public static String couper(String chaine, int length) {
+	public static String truncate(String chaine, int length) {
 		if (chaine == null) {
 			return null;
 		}
-		return Fx.couper(chaine, length);
+		return Fx.truncate(chaine, length);
 	}
 
 	public static String escape(String chaine) {
@@ -55,7 +55,7 @@ public class FxTemplate {
 			return null;
 		}
 		String clean = chaine.replaceAll("\\[([^]]+)]", "").replaceAll("\n", " ").replaceAll("([\\s]+)", " ");
-		return Fx.couper(clean, length);
+		return Fx.truncate(clean, length);
 	}
 
 	public static String getDomain(String url) {
