@@ -17,9 +17,9 @@
         </license>
     </licenses>
     <properties>
-        <!-- BE CAREFUL !! Can remove all file in directory-->
+        <!-- BE CAREFUL !! specify a safe folder, it can remove all file in directory-->
         <tomcatDir>/data/tomcat</tomcatDir>
-        <!-- BE CAREFUL !! Can remove all file in directory-->
+        <tomcatLibDir>/data/tomcat/lib</tomcatLibDir>
         <cronDir>/data/croners</cronDir>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
