@@ -36,8 +36,7 @@
             <id>page-live</id>
             <url>repository</url>
         </repository>
-        <!--
-            GitHub repo -->
+        <!-- GitHub repo -->
         <!-- <repository>
 		        <id>page-live-hubd</id>
 		        <name>HubD repository</name>
