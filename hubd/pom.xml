@@ -11,7 +11,7 @@
         <groupId>live.page</groupId>
         <artifactId>hubd</artifactId>
         <version>[2.0.0,2.9.9)</version>
-        <relativePath>../</relativePath>
+        <relativePath>../../HubD</relativePath>
     </parent>
 
     <build>
@@ -87,21 +87,37 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>2.5.2</version>
 
                 <configuration>
                     <groupId>live.page</groupId>
                     <artifactId>page-live-hubd</artifactId>
                     <file>target/page-live-hubd.jar</file>
+                    <sources>target/page-live-hubd-sources.jar</sources>
                     <version>${project.version}</version>
                     <packaging>jar</packaging>
                     <localRepositoryPath>../repository</localRepositoryPath>
+                    <createChecksum>true</createChecksum>
                     <generatePom>true</generatePom>
                     <pomFile>pom.xml</pomFile>
+                    <updateReleaseInfo>true</updateReleaseInfo>
                 </configuration>
                 <executions>
                     <execution>
