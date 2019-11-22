@@ -1,4 +1,4 @@
-Repository directory used in maven install
+Repository can be used in maven
 
 	<repository>
 		<id>page-live-hubd</id>
