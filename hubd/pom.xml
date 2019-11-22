@@ -4,20 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>page-live-hubd</artifactId>
-    <version>2.1.2</version>
+    <version>2.2.1</version>
     <packaging>jar</packaging>
     <name>HubD</name>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    <organization>
-        <name>Laurent PAGE</name>
-        <url>https://page.live/</url>
-    </organization>
     <parent>
         <groupId>live.page</groupId>
         <artifactId>hubd</artifactId>
-        <version>2.1.2</version>
+        <version>[2.0.0,2.9.9)</version>
         <relativePath>../</relativePath>
     </parent>
 

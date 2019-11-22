@@ -3,26 +3,35 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>live.page</groupId>
     <artifactId>hubd</artifactId>
-    <version>2.1.2</version>
+    <version>2.1.3</version>
     <packaging>pom</packaging>
     <name>HubD Global</name>
-    <description>waste of time</description>
+    <description>A Jar Engine to deploy complex Website with Java Servlet, MongoDb and Velocity</description>
+    <organization>
+        <name>Laurent PAGE</name>
+        <url>https://laurent.page.live/</url>
+    </organization>
     <licenses>
         <license>
-            <name>L. Page Licence</name>
+            <name>Apache V2.0</name>
         </license>
     </licenses>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <modules>
         <module>hubd</module>
-        <module>croners/croner</module>
-        <module>croners/example-croner</module>
-        <module>sites/example</module>
+        <module>crond</module>
+        <module>examples/example-croner</module>
+        <module>examples/example-web</module>
     </modules>
     <repositories>
+        <!-- Test original repo before others -->
         <repository>
             <id>maven2-bis</id>
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
+        <!-- local repo -->
         <repository>
             <id>page-live</id>
             <url>repository</url>

@@ -28,8 +28,8 @@ public class Relations {
 
 
 	/**
-	 *  Perform relationships to users who already discussed
-	 *  TODO: verify
+	 * Perform relationships to users who already discussed
+	 * TODO: verify
 	 */
 	public static void cron() {
 
