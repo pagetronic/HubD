@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * the manifest json used for Webpush and future progressive web app from Google
+ */
 @WebServlet(urlPatterns = {"/manifest.json"})
 public class ManifestServlet extends HttpServlet {
 
