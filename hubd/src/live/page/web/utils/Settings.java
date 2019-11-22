@@ -263,8 +263,8 @@ public class Settings {
 	 */
 	private static List<String> getValidParents() {
 		List<String> VALID_PARENTS = new ArrayList<>(Arrays.asList("Posts", "Forums", "Pages"));
-		for (String valid : settings.getProperty("VALID_PARENTS").split("[ ]?+,[ ]?+")) {
-			if (!VALID_PARENTS.contains(valid)) {
+		for (String valid : settings.getProperty("VALID_PARENTS", "").split("[ ]?+,[ ]?+")) {
+			if (!valid.equals("") && !VALID_PARENTS.contains(valid)) {
 				VALID_PARENTS.add(valid);
 			}
 		}
@@ -276,9 +276,11 @@ public class Settings {
 	 */
 	private static Json getLangsDomains() {
 		Json LANGS_DOMAINS = new Json();
-		for (String langs_domains : settings.getProperty("LANGS_DOMAINS", null).split(" ")) {
-			String[] langs_domains_ = langs_domains.split(":");
-			LANGS_DOMAINS.put(langs_domains_[0], langs_domains_[1]);
+		for (String langs_domains : settings.getProperty("LANGS_DOMAINS", "").split("[ ]+")) {
+			String[] langs_domains_ = langs_domains.split("[ ]?+:[ ]?+");
+			if (langs_domains_.length == 2) {
+				LANGS_DOMAINS.put(langs_domains_[0], langs_domains_[1]);
+			}
 		}
 		return LANGS_DOMAINS;
 	}

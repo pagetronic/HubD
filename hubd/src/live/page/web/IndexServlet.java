@@ -32,8 +32,9 @@ public class IndexServlet extends HttpServlet {
 		req.setCanonical("/", "paging");
 		req.setRobotsIndex(req.getQueryString() == null, true);
 
-		String description = Language.get("SITE_DESCRIPTION", req.getLng());
-		req.setDescription(description.startsWith("$") ? null : description);
+		if (Language.exist("SITE_DESCRIPTION", req.getLng())) {
+			req.setDescription(Language.get("SITE_DESCRIPTION", req.getLng()));
+		}
 
 		req.setAttribute("pages", PagesAggregator.getPages(Filters.eq("lng", Settings.getLang(req.getServerName())), 40, null));
 		req.setAttribute("threads", ThreadsAggregator.getThreads(

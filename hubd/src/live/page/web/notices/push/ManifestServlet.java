@@ -32,7 +32,7 @@ public class ManifestServlet extends HttpServlet {
 				.put("manifest_version", 2)
 				.put("name", Settings.SITE_TITLE)
 				.put("short_name", Settings.SITE_TITLE)
-				.put("description", Language.get("SITE_DESCRIPTION", req.getLng()))
+				.put("description", Language.exist("SITE_DESCRIPTION", req.getLng()) ? Language.get("SITE_DESCRIPTION", req.getLng()) : null)
 				.put("homepage_url", Settings.getFullHttp(req.getLng()))
 				.put("start_url", Settings.getFullHttp(req.getLng()) + "/")
 				.put("author", "Tronic Page")
