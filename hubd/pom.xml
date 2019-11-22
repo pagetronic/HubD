@@ -22,10 +22,6 @@
                 <directory>res</directory>
                 <targetPath>res</targetPath>
             </resource>
-            <resource>
-                <directory>svg</directory>
-                <targetPath>svg</targetPath>
-            </resource>
         </resources>
 
         <plugins>

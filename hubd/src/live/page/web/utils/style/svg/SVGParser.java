@@ -37,7 +37,7 @@ public class SVGParser {
 			sizes.clear();
 			svgs.clear();
 			StringWriter allmisvg = new StringWriter();
-			for (File file : Fx.listFiles(Settings.HUB_REPO + "/svg/mi", "svg")) {
+			for (File file : Fx.listFiles(Settings.HUB_REPO + "/res/svg/mi", "svg")) {
 				String str = FileUtils.readFileToString(file);
 				allmisvg.append(str);
 			}
@@ -65,7 +65,7 @@ public class SVGParser {
 			//FontAwesomeone
 
 			StringWriter allfasvg = new StringWriter();
-			for (File file : Fx.listFiles(Settings.HUB_REPO + "/svg/fa", "svg")) {
+			for (File file : Fx.listFiles(Settings.HUB_REPO + "/res/svg/fa", "svg")) {
 				String str = FileUtils.readFileToString(file);
 				allfasvg.append(str);
 			}
