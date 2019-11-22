@@ -34,7 +34,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>/data/croners/libs</outputDirectory>
+                            <outputDirectory>${cronDir}/libs</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -67,10 +67,10 @@
                         <manifest>
                             <mainClass>com.example.Cron</mainClass>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>/data/croners/libs</classpathPrefix>
+                            <classpathPrefix>${cronDir}/libs</classpathPrefix>
                         </manifest>
                     </archive>
-                    <outputDirectory>/data/croners</outputDirectory>
+                    <outputDirectory>${cronDir}</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

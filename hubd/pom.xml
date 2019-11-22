@@ -37,7 +37,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>/data/tomcat/lib</outputDirectory>
+                            <outputDirectory>${tomcatDir}/lib</outputDirectory>
                             <stripVersion>true</stripVersion>
                             <excludeArtifactIds>page-live-hubd,page-live-billd</excludeArtifactIds>
                         </configuration>

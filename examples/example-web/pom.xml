@@ -43,7 +43,7 @@
                     <warSourceDirectory>war</warSourceDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <resourceEncoding>UTF-8</resourceEncoding>
-                    <outputDirectory>/data/tomcat/example</outputDirectory>
+                    <outputDirectory>${tomcatDir}/example</outputDirectory>
                     <packagingExcludes>%regex[WEB-INF/lib/(?!page-live-).*.jar]</packagingExcludes>
                 </configuration>
             </plugin>

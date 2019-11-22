@@ -3,7 +3,7 @@ A Jar Engine to deploy complex Website with Java Servlet, MongoDb and Velocity
 
 You can see in action in [Agroneo](https://agroneo.com) and [TextBox](https://textbox.live/) and more..
 
-## Functionalities
+#### Functionalities
 
 * Cool HTML Template system
 * Json/XML Api
@@ -15,7 +15,7 @@ You can see in action in [Agroneo](https://agroneo.com) and [TextBox](https://te
 * Set of tools to Aggregate and Paging easily with MongoDb
 * and more..
 
-## Goodies
+#### Goodies
 
 * Multiple servers supported
 * Seo Ready

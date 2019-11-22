@@ -17,6 +17,11 @@
         </license>
     </licenses>
     <properties>
+        <!-- BE CAREFUL !! Can remove all file in directory-->
+        <tomcatDir>/data/tomcat</tomcatDir>
+        <!-- BE CAREFUL !! Can remove all file in directory-->
+        <cronDir>/data/croners</cronDir>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
