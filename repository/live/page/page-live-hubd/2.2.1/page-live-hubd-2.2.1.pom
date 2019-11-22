@@ -118,6 +118,7 @@
                     <generatePom>true</generatePom>
                     <pomFile>pom.xml</pomFile>
                     <updateReleaseInfo>true</updateReleaseInfo>
+
                 </configuration>
                 <executions>
                     <execution>

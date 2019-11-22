@@ -37,7 +37,8 @@
             <url>repository</url>
         </repository>
         <!--
-        <repository>
+            GitHub repo -->
+        <!-- <repository>
 	        <id>page-live</id>
 	        <name>yuicompressor repository</name>
 	        <url>https://raw.github.com/pagetronic/HubD/master/</url>
