@@ -121,7 +121,6 @@ var ajax = {
                         log(e);
                     }
                     sys.pushState(url);
-                    stats.pageview();
                 }
 
                 var body = $(html);
@@ -130,7 +129,6 @@ var ajax = {
                 center.html(body.find('#center').html());
                 $('header h1').html(body.find('header h1').html());
                 $('header').attr('style', body.find('header').attr('style'));
-
                 sys.load(xhr.getResponseHeader('X-Speed').replace('ms', ''));
 
                 sys.wait(false);

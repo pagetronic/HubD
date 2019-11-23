@@ -14,19 +14,18 @@ var stats = {
                 user: sys.user.id
             }
         }, function (msg) {
-            var gone = function () {
+            var gone = function (after) {
                 socket.send({
                     action: 'stats',
                     data: {
                         id: msg.id,
                         gone: true
                     }
-                });
+                }, after);
             };
             ajax.unload(gone);
             $(window).off('beforeunload.socket').one('beforeunload', function () {
-                gone();
-                socket.ctx.close();
+                gone(socket.ctx.close);
             });
 
         });

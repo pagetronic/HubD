@@ -20,23 +20,21 @@ import java.io.IOException;
 @ServerEndpoint(value = "/socket", configurator = SocketConfig.class)
 public class BaseWebSocket {
 
-	public SocketMessage onMessageAuthSys(Json msg, SessionData user_session) {
+	public SocketMessage onMessageAuthSys(Json msg, SessionData sessiondata) {
 		switch (msg.getString("action")) {
 			case "abort":
-				user_session.abort(msg.getString("act"));
+				sessiondata.abort(msg.getString("act"));
 				return new SocketMessage();
 			case "scrap":
-				return ScrapAdminUtils.scrapPreview(msg, user_session);
-			case "stats":
-				return LogsUtils.pushStats(msg.getString("act"), user_session.getIp(), msg.getJson("data"));
+				return ScrapAdminUtils.scrapPreview(msg, sessiondata);
 			case "receive_notices":
-				NoticesUtils.noticeReceived(user_session.getUserId());
+				NoticesUtils.noticeReceived(sessiondata.getUserId());
 				return new SocketMessage();
 			case "read_message":
-				MessagesUtils.readMessage(user_session.getUserId(), msg.getId(), msg.getBoolean("read", false));
+				MessagesUtils.readMessage(sessiondata.getUserId(), msg.getId(), msg.getBoolean("read", false));
 				return new SocketMessage(msg.getString("act")).addMessage("ok", true);
 			case "settings":
-				SocketPusher.send("user", user_session.getUserId(), new Json("action", "settings").put("settings", ProfileUtils.setSettings(user_session.getUserId(), msg.getJson("data"))));
+				SocketPusher.send("user", sessiondata.getUserId(), new Json("action", "settings").put("settings", ProfileUtils.setSettings(sessiondata.getUserId(), msg.getJson("data"))));
 				return new SocketMessage(msg.getString("act")).addMessage("ok", true);
 
 		}
@@ -47,6 +45,9 @@ public class BaseWebSocket {
 
 		SocketMessage data = new SocketMessage(msg.getString("act"));
 		switch (msg.getString("action")) {
+			case "stats":
+				return LogsUtils.pushStats(msg.getString("act"), sessiondata.getIp(), msg.getJson("data"));
+
 			case "follow":
 				sessiondata.addElement(msg.getString("channel"));
 
@@ -130,7 +131,7 @@ public class BaseWebSocket {
 		} catch (Exception e) {
 			try {
 				session.close();
-			} catch (Exception ex) {
+			} catch (Exception ignore) {
 			}
 		}
 	}

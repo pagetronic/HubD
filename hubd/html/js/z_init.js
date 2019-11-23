@@ -1,9 +1,5 @@
 sys.init = function (xspeed) {
 
-    if (sys.analytics === "" || sys.analytics === undefined || sys.analytics === null) {
-        stats.pageview();
-    }
-
 
     $.ajaxSetup({
         cache: true
@@ -45,6 +41,10 @@ sys.debuggable = function (set) {
     }
 };
 sys.load = function (xspeed) {
+
+    if (sys.analytics === "" || sys.analytics === undefined || sys.analytics === null) {
+        stats.pageview();
+    }
 
     if (xspeed !== undefined && Cookies.get("debug") === 'debug') {
         var meta_robots = $('meta[name=robots]');
