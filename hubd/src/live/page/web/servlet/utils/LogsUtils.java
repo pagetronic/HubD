@@ -3,7 +3,9 @@
  */
 package live.page.web.servlet.utils;
 
+import com.mongodb.client.model.Filters;
 import live.page.web.db.Db;
+import live.page.web.socket.SocketMessage;
 import live.page.web.utils.Fx;
 import live.page.web.utils.json.Json;
 
@@ -39,12 +41,16 @@ public class LogsUtils implements ServletContextListener {
 				log.add("h", new Json(name, req.getHeader(name)));
 			}
 		}
-		asyncService.submit(() -> Db.save("Logs", log));
+		asyncService.submit(() -> Db.getDb("Logs").insertOne(log));
 	}
 
-	public static void pushStats(String ip, Json data) {
+	public static SocketMessage pushStats(String act, String ip, Json data) {
+		if (data.getBoolean("gone", false)) {
+			Db.updateOne("Stats", Filters.eq("_id", data.getId()), new Json("$set", new Json("gone", new Date())));
+			return new SocketMessage(act).addMessage("ok", true);
+		}
 		Json stat = new Json();
-		stat.put("sysid", data.getId());
+		stat.put("sysid", data.getString("sysid"));
 		stat.put("url", data.getString("location"));
 		stat.put("width", data.getInteger("width"));
 		stat.put("height", data.getInteger("height"));
@@ -54,7 +60,9 @@ public class LogsUtils implements ServletContextListener {
 			stat.put("user", data.getString("user"));
 		}
 		stat.put("date", new Date());
-		asyncService.submit(() -> Db.save("Stats", stat));
+		stat.put("_id", Db.getKey());
+		asyncService.submit(() -> Db.getDb("Stats").insertOne(stat));
+		return new SocketMessage(act).addMessage("_id", stat.getId());
 	}
 
 	@Override

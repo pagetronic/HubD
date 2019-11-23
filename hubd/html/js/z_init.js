@@ -1,6 +1,6 @@
 sys.init = function (xspeed) {
 
-    if (sys.analytics === "" || sys.analytics === undefined|| sys.analytics === null) {
+    if (sys.analytics === "" || sys.analytics === undefined || sys.analytics === null) {
         stats.pageview();
     }
 
@@ -24,8 +24,6 @@ sys.init = function (xspeed) {
         samesite: 'none'
     });
 
-    webpush.buttons();
-    $('textarea[autosize]').autosize();
     //sys.grip.init();
     sys.consent.message();
     sys.consent.pub();
@@ -41,6 +39,9 @@ sys.init = function (xspeed) {
     sys.comodo();
     sys.svg();
 
+    ajax.init();
+    sys.load();
+
 };
 sys.debuggable = function (set) {
     if (set) {
@@ -54,4 +55,8 @@ sys.debuggable = function (set) {
 };
 sys.load = function () {
 
+    webpush.buttons();
+    saver.init();
+    ajax.it();
+    $('textarea[autosize]').autosize();
 };

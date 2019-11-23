@@ -115,7 +115,7 @@ var socket = {
         });
     }
 };
-$(window).on('beforeunload onunload', function () {
+$(window).on('beforeunload.socket', function () {
     try {
         socket.ctx.close();
     } catch (e) {

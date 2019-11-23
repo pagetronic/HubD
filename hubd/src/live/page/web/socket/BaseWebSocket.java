@@ -28,8 +28,7 @@ public class BaseWebSocket {
 			case "scrap":
 				return ScrapAdminUtils.scrapPreview(msg, user_session);
 			case "stats":
-				LogsUtils.pushStats(user_session.getIp(), msg.getJson("data"));
-				return new SocketMessage();
+				return LogsUtils.pushStats(msg.getString("act"), user_session.getIp(), msg.getJson("data"));
 			case "receive_notices":
 				NoticesUtils.noticeReceived(user_session.getUserId());
 				return new SocketMessage();
