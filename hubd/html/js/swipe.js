@@ -52,6 +52,7 @@ sys.swipe = {
                 return;
             }
             if (posX < menu.width() * 3 / 4 && menu.hasClass('open')) {
+                sys.comodo.show();
                 menu.animate({left: -menu.width()}, 200, function () {
                     menu.removeClass('open');
                     menu.css({left: ''});
@@ -62,8 +63,8 @@ sys.swipe = {
                     menu.css({left: ''});
                 });
             } else {
+                sys.comodo.show();
                 menu.animate({left: -menu.width()}, 200, function () {
-                    sys.comodo.show();
                     menu.css({left: ''});
                 });
             }
@@ -118,6 +119,7 @@ sys.swipe = {
             }
 
             if (Math.abs(x) < lateral.width() * 3 / 4 && lateral.hasClass('open')) {
+                sys.comodo.show();
                 lateral.animate({position: '', right: -lateral.width()}, 200, function () {
                     lateral.removeClass('open');
                     lateral.css({right: '', position: ''});
@@ -128,8 +130,8 @@ sys.swipe = {
                     lateral.css({right: ''});
                 });
             } else {
+                sys.comodo.show();
                 lateral.animate({right: -lateral.width()}, 200, function () {
-                    sys.comodo.show();
                     lateral.removeClass('open').css({right: '', position: ''});
                 });
             }
