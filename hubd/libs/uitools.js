@@ -22,49 +22,49 @@ sys = $.extend({}, sys, {
          * Loading effect for ajax loading
          */
         dynamit: function (finish) {
+            var dynamit = $('#dynamit');
             if (finish) {
-                var dynamit = $('#dynamit');
                 dynamit.stop(false).animate({
                     width: '100%'
                 }, {
                     duration: 200
                 });
                 dynamit.delay(100).slowRemove(200);
-            } else {
-                $('#dynamit').remove();
-                var dynamit = $('<div id="dynamit"/>');
-                $(document.body).append(dynamit);
-                dynamit.animate({
-                    width: '30%'
-                }, {
-                    duration: 500,
-                    easing: 'linear',
-                    complete: function () {
-                        dynamit.animate({
-                            width: '70%',
-                        }, {
-                            duration: 3000,
-                            easing: 'linear',
-                            complete: function () {
-                                dynamit.animate({
-                                    width: '80%'
-                                }, {
-                                    duration: 8000,
-                                    easing: 'linear',
-                                    complete: function () {
-                                        dynamit.animate({
-                                            width: '95%'
-                                        }, {
-                                            duration: 10000,
-                                            easing: 'linear'
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+                return;
             }
+            dynamit.remove();
+            dynamit = $('<div id="dynamit"/>');
+            $(document.body).append(dynamit);
+            dynamit.animate({
+                width: '30%'
+            }, {
+                duration: 500,
+                easing: 'linear',
+                complete: function () {
+                    dynamit.animate({
+                        width: '70%',
+                    }, {
+                        duration: 3000,
+                        easing: 'linear',
+                        complete: function () {
+                            dynamit.animate({
+                                width: '80%'
+                            }, {
+                                duration: 8000,
+                                easing: 'linear',
+                                complete: function () {
+                                    dynamit.animate({
+                                        width: '95%'
+                                    }, {
+                                        duration: 10000,
+                                        easing: 'linear'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
 
         },
 
