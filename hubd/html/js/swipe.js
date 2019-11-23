@@ -27,7 +27,6 @@ sys.swipe = {
 
         box.on('touchstart.swipe', function (e) {
 
-            sys.comodo.hide();
             var posX = getPosX(e);
             if (lateral.length > 0 && lateral.hasClass('open') && posX <= tolerance) {
                 right = box.width() - posX;
@@ -58,6 +57,7 @@ sys.swipe = {
                     menu.css({left: ''});
                 });
             } else if (posX > (menu.width() / 4)) {
+                sys.comodo.hide();
                 menu.animate({left: 0}, 200, function () {
                     menu.addClass('open');
                     menu.css({left: ''});
@@ -85,7 +85,6 @@ sys.swipe = {
 
 
         box.on("touchstart.swipe", function (e) {
-            sys.comodo.hide();
             var posX = getPosX(e);
             var x = box.width() - posX;
             if (x <= tolerance && menu.hasClass('open')) {
@@ -125,6 +124,7 @@ sys.swipe = {
                     lateral.css({right: '', position: ''});
                 });
             } else if (x > (lateral.width() / 4)) {
+                sys.comodo.hide();
                 lateral.animate({right: 0}, 200, function () {
                     lateral.addClass('open');
                     lateral.css({right: ''});
