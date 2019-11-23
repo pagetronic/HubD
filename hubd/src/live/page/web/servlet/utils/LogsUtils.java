@@ -47,7 +47,7 @@ public class LogsUtils implements ServletContextListener {
 	public static SocketMessage pushStats(String act, String ip, Json data) {
 		if (data.containsKey("gone")) {
 			Db.updateOne("Stats", Filters.eq("_id", data.getId()), new Json("$set", new Json(data.getBoolean("gone", false) ? "gone" : "alive", new Date())));
-			return new SocketMessage(act).addMessage("ok", true);
+			return new SocketMessage();
 		}
 		Json stat = new Json();
 		stat.put("sysid", data.getString("sysid"));
