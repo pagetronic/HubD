@@ -28,7 +28,6 @@ sys.init = function (xspeed) {
     sys.consent.message();
     sys.consent.pub();
     sys.notices.init();
-    sys.rating.init();
     saver.init();
     time.init();
     sys.ego.init();
@@ -37,7 +36,6 @@ sys.init = function (xspeed) {
     sys.video.init();
     login.autologin();
     sys.comodo();
-    sys.svg();
 
     ajax.init();
     sys.load();
@@ -55,6 +53,8 @@ sys.debuggable = function (set) {
 };
 sys.load = function () {
 
+    sys.svg();
+    sys.rating.init();
     webpush.buttons();
     saver.init();
     ajax.it();
