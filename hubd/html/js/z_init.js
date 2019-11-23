@@ -16,12 +16,7 @@ sys.init = function (xspeed) {
     sys.consent.message();
     sys.consent.pub();
     sys.notices.init();
-    saver.init();
-    time.init();
     sys.ego.init();
-    sys.blobstore.popimg();
-    sys.swipe.init();
-    sys.video.init();
     login.autologin();
     sys.comodo();
     if (constants.ajax) {
@@ -52,6 +47,11 @@ sys.load = function (xspeed) {
         sys.toast('XSpeed: ' + xspeed + 'ms' + meta, 2000);
     }
 
+    saver.init();
+    time.init();
+    sys.swipe.init();
+    sys.blobstore.popimg();
+    sys.video.init();
     sys.svg();
     sys.rating.init();
     webpush.buttons();
