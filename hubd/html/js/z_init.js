@@ -12,7 +12,6 @@ sys.init = function (xspeed) {
         samesite: 'none'
     });
 
-    //sys.grip.init();
     sys.consent.message();
     sys.consent.pub();
     sys.notices.init();
