@@ -1,9 +1,13 @@
 #parse("/inc/top.html")
 <div id="middle">
-    <div class="bx">
+    <div class="bx" id="stats">
         <h2>#lang('ANALYTICS','ucfirst')</h2>
         #foreach($stat in $stats)
+        #if($velocityCount==0)
+        <h1 id="now">$stat.unique</h1>
+        #else
         <p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong> (#date($stat.start,'short') - #date($stat.stop,'short'))</p>
+        #end
         #end
     </div>
     <ul>
@@ -20,6 +24,24 @@
     </ul>
     <script type="text/javascript">
         sys.push(function () {
+            var nowInterval = -1;
+            var reload = function () {
+                ajax.get(sys.uri(), function (html) {
+                    html = $(html);
+                    var stats = $('#stats');
+                    var now = $('#now');
+                    var nowval = stats.find('#now').text();
+                    stats.html(html.find('#stats').html());
+                    if (nowval !== now.text()) {
+                        now.pulse();
+                    }
+                    nowInterval = setTimeout(reload, 3000);
+                });
+            };
+            ajax.unload(function () {
+                clearTimeout(nowInterval);
+            });
+            reload();
             sys.adminWebPush = function () {
                 var popin = pop(false);
                 popin.header('$svg.mi_notifications_none Web Push All');

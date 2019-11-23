@@ -29,13 +29,39 @@ public class StatsTools {
 
 		Calendar cl = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
+		//NOW
+
+
+		Date stop_date = cl.getTime();
+		cl.add(Calendar.SECOND, -5);
+		Date start_date = cl.getTime();
+
+		Json unique = Db.aggregate("Stats", Arrays.asList(
+				Aggregates.match(
+						Filters.or(
+								Filters.and(
+										Filters.eq("gone", null),
+										Filters.gte("alive", start_date), Filters.lt("alive", stop_date)
+								),
+								Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
+						)
+				),
+				Aggregates.group(new Json("ip", "$ip").put("ua", "$ua")),
+				Aggregates.group(null, Accumulators.sum("unique", 1))
+
+		)).first();
+
+		stats.add(new Json("unique", unique == null ? 0 : unique.getInteger("unique", 0)));
+
+
+		cl = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		//Today
 		cl.set(Calendar.HOUR, 0);
 		cl.set(Calendar.MINUTE, 0);
 		cl.set(Calendar.SECOND, 0);
-		Date start_date = cl.getTime();
+		start_date = cl.getTime();
 		cl.set(Calendar.HOUR_OF_DAY, 24);
-		Date stop_date = cl.getTime();
+		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
 
@@ -69,6 +95,7 @@ public class StatsTools {
 		return stats;
 	}
 
+
 	/**
 	 * Get period interested stats
 	 *
@@ -79,7 +106,10 @@ public class StatsTools {
 	private static Json getStats(Date start_date, Date stop_date) {
 		Json rez = new Json("start", start_date).put("stop", stop_date);
 		List<Bson> pipeline = new ArrayList<>();
-		pipeline.add(Aggregates.match(Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))));
+
+		pipeline.add(Aggregates.match(
+				Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
+		));
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua")));
 		pipeline.add(Aggregates.group(null, Accumulators.sum("unique", 1)));
 		Json unique = Db.aggregate("Stats", pipeline).first();
