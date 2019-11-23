@@ -1,0 +1,10 @@
+
+#dynamit {
+    position: absolute;
+    height: 3px;
+    border-radius: 2px;
+    top: 0px;
+    left: 0px;
+    z-index: 5000;
+    background: #940019;
+}
