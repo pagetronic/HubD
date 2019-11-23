@@ -1,5 +1,6 @@
 # HubD
-A Jar Engine to deploy complex Website with Java Servlet, MongoDb and Velocity
+
+A Jar Engine to deploy complex Website with Java Servlet, MongoDb, Velocity and Maven.
 
 You can see in action in [Agroneo](https://agroneo.com) and more..
 
