@@ -1,4 +1,7 @@
 var blobstore = {
+    /**
+     * poppable image
+     */
     popimg: function () {
         $('#middle').on('click', '.img a, a.popimage', function () {
             var a = $(this);
@@ -6,7 +9,7 @@ var blobstore = {
             var img = $('<img class="maxi"/>').attr('src', a.attr('href'));
             img.bind('load', function () {
                 img.imgViewer({
-                    legend:a.text(),
+                    legend: a.text(),
                     onReady: function () {
                     }
                 });
@@ -22,10 +25,22 @@ var blobstore = {
         });
     },
     show: function (where) {
-
+        //!TODO! do galery function
 
     },
-    button: function (where, button, receptacle, width, height, docs, uniq) {
+
+    /**
+     * Image selector for add image to zone / form
+     *
+     * @param where add documents thumbs ?
+     * @param button to action
+     * @param droppable JQObject where drop doc is possible
+     * @param width of the thumb needed
+     * @param height of the thumb needed
+     * @param docs initials ?
+     * @param uniq document it is ?
+     */
+    button: function (where, button, droppable, width, height, docs, uniq) {
         if (uniq === undefined) {
             uniq = false;
         }
@@ -75,7 +90,7 @@ var blobstore = {
 
                     imgbox.append(infos);
 
-                    if ( data.text !==  undefined) {
+                    if (data.text !== undefined) {
                         infos.val(data.text);
                     }
                     var name = uniq ? 'docs' : 'docs[]';
@@ -90,7 +105,7 @@ var blobstore = {
                             var scroll = null;
                             try {
                                 scroll = where.scrollParent();
-                                var scrollHeight = scroll[0].scrollTop;
+                                scrollHeight = scroll[0].scrollTop;
                             } catch (e) {
                             }
                             document.execCommand("insertText", false, ' [Photos(' + data.id + ') ]');
@@ -103,7 +118,8 @@ var blobstore = {
 
                 }
             };
-        }
+        };
+
         var choosen = function (file, reader) {
             var percent = $("<figcaption />").html(lang.get('LOADING') + ' <span>0%</span>');
             var obj = makeitem(reader);
@@ -120,7 +136,7 @@ var blobstore = {
             preview.readAsDataURL(file);
             obj.percent = percent;
             return obj;
-        }
+        };
         var progress = function (percent, obj) {
             obj.percent.find('span').html(Math.floor(percent) + "%");
         };
@@ -139,12 +155,12 @@ var blobstore = {
             };
             reader.onabort = function () {
                 upsocket.close(1000, "cancel");
-            }
+            };
             var obj = choosen(file, reader);
             upsocket.onmessage = function (event) {
                 try {
                     var data = eval("(" + event.data + ")");
-                    if ( data.id ===  undefined) {
+                    if (data.id === undefined) {
                         progress(data.percent, obj);
                     } else {
                         finish(data, obj);
@@ -166,12 +182,12 @@ var blobstore = {
             upsocket.onerror = function (event) {
                 upsocket.close(1000, "error");
             };
-        }
+        };
         var upfiles = function (files) {
             var error = [];
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
-                if ( file.type ===  undefined || !file.type.match(/image\/(jpg|jpeg|png|gif)/)) {
+                if (file.type === undefined || !file.type.match(/image\/(jpg|jpeg|png|gif)/)) {
                     error.push(lang.get('FILE_TYPE_ERROR', file.name));
                 } else {
                     send(file);
@@ -180,7 +196,7 @@ var blobstore = {
             if (error.length > 0) {
                 alert(error.join("<br/>"));
             }
-        }
+        };
 
         button.on('click', function () {
             var file_input = $('<input type="file" accept=".jpg, .jpeg, .png, .gif" multiple="true" />');
@@ -190,7 +206,7 @@ var blobstore = {
             }).trigger('click');
         });
 
-        receptacle.on('drop', function (event) {
+        droppable.on('drop', function (event) {
             event.preventDefault();
             event.stopPropagation();
             upfiles(event.originalEvent.dataTransfer.files);
@@ -204,6 +220,11 @@ var blobstore = {
             }
         }
     },
+    /**
+     * Image changeable
+     * @param image can be changed
+     * @param finished function when upload completed
+     */
     image: function (image, finished) {
         var init_src = image.attr('src');
         var preview = new FileReader();
@@ -222,14 +243,14 @@ var blobstore = {
             };
             reader.onabort = function () {
                 upsocket.close(1000, "cancel");
-            }
+            };
 
             preview.readAsDataURL(file);
 
             upsocket.onmessage = function (event) {
                 try {
                     var data = eval("(" + event.data + ")");
-                    if ( data.id ===  undefined) {
+                    if (data.id === undefined) {
                         image.css({opacity: (data.percent / 100)});
                     } else {
                         image.css({opacity: ''});
@@ -261,13 +282,13 @@ var blobstore = {
                 upsocket.close(1000, "error");
                 image.attr('src', init_src);
             };
-        }
+        };
 
         var file_input = $('<input type="file" accept=".jpg, .jpeg, .png, .gif" />');
         file_input.on('change', function () {
             var error = [];
             var file = this.files[0];
-            if ( file.type ===  undefined || !file.type.match(/image\/(jpg|jpeg|png|gif)/)) {
+            if (file.type === undefined || !file.type.match(/image\/(jpg|jpeg|png|gif)/)) {
                 error.push(lang.get('FILE_TYPE_ERROR', file.name));
             } else {
                 send(file);
