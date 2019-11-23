@@ -29,7 +29,7 @@ $robotsmetas
 <script type="text/javascript">
 window.dataLayer = window.dataLayer || [];function gtag() {window.dataLayer.push(arguments);}
 <!--(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;-->
-var sys={$:[],analytics:"$!analytics",debug:$debug,lng:'$lng',#if(!$user)user:{id:null}#{else}user:{id:'$user.id',admin:$user.admin,editor:$user.editor,parent:#if($user.original)true#{else}false#end}#end,sets:#if($user.settings)$user.settings#else{}#end,push:function(f){sys.$.push(f)}};
+var sys={$:[],analytics:"$!analytics",debug:$debug,pub:$pub,lng:'$lng',#if(!$user)user:{id:null}#{else}user:{id:'$user.id',admin:$user.admin,editor:$user.editor,parent:#if($user.original)true#{else}false#end}#end,sets:#if($user.settings)$user.settings#else{}#end,push:function(f){sys.$.push(f)}};
 </script>
 #if($pub)
     <script async type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

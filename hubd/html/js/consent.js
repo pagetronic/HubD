@@ -90,6 +90,9 @@ sys.consent = {
         });
     },
     message: function () {
+        if (!sys.pub) {
+            return;
+        }
         if (document.location.pathname === '/profile') {
             return;
         }
