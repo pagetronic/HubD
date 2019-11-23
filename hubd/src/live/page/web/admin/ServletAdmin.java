@@ -14,6 +14,7 @@ import live.page.web.servlet.wrapper.WebServletResponse;
 import live.page.web.session.Users;
 import live.page.web.utils.Fx;
 import live.page.web.utils.RatingsTools;
+import live.page.web.utils.StatsTools;
 import live.page.web.utils.json.Json;
 
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +38,8 @@ public class ServletAdmin extends HttpServlet {
 
 		switch (req.getRequestURI()) {
 			case "/admin":
+
+				req.setAttribute("stats", StatsTools.getSimplesStats());
 				resp.sendTemplate(req, "/admin/index.html");
 				break;
 			case "/admin/pages":

@@ -1,34 +1,31 @@
 /*
- * Copyright 2019 Laurent PAGE, Apache Licence 2.0
+ * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.admin;
+package live.page.web.utils;
 
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import live.page.web.db.Db;
-import live.page.web.servlet.HttpServlet;
-import live.page.web.servlet.wrapper.WebServletRequest;
-import live.page.web.servlet.wrapper.WebServletResponse;
-import live.page.web.session.Users;
 import live.page.web.utils.json.Json;
 import org.bson.conversions.Bson;
 
-import javax.servlet.annotation.WebServlet;
-import java.io.IOException;
 import java.util.*;
 
-@WebServlet(urlPatterns = {"/admin/stats"})
-public class StatsAdmin extends HttpServlet {
+public class StatsTools {
 
-	@Override
-	public void doGetEditor(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
-
-		req.setAttribute("admin_active", "stats");
+	/**
+	 * Get all interested stats
+	 *
+	 * @return list for templating
+	 */
+	public static List<Json> getSimplesStats() {
 
 		List<Json> stats = new ArrayList<>();
 
 		Calendar cl = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+		//Today
 		cl.set(Calendar.HOUR, 0);
 		cl.set(Calendar.MINUTE, 0);
 		cl.set(Calendar.SECOND, 0);
@@ -37,36 +34,45 @@ public class StatsAdmin extends HttpServlet {
 		Date stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
+
+		//Yesterday
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 2);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 1);
 		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
+		//Last week
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 7);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 7);
 		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
+		//Last month
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 31);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 31);
 		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
+		//Last year
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 365);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 365);
 		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
-
-		req.setAttribute("stats", stats);
-
-		resp.sendTemplate(req, "/admin/stats.html");
+		return stats;
 	}
 
-	private Json getStats(Date start_date, Date stop_date) {
+	/**
+	 * Get period interested stats
+	 *
+	 * @param start_date from date
+	 * @param stop_date  to date
+	 * @return view and unique client
+	 */
+	private static Json getStats(Date start_date, Date stop_date) {
 		Json rez = new Json("start", start_date).put("stop", stop_date);
 		List<Bson> pipeline = new ArrayList<>();
 		pipeline.add(Aggregates.match(Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))));

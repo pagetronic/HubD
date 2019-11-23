@@ -1,6 +1,11 @@
 #parse("/inc/top.html")
 <div id="middle">
-
+    <div class="bx">
+        <h2>#lang('ANALYTICS','ucfirst')</h2>
+        #foreach($stat in $stats)
+        <p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong> (#date($stat.start,'short') - #date($stat.stop,'short'))</p>
+        #end
+    </div>
     <ul>
         <li><a href="javascript:sys.adminWebPush()">Web Push</a></li>
         <li><a href="/admin/posts">Lasts Posts</a></li>
@@ -11,7 +16,6 @@
         <li><a href="/admin/scrap">Scrapper</a></li>
         <li><a href="/admin/pages">Pages Meta Titles</a></li>
         <li><a href="/admin/301">Redirect 301</a></li>
-        <li><a href="/admin/stats">Stats</a></li>
 
     </ul>
     <script type="text/javascript">
