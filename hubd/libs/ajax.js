@@ -58,11 +58,8 @@ var ajax = {
 
             var href = $(this).attr('href');
             if (href.startsWith('#')) {
-                var center = $('#center');
                 var dest = $(this.href);
-                center.animate({
-                    scrollTop: $(this.href).position().top - center.height() / 3
-                }, 300, function () {
+                sys.scrollto(dest, 300, function () {
                     dest.pulse();
                 });
             } else {
@@ -134,9 +131,9 @@ var ajax = {
                 sys.wait(false);
 
                 if (scroll !== undefined) {
-                    center.scrollTo(scroll * center[0].scrollHeight);
+                    sys.scrollto(scroll * center[0].scrollHeight, 300);
                 } else if (!silent) {
-                    center.scrollTo(0);
+                    sys.scrollto(0);
                 }
 
                 if (after !== undefined) {

@@ -457,7 +457,7 @@ sys.pages = {
             } else {
                 sys.scrollto(0, 500);
             }
-        }
+        };
 
         $('#ancrage a').off('click.ancrage').on('click.ancrage', function () {
             var a = $(this);
