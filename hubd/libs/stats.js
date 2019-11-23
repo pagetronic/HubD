@@ -24,7 +24,7 @@ var stats = {
                 });
             };
             ajax.unload(gone);
-            $(window).off('beforeunload.socket').on('beforeunload', function () {
+            $(window).off('beforeunload.socket').one('beforeunload', function () {
                 gone();
                 socket.ctx.close();
             });
