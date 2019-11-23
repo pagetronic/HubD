@@ -1,5 +1,6 @@
 var ajax = {
     init: function () {
+        //TODO save page in history, is not necessary to reload or just for crontrol
         $(window).on('popstate.ajax', function (event) {
             event = event.originalEvent;
             if (!$(document.body).hasClass('hide_loading')) {
@@ -133,7 +134,7 @@ var ajax = {
                 if (scroll !== undefined) {
                     sys.scrollto(scroll * center[0].scrollHeight, 300);
                 } else if (!silent) {
-                    sys.scrollto(0);
+                    sys.scrollto(0,0);
                 }
 
                 if (after !== undefined) {
