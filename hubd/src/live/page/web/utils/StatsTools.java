@@ -87,11 +87,7 @@ public class StatsTools {
 		stats.add(getStats(start_date, stop_date));
 
 		//Last year
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 365);
-		start_date = cl.getTime();
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 365);
-		stop_date = cl.getTime();
-		stats.add(getStats(start_date, stop_date));
+		stats.add(getStats(null, null));
 		return stats;
 	}
 
@@ -99,7 +95,7 @@ public class StatsTools {
 	/**
 	 * Get period interested stats
 	 *
-	 * @param start_date from date
+	 * @param start_date from date, null for all
 	 * @param stop_date  to date
 	 * @return view and unique client
 	 */
@@ -107,16 +103,20 @@ public class StatsTools {
 		Json rez = new Json("start", start_date).put("stop", stop_date);
 		List<Bson> pipeline = new ArrayList<>();
 
-		pipeline.add(Aggregates.match(
-				Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
-		));
+		if (start_date != null) {
+			pipeline.add(Aggregates.match(
+					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
+			));
+		}
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua")));
 		pipeline.add(Aggregates.group(null, Accumulators.sum("unique", 1)));
 		Json unique = Db.aggregate("Stats", pipeline).first();
 		rez.put("unique", unique == null ? 0 : unique.getInteger("unique", 0));
 
 		pipeline.clear();
-		pipeline.add(Aggregates.match(Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))));
+		if (start_date != null) {
+			pipeline.add(Aggregates.match(Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))));
+		}
 		pipeline.add(Aggregates.group(null, Accumulators.sum("view", 1)));
 		Json view = Db.aggregate("Stats", pipeline).first();
 		rez.put("view", view == null ? 0 : view.getInteger("view", 0));
