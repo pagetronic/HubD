@@ -23,7 +23,7 @@ var stats = {
                         gone: false
                     }
                 });
-            }, 1000);
+            }, 5000);
 
             var gone = function (after) {
                 clearInterval(goneInterval);
