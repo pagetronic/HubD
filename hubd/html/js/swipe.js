@@ -9,7 +9,7 @@ sys.swipe = {
         var menu_btn = $('.opener[to=menu]');
         var lateral = $('#lateral');
         var lateral_btn = $('.opener[to=lateral]');
-        var win = $('body, html, #middle').css({overflow: ''});
+        var win = $('body, html, #middle').add($(window)).css({overflow: ''});
         var box = $(window).css({overflow: ''});
         var tolerance = 8;
 
