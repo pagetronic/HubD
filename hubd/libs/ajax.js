@@ -134,7 +134,7 @@ var ajax = {
                 if (scroll !== undefined) {
                     sys.scrollto(scroll * center[0].scrollHeight, 300);
                 } else if (!silent) {
-                    sys.scrollto(0,0);
+                    sys.scrollto(0,100);
                 }
 
                 if (after !== undefined) {

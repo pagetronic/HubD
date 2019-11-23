@@ -1,18 +1,10 @@
 var sys = (sys === undefined) ? {} : sys;
 sys = $.extend({}, sys, {
-        itsie: function () {
-            var ua = window.navigator.userAgent;
-            if (ua.indexOf('Trident/') > 0 || ua.indexOf('MSIE ') > 0) {
-                return true;
-            } else {
-                return false;
-            }
-
-        },
         hellip: '&#8230;',
-        uri: function () {
-            return document.location.pathname + document.location.search + document.location.hash;
-        },
+        /**
+         * Execute a function to execute after client do other action
+         * @param func to execute on blur
+         */
         focus: function (func) {
             var input = $('<input />')
             input.css({width: 1, height: 1, opacity: 0.01});
@@ -22,317 +14,17 @@ sys = $.extend({}, sys, {
                 $(this).remove();
             }).focus();
         },
-        wait: function (activate) {
-            var body = $(document.body);
-            if (activate) {
-                sys.dynamit();
-                body.stop(false).fadeTo(200, 0.5);
-            } else {
-                body.stop(false).fadeTo(100, 1, function () {
-                    $(this).css({
-                        opacity: ''
-                    })
-                });
-                sys.dynamit(true);
-            }
-        },
-        dynamit: function (finish) {
-            if (finish) {
-                var dynamit = $('#dynamit');
-                dynamit.stop(false).animate({
-                    width: '100%'
-                }, {
-                    duration: 200
-                });
-                dynamit.delay(100).slowRemove(200);
-            } else {
-                $('#dynamit').remove();
-                var dynamit = $('<div id="dynamit"/>');
-                $(document.body).append(dynamit);
-                dynamit.animate({
-                    width: '30%'
-                }, {
-                    duration: 500,
-                    easing: 'linear',
-                    complete: function () {
-                        dynamit.animate({
-                            width: '70%',
-                        }, {
-                            duration: 3000,
-                            easing: 'linear',
-                            complete: function () {
-                                dynamit.animate({
-                                    width: '80%'
-                                }, {
-                                    duration: 8000,
-                                    easing: 'linear',
-                                    complete: function () {
-                                        dynamit.animate({
-                                            width: '95%'
-                                        }, {
-                                            duration: 10000,
-                                            easing: 'linear'
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-
-        },
-        quickmenu: function (position, actions) {
-            var appener;
-            if (position.pageY === undefined) {
-                appener = $('#center');
-            } else {
-                appener = $(document.body).eq(0);
-            }
-            var ul = $('<ul class="quick quickmenu"/>').css({marginTop: -2, marginLeft: -2});
-            for (var key in actions) {
-                var li = $('<li/>');
-                li.html(lang.get(key));
-                li.click(function () {
-                    var key = $(this).data('key');
-                    ul.slowRemove(100);
-                    actions[key]();
-                });
-                li.data('key', key);
-                li.addClass(key.toLowerCase());
-                ul.append(li);
-            }
-            if (position.pageY === undefined) {
-                var pos = position.offset();
-                var cor = appener.offset();
-                position = {
-                    top: pos.top - cor.top + appener[0].scrollTop + position.height(),
-                    left: pos.left - cor.left + appener[0].scrollLeft + position.width()
-                };
-            } else {
-                position = {top: position.pageY, left: position.pageX}
-            }
-            ul.css({
-                top: position.top,
-                left: position.left
-            });
-            appener.append(ul);
-            ul.fadeOut(0).fadeIn(100);
-            var uniq = sys.uniqueId();
-            var down_mouse;
-            $(document.body).on('mouseup.' + uniq + ' mousedown.' + uniq + '', function (e) {
-                if (e.type === "mousedown") {
-                    down_mouse = e.target;
-                } else if (ul.has(down_mouse).length === 0 && ul.has(e.target).length === 0) {
-                    ul.slowRemove(100);
-                    $(document.body).off('mouseup.' + uniq + ' mousedown.' + uniq);
-                }
-            });
-
-        },
-        file_size: function (size) {
-            var i = Math.floor(Math.log(size) / Math.log(1024));
-            return !size && '0 Bytes' || (size / Math.pow(1024, i)).toFixed(2) + " " + ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][i]
+        uri: function () {
+            return document.location.pathname + document.location.search + document.location.hash;
         },
 
-        commands: function () {
-            var center = $('#center').off('scroll.commands');
-            var scrl = center.css({overflow: 'hidden'}).innerHeight() - center.css({overflow: ''}).innerHeight();
-            var init_scroll = center[0].scrollTop;
-            var floaters = $('#top_float, #bottom_float');
-            if (floaters.length === 0) {
-                return;
-            }
-            floaters.removeClass('fixed').removeAttr('style');
-
-            var bottom_float = $('#bottom_float');
-            var top_float = $('#top_float');
-            var edit = $('#edit');
-            $('.cale').remove();
-            var edit_height = 0;
-            if (edit.length > 0 && edit.css('display') !== 'none') {
-                edit_height = edit.outerHeight() + parseInt(top_float.css('padding-bottom')) + (parseInt(edit.css('margin-top')) / 2);
-            }
-            var center_outer = center.outerHeight();
-            var center_pos = center.position();
-            var commands_height = (top_float.length === 0) ? 0 : top_float.outerHeight() - edit_height;
-            var validation_height = (bottom_float.length === 0) ? 0 : bottom_float.outerHeight();
-
-
-            if (floaters.length > 0 && center[0].scrollHeight > center_outer && (center_outer - commands_height - validation_height) > Math.max(commands_height, validation_height)) {
-
-                if (top_float.length > 0) {
-                    top_float.css({
-                        top: center_pos.top,
-                        left: center_pos.left,
-                    });
-                    center.prepend($('<div class="cale"/>').css({
-                        height: commands_height + edit_height
-                    }));
-                }
-                if (bottom_float.length > 0) {
-                    bottom_float.css({
-                        top: center_pos.top + center_outer + scrl,
-                        left: center_pos.left
-                    });
-                    center.append($('<div class="cale"/>').css({
-                        height: validation_height
-                    }));
-                }
-
-            } else {
-                return;
-            }
-            floaters.addClass('fixed');
-
-            center.scrollTop(init_scroll);
-            var last_position = init_scroll;
-            if (sys.commands.to_bottom === undefined || last_position === 0) {
-                sys.commands.to_bottom = false;
-            }
-            if (sys.commands.to_bottom) {
-                top_float.css({
-                    top: center_pos.top - commands_height
-                });
-                bottom_float.css({
-                    top: center_pos.top + center_outer - validation_height
-                });
-            }
-            center.on('scroll.commands', function () {
-
-                if (this.scrollTop > last_position && this.scrollTop > commands_height) {
-                    if (!sys.commands.to_bottom) {
-                        top_float.stop().animate({
-                            top: center_pos.top - commands_height
-                        }, 150);
-                        bottom_float.stop().animate({
-                            top: center_pos.top + center_outer - validation_height
-                        }, 150);
-                    }
-                    sys.commands.to_bottom = true;
-                }
-                if (this.scrollTop < last_position && this.scrollTop + center_outer < this.scrollHeight - validation_height) {
-                    if (sys.commands.to_bottom) {
-                        top_float.stop().animate({
-                            top: center_pos.top
-                        }, 150);
-                        bottom_float.stop().animate({
-                            top: center_pos.top + center_outer + scrl
-                        }, 150);
-                    }
-                    sys.commands.to_bottom = false;
-                }
-
-                last_position = this.scrollTop;
-
-            }).trigger('scroll');
-        },
-        replaceState: function (url, isAjax) {
-            var state = {
-                ajax: isAjax === undefined ? history.state !== undefined && history.state !== null && history.state.ajax !== undefined ? history.state.ajax : false : isAjax
-            };
-            var center = $('#center');
-            if (center.length > 0) {
-                state.scroll = center.length > 0 ? center[0].scrollTop / center[0].scrollHeight : 0;
-            }
-            history.replaceState(state, document.title, url);
-        },
-        pushState: function (url, isAjax) {
-            history.pushState({
-                ajax: isAjax === undefined ? true : isAjax
-            }, document.title, url);
-        },
-        uniqueId: function () {
-            if (sys.lastId === undefined) {
-                sys.lastId = 0;
-            }
-            sys.lastId++;
-            var uniq = Math.floor(Math.random() * Math.pow(10, 15)).toString(26);
-            uniq = new Date().getTime().toString(26).shuffle() + sys.lastId.toString(26) + uniq.substr(uniq.length - 8, uniq.length);
-            return uniq.toUpperCase();
-        },
-        correctParameter: function (param, uri, replace) {
-            var parameters = sys.getAllParameters(uri);
-            var query = [];
-            var did = false;
-            for (var key in parameters) {
-                if ((param + '&').startsWith(key)) {
-                    query.push(param);
-                    did = true;
-                } else {
-                    query.push(key + '=' + parameters[key][0]);
-                }
-            }
-            if (!did) {
-                query.push(param);
-            }
-            sys.replaceState('?' + query.join('&'));
-
-        },
-        getParameter: function (key, uri) {
-            var regex = new RegExp("[\\?&]" + key + "=([^&#]*)");
-            var results = regex.exec(uri === undefined ? document.location.search : uri);
-            return results === null ? null : decodeURIComponent(results[1]);
-        },
-        getAllParameters: function (uri) {
-
-            var vars = (uri === undefined ? document.location.search : uri).replace(/.*?\?(.*)/, "$1").split(/&(amp;)?/);
-
-            var rez = {};
-            $.each(vars, function (i, variable) {
-                if (variable === undefined || variable === "") {
-                    return;
-                }
-                var ele = variable.split("=");
-                if (rez[ele[0]] === undefined) {
-                    rez[ele[0]] = [];
-                }
-                rez[ele[0]].push(ele[1]);
-            });
-            return rez;
-        },
-        loading: function (size, type) {
-
-            var loading = $('<' + (type === undefined ? 'loading' : type) + ' />');
-            loading.addClass('loading');
-            var increment = -(size + 2);
-            loading.css({
-                height: size,
-                width: size
-            });
-
-
-            var current_image = 0;
-            var animate = setInterval(function () {
-                if (loading === null || loading.length === 0 || loading.width() === 0 || $(document.body).has(loading).length === 0) {
-                    clearInterval(animate);
-                    return;
-                }
-                loading.css({
-                    backgroundPosition: '0px ' + (current_image * increment) + 'px',
-                });
-
-                current_image++;
-                if (current_image >= 7) {
-                    current_image = 0;
-                }
-
-            }, 100);
-
-            return loading;
-        },
-        cleanurl: function (title) {
-
-            title = title.toLowerCase();
-            var find = "/àáâãäåòóôõöøèéêëçìíîïùúûüÿñ’+".split("");
-            var replace = "-aaaaaaooooooeeeeciiiiuuuuyn-'".split("");
-            for (var i = 0; i < find.length; i++) {
-                title = title.replaceAll(find[i], replace[i]);
-            }
-            return title.replaceAll("œ", "oe").replaceAll("'", "-").replaceAll('"', "-").replaceAll(/[ ]+/, "-").replaceAll(/([\-])+/, "-");
-        },
+        /**
+         * pull in an array
+         * @param arr array
+         * @param val value to pull
+         */
         pull: function (arr, val) {
-            if ( arr.indexOf ===  undefined) {
+            if (arr.indexOf === undefined) {
                 return -1;
             }
             var index = arr.indexOf(val);
@@ -341,6 +33,10 @@ sys = $.extend({}, sys, {
             }
             return arr;
         },
+
+        /**
+         * File size of a bytes
+         */
         fileSize: function (bytes) {
             var thresh = 1024;
             if (Math.abs(bytes) < thresh) {
@@ -354,30 +50,9 @@ sys = $.extend({}, sys, {
             } while (Math.abs(bytes) >= thresh && u < units.length - 1);
             return bytes.toFixed(1).toString().replace(/\.00$/, '') + '' + units[u];
         },
-        sysId: function () {
-            var sysid = function () {
-                return sys.uniqueId().toUpperCase() + sys.uniqueId().toUpperCase() + sys.uniqueId().toUpperCase();
-            };
-            if (typeof localStorage === "object") {
-                if (localStorage.getItem("sysid") === null) {
-                    localStorage.setItem("sysid", sysid());
-                }
-                Cookies.set("sysid", localStorage.getItem("sysid"), {
-                    expires: 'max',
-                    samesite: 'none'
-                });
-                return localStorage.getItem("sysid");
-            } else {
-                if (Cookies.get("sysid") === null) {
-                    Cookies.set("sysid", sysid(), {
-                        expires: 'max',
-                        samesite: 'none'
-                    });
-                }
-                return Cookies.get("sysid");
-            }
-
-        },
+        /**
+         * Used for make clearable an object
+         */
         clearable: function () {
             $('[clearable]').each(function () {
 
@@ -406,6 +81,14 @@ sys = $.extend({}, sys, {
 
             })
         },
+        /**
+         * Popup an alert box
+         * @param title of the box
+         * @param msg of the box
+         * @param delay of scroll time //TODO pixels per millisecond
+         * @param close function to execute on close.
+         * @param delay if needed before autoclose
+         */
         alert: function (msg, title, close, delay) {
             if (typeof title === 'number') {
                 var delay = title;
@@ -443,6 +126,14 @@ sys = $.extend({}, sys, {
             }
             return popper.pop;
         },
+        /**
+         * Popup a confirmation box
+         * @param title of the box
+         * @param msg of the box
+         * @param delay of scroll time //TODO pixels per millisecond
+         * @param accept function to execute on accept.
+         * @param reject function to execute on reject.
+         */
         confirm: function (title, msg, delay, accept, reject) {
             if (typeof title === 'function') {
                 accept = title;
@@ -524,100 +215,9 @@ sys = $.extend({}, sys, {
             popper.center();
             return popper;
         },
-        isMobile: function () {
-            if (navigator.userAgent.match(/Android/i)
-                || navigator.userAgent.match(/webOS/i)
-                || navigator.userAgent.match(/iPhone/i)
-                || navigator.userAgent.match(/iPad/i)
-                || navigator.userAgent.match(/iPod/i)
-                || navigator.userAgent.match(/BlackBerry/i)
-                || navigator.userAgent.match(/Windows Phone/i)
-            ) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-        toast: function (msg, delay) {
-            if (delay === undefined) {
-                delay = 1200;
-            }
-            var body = $(document.body);
-            var toast = $('<div class="toast"/>').html(msg);
-            body.append(toast);
-            toast.css({
-                left: (body.innerWidth() - toast.outerWidth()) / 2,
-                bottom: (body.innerHeight() - toast.outerHeight()) / 4
-            });
-            toast.css({
-                transition: 'transform ' + parseInt(delay / 8) + 'ms linear'
-            });
-            toast.css({transform: 'scale(1)'}).animate({
-                opacity: 1
-            }, parseInt(delay / 8), function () {
-                setTimeout(function () {
-                    toast.css({
-                        transition: 'transform ' + parseInt(delay / 4) + 'ms linear'
-                    });
-                    toast.css({transform: 'scale(3)'}).animate({
-                        opacity: 0
-                    }, parseInt(delay / 4), function () {
-                        toast.remove();
-                    });
-                }, parseInt(delay * 5 / 8));
-            });
-        },
-        scrollto: function (ele, delay, after) {
-            if (delay === undefined) {
-                delay = 500;
-            }
-            if (after === undefined) {
-                after = function () {
-                    if (document.location.hash) {
-                        history.pushState({}, document.location.title, document.location.href);
-                    }
-                };
-            }
-            var scroller = $('#middle');
-            if (scroller.scrollParent().is(document.body)) {
-                $(window).scrollTo(ele, delay, after);
-            } else {
-                scroller.scrollTo(ele, delay, after);
-            }
-
-        },
-        scrolltop: function () {
-
-            $(window).off('resize.gotop').on('resize.gotop', sys.scrolltop);
-
-            $('#gotop').remove();
-            var gotop = $('<a id="gotop" href="#">$svg.fa_icon_arrow_circle_up</a>');
-            $(document.body).append(gotop);
-
-            var scroller = $('#middle');
-            var left = scroller.offset().left;
-            if (!scroller.isScrollable()) {
-                scroller = $(window);
-                left = 0;
-            }
-            scroller.off('scroll.gotop').on('scroll.gotop', function (e) {
-                if (this.scrollTop > window.innerHeight || window.scrollY > window.innerHeight) {
-                    gotop.fadeIn(500);
-                } else {
-                    gotop.fadeOut(500);
-                }
-            }).trigger('scroll');
-
-            gotop.css({
-                left: left + scroller.outerWidth() - (gotop.outerWidth() + 20)
-            }).off('click.gotop').on('click.gotop', function () {
-                if (document.location.hash !== '') {
-                    history.pushState({}, document.location.title, document.location.pathname);
-                }
-                scroller.scrollTo(0, 500);
-                return false;
-            });
-        },
+        /**
+         * Protect for content copiers, insert a link into clipBoard copy
+         */
         nocopy: function () {
 
             if (sys.user.id !== null) {
@@ -636,55 +236,44 @@ sys = $.extend({}, sys, {
                 });
             }
         },
-        device: function () {
-
-            var device = navigator.appName;
-            var ua = navigator.userAgent.toLowerCase();
-            if (ua.indexOf("Edge".toLowerCase()) >= 0) {
-                device = "Edge";
-            } else if (ua.indexOf("Opera".toLowerCase()) >= 0) {
-                device = "Opera";
-            } else if (ua.indexOf("Chromium".toLowerCase()) >= 0) {
-                device = "Chromium";
-            } else if (ua.indexOf("Chrome".toLowerCase()) >= 0) {
-                device = "Chrome";
-            } else if (ua.indexOf("Safari".toLowerCase()) >= 0) {
-                device = "Safari";
-            } else if (ua.indexOf("Firefox".toLowerCase()) >= 0) {
-                device = "Firefox";
-            } else if (ua.indexOf("MSIE".toLowerCase()) >= 0) {
-                device = "Internet Explorer";
-            } else if (device === undefined || device === null) {
-                device = "Unknown";
+        /**
+         * Try to generate an unique Id
+         */
+        uniqueId: function () {
+            if (sys.lastId === undefined) {
+                sys.lastId = 0;
+            }
+            sys.lastId++;
+            var uniq = Math.floor(Math.random() * Math.pow(10, 15)).toString(26);
+            uniq = new Date().getTime().toString(26).shuffle() + sys.lastId.toString(26) + uniq.substr(uniq.length - 8, uniq.length);
+            return uniq.toUpperCase();
+        },
+        /**
+         * Unique identification of the client
+         */
+        sysId: function () {
+            var sysid = function () {
+                return sys.uniqueId().toUpperCase() + sys.uniqueId().toUpperCase() + sys.uniqueId().toUpperCase();
+            };
+            if (typeof localStorage === "object") {
+                if (localStorage.getItem("sysid") === null) {
+                    localStorage.setItem("sysid", sysid());
+                }
+                Cookies.set("sysid", localStorage.getItem("sysid"), {
+                    expires: 'max',
+                    samesite: 'none'
+                });
+                return localStorage.getItem("sysid");
+            } else {
+                if (Cookies.get("sysid") === null) {
+                    Cookies.set("sysid", sysid(), {
+                        expires: 'max',
+                        samesite: 'none'
+                    });
+                }
+                return Cookies.get("sysid");
             }
 
-            var os = navigator.platform;
-            if (ua.indexOf("Windows Phone".toLowerCase()) >= 0) {
-                os = "Windows Mobile";
-            } else if (ua.indexOf("Windows".toLowerCase()) >= 0) {
-                os = "Windows";
-            } else if (ua.indexOf("Android".toLowerCase()) >= 0) {
-                os = "Android";
-            } else if (ua.indexOf("iPhone".toLowerCase()) >= 0 || ua.indexOf("iPad") >= 0) {
-                os = "Apple iOs";
-            } else if (ua.indexOf("MacOS".toLowerCase()) >= 0 || ua.indexOf("Mac OS") >= 0 || ua.indexOf("Macintosh") >= 0) {
-                os = "Apple Macintosh";
-            } else if (ua.indexOf("Ubuntu".toLowerCase()) >= 0) {
-                os = "Ubuntu Linux";
-            } else if (ua.indexOf("Debian".toLowerCase()) >= 0) {
-                os = "Debian Linux";
-            } else if (ua.indexOf("Linux".toLowerCase()) >= 0) {
-                os = "Linux";
-            } else if (ua.indexOf("Firefox".toLowerCase()) >= 0) {
-                os = "Firefox";
-            } else if (os === undefined || os === null) {
-                os = "Unknown";
-            }
-
-            return {
-                device: device,
-                os: os
-            }
         }
     }
 );
@@ -699,6 +288,7 @@ var xhr = {
     abort: function () {
     }
 };
+
 var log = function (ele) {
     try {
         console.log(ele);

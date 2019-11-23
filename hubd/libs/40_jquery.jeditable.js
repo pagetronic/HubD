@@ -138,7 +138,7 @@ $.fn.editable = function (target, options) {
 				}
 			}
 
-			if (settings.style) {
+			if (settings.uitools) {
 				if ('inherit' === style) {
 					form.attr('style', $(self).attr('style'));
 					/*

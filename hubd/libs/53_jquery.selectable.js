@@ -178,8 +178,8 @@
                         title += '<small>' + item.infos + '</small>';
                     }
 
-                    if (item.style !== undefined) {
-                        li.attr('style', item.style);
+                    if (item.uitools !== undefined) {
+                        li.attr('style', item.uitools);
                     }
                     if (item.className !== undefined) {
                         li.addClass(item.className);

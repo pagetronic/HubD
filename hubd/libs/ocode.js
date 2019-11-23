@@ -6,7 +6,7 @@ var ocode = {
             return area.value.substr(area.selectionStart, (area.selectionEnd - area.selectionStart));
         };
 
-        var ele = $(ele);
+        ele = $(ele);
         ele.selectable({
             url: '/tools',
             query: getText,
