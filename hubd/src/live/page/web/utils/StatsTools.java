@@ -12,6 +12,10 @@ import org.bson.conversions.Bson;
 
 import java.util.*;
 
+
+/**
+ * TODO make stats public
+ */
 public class StatsTools {
 
 	/**
