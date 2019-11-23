@@ -14,7 +14,7 @@ import live.page.web.socket.SocketPusher;
 import live.page.web.utils.Settings;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.langs.Language;
-import live.page.web.utils.style.UiStyleServlet;
+import live.page.web.servlet.style.UiStyleServlet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
 

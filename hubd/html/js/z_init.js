@@ -36,8 +36,9 @@ sys.init = function (xspeed) {
     sys.video.init();
     login.autologin();
     sys.comodo();
-
-    ajax.init();
+    if (constants.ajax) {
+        ajax.init();
+    }
     sys.load();
 
 };
@@ -57,6 +58,9 @@ sys.load = function () {
     sys.rating.init();
     webpush.buttons();
     saver.init();
-    ajax.it();
+
+    if (constants.ajax) {
+        ajax.it();
+    }
     $('textarea[autosize]').autosize();
 };

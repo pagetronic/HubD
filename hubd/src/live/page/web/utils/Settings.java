@@ -141,9 +141,11 @@ public class Settings {
 	// YouTube API Key for scrap data
 	public static final String YOUTUBE_API_KEY = settings.getProperty("YOUTUBE_API_KEY");
 
-
 	// Disable all base UI exempt libs for specials projects
 	public static final boolean NOUI = Boolean.valueOf(settings.getProperty("NOUI", "false"));
+
+	// Enable ajax navigation
+	public static final boolean AJAX = Boolean.valueOf(settings.getProperty("AJAX", "true"));
 
 	// Theme color (address bar in chrome mobile)
 	public static final String THEME_COLOR = settings.getProperty("THEME_COLOR", "#FFFFFF");

@@ -11,7 +11,7 @@ import live.page.web.utils.Settings;
 import live.page.web.utils.google.Translater;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.langs.Language;
-import live.page.web.utils.style.UiStyleServlet;
+import live.page.web.servlet.style.UiStyleServlet;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringEscapeUtils;
 

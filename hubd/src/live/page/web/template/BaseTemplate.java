@@ -10,7 +10,7 @@ import live.page.web.template.plugs.*;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
 import live.page.web.utils.impl.BaseTemplateImpl;
-import live.page.web.utils.style.svg.SVGTemplate;
+import live.page.web.servlet.style.svg.SVGTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

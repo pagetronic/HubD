@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.style.svg;
+package live.page.web.servlet.style.svg;
 
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;

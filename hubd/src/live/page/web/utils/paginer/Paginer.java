@@ -13,7 +13,7 @@ import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.langs.Language;
-import live.page.web.utils.style.svg.SVGTemplate;
+import live.page.web.servlet.style.svg.SVGTemplate;
 import org.bson.conversions.Bson;
 
 import java.io.IOException;

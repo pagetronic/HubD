@@ -18,7 +18,7 @@ import live.page.web.utils.RatingsTools;
 import live.page.web.utils.Settings;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.paginer.Paginer;
-import live.page.web.utils.style.svg.SVGTemplate;
+import live.page.web.servlet.style.svg.SVGTemplate;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 

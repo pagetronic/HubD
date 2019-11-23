@@ -7,7 +7,7 @@ import live.page.web.session.BaseCookie;
 import live.page.web.template.BaseTemplate;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.json.XMLJsonParser;
-import live.page.web.utils.style.UiStyleServlet;
+import live.page.web.servlet.style.UiStyleServlet;
 import org.apache.http.HttpHeaders;
 
 import javax.servlet.ServletResponse;

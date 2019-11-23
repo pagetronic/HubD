@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.style;
+package live.page.web.servlet.style;
 
 import live.page.web.servlet.BaseServlet;
 import live.page.web.servlet.wrapper.BaseServletRequest;
@@ -11,8 +11,8 @@ import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
 import live.page.web.utils.Settings;
 import live.page.web.utils.more.Compressors;
-import live.page.web.utils.style.svg.SVGParser;
-import live.page.web.utils.style.svg.SVGTemplate;
+import live.page.web.servlet.style.svg.SVGParser;
+import live.page.web.servlet.style.svg.SVGTemplate;
 import org.apache.commons.io.FileUtils;
 
 import javax.servlet.ServletConfig;

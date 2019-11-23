@@ -1,9 +1,9 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.style.svg;
+package live.page.web.servlet.style.svg;
 
-import live.page.web.utils.style.SVGServlet;
+import live.page.web.servlet.style.SVGServlet;
 
 /**
  * Function used in templates and class for get simplified SVG, external SVG (use xlink)
