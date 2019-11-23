@@ -63,6 +63,7 @@ sys.swipe = {
                 });
             } else {
                 menu.animate({left: -menu.width()}, 200, function () {
+                    sys.comodo.show();
                     menu.css({left: ''});
                 });
             }
@@ -128,6 +129,7 @@ sys.swipe = {
                 });
             } else {
                 lateral.animate({right: -lateral.width()}, 200, function () {
+                    sys.comodo.show();
                     lateral.removeClass('open').css({right: '', position: ''});
                 });
             }
