@@ -7,8 +7,8 @@ sys.swipe = {
         var menu_btn = $('.opener[to=menu]');
         var lateral = $('#lateral');
         var lateral_btn = $('.opener[to=lateral]');
-        var win = $('body, html, #middle');
-        var box = $(window);
+        var win = $('body, html, #middle').css({overflow: ''});
+        var box = $(window).css({overflow: ''});
         var tolerance = 8;
 
         var getPosX = function (e) {
@@ -77,7 +77,6 @@ sys.swipe = {
         ////
 
 
-
         box.on("touchstart", function (e) {
             var posX = getPosX(e);
             var x = box.width() - posX;
@@ -114,7 +113,7 @@ sys.swipe = {
             if (Math.abs(x) < lateral.width() * 3 / 4 && lateral.hasClass('open')) {
                 lateral.animate({position: '', right: -lateral.width()}, 200, function () {
                     lateral.removeClass('open');
-                    lateral.css({right: '', position:''});
+                    lateral.css({right: '', position: ''});
                 });
             } else if (x > (lateral.width() / 4)) {
                 lateral.animate({right: 0}, 200, function () {
@@ -123,7 +122,7 @@ sys.swipe = {
                 });
             } else {
                 lateral.animate({right: -lateral.width()}, 200, function () {
-                    lateral.removeClass('open').css({right: '', position:''});
+                    lateral.removeClass('open').css({right: '', position: ''});
                 });
             }
 
@@ -178,4 +177,4 @@ sys.swipe = {
 
 
     }
-}
+};

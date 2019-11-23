@@ -48,6 +48,8 @@ sys.load = function (xspeed) {
 
     saver.init();
     time.init();
+
+
     sys.swipe.init();
     blobstore.popimg();
     sys.video.init();
