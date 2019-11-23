@@ -4,12 +4,12 @@ sys = $.extend({}, sys, {
          * Wait effect for ui
          */
         wait: function (activate) {
-            var body = $(document.body);
+            var window = $('#window');
             if (activate) {
                 sys.dynamit();
-                body.stop(false).fadeTo(200, 0.5);
+                window.stop(false).fadeTo(200, 0.5);
             } else {
-                body.stop(false).fadeTo(100, 1, function () {
+                window.stop(false).fadeTo(100, 1, function () {
                     $(this).css({
                         opacity: ''
                     })

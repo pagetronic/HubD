@@ -1,6 +1,6 @@
 
 #dynamit {
-    position: absolute;
+    position: fixed;
     height: 3px;
     border-radius: 2px;
     top: 0px;
