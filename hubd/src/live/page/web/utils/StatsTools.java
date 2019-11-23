@@ -100,6 +100,7 @@ public class StatsTools {
 	 * @return view and unique client
 	 */
 	//TODO concat in only one query with $lookup
+	//TODO view url / domain etc...
 	private static Json getStats(Date start_date, Date stop_date) {
 		Json rez = new Json("start", start_date).put("stop", stop_date);
 		List<Bson> pipeline = new ArrayList<>();
