@@ -49,7 +49,7 @@ sys.load = function (xspeed) {
     saver.init();
     time.init();
     sys.swipe.init();
-    sys.blobstore.popimg();
+    blobstore.popimg();
     sys.video.init();
     sys.svg();
     sys.rating.init();

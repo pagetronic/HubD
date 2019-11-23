@@ -84,7 +84,7 @@ sys.profile = {
         var init_src = img.attr('src');
         where.append(change);
         change.on('click', function () {
-            sys.blobstore.image(img, function (id) {
+            blobstore.image(img, function (id) {
                 api.post("/profile", {
                     action: 'avatar',
                     avatar: id

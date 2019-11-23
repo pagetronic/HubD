@@ -27,7 +27,7 @@ sys.admin = {
             var submit = $('<button />').text(lang.get('SAVE'));
             form.append(submit);
             popper.content(form);
-            sys.blobstore.button(avatar_box, avatar, avatar_box, 30, 30, [], true);
+            blobstore.button(avatar_box, avatar, avatar_box, 30, 30, [], true);
             submit.on('click', function () {
                 var data = {action: 'create'};
                 if (name.val() === '') {

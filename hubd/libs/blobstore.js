@@ -1,4 +1,4 @@
-sys.blobstore = {
+var blobstore = {
     popimg: function () {
         $('#middle').on('click', '.img a, a.popimage', function () {
             var a = $(this);

@@ -98,7 +98,7 @@ sys.pages = {
                 id = undefined;
             }
 
-            sys.blobstore.button($('#imgs'), $('#send_file'), $('#middle'), 224, 126, docs);
+            blobstore.button($('#imgs'), $('#send_file'), $('#middle'), 224, 126, docs);
             ocode.link($('.links_tag'),'tarea');
 
             $('.save_edit, .save_draft').on('click', function () {

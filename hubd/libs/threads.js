@@ -7,7 +7,7 @@ sys.threads = {
 
             var area = $(this);
             var postbox = sys.threads.postbox(area.addClass('collapse'), true, 'forum_' + forum_id);
-            sys.blobstore.button(postbox.imgs, postbox.upload_button, area, 224, 126);
+            blobstore.button(postbox.imgs, postbox.upload_button, area, 224, 126);
             area.locker = false;
             postbox.submit.on('click', function () {
                 if (area.locker) {
@@ -46,7 +46,7 @@ sys.threads = {
         }
         var area = $('#reply .boxarea');
         var postbox = sys.threads.postbox(area, false, 'post_' + id);
-        sys.blobstore.button(postbox.imgs, postbox.upload_button, area, 224, 126);
+        blobstore.button(postbox.imgs, postbox.upload_button, area, 224, 126);
 
         area.locker = false;
         postbox.submit.on('click', function () {
@@ -124,7 +124,7 @@ sys.threads = {
 
         var gallery = $('<button>$svg.fa_icon_file_image_o</button>').addClass('flexable')
             .attr('title', lang.get('UPLOADED_IMAGE')).on('click', function () {
-                sys.blobstore.show(imgs)
+                blobstore.show(imgs)
             });
         //format.append(gallery);
 
@@ -443,7 +443,7 @@ sys.threads = {
                 postbox.link.prepend(reload);
             }
             postbox.submit.html('$svg.mi_save ' + lang.get('SAVE'));
-            sys.blobstore.button(postbox.imgs, postbox.upload_button, box, 224, 126, ((msg.docs !== undefined && msg.docs.length > 0) ? msg.docs : undefined));
+            blobstore.button(postbox.imgs, postbox.upload_button, box, 224, 126, ((msg.docs !== undefined && msg.docs.length > 0) ? msg.docs : undefined));
 
 
         });
