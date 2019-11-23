@@ -1,6 +1,8 @@
 sys.swipe = {
-    init: function () {
-
+    /**
+     * Make lateral menus swipable and openable like Android Ui
+     */
+    make: function () {
 
         var comodo = $('#comodo, #lateral, #menu');
         var menu = $('#menu');
@@ -22,7 +24,9 @@ sys.swipe = {
         var left = -1;
         var right = -1;
 
-        box.on("touchstart", function (e) {
+        box.off('touchstart.swipe').off("touchend.swipe touchleave.swipe touchcancel.swipe").off("touchmove.swipe");
+
+        box.on('touchstart.swipe', function (e) {
             var posX = getPosX(e);
             if (lateral.length > 0 && lateral.hasClass('open') && posX <= tolerance) {
                 right = box.width() - posX;
@@ -41,7 +45,7 @@ sys.swipe = {
             }
             return true;
         });
-        box.on("touchend touchleave touchcancel", function (e) {
+        box.on("touchend.swipe touchleave.swipe touchcancel.swipe", function (e) {
             var posX = getPosX(e);
             if (left < 0) {
                 return;
@@ -64,7 +68,7 @@ sys.swipe = {
 
             left = -1;
         });
-        box.on("touchmove", function (e) {
+        box.on("touchmove.swipe", function (e) {
             var posX = getPosX(e);
             if (left < 0) {
                 return;
@@ -77,7 +81,7 @@ sys.swipe = {
         ////
 
 
-        box.on("touchstart", function (e) {
+        box.on("touchstart.swipe", function (e) {
             var posX = getPosX(e);
             var x = box.width() - posX;
             if (x <= tolerance && menu.hasClass('open')) {
@@ -100,7 +104,7 @@ sys.swipe = {
             }
             return true;
         });
-        box.on("touchend touchleave touchcancel", function (e) {
+        box.on("touchend.swipe touchleave.swipe touchcancel.swipe", function (e) {
             var posX = getPosX(e);
             if (lateral.length === 0) {
                 return;
@@ -128,7 +132,7 @@ sys.swipe = {
 
             right = -1;
         });
-        box.on("touchmove", function (e) {
+        box.on("touchmove.swipe", function (e) {
             var posX = getPosX(e);
             if (right < 0) {
                 return;
@@ -139,19 +143,18 @@ sys.swipe = {
 
 
         ////
-
-        menu_btn.on('click', function () {
-
-            lateral.removeClass('open');
-            comodo.removeAttr('style').removeClass('hider');
-            if (menu.hasClass('open')) {
-                menu.removeClass('open');
-                win.css({overflow: ''});
-            } else {
-                menu.addClass('open');
-                win.css({overflow: 'hidden'});
-            }
-        });
+        menu_btn.off('click.swipe')
+            .on('click.swipe', function () {
+                lateral.removeClass('open');
+                comodo.removeAttr('style').removeClass('hider');
+                if (menu.hasClass('open')) {
+                    menu.removeClass('open');
+                    win.css({overflow: ''});
+                } else {
+                    menu.addClass('open');
+                    win.css({overflow: 'hidden'});
+                }
+            });
 
         if (lateral.length === 0) {
             lateral_btn.remove();
@@ -174,7 +177,5 @@ sys.swipe = {
                 }
             });
         }
-
-
     }
 };

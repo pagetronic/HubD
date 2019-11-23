@@ -50,7 +50,7 @@ sys.load = function (xspeed) {
     time.init();
 
 
-    sys.swipe.init();
+    sys.swipe.make();
     blobstore.popimg();
     sys.video.init();
     sys.svg();
