@@ -31,18 +31,14 @@ public class IndexBuilder {
 		);
 
 
-		indexes.addIndex("SysLog",
-				IndexData.get(new Json("date", -1), "date")
-		);
-
 		indexes.addIndex("Consents",
 				IndexData.get(new Json("uid", 1), "uid"),
 				IndexData.get(new Json("consent", 1).put("type", 1), "consent"),
-				IndexData.get(new Json("date", 1), "expire", 390L, TimeUnit.DAYS)
+				IndexData.getExpire(new Json("date", 1), "expire", 390L, TimeUnit.DAYS)
 		);
 
 		indexes.addIndex("Sessions",
-				IndexData.get(new Json("expire", -1), "expire", (long) Settings.COOKIE_DELAY, TimeUnit.SECONDS)
+				IndexData.getExpire(new Json("expire", -1), "expire", (long) Settings.COOKIE_DELAY, TimeUnit.SECONDS)
 		);
 
 		indexes.addIndex("Notices",
@@ -51,8 +47,8 @@ public class IndexBuilder {
 				IndexData.get(new Json("date", -1), "date"),
 				IndexData.get(new Json("user", 1).put("read", 1), "user_read"),
 				IndexData.get(new Json("grouper", 1), "grouper"),
-				IndexData.get(new Json("read", 1), "expire_read", 15L, TimeUnit.DAYS),
-				IndexData.get(new Json("date", 1), "expire", 90L, TimeUnit.DAYS),
+				IndexData.getExpire(new Json("read", 1), "expire_read", 15L, TimeUnit.DAYS),
+				IndexData.getExpire(new Json("date", 1), "expire", 90L, TimeUnit.DAYS),
 				IndexData.get(new Json("received", 1), "received")
 		);
 		indexes.addIndex("Follows",
@@ -157,11 +153,8 @@ public class IndexBuilder {
 		);
 
 		indexes.addIndex("BlobCache",
-				IndexData.get(new Json("date", -1), "expire", 10L * 24 * 3600, TimeUnit.SECONDS),
+				IndexData.getExpire(new Json("date", -1), "expire", 10L * 24 * 3600, TimeUnit.SECONDS),
 				IndexData.get(new Json("blob", 1).put("width", 1).put("height", 1).put("format", 1), "blob")
-		);
-		indexes.addIndex("Logs",
-				IndexData.get(new Json("d", -1), "expire", 90L, TimeUnit.DAYS)
 		);
 
 
@@ -185,8 +178,16 @@ public class IndexBuilder {
 
 
 		indexes.addIndex("Stats",
-				IndexData.get(new Json("date", 1), "date"),
-				IndexData.get(new Json("ip", 1).put("ua", 1), "ipua")
+				IndexData.get(new Json("ip", 1).put("ua", 1), "ipua"),
+				IndexData.getExpire(new Json("date", 1), "date", 365, TimeUnit.DAYS)
+		);
+
+
+		indexes.addIndex("Logs",
+				IndexData.getExpire(new Json("d", -1), "expire", 90, TimeUnit.DAYS)
+		);
+		indexes.addIndex("SysLog",
+				IndexData.getExpire(new Json("date", -1), "date", 90, TimeUnit.DAYS)
 		);
 
 
@@ -218,7 +219,7 @@ public class IndexBuilder {
 				IndexData.get(new Json("date", -1), "date")
 		);
 		indexes.addIndex("DejaVu",
-				IndexData.get(new Json("date", 1), "date", 5, TimeUnit.DAYS)
+				IndexData.getExpire(new Json("date", 1), "date", 5, TimeUnit.DAYS)
 		);
 
 		return indexes;
@@ -420,7 +421,7 @@ public class IndexBuilder {
 			return new IndexModel(key, new IndexOptions().name(name).unique(true));
 		}
 
-		public static IndexModel get(Json key, String name, long delay, TimeUnit unit) {
+		public static IndexModel getExpire(Json key, String name, long delay, TimeUnit unit) {
 			return new IndexModel(key, new IndexOptions().name(name).expireAfter(delay, unit));
 		}
 
