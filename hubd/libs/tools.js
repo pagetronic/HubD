@@ -26,7 +26,7 @@ sys = $.extend({}, sys, {
             var body = $(document.body);
             if (activate) {
                 sys.dynamit();
-                body.stop(false).fadeTo(200, 0.8);
+                body.stop(false).fadeTo(200, 0.5);
             } else {
                 body.stop(false).fadeTo(100, 1, function () {
                     $(this).css({

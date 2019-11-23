@@ -4,14 +4,6 @@ sys.init = function (xspeed) {
         stats.pageview();
     }
 
-    if (xspeed !== undefined && Cookies.get("debug") === 'debug') {
-        var msg = 'XSpeed: ' + xspeed + 'ms';
-        var head = $('head');
-        var meta_robots = head.find('meta[name=robots]');
-        msg += meta_robots.length > 0 ? '<br/>' + meta_robots.attr('content') : '';
-        // var meta_canonical =  head.find('link[rel=canonical]'); msg += meta_canonical.length > 0 ? '<br/>' + meta_canonical.attr('href') : '';
-        sys.toast(msg, 2000);
-    }
 
     $.ajaxSetup({
         cache: true
@@ -39,7 +31,7 @@ sys.init = function (xspeed) {
     if (constants.ajax) {
         ajax.init();
     }
-    sys.load();
+    sys.load(xspeed);
 
 };
 sys.debuggable = function (set) {
@@ -52,7 +44,13 @@ sys.debuggable = function (set) {
         Cookies.remove('debug');
     }
 };
-sys.load = function () {
+sys.load = function (xspeed) {
+
+    if (xspeed !== undefined && Cookies.get("debug") === 'debug') {
+        var meta_robots = $('meta[name=robots]');
+        var meta = meta_robots.length > 0 ? '<br/>' + meta_robots.attr('content') : '';
+        sys.toast('XSpeed: ' + xspeed + 'ms' + meta, 2000);
+    }
 
     sys.svg();
     sys.rating.init();
