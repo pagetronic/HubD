@@ -17,7 +17,7 @@ sys.init = function (xspeed) {
     sys.notices.init();
     sys.ego.init();
     login.autologin();
-    sys.comodo();
+    sys.comodo.init();
     if (constants.ajax) {
         ajax.init();
     }

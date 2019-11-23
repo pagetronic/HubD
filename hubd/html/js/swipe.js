@@ -3,7 +3,6 @@ sys.swipe = {
      * Make lateral menus swipable and openable like Android Ui
      */
     make: function () {
-
         var comodo = $('#comodo, #lateral, #menu');
         var menu = $('#menu');
         var menu_btn = $('.opener[to=menu]');
@@ -27,6 +26,8 @@ sys.swipe = {
         box.off('touchstart.swipe').off("touchend.swipe touchleave.swipe touchcancel.swipe").off("touchmove.swipe");
 
         box.on('touchstart.swipe', function (e) {
+
+            sys.comodo.hide();
             var posX = getPosX(e);
             if (lateral.length > 0 && lateral.hasClass('open') && posX <= tolerance) {
                 right = box.width() - posX;
@@ -82,6 +83,7 @@ sys.swipe = {
 
 
         box.on("touchstart.swipe", function (e) {
+            sys.comodo.hide();
             var posX = getPosX(e);
             var x = box.width() - posX;
             if (x <= tolerance && menu.hasClass('open')) {
