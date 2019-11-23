@@ -1,0 +1,35 @@
+<div class="bx" id="stats">
+    <h2>#lang('ANALYTICS','ucfirst')</h2>
+    #foreach($stat in $stats)
+    #if($velocityCount==0)
+    <h1 style="font-size:30px" id="now">#number($stat.unique)</h1>
+    #else
+    <p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong> (#date($stat.start,'short') - #date($stat.stop,'short'))</p>
+    #end
+    #end
+</div>
+<script type="text/javascript">
+    sys.push(function () {
+        var nowTimeout = -1;
+        var reload = function () {
+            ajax.get('/admin/stats', function (html) {
+                html = $(html);
+                var stats = $('#stats');
+                var nowval = stats.find('#now').text();
+                stats.html(html.find('#stats').html());
+                var now = $('#now');
+                if (nowval !== now.text()) {
+                    now.pulse();
+                }
+                clearTimeout(nowTimeout);
+                nowTimeout = setTimeout(reload, 3000);
+            }, function () {
+                clearTimeout(nowTimeout);
+                nowTimeout = setTimeout(reload, 3000);
+            });
+        };
+        ajax.unload(function () {
+        });
+        reload();
+    });
+</script>
