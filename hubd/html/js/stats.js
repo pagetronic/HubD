@@ -1,5 +1,0 @@
-sys.stats = {
-    pageview: function () {
-
-    }
-}

@@ -121,7 +121,7 @@ var ajax = {
 						log(e);
 					}
 					sys.pushState(url);
-					sys.stats.pageview();
+					stats.pageview();
 				}
 
 				var body = $(html);

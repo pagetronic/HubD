@@ -13,6 +13,7 @@ public class SessionData {
 
 	private final Session session;
 	private String user_id = null;
+	private String ip = null;
 	private String lng = null;
 	private final Date date = new Date();
 
@@ -37,8 +38,16 @@ public class SessionData {
 		return user_id;
 	}
 
+	public String getIp() {
+		return ip;
+	}
+
 	public void setUserId(String user_id) {
 		this.user_id = user_id;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	public List<String> getElements() {
@@ -76,7 +85,7 @@ public class SessionData {
 	public void clearMsg() {
 		try {
 			temp_message.close();
-		} catch (Exception e) {
+		} catch (Exception ignore) {
 		}
 		temp_message = new StringWriter();
 	}
@@ -102,4 +111,5 @@ public class SessionData {
 	public boolean isAbort(String act) {
 		return aborts.contains(act);
 	}
+
 }

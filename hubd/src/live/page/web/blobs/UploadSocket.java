@@ -1,8 +1,10 @@
 /*
- * Copyright 2019 Laurent PAGE, Apache Licence 2.0
+ * Copyright (c) 2019. PAGE and Sons
  */
 package live.page.web.blobs;
 
+import live.page.web.blobs.BlobsUtils;
+import live.page.web.socket.SocketConfig;
 import live.page.web.utils.Settings;
 import live.page.web.utils.json.Json;
 
@@ -19,8 +21,8 @@ import java.util.Map;
 /**
  * Upload Websocket
  */
-@ServerEndpoint(value = "/up", configurator = UPSocketConfig.class)
-public class UPSocket implements ServletContextListener {
+@ServerEndpoint(value = "/up", configurator = SocketConfig.class)
+public class UploadSocket implements ServletContextListener {
 	/**
 	 * Initial informations about file
 	 */

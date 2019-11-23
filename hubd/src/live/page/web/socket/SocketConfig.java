@@ -25,6 +25,10 @@ public class SocketConfig extends Configurator {
 	public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
 
 		List<String> langs = Settings.getLangs();
+
+		String ip = request.getParameterMap().get("ip").get(0);
+		sec.getUserProperties().put("ip", ip);
+
 		Map<String, List<String>> headers = request.getHeaders();
 
 		sec.getUserProperties().put("host", headers.get("host").get(0));
@@ -61,11 +65,7 @@ public class SocketConfig extends Configurator {
 			if (session != null && session.getString("user") != null) {
 				sec.getUserProperties().put("user_id", session.getString("user"));
 			}
-			try {
-				sec.getUserProperties().put("ip", session.getString("ip"));
-			} catch (Exception e) {
 
-			}
 		}
 
 		List<String> swp = headers.get("sec-websocket-protocol");

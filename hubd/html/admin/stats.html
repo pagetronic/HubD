@@ -1,0 +1,10 @@
+#parse("/inc/top.html")
+<div class="stats" id="middle">
+	<div class="bx">
+		<h2>#lang('ANALYTICS','ucfirst')</h2>
+		#foreach($stat in $stats)
+		<p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong> (#date($stat.start,'short') - #date($stat.stop,'short'))</p>
+		#end
+	</div>
+</div>
+#parse("/inc/bottom.html")

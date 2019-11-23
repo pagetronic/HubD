@@ -9,15 +9,6 @@
     "de": "Akzeptieren",
     "us": "Accept"
   },
-  "FROMTO": {
-    "fr": "%1 à %2",
-    "it": "da %1 a %2",
-    "es": "%1 a %2",
-    "pt": "%1 a %2",
-    "de": "%1 bis %2",
-    "en": "%1 to %2",
-    "us": "%1 to %2"
-  },
   "ACCOUNT_CHANGE_PASSWORD": {
     "fr": "Changer de mot de passe",
     "it": "Cambia password",
@@ -121,6 +112,12 @@
     "it": "aggiungi una lingua",
     "de": "Sprache hinzufügen",
     "pt": "adicione um idioma"
+  },
+  "ANALYTICS": {
+    "en": "analytics",
+    "fr": "statistiques",
+    "pt": "analytics",
+    "es": "analítica"
   },
   "AND": {
     "js": true,
@@ -244,16 +241,6 @@
     "pt": "Baseado em %1 votos",
     "de": "Basierend auf %1 Stimmen"
   },
-  "EDITABLE": {
-    "js": true,
-    "fr": "éditable",
-    "en": "editable",
-    "us": "editable",
-    "es": "editable",
-    "pt": "editable",
-    "de": "editable",
-    "it": "editable"
-  },
   "BIG_TITLE": {
     "js": true,
     "fr": "Gros titre",
@@ -270,11 +257,6 @@
     "fr": "Notifications du navigateur",
     "pt": "Notificações do navegador",
     "es": "Notificaciones del navegador"
-  },
-  "TEXT_TOO_LONG": {
-    "js": true,
-    "fr": "trop long",
-    "en": "too long"
   },
   "CANCEL": {
     "js": true,
@@ -671,6 +653,16 @@
     "es": "editar",
     "de": "bearbeiten"
   },
+  "EDITABLE": {
+    "js": true,
+    "fr": "éditable",
+    "en": "editable",
+    "us": "editable",
+    "es": "editable",
+    "pt": "editable",
+    "de": "editable",
+    "it": "editable"
+  },
   "EMAIL": {
     "fr": "email",
     "en": "email",
@@ -860,6 +852,15 @@
     "de": "Verwandte Kategorien",
     "en": "Related categories",
     "us": "Related categories"
+  },
+  "FROMTO": {
+    "fr": "%1 à %2",
+    "it": "da %1 a %2",
+    "es": "%1 a %2",
+    "pt": "%1 a %2",
+    "de": "%1 bis %2",
+    "en": "%1 to %2",
+    "us": "%1 to %2"
   },
   "GALLERY": {
     "en": "Gallery",
@@ -1925,6 +1926,11 @@
     "es": "Respuesta del tema",
     "pt": "Resposta do tópico",
     "de": "Thema antworten"
+  },
+  "TEXT_TOO_LONG": {
+    "js": true,
+    "fr": "trop long",
+    "en": "too long"
   },
   "TEXT_TOO_SHORT": {
     "js": true,

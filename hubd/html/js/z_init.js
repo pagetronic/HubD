@@ -1,5 +1,9 @@
 sys.init = function (xspeed) {
 
+    if (sys.analytics === "" || sys.analytics === undefined|| sys.analytics === null) {
+        stats.pageview();
+    }
+
     if (xspeed !== undefined && Cookies.get("debug") === 'debug') {
         var msg = 'XSpeed: ' + xspeed + 'ms';
         var head = $('head');

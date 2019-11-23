@@ -28,7 +28,7 @@ public class BaseWebSocket {
 			case "scrap":
 				return ScrapAdminUtils.scrapPreview(msg, user_session);
 			case "stats":
-				LogsUtils.pushStats(msg.getJson("data"));
+				LogsUtils.pushStats(user_session.getIp(), msg.getJson("data"));
 				return new SocketMessage();
 			case "receive_notices":
 				NoticesUtils.noticeReceived(user_session.getUserId());
@@ -102,7 +102,7 @@ public class BaseWebSocket {
 						session.getAsyncRemote().sendText(data.toString());
 					}
 				}
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 		} catch (Exception e) {
 			if (Fx.IS_DEBUG) {
@@ -125,6 +125,7 @@ public class BaseWebSocket {
 			SessionData sessiondata = new SessionData(session);
 			sessiondata.setUserId((String) session.getUserProperties().get("user_id"));
 			sessiondata.setLang((String) session.getUserProperties().get("hl"));
+			sessiondata.setIp((String) session.getUserProperties().get("ip"));
 			SocketSessions.put(session.getId(), sessiondata);
 
 		} catch (Exception e) {

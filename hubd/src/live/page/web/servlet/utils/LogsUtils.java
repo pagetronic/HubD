@@ -39,22 +39,22 @@ public class LogsUtils implements ServletContextListener {
 				log.add("h", new Json(name, req.getHeader(name)));
 			}
 		}
-		asyncService.submit(() -> Db.getDb("Logs").insertOne(log));
+		asyncService.submit(() -> Db.save("Logs", log));
 	}
 
-	public static void pushStats(Json data) {
+	public static void pushStats(String ip, Json data) {
 		Json stat = new Json();
 		stat.put("sysid", data.getId());
 		stat.put("url", data.getString("location"));
 		stat.put("width", data.getInteger("width"));
 		stat.put("height", data.getInteger("height"));
 		stat.put("ua", data.getString("ua"));
-		stat.put("ip", data.getString("ip"));
+		stat.put("ip", ip);
 		if (data.getString("user") != null) {
 			stat.put("user", data.getString("user"));
 		}
 		stat.put("date", new Date());
-		asyncService.submit(() -> Db.getDb("Stats").insertOne(stat));
+		asyncService.submit(() -> Db.save("Stats", stat));
 	}
 
 	@Override

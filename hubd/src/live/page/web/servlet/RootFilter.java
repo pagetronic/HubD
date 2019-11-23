@@ -5,6 +5,7 @@ package live.page.web.servlet;
 
 import live.page.web.posts.utils.ForumsAggregator;
 import live.page.web.servlet.utils.LogsUtils;
+import live.page.web.servlet.utils.ServletUtils;
 import live.page.web.servlet.wrapper.BaseServletResponse;
 import live.page.web.utils.Settings;
 
@@ -45,6 +46,7 @@ public class RootFilter implements Filter {
 		if (req.getAttribute("requestURI") == null) {
 			req.setAttribute("requestURI", requestURI);
 		}
+		req.setAttribute("ip", ServletUtils.realIp(req));
 
 		resp.setHeader("Server", Settings.PROJECT_NAME);
 
