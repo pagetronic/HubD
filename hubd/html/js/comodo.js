@@ -21,5 +21,8 @@ sys.comodo = {
     },
     hide: function () {
         $('#comodo, #menu, #lateral').addClass('hider');
+    },
+    show: function () {
+        $('#comodo, #menu, #lateral').removeClass('hider');
     }
 };

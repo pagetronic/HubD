@@ -36,6 +36,7 @@ sys.debuggable = function (set) {
 };
 sys.load = function (xspeed) {
 
+
     if (sys.analytics === "" || sys.analytics === undefined || sys.analytics === null) {
         stats.pageview();
     }
@@ -45,6 +46,8 @@ sys.load = function (xspeed) {
         var meta = meta_robots.length > 0 ? '<br/>' + meta_robots.attr('content') : '';
         sys.toast('XSpeed: ' + xspeed + 'ms' + meta, 2000);
     }
+
+    sys.comodo.show();
 
     saver.init();
     time.init();
