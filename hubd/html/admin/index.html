@@ -29,9 +29,9 @@
                 ajax.get(sys.uri(), function (html) {
                     html = $(html);
                     var stats = $('#stats');
-                    var now = $('#now');
                     var nowval = stats.find('#now').text();
                     stats.html(html.find('#stats').html());
+                    var now = $('#now');
                     if (nowval !== now.text()) {
                         now.pulse();
                     }
