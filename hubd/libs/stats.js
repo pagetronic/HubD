@@ -14,7 +14,19 @@ var stats = {
                 user: sys.user.id
             }
         }, function (msg) {
+
+            var goneInterval = setInterval(function () {
+                socket.send({
+                    action: 'stats',
+                    data: {
+                        id: msg.id,
+                        gone: false
+                    }
+                });
+            }, 1000);
+
             var gone = function (after) {
+                clearInterval(goneInterval);
                 socket.send({
                     action: 'stats',
                     data: {
