@@ -24,7 +24,7 @@
     </ul>
     <script type="text/javascript">
         sys.push(function () {
-            var nowInterval = -1;
+            var nowTimeout = -1;
             var reload = function () {
                 ajax.get(sys.uri(), function (html) {
                     html = $(html);
@@ -35,11 +35,14 @@
                     if (nowval !== now.text()) {
                         now.pulse();
                     }
-                    nowInterval = setTimeout(reload, 3000);
+                    clearTimeout(nowTimeout);
+                    nowTimeout = setTimeout(reload, 3000);
+                }, function () {
+                    clearTimeout(nowTimeout);
+                    nowTimeout = setTimeout(reload, 3000);
                 });
             };
             ajax.unload(function () {
-                clearTimeout(nowInterval);
             });
             reload();
             sys.adminWebPush = function () {
