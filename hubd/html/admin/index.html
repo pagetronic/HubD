@@ -4,9 +4,9 @@
         <h2>#lang('ANALYTICS','ucfirst')</h2>
         #foreach($stat in $stats)
         #if($velocityCount==0)
-        <h1 id="now">$stat.unique</h1>
+            <h1 style="font-size:30px" id="now">#number($stat.unique)</h1>
         #else
-        <p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong> (#date($stat.start,'short') - #date($stat.stop,'short'))</p>
+            <p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong> (#date($stat.start,'short') - #date($stat.stop,'short'))</p>
         #end
         #end
     </div>
