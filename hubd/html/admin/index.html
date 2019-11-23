@@ -10,18 +10,6 @@
         #end
         #end
     </div>
-    <ul>
-        <li><a href="javascript:sys.adminWebPush()">Web Push</a></li>
-        <li><a href="/admin/posts">Lasts Posts</a></li>
-        #if($debug)
-        <li><a href="/admin/langs">Langs</a></li>
-        #end
-        <li><a href="/admin/ratings">Lastest ratings</a></li>
-        <li><a href="/admin/scrap">Scrapper</a></li>
-        <li><a href="/admin/pages">Pages Meta Titles</a></li>
-        <li><a href="/admin/301">Redirect 301</a></li>
-
-    </ul>
     <script type="text/javascript">
         sys.push(function () {
             var nowTimeout = -1;
@@ -77,5 +65,19 @@
             };
         });
     </script>
+</div>
+<div id="lateral">
+    <ul class="links">
+        <li class="hr">#lang('ADMIN')</li>
+        <li><a href="javascript:sys.adminWebPush()">Web Push</a></li>
+        <li><a href="/admin/posts">Lasts Posts</a></li>
+        #if($debug)
+        <li><a href="/admin/langs">Langs</a></li>
+        #end
+        <li><a href="/admin/ratings">Lastest ratings</a></li>
+        <li><a href="/admin/scrap">Scrapper</a></li>
+        <li><a href="/admin/pages">Pages Meta Titles</a></li>
+        <li><a href="/admin/301">Redirect 301</a></li>
+    </ul>
 </div>
 #parse("/inc/bottom.html")
