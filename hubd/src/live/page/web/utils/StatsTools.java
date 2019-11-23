@@ -33,7 +33,7 @@ public class StatsTools {
 
 
 		Date stop_date = cl.getTime();
-		cl.add(Calendar.SECOND, -5);
+		cl.add(Calendar.SECOND, -10);
 		Date start_date = cl.getTime();
 
 		Json unique = Db.aggregate("Stats", Arrays.asList(
