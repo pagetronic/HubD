@@ -27,8 +27,6 @@
     <modules>
         <module>hubd</module>
         <module>crond</module>
-        <module>examples/example-croner</module>
-        <module>examples/example-web</module>
     </modules>
     <repositories>
         <!-- Test original repo before others -->
