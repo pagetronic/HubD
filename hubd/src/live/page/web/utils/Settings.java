@@ -291,4 +291,7 @@ public class Settings {
 		return LANGS_DOMAINS;
 	}
 
+	public static String getString(String key) {
+		return  settings.getProperty(key);
+	}
 }
