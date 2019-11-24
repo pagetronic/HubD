@@ -56,18 +56,23 @@ public class StatsTools {
 
 
 		cl = Calendar.getInstance(tz);
+
 		//Today
-		cl.set(Calendar.HOUR, 0);
-		cl.set(Calendar.MINUTE, 0);
-		cl.set(Calendar.SECOND, 0);
+		cl.add(Calendar.HOUR_OF_DAY, -24);
 		start_date = cl.getTime();
-		cl.set(Calendar.HOUR_OF_DAY, 24);
+
+		cl.add(Calendar.HOUR_OF_DAY, 24);
 		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
 
+		cl = Calendar.getInstance(tz);
+		cl.set(Calendar.HOUR_OF_DAY, 0);
+		cl.set(Calendar.MINUTE, 0);
+		cl.set(Calendar.SECOND, 0);
+
 		//Yesterday
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 2);
+		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 1);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 1);
 		stop_date = cl.getTime();
