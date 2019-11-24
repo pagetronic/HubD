@@ -245,9 +245,13 @@ public class Settings {
 	 */
 	private static Properties load() {
 		Properties settings = new Properties();
-		String file = "/res/settings";
+		String file = "/res/.settings";
 		try {
 			InputStream props_stream = Settings.class.getResourceAsStream(file);
+			if (props_stream == null) {
+				file = "/res/settings";
+				props_stream = Settings.class.getResourceAsStream(file);
+			}
 			Reader reader = new InputStreamReader(props_stream, StandardCharsets.UTF_8);
 			settings.load(reader);
 			reader.close();
