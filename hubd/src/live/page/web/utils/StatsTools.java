@@ -24,11 +24,11 @@ public class StatsTools {
 	 *
 	 * @return list for templating
 	 */
-	public static List<Json> getSimplesStats() {
+	public static List<Json> getSimplesStats(TimeZone tz) {
 
 		List<Json> stats = new ArrayList<>();
 
-		Calendar cl = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		Calendar cl = Calendar.getInstance(tz);
 
 		//NOW
 
@@ -55,7 +55,7 @@ public class StatsTools {
 		stats.add(new Json("unique", unique == null ? 0 : unique.getInteger("unique", 0)));
 
 
-		cl = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cl = Calendar.getInstance(tz);
 		//Today
 		cl.set(Calendar.HOUR, 0);
 		cl.set(Calendar.MINUTE, 0);

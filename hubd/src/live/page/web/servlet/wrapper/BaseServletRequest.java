@@ -15,6 +15,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Enumeration;
+import java.util.TimeZone;
 
 /**
  * Base wrapper for Servlet Requests
@@ -161,5 +162,17 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 	 */
 	public String getUserAgent() {
 		return getHeader(HttpHeaders.USER_AGENT);
+	}
+
+	public TimeZone getTz() {
+		String tz = BaseCookie.get(this, "tz");
+		if (getParameter("tz") != null) {
+			tz = getParameter("tz");
+		}
+		try {
+			return TimeZone.getTimeZone(TimeZone.getAvailableIDs(0 - (Integer.parseInt(tz) * 60 * 1000))[0]);
+		} catch (Exception e) {
+		}
+		return TimeZone.getTimeZone("UTC");
 	}
 }
