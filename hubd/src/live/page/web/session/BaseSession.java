@@ -84,7 +84,8 @@ public class BaseSession implements ServletContextListener {
 			return null;
 		}
 		gaia.setMaxAge(Settings.COOKIE_DELAY);
-		resp.addCookie(gaia);
+		//strange, have to clone
+		resp.addCookie((BaseCookie) gaia.clone());
 
 		List<Bson> pipeline = new ArrayList<>();
 		pipeline.add(Aggregates.match(Filters.eq("_id", gaia.getValue())));
