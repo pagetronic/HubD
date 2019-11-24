@@ -2,7 +2,7 @@
 
 A Jar Engine to deploy complex Website with Java Servlet, MongoDb, Velocity and Maven.
 
-You can see in action in [Agroneo](https://agroneo.com) and more..
+You can see in action on [Agroneo](https://agroneo.com) and [GitHub example](https://github.com/pagetronic/Agroneo).
 
 #### Functionalities
 
