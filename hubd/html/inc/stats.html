@@ -3,7 +3,7 @@
         <h2>#lang('ANALYTICS','ucfirst')</h2>
         #foreach($stat in $stats)
         #if($velocityCount==0)
-        <h1 style="font-size:30px" id="now">#number($stat.unique)</h1>
+        <h1 style="font-size:40px" id="now">#number($stat.unique)</h1>
         #else
         <p><strong>#number($stat.unique) Uniques / #number($stat.view) Views</strong>#if($stat.start) (#date($stat.start,'short') - #date($stat.stop,'short'))#end</p>
         #end
@@ -13,6 +13,7 @@
         sys.push(function () {
             var nowTimeout = -1;
             var reload = function () {
+
                 ajax.get('/admin/stats', function (html) {
                     html = $(html);
                     var stats = $('#stats');
