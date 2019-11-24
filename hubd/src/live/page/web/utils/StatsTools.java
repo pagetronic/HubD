@@ -85,8 +85,16 @@ public class StatsTools {
 		stop_date = cl.getTime();
 		stats.add(getStats(start_date, stop_date));
 
-		//Last month
+		//This month
+		cl = Calendar.getInstance(tz);
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 31);
+		start_date = cl.getTime();
+		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 31);
+		stop_date = cl.getTime();
+		stats.add(getStats(start_date, stop_date));
+
+		//Last month
+		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 62);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 31);
 		stop_date = cl.getTime();
