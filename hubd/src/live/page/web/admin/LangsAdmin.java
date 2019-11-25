@@ -126,8 +126,8 @@ public class LangsAdmin {
 
 				}
 			}
-			langs.put(key, lang);
-			setLangs(langs, local);
+			langs.put(key, lang.sort());
+			setLangs(langs.sort(), local);
 		}
 
 
