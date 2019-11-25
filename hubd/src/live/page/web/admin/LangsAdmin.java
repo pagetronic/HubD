@@ -30,17 +30,10 @@ public class LangsAdmin {
 
 		req.setAttribute("admin_active", "langs");
 
-		List<String> langs = new ArrayList<>();
-		Json filelangs = getLangs(req.getString("local", null) != null);
-		for (String key : filelangs.keySet()) {
-			for (String lng : filelangs.getJson(key).keySet()) {
-				if (!langs.contains(lng)) {
-					langs.add(lng);
-				}
-			}
-		}
-		req.setAttribute("langs", filelangs);
-		req.setAttribute("langs_availables", langs);
+		Json langs = getLangs(req.getString("local", null) != null);
+
+		req.setAttribute("langs", langs);
+		req.setAttribute("langs_availables", langIn(langs));
 
 		req.setAttribute("escape", StringEscapeUtils.class);
 
@@ -59,6 +52,9 @@ public class LangsAdmin {
 			case "translate":
 				rez = translate(data);
 				break;
+			case "translate_all":
+				rez = translateAll(data.getBoolean("local", false));
+				break;
 			case "remove":
 				rez = remove(data);
 				break;
@@ -73,6 +69,11 @@ public class LangsAdmin {
 	}
 
 	private static Json translate(Json data) {
+
+		if (!Fx.IS_DEBUG) {
+			return new Json("error", "PLEASE_DEBUG");
+		}
+
 		boolean local = data.getBoolean("local", false);
 		Json langs = getLangs(local);
 		Json values = langs.getJson(data.getString("key"));
@@ -88,6 +89,45 @@ public class LangsAdmin {
 		langs.put(data.getString("key"), values);
 		setLangs(langs, local);
 		return new Json("ok", true).put("translation", translation);
+
+	}
+
+	private static Json translateAll(boolean local) {
+		if (!Fx.IS_DEBUG) {
+			return new Json("error", "PLEASE_DEBUG");
+		}
+		Json langs = getLangs(local);
+		List<String> lngs = langIn(langs);
+		lngs.remove("fr");
+		lngs.remove("en");
+		lngs.add(0, "fr");
+		lngs.add(0, "en");
+		String[] keys = langs.keySet().toArray(new String[0]);
+		for (String key : keys) {
+			Json lang = langs.getJson(key);
+			for (String lng : lngs) {
+				if (!lang.containsKey(lng)) {
+					String src = null;
+					String str = null;
+					for (String srclng : lngs) {
+						str = lang.getString(srclng, null);
+						if (str != null && str.length() > 1) {
+							src = srclng;
+							break;
+						}
+					}
+					if (str != null) {
+						lang.put(lng, Translater.translate(lang.getString(src), src, lng));
+					}
+
+				}
+			}
+			langs.put(key, lang);
+		}
+
+		setLangs(langs, local);
+
+		return new Json("ok", true);
 
 	}
 
@@ -155,11 +195,26 @@ public class LangsAdmin {
 		}
 	}
 
+
+	private static List<String> langIn(Json filelangs) {
+		List<String> langs = new ArrayList<>();
+		for (String key : filelangs.keySet()) {
+			for (String lng : filelangs.getJson(key).keySet()) {
+				if (!langs.contains(lng)) {
+					langs.add(lng);
+				}
+			}
+		}
+		langs.remove("js");
+		return langs;
+	}
+
 	private static void setLangs(Json langs, boolean local) {
 		try {
 			FileUtils.writeStringToFile(new File((local ? Settings.REPO : Settings.HUB_REPO) + "/res/langs.json"), langs.sort().toString(false));
 			Language.rebuilt();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
