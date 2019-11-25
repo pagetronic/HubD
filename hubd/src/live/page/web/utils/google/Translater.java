@@ -8,15 +8,30 @@ import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import live.page.web.utils.Fx;
+import live.page.web.utils.Settings;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class Translater {
 	public static String translate(String str, String source_lng, String destination_lng) {
 		if (str == null || str.equals("") || str.length() <= 1) {
 			return str;
 		}
+		InputStream props_stream;
 		try {
+			String file = "/res/.translate.json";
+			props_stream =new FileInputStream(Settings.HUB_REPO + file);
+			if (props_stream == null) {
+				file = "/res/translate.json";
+				props_stream = Translater.class.getResourceAsStream(file);
+			}
+			if (props_stream == null) {
+				Fx.log("Translate need /res/translate.json from Google Translation service");
+				return null;
+			}
 			Translation translation = TranslateOptions.newBuilder().setCredentials(
-					GoogleCredentials.fromStream(Fx.class.getResourceAsStream("/res/translate.json")))
+					GoogleCredentials.fromStream(props_stream))
 					.setTargetLanguage(destination_lng).build().getService().translate(str, Translate.TranslateOption.sourceLanguage(source_lng));
 			return translation.getTranslatedText();
 		} catch (Exception ex) {
