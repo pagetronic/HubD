@@ -2,6 +2,10 @@
 <div id="middle">
 
 	<h1>$title</h1>
+
+	<div class="pagination">
+		<a href="/api/apps" class="button">$svg.mi_apps #lang('API_APPS')</a>
+	</div>
 	#if($access.size()==0)
 	<div class="bx">
 		<h2>#lang('EMPTY')</h2>

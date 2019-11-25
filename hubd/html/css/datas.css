@@ -1,0 +1,33 @@
+
+div.datas {
+    display: table;
+    width: 100%;
+}
+
+div.datas > div {
+    display: table-row;
+}
+
+div.datas > div > div {
+    display: table-cell;
+    vertical-align: top;
+    padding: 5px 5px 5px 0px;
+    border-bottom: 1px solid #EEE;
+}
+
+div.datas > div:last-child > div {
+    border-bottom: none;
+}
+
+div.datas > div > div:first-child {
+    text-align: right;
+    width: 0.003%;
+    font-style: italic;
+    color: #777;
+}
+
+div.datas > div > div:first-child:after {
+    content: ':';
+    margin-right: 2px;
+    margin-left: 1px;
+}

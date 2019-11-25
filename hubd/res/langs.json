@@ -9,42 +9,32 @@
     "de": "Akzeptieren",
     "us": "Accept"
   },
-  "SCOPE_EMAIL_EXPLAIN": {
-    "fr": "XX"
-  },
-  "SCOPE_PM_EXPLAIN": {
-    "fr": "XX"
-  },
-  "SCOPE_THREADS_EXPLAIN": {
-    "fr": "XX"
-  },
-  "SCOPE_BILLS_EXPLAIN": {
-    "fr": "XX"
-  },
-  "SCOPE_BUY_EXPLAIN": {
-    "fr": "XX"
-  },
-  "SCOPE_CASH_EXPLAIN": {
-    "fr": "XX"
-  },
-  "SCOPE_ACCOUNTS_EXPLAIN": {
-    "fr": "XX"
-  },
   "ACCESS": {
     "fr": "accès",
     "us": "access",
     "js": true,
-    "en": "acces"
+    "en": "acces",
+    "es": "acces",
+    "it": "accesso",
+    "pt": "acesso"
   },
   "ACCESS_REFRESH": {
     "fr": "rafraîchir la token",
     "en": "refresh token",
-    "us": "refresh token"
+    "us": "refresh token",
+    "es": "token de actualización",
+    "pt": "atualizar token",
+    "de": "token aktualisieren",
+    "it": "token di aggiornamento"
   },
   "ACCESS_REMOVE": {
     "en": "remove access",
     "us": "remove access",
-    "fr": "supprimer l\u0027accès"
+    "fr": "supprimer l\u0027accès",
+    "it": "rimuovere l\u0026#39;accesso",
+    "es": "eliminar acceso",
+    "pt": "remover acesso",
+    "de": "zugriff entfernen"
   },
   "ACCOUNT_CHANGE_PASSWORD": {
     "fr": "Changer de mot de passe",
@@ -144,7 +134,11 @@
   "ADD_APPS": {
     "en": "add apps",
     "us": "add apps",
-    "fr": "ajouter une application"
+    "fr": "ajouter une application",
+    "it": "aggiungi app",
+    "es": "agregar aplicaciones",
+    "pt": "adicionar aplicativos",
+    "de": "apps hinzufügen"
   },
   "ADD_LANG_ITEM": {
     "fr": "ajouter une langue",
@@ -289,6 +283,11 @@
     "de": "Autor",
     "it": "Autore"
   },
+  "AUTHORIZATIONS": {
+    "fr": "autorisations",
+    "en": "authorizations",
+    "us": "authorizations"
+  },
   "AUTHORS": {
     "fr": "Auteurs",
     "de": "Autoren",
@@ -424,6 +423,12 @@
     "fr": "commentaires",
     "pt": "comentários",
     "es": "comentarios"
+  },
+  "CONFIRMATION": {
+    "en": "confirmation",
+    "us": "confirmation",
+    "fr": "confirmation",
+    "js": true
   },
   "CONNECT": {
     "fr": "connexion",
@@ -1876,6 +1881,27 @@
     "de": "Speichern Sie den Entwurf",
     "js": true
   },
+  "SCOPE_ACCOUNTS_EXPLAIN": {
+    "fr": "accès aux sous-comptes",
+    "en": "access to subaccounts",
+    "it": "accesso agli account secondari",
+    "es": "acceso a subcuentas",
+    "pt": "acesso a subcontas",
+    "de": "zugang zu Unterkonten",
+    "us": "access to subaccounts"
+  },
+  "SCOPE_EMAIL_EXPLAIN": {
+    "fr": "accès à l\u0027adresse email",
+    "en": "access to the email address"
+  },
+  "SCOPE_PM_EXPLAIN": {
+    "fr": "accès aux messages privés",
+    "en": "access to private messages"
+  },
+  "SCOPE_THREADS_EXPLAIN": {
+    "fr": "accès aux fonctions de commentaire",
+    "en": "access to comment functions"
+  },
   "SEARCH": {
     "js": true,
     "fr": "Rechercher",
@@ -2238,6 +2264,13 @@
     "es": "enviar imagen",
     "pt": "enviar imagem",
     "de": "Bild senden"
+  },
+  "URL": {
+    "en": "url",
+    "us": "url",
+    "fr": "url",
+    "js": true,
+    "it": "url"
   },
   "URL_AUTO": {
     "fr": "Laisser vide pour la générer automatiquement",

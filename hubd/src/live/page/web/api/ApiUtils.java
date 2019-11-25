@@ -39,22 +39,25 @@ public class ApiUtils {
 		return new Json("ok", false);
 	}
 
-	public static Json createApps(Users user, String name, String redirect_uri, String scope) {
-
+	public static Json createApps(Users user, String name, String redirect_uri, String scope, boolean auto) {
 		List<String> scopes = parseScope(scope);
-		List<Bson> filters = new ArrayList<>();
-		filters.add(Filters.eq("user", user.getId()));
 
-		filters.add(Filters.exists("client_id", true));
-		filters.add(Filters.exists("client_secret", true));
+		Json app = null;
+		if (auto) {
+			List<Bson> filters = new ArrayList<>();
+			filters.add(Filters.eq("user", user.getId()));
 
-		if (redirect_uri != null) {
-			filters.add(Filters.eq("redirect_uri", redirect_uri));
+			filters.add(Filters.exists("client_id", true));
+			filters.add(Filters.exists("client_secret", true));
+
+			if (redirect_uri != null) {
+				filters.add(Filters.eq("redirect_uri", redirect_uri));
+			}
+			if (scopes != null) {
+				filters.add(Filters.eq("scopes", scopes));
+			}
+			app = Db.find("ApiApps", Filters.and(filters)).first();
 		}
-		if (scopes != null) {
-			filters.add(Filters.eq("scopes", scopes));
-		}
-		Json app = Db.find("ApiApps", Filters.and(filters)).first();
 
 		if (app == null) {
 			app = new Json();
@@ -68,7 +71,9 @@ public class ApiUtils {
 			app.put("date", new Date());
 			app.put("user", user.getId());
 			app.put("scopes", scopes == null ? Scopes.scopes : scopes);
-			app.add("redirect_uri", redirect_uri);
+			if (redirect_uri != null) {
+				app.add("redirect_uri", redirect_uri);
+			}
 			Db.save("ApiApps", app);
 		}
 
@@ -245,9 +250,6 @@ public class ApiUtils {
 							"email",
 							"pm",
 							"threads",
-							"bills",
-							"buy",
-							"cash",
 							"accounts"
 					)
 			);

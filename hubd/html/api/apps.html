@@ -3,16 +3,12 @@
 	<h1>$title</h1>
 	<div class="pagination">
 		<button id="add_apps">$svg.mi_apps#lang('ADD_APPS')</button>
+        <a href="/api/access" class="button">$svg.mi_games #lang('API_ACCESS')</a>
 	</div>
-	#if(!$apps.first())
-	<div class="bx apps_empty">
-		<h2>#lang('EMPTY')</h2>
-	</div>
-	#end
 	#foreach($app in $apps)
 	<div class="bx apps" id="$app.id">
 		<p class="pined">#date($app.date)</p>
-		<h2>$app.name</h2>
+		<h3>$app.name</h3>
 		<div class="datas">
 			<div>
 				<div>client_id</div>
@@ -37,7 +33,7 @@
 				</div>
 			</div>
 			<div>
-				<div>scope</div>
+				<div>Scope</div>
 				<div>
 					<ul class="scopes">
 						#foreach($scope in $scopes)
@@ -48,8 +44,10 @@
 			</div>
 		</div>
 		<div class="flexible">
-			<button class="access flexable short">$svg.mi_power#lang('APP_GETACCESS')</button>
-			<button class="change_secret flexable short">$svg.mi_refresh#lang('APP_CHANGE_CLIENT_SECRET')</button>
+            <div class=" flexo">
+			<button class="access flexable">$svg.mi_power#lang('APP_GETACCESS')</button>
+			<button class="change_secret flexable">$svg.mi_refresh#lang('APP_CHANGE_CLIENT_SECRET')</button>
+            </div>
 			<div class="space"></div>
 			<button class="delete flexable right short">$svg.mi_delete_forever#lang('APP_DELETE')</button>
 		</div>
@@ -57,13 +55,13 @@
 	#end
 	<script type="text/javascript">
 		sys.push(function () {
-			sys.api.create_apps();
-			sys.api.change_secret();
-			sys.api.app_delete();
-			sys.api.change_name();
-			sys.api.redirect_uri();
-			sys.api.get_access();
-			sys.api.set_scopes();
+            sys.api.create_apps();
+            sys.api.change_secret();
+            sys.api.app_delete();
+            sys.api.change_name();
+            sys.api.redirect_uri();
+            sys.api.get_access();
+            sys.api.set_scopes();
 		});
 	</script>
 </div>

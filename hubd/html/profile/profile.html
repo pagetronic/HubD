@@ -22,12 +22,21 @@
             <p>#lang('USER_JOIN', "#since($user.join, 3)"), #lang('USER_LAST_ACTIVITY', "#since($user.last)")</p>
         </div>
     </div>
+    <p>&nbsp;</p>
     #end
     <div class="item cookies">
         #parse('/profile/cookies.html')
     </div>
+    <p>&nbsp;</p>
     <div class="item #if(!$webpushs || $webpushs.result.size()==0) none#end" id="pushs">
         #parse('/profile/webpush.html')
+    </div>
+    <p>&nbsp;</p>
+    <div class="item">
+        <h3>#lang('API_ACCESS')</h3>
+        <div class="option">
+            <p><a href="/api/access" class="button">$svg.mi_games #lang('API_ACCESS')</a> <a href="/api/apps" class="button">$svg.mi_apps #lang('API_APPS')</a></p>
+        </div>
     </div>
 </div>
 

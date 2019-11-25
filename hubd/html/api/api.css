@@ -1,36 +1,39 @@
 .api_apps .redirect_uri {
-	list-style: none;
-	padding: 0px;
-	margin: 0px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
 }
 
 .api_apps .redirect_uri li {
-	padding: 0px;
-	margin: 3px 0px 5px 0px;
-	font-style: italic;
+    padding: 0px;
+    margin: 3px 0px 5px 0px;
+    font-style: italic;
 }
 
 .api_apps .redirect_uri li.add {
-	font-style: normal;
+    font-style: normal;
 }
 
 .api_apps .redirect_uri li icon {
-	float: left;
+    float: left;
 }
 
 ul.scopes {
-	list-style: none;
-	padding: 0px;
-	margin: 0px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
 }
 
 ul.scopes li input {
-	margin-right: 3px;
-	float: left;
+    margin-right: 3px;
+    float: left;
+    width: auto;
 }
+
 ul.scopes li input[type="checkbox"]:not(:checked) + strong {
-	text-decoration: line-through;
+    text-decoration: line-through;
 }
+
 ul.scopes li {
-	padding: 3px 0px 5px 4px;
+    padding: 3px 0px 5px 4px;
 }

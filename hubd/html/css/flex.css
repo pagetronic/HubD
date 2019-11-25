@@ -61,6 +61,18 @@
 }
 
 
+
+.flexo {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    font-size: 0px;
+}
+
+.flexo > * {
+    font-size: 13px;
+}
+
 .flexible button.flexable.disabled {
     cursor: default;
 

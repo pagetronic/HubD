@@ -36,7 +36,7 @@ public class ApiConfigServlet extends HttpServlet {
 			if (req.getString("type", "").equals("obtain") &&
 					req.getString("secure", "").equals(req.getSessionData().getString("secure"))) {
 
-				Json app = ApiUtils.createApps(user, req.getString("name", null), req.getString("redirect_uri", null), req.getString("scopes", null));
+				Json app = ApiUtils.createApps(user, req.getString("name", null), req.getString("redirect_uri", null), req.getString("scopes", null), true);
 				String redirect = req.getString("redirect_uri", null);
 				redirect += (redirect.contains("?") ? "&" : "?") + "client_id=" + app.getString("client_id") + "&client_secret=" + app.getString("client_secret");
 				resp.sendRedirect(redirect);
@@ -99,7 +99,7 @@ public class ApiConfigServlet extends HttpServlet {
 
 		switch (data.getString("action", "")) {
 			case "create":
-				rez = ApiUtils.createApps(user, data.getString("name"), data.getString("redirect_uri"), data.getString("scopes", ""));
+				rez = ApiUtils.createApps(user, data.getString("name"), data.getString("redirect_uri"), data.getString("scopes", ""), false);
 				break;
 			case "rename_apps":
 				rez = ApiUtils.renameApps(data.getId(), data.getString("name"), user);
