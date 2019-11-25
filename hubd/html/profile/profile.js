@@ -12,7 +12,6 @@ sys.profile = {
     webpush: function () {
         var parsePush = function (rez) {
             var pushs = $('#pushs');
-            log(rez.result)
             if (rez.result.length > 0) {
                 pushs.removeClass('none');
             }
