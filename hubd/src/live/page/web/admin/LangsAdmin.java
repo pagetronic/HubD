@@ -3,6 +3,7 @@
  */
 package live.page.web.admin;
 
+import live.page.web.servlet.style.UiStyleServlet;
 import live.page.web.servlet.wrapper.ApiServletResponse;
 import live.page.web.servlet.wrapper.WebServletRequest;
 import live.page.web.servlet.wrapper.WebServletResponse;
@@ -11,12 +12,13 @@ import live.page.web.utils.Settings;
 import live.page.web.utils.google.Translater;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.langs.Language;
-import live.page.web.servlet.style.UiStyleServlet;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LangsAdmin {
 
@@ -27,9 +29,18 @@ public class LangsAdmin {
 		}
 
 		req.setAttribute("admin_active", "langs");
-		req.setAttribute("langs_availables", Settings.getLangs());
 
-		req.setAttribute("langs", getLangs(req.getString("local", null) != null));
+		List<String> langs = new ArrayList<>();
+		Json filelangs = getLangs(req.getString("local", null) != null);
+		for (String key : filelangs.keySet()) {
+			for (String lng : filelangs.getJson(key).keySet()) {
+				if (!langs.contains(lng)) {
+					langs.add(lng);
+				}
+			}
+		}
+		req.setAttribute("langs", filelangs);
+		req.setAttribute("langs_availables", langs);
 
 		req.setAttribute("escape", StringEscapeUtils.class);
 
