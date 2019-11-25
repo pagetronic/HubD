@@ -3,13 +3,15 @@ var stats = {
         if (!sys.debug && (sys.user.admin || sys.user.editor)) {
             return;
         }
+        var infos = sys.device();
         socket.send({
             action: 'stats',
             data: {
-                sysid: sys.sysId(),
                 location: document.location.toString(),
                 width: $(window).width(),
                 height: $(window).height(),
+                device: infos.device,
+                os: infos.os,
                 ua: navigator.userAgent,
                 user: sys.user.id
             }

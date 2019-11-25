@@ -215,12 +215,16 @@ public class StatsTools implements ServletContextListener {
 			return new SocketMessage();
 		}
 		Json stat = new Json();
-		stat.put("sysid", data.getString("sysid"));
+
+		//RGPD // GDPR stat.put("sysid", data.getString("sysid")); AND IP??
+
 		stat.put("url", data.getString("location"));
 		stat.put("width", data.getInteger("width"));
 		stat.put("height", data.getInteger("height"));
 		stat.put("ua", data.getString("ua"));
-		stat.put("ip", ip);
+		stat.put("device", data.getString("device"));
+		stat.put("os", data.getString("os"));
+		stat.put("ip", Fx.crypt(ip));
 		if (data.getString("user") != null) {
 			stat.put("user", data.getString("user"));
 		}
