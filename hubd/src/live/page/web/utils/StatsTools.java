@@ -177,19 +177,14 @@ public class StatsTools implements ServletContextListener {
 			));
 		}
 
-		pipeline.add(Aggregates.project(new Json().put("start", start_date).put("stop", stop_date))
-		);
 
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua"),
-				Accumulators.first("start", "$start"),
-				Accumulators.first("stop", "$stop"),
+				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
 				Accumulators.sum("view", 1)
 
 		));
 
 		pipeline.add(Aggregates.group(null,
-				Accumulators.first("start", "$start"),
-				Accumulators.first("stop", "$stop"),
 				Accumulators.sum("unique", 1),
 				Accumulators.sum("view", "$view")
 		));
