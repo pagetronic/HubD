@@ -9,6 +9,27 @@
     "de": "Akzeptieren",
     "us": "Accept"
   },
+  "SCOPE_EMAIL_EXPLAIN": {
+    "fr": "XX"
+  },
+  "SCOPE_PM_EXPLAIN": {
+    "fr": "XX"
+  },
+  "SCOPE_THREADS_EXPLAIN": {
+    "fr": "XX"
+  },
+  "SCOPE_BILLS_EXPLAIN": {
+    "fr": "XX"
+  },
+  "SCOPE_BUY_EXPLAIN": {
+    "fr": "XX"
+  },
+  "SCOPE_CASH_EXPLAIN": {
+    "fr": "XX"
+  },
+  "SCOPE_ACCOUNTS_EXPLAIN": {
+    "fr": "XX"
+  },
   "ACCESS": {
     "fr": "accès",
     "us": "access",
@@ -1235,6 +1256,16 @@
     "pt": "Nome",
     "de": "Name"
   },
+  "NEVER": {
+    "js": true,
+    "fr": "jamais",
+    "en": "never",
+    "us": "never",
+    "it": "mai",
+    "pt": "nunca",
+    "es": "nunca",
+    "de": "noch nie"
+  },
   "NEXT": {
     "js": true,
     "fr": "suivant",
@@ -1910,15 +1941,15 @@
     "de": "SEO-Utensilien",
     "pt": "Utils de SEO"
   },
-  "NEVER": {
+  "SINCE_AGO": {
     "js": true,
-    "fr": "jamais",
-    "en": "never",
-    "us": "never",
-    "it": "in %1",
-    "pt": "em %1",
-    "de": "in %1",
-    "es": "en %1"
+    "fr": "il y a %1",
+    "en": "%1 ago",
+    "us": "%1 ago",
+    "it": "%1 fa",
+    "pt": "há %1",
+    "de": "vor %1",
+    "es": "hace %1"
   },
   "SINCE_IN": {
     "js": true,
@@ -1929,16 +1960,6 @@
     "pt": "em %1",
     "de": "in %1",
     "es": "en %1"
-  },
-  "SINCE_AGO": {
-    "js": true,
-    "fr": "il y a %1",
-    "en": "%1 ago",
-    "us": "%1 ago",
-    "it": "%1 fa",
-    "pt": "há %1",
-    "de": "vor %1",
-    "es": "hace %1"
   },
   "SPLIT": {
     "js": true,
