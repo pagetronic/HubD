@@ -1,0 +1,65 @@
+#parse("/inc/top.html")
+<div class="selectable" id="middle">
+
+	<help>#lang('API_ACCESS_INFO')</help>
+	#if($access.size()==0)
+	<div class="bx">
+		<h2>#lang('EMPTY')</h2>
+	</div>
+	#end
+
+	#foreach($acc in $access)
+	<div class="bx accs" id="$acc.id">
+		<h2>$acc.app.name</h2>
+		<div class="datas">
+			#if($acc.date)
+			<div>
+				<div>#lang('GRANTED_DATE')</div>
+				<div>#date($acc.date,'full'), #since($acc.date)</div>
+			</div>
+			#end
+			<div>
+				<div>#lang('ACCESS','ucfirst')</div>
+				<div>#if($acc.count)#number($acc.count) #lang('ACCESS'), #lang('LAST_ACCESS') #since($acc.access) (#date($acc.access))#else#lang('NEVER')#end</div>
+			</div>
+			#if($acc.access_token)
+			<div>
+				<div>access_token</div>
+				<div><strong>$acc.access_token</strong></div>
+			</div>
+			#end
+			#if($acc.refresh_token)
+			<div>
+				<div>refresh_token</div>
+				<div><strong>$acc.refresh_token</strong></div>
+			</div>
+			#end
+			#if($acc.expire)
+			<div>
+				<div>expire</div>
+				<div><strong>#since($acc.expire, 2)</strong></div>
+			</div>
+			#end
+			#if($acc.scopes)
+			<div>
+				<div>#lang('AUTHORIZATIONS')</div>
+				<div>#foreach($scope in $acc.scopes)#modulo('')#lang("SCOPE_${scope}_EXPLAIN")#end.</div>
+			</div>
+			#end
+		</div>
+
+		<div class="flex">
+			<button class="refresh_access flexitem short">$svg.fa_icon_refresh#lang('ACCESS_REFRESH')</button>
+			<div class="space"></div>
+			<button class="remove_access flexitem short">$svg.mi_delete_forever#lang('ACCESS_REMOVE')</button>
+		</div>
+	</div>
+	#end
+	<script type="text/javascript">
+		sys.push(function () {
+			sys.api.remove_access();
+			sys.api.refresh_access();
+		});
+	</script>
+</div>
+#parse("/inc/bottom.html")

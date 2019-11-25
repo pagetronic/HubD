@@ -1,0 +1,74 @@
+#parse("/inc/top.html")
+<div class="api_apps" id="middle">
+	<help>#lang('API_APPS_INFO')</help>
+	<div id="top_float">
+		<div class="flex">
+			<div class="flexitem">
+				<button id="add_apps">$svg.mi_apps#lang('ADD_APPS')</button>
+			</div>
+		</div>
+	</div>
+	#if(!$apps.first())
+	<div class="bx apps_empty">
+		<h2>#lang('EMPTY')</h2>
+	</div>
+	#end
+	#foreach($app in $apps)
+	<div class="bx apps" id="$app.id">
+		<p class="pined">#date($app.date)</p>
+		<h2>$app.name</h2>
+		<div class="datas">
+			<div>
+				<div>client_id</div>
+				<div class="selectable"><strong>$app.client_id</strong></div>
+			</div>
+			<div>
+				<div>client_secret</div>
+				<div class="selectable"><strong class="client_secret">$app.client_secret</strong></div>
+			</div>
+			<div>
+				<div>redirect_uri</div>
+				<div>
+					<ul class="redirect_uri">
+						<li class="empty#if($app.redirect_uri.size() > 0) none#end">
+							<icon style="cursor:default">$svg.mi_warning</icon>
+							#lang('APP_ALL_REDIRECT')
+						</li>
+						#foreach($redirect_uri in $app.redirect_uri)
+						<li class="selectable" value="$redirect_uri">$redirect_uri</li>
+						#end
+					</ul>
+				</div>
+			</div>
+			<div>
+				<div>scope</div>
+				<div>
+					<ul class="scopes">
+						#foreach($scope in $scopes)
+						<li><input type="checkbox" name="scope" value="$scope" #if($app.scopes.contains($scope))checked="checked" #end/> <strong class="selectable">$scope</strong>: #lang("SCOPE_${scope}_EXPLAIN")</li>
+						#end
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="flex">
+			<button class="access flexitem short">$svg.mi_power#lang('APP_GETACCESS')</button>
+			<button class="change_secret flexitem short">$svg.mi_refresh#lang('APP_CHANGE_CLIENT_SECRET')</button>
+			<div class="space"></div>
+			<button class="delete flexitem right short">$svg.mi_delete_forever#lang('APP_DELETE')</button>
+		</div>
+	</div>
+	#end
+	<script type="text/javascript">
+		sys.push(function () {
+			sys.api.create_apps();
+			sys.api.change_secret();
+			sys.api.app_delete();
+			sys.api.change_name();
+			sys.api.redirect_uri();
+			sys.api.get_access();
+			sys.api.set_scopes();
+		});
+	</script>
+</div>
+#parse("/inc/bottom.html")

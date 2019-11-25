@@ -139,15 +139,82 @@
     "de": "anonym",
     "pt": "anônimo"
   },
-  "APPS": {
+  "API": {
+    "en": "api",
+    "us": "api",
+    "fr": "api"
+  },
+  "API_ACCESS": {
+    "en": "API Access",
+    "us": "API Access",
+    "fr": "Accès API"
+  },
+
+  "ACCESS": {
+    "fr": "accès",
+    "us": "access",
     "js": true,
-    "fr": "Application",
-    "en": "Application",
-    "us": "Application",
-    "de": "Anwendung",
-    "it": "Applicazione",
-    "es": "Solicitud",
-    "pt": "Aplicação"
+    "en": "acces"
+  },
+  "ACCESS_REFRESH": {
+    "fr": "rafraîchir la token",
+    "en": "refresh token",
+    "us": "refresh token"
+  },
+  "ACCESS_REMOVE": {
+    "en": "remove access",
+    "us": "remove access",
+    "fr": "supprimer l\u0027accès"
+  },
+  "API_ACCESS_INFO": {
+    "en": "Here you will find applications that have been granted access to your account through the API.",
+    "us": "Here you will find applications that have been granted access to your account through the API.",
+    "fr": "Vous trouverez ici les applications ayant reçu une autorisation d’accès à votre compte par l’intermédiaire de l\u0027API."
+  },
+  "API_APPS": {
+    "en": "API Apps",
+    "us": "API Apps",
+    "fr": "API Apps"
+  },
+  "API_APPS_INFO": {
+    "en": "We use the OAuth protocol to provide access to our API.\u003cbr\u003eHere you will find applications that allow you to create programming scripts to interact with our API with the authorizations of an user.",
+    "us": "We use the OAuth protocol to provide access to our API.\u003cbr\u003eHere you will find applications that allow you to create programming scripts to interact with our API with the authorizations of an user.",
+    "fr": "Nous utilisons le protocole OAuth pour vous fournir l\u0027accès à notre API.\u003cbr\u003eVous trouverez ici les applications qui vous permettront de créer des scripts de programmation destinés à dialoguer avec notre API en disposant des autorisations d’un utilisateur."
+  },
+  "GRANTED_DATE": {
+    "en": "Granted date",
+    "us": "Granted date",
+    "fr": "Date d\u0027octroi"
+  },
+  "LAST_ACCESS": {
+    "en": "last access",
+    "us": "last access",
+    "fr": "dernier accès"
+  },
+  "ADD_APPS": {
+    "en": "add apps",
+    "us": "add apps",
+    "fr": "ajouter une application"
+  },
+  "APP_ALL_REDIRECT": {
+    "fr": "toutes autorisées",
+    "en": "all authorized",
+    "us": "all authorized"
+  },
+  "APP_CHANGE_CLIENT_SECRET": {
+    "en": "change client secret",
+    "us": "change client secret",
+    "fr": "changer la clef secrète"
+  },
+  "APP_DELETE": {
+    "en": "delete apps",
+    "us": "delete apps",
+    "fr": "supprimer l\u0027application"
+  },
+  "APP_GETACCESS": {
+    "en": "generate an access",
+    "us": "generate an access",
+    "fr": "générer un accès"
   },
   "ARTICLE": {
     "fr": "Article",
