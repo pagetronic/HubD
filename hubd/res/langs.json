@@ -9,6 +9,22 @@
     "de": "Akzeptieren",
     "us": "Accept"
   },
+  "ACCESS": {
+    "fr": "accès",
+    "us": "access",
+    "js": true,
+    "en": "acces"
+  },
+  "ACCESS_REFRESH": {
+    "fr": "rafraîchir la token",
+    "en": "refresh token",
+    "us": "refresh token"
+  },
+  "ACCESS_REMOVE": {
+    "en": "remove access",
+    "us": "remove access",
+    "fr": "supprimer l\u0027accès"
+  },
   "ACCOUNT_CHANGE_PASSWORD": {
     "fr": "Changer de mot de passe",
     "it": "Cambia password",
@@ -104,6 +120,11 @@
     "pt": "Adicionar",
     "de": "Hinzufügen"
   },
+  "ADD_APPS": {
+    "en": "add apps",
+    "us": "add apps",
+    "fr": "ajouter une application"
+  },
   "ADD_LANG_ITEM": {
     "fr": "ajouter une langue",
     "en": "add a language",
@@ -149,23 +170,6 @@
     "us": "API Access",
     "fr": "Accès API"
   },
-
-  "ACCESS": {
-    "fr": "accès",
-    "us": "access",
-    "js": true,
-    "en": "acces"
-  },
-  "ACCESS_REFRESH": {
-    "fr": "rafraîchir la token",
-    "en": "refresh token",
-    "us": "refresh token"
-  },
-  "ACCESS_REMOVE": {
-    "en": "remove access",
-    "us": "remove access",
-    "fr": "supprimer l\u0027accès"
-  },
   "API_ACCESS_INFO": {
     "en": "Here you will find applications that have been granted access to your account through the API.",
     "us": "Here you will find applications that have been granted access to your account through the API.",
@@ -180,21 +184,6 @@
     "en": "We use the OAuth protocol to provide access to our API.\u003cbr\u003eHere you will find applications that allow you to create programming scripts to interact with our API with the authorizations of an user.",
     "us": "We use the OAuth protocol to provide access to our API.\u003cbr\u003eHere you will find applications that allow you to create programming scripts to interact with our API with the authorizations of an user.",
     "fr": "Nous utilisons le protocole OAuth pour vous fournir l\u0027accès à notre API.\u003cbr\u003eVous trouverez ici les applications qui vous permettront de créer des scripts de programmation destinés à dialoguer avec notre API en disposant des autorisations d’un utilisateur."
-  },
-  "GRANTED_DATE": {
-    "en": "Granted date",
-    "us": "Granted date",
-    "fr": "Date d\u0027octroi"
-  },
-  "LAST_ACCESS": {
-    "en": "last access",
-    "us": "last access",
-    "fr": "dernier accès"
-  },
-  "ADD_APPS": {
-    "en": "add apps",
-    "us": "add apps",
-    "fr": "ajouter une application"
   },
   "APP_ALL_REDIRECT": {
     "fr": "toutes autorisées",
@@ -938,6 +927,11 @@
     "it": "Galleria",
     "pt": "Galeria"
   },
+  "GRANTED_DATE": {
+    "en": "Granted date",
+    "us": "Granted date",
+    "fr": "Date d\u0027octroi"
+  },
   "HISTORY": {
     "js": true,
     "fr": "Historique",
@@ -1105,6 +1099,11 @@
     "pt": "português",
     "it": "português",
     "de": "português"
+  },
+  "LAST_ACCESS": {
+    "en": "last access",
+    "us": "last access",
+    "fr": "dernier accès"
   },
   "LAST_REPLY": {
     "fr": "dernière réponse",
