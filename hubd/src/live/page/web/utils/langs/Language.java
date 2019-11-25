@@ -20,11 +20,18 @@ public class Language {
 	}
 
 	public static String get(String key, String lng, Object... replaces) {
+		String[] lngs = lng.split("_");
+		String country = null;
+		if (lngs.length > 1) {
+			lng = lngs[0];
+			country = lngs[1];
+		}
 		if (lng == null) {
 			return "${" + key + ".null}";
 		}
 		if (key != null && !key.equals("") && lng != null && langs.get(key) != null) {
-			String str = langs.getJson(key).getString(lng, "");
+			Json tag = langs.getJson(key);
+			String str = country != null ? tag.getString(country, tag.getString(lng, null)) : tag.getString(lng, null);
 			for (int i = 0; i < replaces.length; i++) {
 				str = str.replace("%" + (i + 1), String.valueOf(replaces[i]));
 			}
