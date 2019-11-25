@@ -159,11 +159,8 @@ public class BaseWebSocket {
 						SocketSessions.remove(session.getId());
 					}
 				}
-				if (session.isOpen()) {
-					session.close();
-				}
 			}
-		} catch (Exception e) {
+		} catch (Exception ignore) {
 
 		}
 	}
