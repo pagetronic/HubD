@@ -44,5 +44,22 @@ var stats = {
             });
 
         });
+    },
+    getLive: function () {
+        var now = $('#stats #now');
+        var act = socket.send({action: "live"}, function (msg) {
+            if (now.text() !== msg.live) {
+                now.text(msg.live).pulse();
+                ajax.get('/admin/stats', function (html) {
+                    html = $(html);
+                    $('#stats').html(html.find('#stats').html());
+                    now = $('#stats #now');
+                });
+            }
+            return true;
+        });
+        ajax.unload(function () {
+            socket.abort(act);
+        });
     }
 };

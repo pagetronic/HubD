@@ -11,16 +11,7 @@
     </div>
     <script type="text/javascript">
         sys.push(function () {
-            var now = $('#now');
-            var act = socket.send({action: "live"}, function (msg) {
-                if (now.text() !== msg.live) {
-                    now.text(msg.live).pulse();
-                }
-                return true;
-            });
-            ajax.unload(function () {
-                socket.abort(act);
-            });
+            stats.getLive();
         });
     </script>
 </div>

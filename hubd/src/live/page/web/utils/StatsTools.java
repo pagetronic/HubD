@@ -10,17 +10,47 @@ import live.page.web.socket.SocketMessage;
 import live.page.web.utils.json.Json;
 import org.bson.conversions.Bson;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-/**
- * TODO make stats public
- * TODO make live Executor service
- */
-public class StatsTools {
+@WebListener
+public class StatsTools implements ServletContextListener {
+
+	private final static ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
+
+	/**
+	 * Get users on stats and send into socket request
+	 *
+	 * @return socket message
+	 */
+	public static SocketMessage getLiveSocket(Json msg, SessionData sessiondata) {
+		String act = msg.getString("act");
+		SocketMessage socketMessage = new SocketMessage(act);
+		final int[] live = {getLive()};
+		socketMessage.putKeyMessage("live", getLive());
+		ScheduledFuture<?>[] task = new ScheduledFuture<?>[1];
+		task[0] = executor.scheduleAtFixedRate(() -> {
+			if (executor.isShutdown() || sessiondata.isAbort(act) || !sessiondata.isOpen()) {
+				task[0].cancel(true);
+				return;
+			}
+			int live_new = getLive();
+			if (live[0] != live_new) {
+				live[0] = live_new;
+				socketMessage.putKeyMessage("live", live_new);
+				sessiondata.send(socketMessage);
+			}
+		}, 3, 3, TimeUnit.SECONDS);
+
+		return socketMessage;
+	}
 
 	/**
 	 * Get users on stats
@@ -30,8 +60,11 @@ public class StatsTools {
 	private static int getLive() {
 		List<Bson> pipeline = new ArrayList<>();
 
-		Date date = new Date(System.currentTimeMillis() - 10 * 1000);
-		Date gone = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+		Calendar cl = Calendar.getInstance();
+		cl.add(Calendar.SECOND, -10);
+		Date date = cl.getTime();
+		cl.add(Calendar.MINUTE, -10);
+		Date gone = cl.getTime();
 
 		pipeline.add(Aggregates.match(Filters.and(
 				Filters.eq("gone", null),
@@ -49,33 +82,6 @@ public class StatsTools {
 			return 0;
 		}
 		return unique.getInteger("unique", 0);
-	}
-
-	/**
-	 * Get users on stats and send into socket request
-	 *
-	 * @return socket message
-	 */
-	public static SocketMessage getLiveSocket(Json msg, SessionData sessiondata) {
-		String act = msg.getString("act");
-		SocketMessage socketMessage = new SocketMessage(act);
-		final int[] live = {getLive()};
-		socketMessage.putKeyMessage("live", getLive());
-		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-		executor.scheduleAtFixedRate(() -> {
-			if (sessiondata.isAbort(act) || !sessiondata.isOpen()) {
-				executor.shutdown();
-				return;
-			}
-			int live_new = getLive();
-			if (live[0] != live_new) {
-				live[0] = live_new;
-				socketMessage.putKeyMessage("live", live_new);
-				sessiondata.send(socketMessage);
-			}
-		}, 3, 3, TimeUnit.SECONDS);
-
-		return socketMessage;
 	}
 
 	/**
@@ -197,4 +203,35 @@ public class StatsTools {
 		);
 	}
 
+	@Override
+	public void contextInitialized(ServletContextEvent sce) {
+
+	}
+
+
+	public static SocketMessage pushStats(String act, String ip, Json data) {
+		if (data.containsKey("gone")) {
+			Db.updateOne("Stats", Filters.eq("_id", data.getId()), new Json("$set", new Json(data.getBoolean("gone", false) ? "gone" : "alive", new Date())));
+			return new SocketMessage();
+		}
+		Json stat = new Json();
+		stat.put("sysid", data.getString("sysid"));
+		stat.put("url", data.getString("location"));
+		stat.put("width", data.getInteger("width"));
+		stat.put("height", data.getInteger("height"));
+		stat.put("ua", data.getString("ua"));
+		stat.put("ip", ip);
+		if (data.getString("user") != null) {
+			stat.put("user", data.getString("user"));
+		}
+		stat.put("date", new Date());
+		stat.put("_id", Db.getKey());
+		Db.getDb("Stats").insertOne(stat);
+		return new SocketMessage(act).putKeyMessage("_id", stat.getId());
+	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+		Fx.shutdownService(executor);
+	}
 }

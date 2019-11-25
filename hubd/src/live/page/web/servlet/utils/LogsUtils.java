@@ -44,27 +44,6 @@ public class LogsUtils implements ServletContextListener {
 		asyncService.submit(() -> Db.getDb("Logs").insertOne(log));
 	}
 
-	public static SocketMessage pushStats(String act, String ip, Json data) {
-		if (data.containsKey("gone")) {
-			Db.updateOne("Stats", Filters.eq("_id", data.getId()), new Json("$set", new Json(data.getBoolean("gone", false) ? "gone" : "alive", new Date())));
-			return new SocketMessage();
-		}
-		Json stat = new Json();
-		stat.put("sysid", data.getString("sysid"));
-		stat.put("url", data.getString("location"));
-		stat.put("width", data.getInteger("width"));
-		stat.put("height", data.getInteger("height"));
-		stat.put("ua", data.getString("ua"));
-		stat.put("ip", ip);
-		if (data.getString("user") != null) {
-			stat.put("user", data.getString("user"));
-		}
-		stat.put("date", new Date());
-		stat.put("_id", Db.getKey());
-		asyncService.submit(() -> Db.getDb("Stats").insertOne(stat));
-		return new SocketMessage(act).putKeyMessage("_id", stat.getId());
-	}
-
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 	}

@@ -7,7 +7,6 @@ import live.page.web.admin.scrap.ScrapAdminUtils;
 import live.page.web.messages.MessagesUtils;
 import live.page.web.notices.NoticesUtils;
 import live.page.web.profile.ProfileUtils;
-import live.page.web.servlet.utils.LogsUtils;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
 import live.page.web.utils.StatsTools;
@@ -46,17 +45,15 @@ public class BaseWebSocket {
 		SocketMessage data = new SocketMessage(msg.getString("act"));
 		switch (msg.getString("action")) {
 			case "stats":
-				return LogsUtils.pushStats(msg.getString("act"), sessiondata.getIp(), msg.getJson("data"));
+				return StatsTools.pushStats(msg.getString("act"), sessiondata.getIp(), msg.getJson("data"));
 
 			case "follow":
 				sessiondata.addElement(msg.getString("channel"));
-
 				if (msg.getString("channel").equals("user")) {
 					String user_id = sessiondata.getUserId();
 					SocketPusher.sendNoticesCount(user_id);
 					MessagesUtils.pushCount(user_id);
 				}
-
 				return data;
 			case "abort":
 				sessiondata.abort(msg.getString("act"));
