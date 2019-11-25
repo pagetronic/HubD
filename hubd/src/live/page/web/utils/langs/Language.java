@@ -19,15 +19,23 @@ public class Language {
 		return langs != null && langs.containsKey(key) && langs.getJson(key).containsKey(lng);
 	}
 
-	public static String get(String key, String lng, Object... replaces) {
-		String[] lngs = lng.split("_");
-		String country = null;
+	public static String get(String key, String lng_, Object... replaces) {
+
+		if (lng_ == null) {
+			return "${" + key + ".null}";
+		}
+
+		String[] lngs = lng_.split("_");
+
+		String country;
+		String lng;
+
 		if (lngs.length > 1) {
 			lng = lngs[0];
 			country = lngs[1];
-		}
-		if (lng == null) {
-			return "${" + key + ".null}";
+		} else {
+			lng = lng_;
+			country = null;
 		}
 		if (key != null && !key.equals("") && lng != null && langs.get(key) != null) {
 			Json tag = langs.getJson(key);
@@ -40,7 +48,7 @@ public class Language {
 			if (Fx.IS_DEBUG) {
 				Fx.log("Langue " + key + " does not exists");
 			}
-			return "${" + key + "." + lng + "}";
+			return "${" + key + "." + lng_ + "}";
 		}
 	}
 
