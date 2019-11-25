@@ -104,8 +104,12 @@ public class LangsAdmin {
 		lngs.add(0, "en");
 		String[] keys = langs.keySet().toArray(new String[0]);
 		for (String key : keys) {
+
 			Json lang = langs.getJson(key);
 			for (String lng : lngs) {
+				if(!lng.toLowerCase().equals(lng)) {
+					continue;
+				}
 				if (!lang.containsKey(lng)) {
 					String src = null;
 					String str = null;
@@ -123,9 +127,9 @@ public class LangsAdmin {
 				}
 			}
 			langs.put(key, lang);
+			setLangs(langs, local);
 		}
 
-		setLangs(langs, local);
 
 		return new Json("ok", true);
 

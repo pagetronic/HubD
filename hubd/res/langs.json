@@ -6,22 +6,20 @@
     "it": "Accettare",
     "es": "Aceptar",
     "pt": "Aceitar",
-    "de": "Akzeptieren",
-    "us": "Accept"
+    "de": "Akzeptieren"
   },
   "ACCESS": {
     "fr": "accès",
-    "us": "access",
     "js": true,
     "en": "acces",
     "es": "acces",
     "it": "accesso",
-    "pt": "acesso"
+    "pt": "acesso",
+    "de": "zugang"
   },
   "ACCESS_REFRESH": {
     "fr": "rafraîchir la token",
     "en": "refresh token",
-    "us": "refresh token",
     "es": "token de actualización",
     "pt": "atualizar token",
     "de": "token aktualisieren",
@@ -29,7 +27,6 @@
   },
   "ACCESS_REMOVE": {
     "en": "remove access",
-    "us": "remove access",
     "fr": "supprimer l\u0027accès",
     "it": "rimuovere l\u0026#39;accesso",
     "es": "eliminar acceso",
@@ -42,13 +39,11 @@
     "es": "Cambiar contraseña",
     "pt": "Alterar senha",
     "de": "Passwort ändern",
-    "en": "Change password",
-    "us": "Change password"
+    "en": "Change password"
   },
   "ACCOUNT_CONNECT": {
     "fr": "Se connecter",
     "en": "Login",
-    "us": "Login",
     "es": "Conectarse",
     "pt": "Login",
     "de": "Einloggen",
@@ -59,7 +54,6 @@
     "fr": "Créer un compte",
     "it": "Crea un account",
     "en": "Create an account",
-    "us": "Create an account",
     "es": "Crear una cuenta",
     "pt": "Crie uma conta",
     "de": "Erstellen Sie ein Konto"
@@ -68,7 +62,6 @@
     "fr": "Connexion rapide",
     "es": "Conexión rápida",
     "en": "Quick connection",
-    "us": "Quick connection",
     "pt": "Ligação rápida",
     "it": "Connessione rapida",
     "de": "Schnelle Verbindung"
@@ -79,14 +72,12 @@
     "es": "Encontrar un acceso",
     "pt": "Encontre um acesso",
     "de": "Zugang finden",
-    "en": "Find an access",
-    "us": "Find an access"
+    "en": "Find an access"
   },
   "ACTIVATION_MAIL_SENT": {
     "js": true,
     "fr": "Un email vous a été envoyé pour réinitialiser votre mot de passe.",
     "en": "An email has been sent to you to reset your password.",
-    "us": "An email has been sent to you to reset your password.",
     "es": "Se le ha enviado un correo electrónico para restablecer su contraseña.",
     "pt": "Um email foi enviado a você para redefinir sua senha.",
     "it": "Ti è stata inviata un\u0026#39;email per resettare la tua password.",
@@ -95,7 +86,6 @@
   "ACTIVATION_MAIL_TEXT": {
     "fr": "Pour activer votre compte veuillez visiter ce lien : %1",
     "en": "To activate your account please visit this link:% 1",
-    "us": "To activate your account please visit this link:% 1",
     "de": "Um Ihr Konto zu aktivieren, besuchen Sie diesen Link: %1",
     "es": "Para activar su cuenta visite este enlace: %1",
     "it": "Per attivare il tuo account, visita questo link: %1",
@@ -108,13 +98,11 @@
     "es": "Activando tu cuenta",
     "pt": "Ativando sua conta",
     "de": "Aktivierung Ihres Kontos",
-    "en": "Activating your account",
-    "us": "Activating your account"
+    "en": "Activating your account"
   },
   "ADBLOCK": {
     "js": true,
     "en": "We encounter a problem. \u003cbr /\u003e The Google AdSense ads that pay our site and participate in our content distribution costs are not displayed. \u003cbr /\u003e Please find a solution and then refresh this page.",
-    "us": "We encounter a problem. \u003cbr /\u003e The Google AdSense ads that pay our site and participate in our content distribution costs are not displayed. \u003cbr /\u003e Please find a solution and then refresh this page.",
     "fr": "Nous rencontrons un problème, les publicités qui rémunèrent notre site et participent aux frais de diffusion de nos contenus ne s\u0027affichent pas.\u003cbr /\u003e\nMerci de trouver une solution puis de réactualiser cette page.",
     "es": "Tenemos un problema, no se muestran los anuncios que pagan nuestro sitio y participan en el costo de la difusión de nuestro contenido. \u003cbr /\u003e Gracias por encontrar una solución y luego actualizar esta página.",
     "it": "Abbiamo un problema, gli annunci che pagano il nostro sito e partecipano al costo della trasmissione dei nostri contenuti non vengono visualizzati. \u003cbr /\u003e Grazie per aver trovato una soluzione e poi aggiornare questa pagina.",
@@ -125,7 +113,6 @@
     "js": true,
     "fr": "Ajouter",
     "en": "Add",
-    "us": "Add",
     "it": "Aggiungere",
     "es": "Añadir",
     "pt": "Adicionar",
@@ -133,7 +120,6 @@
   },
   "ADD_APPS": {
     "en": "add apps",
-    "us": "add apps",
     "fr": "ajouter une application",
     "it": "aggiungi app",
     "es": "agregar aplicaciones",
@@ -143,7 +129,6 @@
   "ADD_LANG_ITEM": {
     "fr": "ajouter une langue",
     "en": "add a language",
-    "us": "add a language",
     "es": "añadir un idioma",
     "it": "aggiungi una lingua",
     "de": "Sprache hinzufügen",
@@ -153,12 +138,13 @@
     "en": "analytics",
     "fr": "statistiques",
     "pt": "analytics",
-    "es": "analítica"
+    "es": "analítica",
+    "it": "analitica",
+    "de": "Analytik"
   },
   "AND": {
     "js": true,
     "en": "and",
-    "us": "and",
     "fr": " et ",
     "it": "e",
     "de": "und",
@@ -169,7 +155,6 @@
     "js": true,
     "fr": "anonyme",
     "en": "anonymous",
-    "us": "anonymous",
     "it": "anonimo",
     "es": "anónimo",
     "de": "anonym",
@@ -177,53 +162,71 @@
   },
   "API": {
     "en": "api",
-    "us": "api",
-    "fr": "api"
+    "fr": "api",
+    "it": "api",
+    "es": "api",
+    "pt": "api",
+    "de": "api"
   },
   "API_ACCESS": {
     "en": "API Access",
-    "us": "API Access",
-    "fr": "Accès API"
+    "fr": "Accès API",
+    "it": "Accesso API",
+    "es": "Acceso a la API",
+    "pt": "Acesso à API",
+    "de": "API-Zugriff"
   },
   "API_ACCESS_INFO": {
     "en": "Here you will find applications that have been granted access to your account through the API.",
-    "us": "Here you will find applications that have been granted access to your account through the API.",
-    "fr": "Vous trouverez ici les applications ayant reçu une autorisation d’accès à votre compte par l’intermédiaire de l\u0027API."
+    "fr": "Vous trouverez ici les applications ayant reçu une autorisation d’accès à votre compte par l’intermédiaire de l\u0027API.",
+    "it": "Qui troverai le applicazioni a cui è stato concesso l\u0026#39;accesso al tuo account tramite l\u0026#39;API.",
+    "es": "Aquí encontrará aplicaciones a las que se les ha otorgado acceso a su cuenta a través de la API.",
+    "pt": "Aqui você encontrará aplicativos aos quais foi concedido acesso à sua conta por meio da API.",
+    "de": "Hier finden Sie Anwendungen, denen über die API Zugriff auf Ihr Konto gewährt wurde."
   },
   "API_APPS": {
     "en": "API Apps",
-    "us": "API Apps",
-    "fr": "API Apps"
+    "fr": "API Apps",
+    "it": "App per le API",
+    "es": "Aplicaciones API",
+    "pt": "Aplicativos de API",
+    "de": "API-Apps"
   },
   "API_APPS_INFO": {
     "en": "We use the OAuth protocol to provide access to our API.\u003cbr\u003eHere you will find applications that allow you to create programming scripts to interact with our API with the authorizations of an user.",
-    "us": "We use the OAuth protocol to provide access to our API.\u003cbr\u003eHere you will find applications that allow you to create programming scripts to interact with our API with the authorizations of an user.",
-    "fr": "Nous utilisons le protocole OAuth pour vous fournir l\u0027accès à notre API.\u003cbr\u003eVous trouverez ici les applications qui vous permettront de créer des scripts de programmation destinés à dialoguer avec notre API en disposant des autorisations d’un utilisateur."
+    "fr": "Nous utilisons le protocole OAuth pour vous fournir l\u0027accès à notre API.\u003cbr\u003eVous trouverez ici les applications qui vous permettront de créer des scripts de programmation destinés à dialoguer avec notre API en disposant des autorisations d’un utilisateur.",
+    "it": "Utilizziamo il protocollo OAuth per fornire accesso alla nostra API. \u003cbr\u003e Qui troverai applicazioni che ti consentono di creare script di programmazione per interagire con la nostra API con le autorizzazioni di un utente.",
+    "es": "Utilizamos el protocolo OAuth para proporcionar acceso a nuestra API. \u003cbr\u003e Aquí encontrará aplicaciones que le permiten crear scripts de programación para interactuar con nuestra API con las autorizaciones de un usuario.",
+    "pt": "Usamos o protocolo OAuth para fornecer acesso à nossa API. \u003cbr\u003e Aqui você encontrará aplicativos que permitem criar scripts de programação para interagir com nossa API com as autorizações de um usuário.",
+    "de": "Wir verwenden das OAuth-Protokoll, um den Zugriff auf unsere API zu ermöglichen. \u003cbr\u003e Hier finden Sie Anwendungen, mit denen Sie mit den Berechtigungen eines Benutzers Programmierskripte für die Interaktion mit unserer API erstellen können."
   },
   "APP_ALL_REDIRECT": {
     "fr": "toutes autorisées",
     "en": "all authorized",
-    "us": "all authorized"
+    "it": "tutti autorizzati",
+    "es": "todo autorizado",
+    "pt": "tudo autorizado",
+    "de": "alle autorisiert"
   },
   "APP_CHANGE_CLIENT_SECRET": {
     "en": "change client secret",
-    "us": "change client secret",
-    "fr": "changer la clef secrète"
+    "fr": "changer la clef secrète",
+    "it": "cambia il segreto del cliente",
+    "es": "cambiar el secreto del cliente",
+    "pt": "alterar segredo do cliente",
+    "de": "Client-Geheimnis ändern"
   },
   "APP_DELETE": {
     "en": "delete apps",
-    "us": "delete apps",
     "fr": "supprimer l\u0027application"
   },
   "APP_GETACCESS": {
     "en": "generate an access",
-    "us": "generate an access",
     "fr": "générer un accès"
   },
   "ARTICLE": {
     "fr": "Article",
     "en": "Article",
-    "us": "Article",
     "de": "Artikel",
     "es": "Artículo",
     "it": "Articolo",
@@ -232,7 +235,6 @@
   "ARTICLES_CHILDRENS": {
     "fr": "Articles enfants",
     "en": "Children\u0026#39;s articles",
-    "us": "Children\u0026#39;s articles",
     "it": "Articoli per bambini",
     "es": "Articulos infantiles",
     "pt": "Artigos infantis",
@@ -241,7 +243,6 @@
   "ARTICLES_PARENTS": {
     "fr": "Articles parents",
     "en": "Parent Articles",
-    "us": "Parent Articles",
     "it": "Articoli principali",
     "es": "Artículos para padres",
     "pt": "Artigos para pais",
@@ -252,14 +253,12 @@
     "it": "Nella stessa categoria",
     "es": "En la misma categoria",
     "en": "In the same category",
-    "us": "In the same category",
     "de": "In der gleichen Kategorie",
     "pt": "Na mesma categoria"
   },
   "ARTICLE_PUBLISHED": {
     "fr": "Article publié",
     "en": "Article published",
-    "us": "Article published",
     "it": "Articolo pubblicato",
     "es": "Artículo publicado",
     "pt": "Artigo publicado",
@@ -268,7 +267,6 @@
   "AT": {
     "fr": "à",
     "en": "at",
-    "us": "at",
     "it": "a",
     "es": "a",
     "pt": "a",
@@ -277,7 +275,6 @@
   "AUTHOR": {
     "fr": "Auteur",
     "en": "Author",
-    "us": "Author",
     "es": "Autor",
     "pt": "Autor",
     "de": "Autor",
@@ -285,14 +282,12 @@
   },
   "AUTHORIZATIONS": {
     "fr": "autorisations",
-    "en": "authorizations",
-    "us": "authorizations"
+    "en": "authorizations"
   },
   "AUTHORS": {
     "fr": "Auteurs",
     "de": "Autoren",
     "en": "Authors",
-    "us": "Authors",
     "it": "Autori",
     "es": "Autores",
     "pt": "Autores"
@@ -301,7 +296,6 @@
     "js": true,
     "fr": "avatar",
     "en": "avatar",
-    "us": "avatar",
     "it": "avatar",
     "pt": "avatar",
     "es": "avatar",
@@ -311,7 +305,6 @@
     "js": true,
     "fr": "Basé sur %1 votes",
     "en": "Based on %1 votes",
-    "us": "Based on %1 votes",
     "it": "Basato su %1 voti",
     "es": "Basado en %1 votos",
     "pt": "Baseado em %1 votos",
@@ -321,7 +314,6 @@
     "js": true,
     "fr": "Gros titre",
     "en": "Big title",
-    "us": "Big title",
     "es": "Titular",
     "pt": "Headline",
     "de": "Überschrift",
@@ -329,7 +321,6 @@
   },
   "BROWSER_NOTIFICATIONS": {
     "en": "Browser notifications",
-    "us": "Browser notifications",
     "fr": "Notifications du navigateur",
     "pt": "Notificações do navegador",
     "es": "Notificaciones del navegador"
@@ -338,7 +329,6 @@
     "js": true,
     "fr": "annuler",
     "en": "cancel",
-    "us": "cancel",
     "it": "annullare",
     "es": "anular",
     "de": "stornieren",
@@ -347,7 +337,6 @@
   "CHILDREN": {
     "fr": "enfant",
     "en": "children",
-    "us": "children",
     "it": "bambini",
     "es": "niños",
     "pt": "crianças",
@@ -355,7 +344,6 @@
   },
   "CHILDRENS": {
     "en": "in connection with",
-    "us": "in connection with",
     "fr": "Articles enfants",
     "it": "in connessione con",
     "es": "en conexión con",
@@ -365,7 +353,6 @@
   "CHILDRENS_EXPLAINS": {
     "fr": "Pages ayant comme parent cette page.",
     "en": "Pages linkend with this page",
-    "us": "Pages linkend with this page",
     "it": "Pagine linkate con questa pagina",
     "es": "Páginas enlazadas con esta página.",
     "pt": "Páginas linkend com esta página",
@@ -374,7 +361,6 @@
   "CLICK_TO_EDIT": {
     "js": true,
     "en": "Click to edit",
-    "us": "Click to edit",
     "fr": "Cliquez pour éditer",
     "it": "Clicca per modificare",
     "es": "Haga clic para editar",
@@ -388,8 +374,7 @@
     "es": "punto",
     "pt": "ponto",
     "de": "punkt",
-    "en": "coin",
-    "us": "coin"
+    "en": "coin"
   },
   "COINS": {
     "js": true,
@@ -398,20 +383,17 @@
     "es": "puntos",
     "pt": "pontos",
     "de": "punkte",
-    "en": "coins",
-    "us": "coins"
+    "en": "coins"
   },
   "COMMENT": {
     "fr": "commentaire",
     "en": "comment",
-    "us": "comment",
     "es": "comentario",
     "pt": "comente"
   },
   "COMMENTED": {
     "fr": "commentés",
     "en": "commented",
-    "us": "commented",
     "it": "ha commentato",
     "es": "comentado",
     "pt": "comentou",
@@ -419,21 +401,18 @@
   },
   "COMMENTS": {
     "en": "comments",
-    "us": "comments",
     "fr": "commentaires",
     "pt": "comentários",
     "es": "comentarios"
   },
   "CONFIRMATION": {
     "en": "confirmation",
-    "us": "confirmation",
     "fr": "confirmation",
     "js": true
   },
   "CONNECT": {
     "fr": "connexion",
     "en": "connection",
-    "us": "connection",
     "it": "connessione",
     "es": "conexión",
     "pt": "conexão",
@@ -442,7 +421,6 @@
   "COOKIES_ADS": {
     "fr": "Pour contrôler le bon usage des publicités et éviter la fraude.",
     "en": "To control the proper use of advertisements and avoid fraud.",
-    "us": "To control the proper use of advertisements and avoid fraud.",
     "it": "Per controllare l\u0026#39;uso corretto degli annunci pubblicitari ed evitare le frodi.",
     "es": "Controlar el uso adecuado de los anuncios y evitar el fraude.",
     "pt": "Controlar o uso adequado de anúncios e evitar fraudes."
@@ -450,7 +428,6 @@
   "COOKIES_ADS_PERSO": {
     "fr": "Pour affiner le ciblage et type de publicités qui vous sont proposés\n",
     "en": "To refine the targeting and type of ads that are offered to you",
-    "us": "To refine the targeting and type of ads that are offered to you",
     "it": "Per perfezionare il targeting e il tipo di annunci che ti vengono offerti",
     "es": "Para refinar la orientación y el tipo de anuncios que se le ofrecen",
     "pt": "Para refinar a segmentação e o tipo de anúncios oferecidos a você",
@@ -459,7 +436,6 @@
   "COOKIES_ADS_PERSO_TITLE": {
     "fr": "Cookies publicitaires de profile",
     "en": "Profile Advertising Cookies",
-    "us": "Profile Advertising Cookies",
     "it": "Cookie pubblicitari di profilo",
     "es": "Perfil de Publicidad de Cookies",
     "pt": "Cookies de publicidade de perfil",
@@ -468,7 +444,6 @@
   "COOKIES_ADS_TITLE": {
     "fr": "Cookies publicitaires",
     "en": "Advertising cookies",
-    "us": "Advertising cookies",
     "it": "Cookie pubblicitari",
     "pt": "Cookies publicitários",
     "de": "Werbekekse",
@@ -478,7 +453,6 @@
     "js": true,
     "fr": "Notre site internet utilise des cookies, ces cookies servent à faire des statistiques et contrôler les publicités en poursuivant vous acceptez ces cookies.",
     "en": "Our website uses cookies, these cookies are used to make statistics and control advertisements by pursuing you accept these cookies.",
-    "us": "Our website uses cookies, these cookies are used to make statistics and control advertisements by pursuing you accept these cookies.",
     "it": "Il nostro sito web utilizza i cookie, questi cookie sono utilizzati per fare statistiche e controllare pubblicità pubblicizzando l\u0026#39;accettazione di questi cookie.",
     "es": "Nuestro sitio web utiliza cookies, estas cookies se utilizan para realizar estadísticas y controlar los anuncios al hacer que usted acepte estas cookies.",
     "de": "Unsere Website verwendet Cookies. Diese Cookies werden verwendet, um Statistiken zu erstellen und Werbung zu kontrollieren, wenn Sie diese Cookies akzeptieren.",
@@ -487,7 +461,6 @@
   "COOKIES_CHOOSE": {
     "fr": "Choisir les cookies autorisés",
     "en": "Choose allowed cookies",
-    "us": "Choose allowed cookies",
     "it": "Scegli i cookie consentiti",
     "pt": "Escolha os cookies permitidos",
     "de": "Wählen Sie die zulässigen Cookies",
@@ -496,7 +469,6 @@
   "COOKIES_EXPLAINS": {
     "fr": "Pour réaliser ces réglages vous devez savoir que nous sommes obligés de placer un cookie dans votre navigateur.\u003cbr\u003e\nCe cookie nous permettra de connaître vos préférences et de bloquer les cookies des options que vous aurez choisis.\u003cbr\u003e\nNous ne pouvons pas supprimer vos cookies, pour le faire vous devez dabord \u003ca href\u003d\"?purge\" onclick\u003d\"Cookies.removeAll()\" style\u003d\"text-decoration:underline\"\u003ecliquer ici\u003c/a\u003e.",
     "en": "To make these settings you need to know that we are obliged to place a cookie in your browser. \u003cbr\u003e This cookie will allow us to know your preferences and to block the cookies of the options you have chosen. \u003cbr\u003e We can not delete your cookies, to do this you must first \u003ca href\u003d\"?purge\" onclick\u003d\"Cookies.removeAll()\" style\u003d\"text-decoration:underline\"\u003eclick here\u003c/a\u003e .",
-    "us": "To make these settings you need to know that we are obliged to place a cookie in your browser. \u003cbr\u003e This cookie will allow us to know your preferences and to block the cookies of the options you have chosen. \u003cbr\u003e We can not delete your cookies, to do this you must first \u003ca href\u003d\"?purge\" onclick\u003d\"Cookies.removeAll()\" style\u003d\"text-decoration:underline\"\u003eclick here\u003c/a\u003e .",
     "it": "Per effettuare queste impostazioni è necessario sapere che siamo obbligati a inserire un cookie nel tuo browser. \u003cbr\u003e Questo cookie ci permetterà di conoscere le tue preferenze e bloccare i cookie delle opzioni che hai scelto. \u003cbr\u003e Non possiamo cancellare i tuoi cookie, per fare questo devi prima \u003ca href\u003d\"?purge\" onclick\u003d\"Cookies.removeAll()\" style\u003d\"text-decoration:underline\"\u003ecliccare qui\u003c/a\u003e .",
     "es": "Para realizar esta configuración, debe saber que estamos obligados a colocar una cookie en su navegador. \u003cbr\u003e Esta cookie nos permitirá conocer sus preferencias y bloquear las cookies de las opciones que haya elegido. \u003cbr\u003e No podemos eliminar sus cookies, para ello primero debe \u003ca href\u003d\"?purge\" onclick\u003d\"Cookies.removeAll()\" style\u003d\"text-decoration:underline\"\u003ehacer clic aquí\u003c/a\u003e .",
     "pt": "Para fazer essas configurações, você precisa saber que somos obrigados a colocar um cookie no seu navegador. \u003cbr\u003e Este cookie nos permitirá conhecer suas preferências e bloquear os cookies das opções que você escolheu. \u003cbr\u003e Não podemos excluir seus cookies, para isso você deve primeiro \u003ca href\u003d\"?purge\" onclick\u003d\"Cookies.removeAll()\" style\u003d\"text-decoration:underline\"\u003eclicar aqui\u003c/a\u003e .",
@@ -506,7 +478,6 @@
     "js": true,
     "fr": "Pour en savoir plus sur notre \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003eutilisation des cookies\u003c/a\u003e consultez cette page d’information.",
     "en": "To find out more about our \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003euse of cookies,\u003c/a\u003e visit this information page.",
-    "us": "To find out more about our \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003euse of cookies,\u003c/a\u003e visit this information page.",
     "it": "Per saperne di più sul nostro \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003eutilizzo dei cookie,\u003c/a\u003e visita questa pagina di informazioni.",
     "es": "Para obtener más información sobre nuestro \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003euso de cookies,\u003c/a\u003e visite esta página de información.",
     "de": "Um mehr über die \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003eVerwendung von Cookies\u003c/a\u003e zu erfahren \u003ca href\u003d\"/profile\" style\u003d\"text-decoration:underline\"\u003e,\u003c/a\u003e besuchen Sie diese Informationsseite.",
@@ -516,7 +487,6 @@
     "js": true,
     "fr": "Certains cookies servent à personnaliser les publicités de notre site en fonction d’informations dont dispose Google sur votre profil, acceptez-vous ce type de cookie ?",
     "en": "Some cookies are used to personalize the advertisements of our site according to information which Google has on your profile, do you accept this type of cookie?",
-    "us": "Some cookies are used to personalize the advertisements of our site according to information which Google has on your profile, do you accept this type of cookie?",
     "it": "Alcuni cookie sono utilizzati per personalizzare la pubblicità del nostro sito in base alle informazioni che Google ha sul tuo profilo, accetti questo tipo di cookie?",
     "es": "Algunas cookies se utilizan para personalizar los anuncios de nuestro sitio de acuerdo con la información que Google tiene en su perfil, ¿acepta este tipo de cookie?",
     "pt": "Alguns cookies são usados para personalizar os anúncios do nosso site de acordo com informações que o Google tem no seu perfil, você aceita este tipo de cookie?",
@@ -525,7 +495,6 @@
   "COOKIES_STATS": {
     "fr": "Pour établir des statistiques de performances et d\u0027usages des éléments composants notre site.",
     "en": "To establish statistics of performances and uses of the elements composing our site.",
-    "us": "To establish statistics of performances and uses of the elements composing our site.",
     "it": "Stabilire statistiche sulle prestazioni e gli usi degli elementi che compongono il nostro sito.",
     "es": "Establecer estadísticas de actuaciones y usos de los elementos que componen nuestro sitio.",
     "pt": "Estabelecer estatísticas de performances e usos dos elementos que compõem o nosso site.",
@@ -534,7 +503,6 @@
   "COOKIES_STATS_TITLE": {
     "fr": "Cookies de mesure d\u0027audience\n",
     "en": "Audience measurement cookies",
-    "us": "Audience measurement cookies",
     "it": "Cookie di misurazione del pubblico",
     "es": "Cookies de medición de audiencia",
     "pt": "Cookies de medição de audiência",
@@ -543,7 +511,6 @@
   "COPYRIGHT": {
     "fr": "Crédits",
     "en": "Copyright",
-    "us": "Copyright",
     "es": "Privilegio",
     "pt": "Copirraite",
     "it": "Copyright",
@@ -552,16 +519,15 @@
   "COUNTRY": {
     "fr": "France",
     "en": "United Kingdom",
-    "us": "United States",
     "it": "Italia",
     "es": "España",
     "pt": "Portugal",
-    "de": "Deutschland"
+    "de": "Deutschland",
+    "US": "United States"
   },
   "CREATE": {
     "fr": "créer",
     "en": "create",
-    "us": "create",
     "it": "creare",
     "es": "crear",
     "pt": "crio",
@@ -571,7 +537,6 @@
     "js": true,
     "fr": "créer une catégorie",
     "en": "create a category",
-    "us": "create a category",
     "it": "creare una categoria",
     "es": "crear una categoría",
     "pt": "criar uma categoria",
@@ -580,7 +545,6 @@
   "DATA": {
     "fr": "Données",
     "en": "Data",
-    "us": "Data",
     "it": "Dati",
     "es": "Datos",
     "pt": "Dados",
@@ -588,7 +552,6 @@
   },
   "DATE": {
     "en": "date",
-    "us": "date",
     "fr": "date",
     "js": true,
     "es": "fecha",
@@ -598,7 +561,6 @@
     "js": true,
     "fr": "jour",
     "en": "day",
-    "us": "day",
     "it": "giorno",
     "es": "día",
     "pt": "dia",
@@ -608,7 +570,6 @@
     "js": true,
     "fr": "jours",
     "en": "days",
-    "us": "days",
     "it": "giorni",
     "pt": "dias",
     "de": "Tage",
@@ -616,7 +577,6 @@
   },
   "DBCLICK_EDIT": {
     "en": "double click to edit",
-    "us": "double click to edit",
     "fr": "double clic pour éditer",
     "js": true,
     "pt": "clique duas vezes para editar",
@@ -626,7 +586,6 @@
     "js": true,
     "fr": "Supprimer",
     "en": "Delete",
-    "us": "Delete",
     "pt": "Remover",
     "de": "Entfernen",
     "es": "Eliminar",
@@ -636,7 +595,6 @@
     "js": true,
     "fr": "Confirmer la suppression",
     "en": "Confirm deletion",
-    "us": "Confirm deletion",
     "it": "Conferma cancellazione",
     "es": "Confirmar la eliminación",
     "pt": "Confirme a exclusão",
@@ -645,7 +603,6 @@
   "DELETE_DRAFT": {
     "fr": "supprimer le brouillon",
     "en": "delete the draft",
-    "us": "delete the draft",
     "it": "elimina la bozza",
     "es": "borrar el borrador",
     "pt": "elimine o rascunho",
@@ -654,7 +611,6 @@
   "DELETE_PAGE": {
     "fr": "supprimer la page",
     "en": "delete this page",
-    "us": "delete this page",
     "pt": "delete essa página",
     "de": "löschen Sie diese Seite",
     "it": "cancella questa pagina",
@@ -664,7 +620,6 @@
     "js": true,
     "fr": "Description",
     "en": "Description",
-    "us": "Description",
     "de": "Beschreibung",
     "it": "Descrizione",
     "es": "Descripción",
@@ -673,7 +628,6 @@
   "DIR": {
     "fr": "ltr",
     "en": "ltr",
-    "us": "ltr",
     "it": "ltr",
     "es": "ltr",
     "pt": "ltr",
@@ -682,7 +636,6 @@
   "DOC": {
     "fr": "Document",
     "en": "Document",
-    "us": "Document",
     "es": "Documento",
     "it": "Documento",
     "pt": "Documento",
@@ -691,7 +644,6 @@
   "DOCS": {
     "fr": "Documents",
     "en": "Documents",
-    "us": "Documents",
     "de": "Unterlagen",
     "it": "Documentazione",
     "es": "Documentos",
@@ -700,7 +652,6 @@
   "DRAFTS": {
     "fr": "Brouillons",
     "en": "Drafts",
-    "us": "Drafts",
     "de": "Dame",
     "it": "Dama",
     "es": "Damas",
@@ -709,7 +660,6 @@
   "DRAFT_NEW": {
     "fr": "Nouveau brouillon",
     "en": "New draft",
-    "us": "New draft",
     "it": "Nuova bozza",
     "es": "Nuevo borrador",
     "de": "Neuer Entwurf",
@@ -719,7 +669,6 @@
     "js": true,
     "fr": "Dupliquer",
     "en": "Duplicate",
-    "us": "Duplicate",
     "de": "Duplikat",
     "it": "Duplicare",
     "es": "Duplicar",
@@ -729,7 +678,6 @@
     "js": true,
     "fr": "éditer",
     "en": "edit",
-    "us": "edit",
     "it": "modifica",
     "pt": "editar",
     "es": "editar",
@@ -739,7 +687,6 @@
     "js": true,
     "fr": "éditable",
     "en": "editable",
-    "us": "editable",
     "es": "editable",
     "pt": "editable",
     "de": "editable",
@@ -748,7 +695,6 @@
   "EMAIL": {
     "fr": "email",
     "en": "email",
-    "us": "email",
     "pt": "o email",
     "it": "e-mail",
     "es": "correo electrónico",
@@ -758,7 +704,6 @@
     "js": true,
     "fr": "Vide",
     "en": "Empty",
-    "us": "Empty",
     "it": "Vuoto",
     "es": "Vacía",
     "pt": "Vazio",
@@ -768,7 +713,6 @@
     "js": true,
     "fr": "erreur",
     "en": "error",
-    "us": "error",
     "it": "errore",
     "es": "error",
     "pt": "erro",
@@ -777,7 +721,6 @@
   "ERROR_PAGE_TITLE": {
     "fr": "Erreur",
     "en": "Error",
-    "us": "Error",
     "it": "Errore",
     "es": "Error",
     "de": "Error",
@@ -787,7 +730,6 @@
     "js": true,
     "fr": "Erreur inconnue",
     "en": "Unknown error",
-    "us": "Unknown error",
     "it": "Errore sconosciuto",
     "es": "Error desconocido",
     "pt": "Erro desconhecido",
@@ -797,7 +739,6 @@
     "js": true,
     "fr": "Existe déjà",
     "en": "Already exists",
-    "us": "Already exists",
     "it": "Già esiste",
     "es": "Ya existe",
     "pt": "Já existe",
@@ -806,7 +747,6 @@
   "FILE": {
     "fr": "Fichier",
     "en": "File",
-    "us": "File",
     "de": "Datei",
     "it": "File",
     "pt": "Arquivo",
@@ -815,7 +755,6 @@
   "FILES": {
     "fr": "Fichiers",
     "en": "Files",
-    "us": "Files",
     "it": "File",
     "es": "Archivos",
     "pt": "Arquivos",
@@ -828,14 +767,12 @@
     "es": "No aceptamos este tipo de archivo: %1",
     "pt": "Nós não aceitamos este tipo de arquivo: %1",
     "de": "Wir akzeptieren diesen Dateityp nicht: %1",
-    "en": "We do not accept this type of file: %1",
-    "us": "We do not accept this type of file: %1"
+    "en": "We do not accept this type of file: %1"
   },
   "FIRST_FOR_RACINE": {
     "js": true,
     "fr": "Le premier élément définit la catégorie principale",
     "en": "First element define principal category",
-    "us": "First element define principal category",
     "it": "Il primo elemento definisce la categoria principale",
     "pt": "O primeiro elemento define a categoria principal",
     "de": "Das erste Element definiert die Hauptkategorie",
@@ -845,7 +782,6 @@
     "js": true,
     "fr": "Anti-flood, merci de patienter avant de poster une nouvelle fois",
     "en": "Anti-flood, please wait before posting again",
-    "us": "Anti-flood, please wait before posting again",
     "it": "Anti-alluvione, si prega di attendere prima di postare di nuovo",
     "pt": "Anti-inundação, aguarde antes de postar novamente",
     "de": "Anti-Flut, bitte warten Sie, bevor Sie erneut posten",
@@ -855,7 +791,6 @@
     "js": true,
     "fr": "notifications",
     "en": "notifications",
-    "us": "notifications",
     "pt": "notificações",
     "es": "notificaciones",
     "it": "notifiche",
@@ -865,7 +800,6 @@
     "js": true,
     "fr": "Forum",
     "en": "Forum",
-    "us": "Forum",
     "de": "Forum",
     "it": "Foro",
     "es": "Foro",
@@ -874,7 +808,6 @@
   "FORUMS": {
     "fr": "Discussions",
     "en": "Discussions",
-    "us": "Discussions",
     "es": "Discusiones",
     "pt": "Discussões",
     "it": "Discussioni",
@@ -883,7 +816,6 @@
   "FORUMS_URL": {
     "fr": "discussions",
     "en": "discussions",
-    "us": "discussions",
     "es": "discusiones",
     "pt": "discussoes",
     "it": "discussioni",
@@ -892,7 +824,6 @@
   "FORUM_CATEGORY": {
     "fr": "Catégories",
     "en": "Categories",
-    "us": "Categories",
     "it": "categorie",
     "es": "categorías",
     "pt": "categorias",
@@ -901,7 +832,6 @@
   "FORUM_CHILDRENS": {
     "fr": "Sous-catégories",
     "en": "Subcategories",
-    "us": "Subcategories",
     "it": "Sotto-categorie",
     "es": "Subcategorias",
     "pt": "Subcategorias",
@@ -911,7 +841,6 @@
     "js": true,
     "fr": "Editer la catégorie",
     "en": "Edit category",
-    "us": "Edit category",
     "it": "Modifica categoria",
     "es": "Editar categoria",
     "de": "Kategorie bearbeiten",
@@ -920,7 +849,6 @@
   "FORUM_PARENTS": {
     "fr": "Catégories parentes",
     "en": "Parent categories",
-    "us": "Parent categories",
     "it": "Categorie principali",
     "es": "Categorías de padres",
     "pt": "Categorias dos pais",
@@ -932,8 +860,7 @@
     "es": "Categorías relacionadas",
     "pt": "Categorias relacionadas",
     "de": "Verwandte Kategorien",
-    "en": "Related categories",
-    "us": "Related categories"
+    "en": "Related categories"
   },
   "FROMTO": {
     "fr": "%1 à %2",
@@ -941,12 +868,10 @@
     "es": "%1 a %2",
     "pt": "%1 a %2",
     "de": "%1 bis %2",
-    "en": "%1 to %2",
-    "us": "%1 to %2"
+    "en": "%1 to %2"
   },
   "GALLERY": {
     "en": "Gallery",
-    "us": "Gallery",
     "fr": "Galerie",
     "es": "Galería",
     "de": "Galerie",
@@ -955,14 +880,12 @@
   },
   "GRANTED_DATE": {
     "en": "Granted date",
-    "us": "Granted date",
     "fr": "Date d\u0027octroi"
   },
   "HISTORY": {
     "js": true,
     "fr": "Historique",
     "en": "Historical",
-    "us": "Historical",
     "es": "Histórico",
     "de": "Historisch",
     "pt": "Histórico",
@@ -972,7 +895,6 @@
     "js": true,
     "fr": "heure",
     "en": "hour",
-    "us": "hour",
     "it": "ora",
     "es": "hora",
     "pt": "hora",
@@ -982,7 +904,6 @@
     "js": true,
     "fr": "heures",
     "en": "hours",
-    "us": "hours",
     "it": "ore",
     "es": "horas",
     "pt": "horas",
@@ -991,7 +912,6 @@
   "IN": {
     "fr": "dans",
     "en": "in",
-    "us": "in",
     "it": "nel",
     "es": "en",
     "pt": "em",
@@ -1001,7 +921,6 @@
     "js": true,
     "fr": "information",
     "en": "information",
-    "us": "information",
     "it": "informazione",
     "pt": "em formação",
     "de": "Information",
@@ -1011,7 +930,6 @@
     "js": true,
     "fr": "informations",
     "en": "data",
-    "us": "data",
     "it": "dati",
     "pt": "dados",
     "es": "datos",
@@ -1020,7 +938,6 @@
   "INTRO": {
     "fr": "Introduction",
     "en": "Introduction",
-    "us": "Introduction",
     "es": "Introducción",
     "pt": "Introdução",
     "de": "Einführung",
@@ -1029,7 +946,6 @@
   "INTRO_EXPLAIN": {
     "fr": "Texte en haut de la page, permet de créer une description de la page et est important pour le référencement",
     "en": "Top text of the page, desciption and important for SEO",
-    "us": "Top text of the page, desciption and important for SEO",
     "it": "Testo in alto della pagina, descrizione e importante per SEO",
     "es": "Top texto de la página, descripción e importante para SEO.",
     "de": "Oberer Text der Seite, Beschreibung und wichtig für SEO",
@@ -1039,25 +955,24 @@
     "js": true,
     "fr": "à l\u0027instant",
     "en": "just now",
-    "us": "just now",
     "it": "proprio adesso",
     "es": "justo ahora",
     "de": "gerade jetzt",
     "pt": "agora mesmo"
   },
   "LANG": {
+    "js": true,
     "fr": "fr",
     "en": "en",
-    "us": "en",
     "es": "es",
     "pt": "pt",
     "it": "it",
-    "de": "de"
+    "de": "de",
+    "US": "en_US"
   },
   "LANGUAGE": {
     "fr": "Langue",
     "en": "Language",
-    "us": "Language",
     "it": "linguaggio",
     "es": "Idioma",
     "de": "Sprache",
@@ -1066,7 +981,6 @@
   "LANGUAGES": {
     "fr": "Langues",
     "en": "Languages",
-    "us": "Languages",
     "es": "Idiomas",
     "pt": "línguas",
     "de": "Sprachen",
@@ -1075,7 +989,6 @@
   "LANG_DE": {
     "fr": "deutsche",
     "en": "deutsche",
-    "us": "deutsche",
     "es": "deutsche",
     "pt": "deutsche",
     "it": "deutsche",
@@ -1084,7 +997,6 @@
   "LANG_EN": {
     "fr": "english",
     "en": "english",
-    "us": "english",
     "es": "english",
     "pt": "english",
     "it": "english",
@@ -1093,7 +1005,6 @@
   "LANG_ES": {
     "fr": "español",
     "en": "español",
-    "us": "español",
     "es": "español",
     "pt": "español",
     "it": "español",
@@ -1102,7 +1013,6 @@
   "LANG_FR": {
     "fr": "français",
     "en": "français",
-    "us": "français",
     "es": "français",
     "pt": "français",
     "it": "français",
@@ -1111,7 +1021,6 @@
   "LANG_IT": {
     "fr": "italiano",
     "en": "italiano",
-    "us": "italiano",
     "es": "italiano",
     "pt": "italiano",
     "it": "italiano",
@@ -1120,7 +1029,6 @@
   "LANG_PT": {
     "fr": "português",
     "en": "português",
-    "us": "português",
     "es": "português",
     "pt": "português",
     "it": "português",
@@ -1128,13 +1036,11 @@
   },
   "LAST_ACCESS": {
     "en": "last access",
-    "us": "last access",
     "fr": "dernier accès"
   },
   "LAST_REPLY": {
     "fr": "dernière réponse",
     "en": "last reply",
-    "us": "last reply",
     "it": "ultima risposta",
     "es": "última respuesta",
     "de": "letzte Antwort",
@@ -1143,7 +1049,6 @@
   "LAST_UPDATES": {
     "fr": "Dernières mises à jour",
     "en": "Latest updates",
-    "us": "Latest updates",
     "it": "Ultimi aggiornamenti",
     "es": "Últimas actualizaciones",
     "pt": "Ultimas atualizações",
@@ -1152,7 +1057,6 @@
   "LAST_URL_SEGMENT": {
     "fr": "Segment de l\u0027URL",
     "en": "URL segment",
-    "us": "URL segment",
     "it": "Segmento URL",
     "es": "Segmento de URL",
     "pt": "Segmento de URL",
@@ -1161,7 +1065,6 @@
   "LAST_WEEK": {
     "fr": "Semaine passée",
     "en": "Last Week",
-    "us": "Last Week",
     "pt": "Semana passada",
     "es": "La semana pasada",
     "it": "La settimana scorsa"
@@ -1169,7 +1072,6 @@
   "LAST_YEAR": {
     "fr": "Cette année",
     "en": "This Year",
-    "us": "This Year",
     "it": "Quest\u0026#39;anno",
     "es": "Este año",
     "de": "Dieses Jahr",
@@ -1179,7 +1081,6 @@
     "js": true,
     "fr": "chargement",
     "en": "loading",
-    "us": "loading",
     "it": "caricamento in corso",
     "pt": "carregando",
     "de": "wird geladen",
@@ -1188,7 +1089,6 @@
   "LOCALISATION": {
     "fr": "localisation",
     "en": "location",
-    "us": "location",
     "pt": "localização",
     "es": "ubicación"
   },
@@ -1196,7 +1096,6 @@
     "js": true,
     "fr": "minute",
     "en": "minute",
-    "us": "minute",
     "it": "minuto",
     "es": "minuto",
     "pt": "minuto",
@@ -1206,7 +1105,6 @@
     "js": true,
     "fr": "minutes",
     "en": "minutes",
-    "us": "minutes",
     "it": "minuti",
     "es": "minutos",
     "pt": "minutos",
@@ -1215,7 +1113,6 @@
   "MODIFICATIONS_HISTORY": {
     "fr": "Historique des modifications",
     "en": "Change history",
-    "us": "Change history",
     "it": "Cambiare la storia",
     "es": "Cambia la historia",
     "pt": "Histórico de mudanças",
@@ -1225,7 +1122,6 @@
     "js": true,
     "fr": "mois",
     "en": "month",
-    "us": "month",
     "it": "mese",
     "es": "mes",
     "pt": "mês",
@@ -1235,7 +1131,6 @@
     "js": true,
     "fr": "mois",
     "en": "months",
-    "us": "months",
     "it": "mesi",
     "pt": "meses",
     "es": "meses",
@@ -1245,7 +1140,6 @@
     "js": true,
     "fr": "Déplacer",
     "en": "Move",
-    "us": "Move",
     "it": "Mossa",
     "es": "Movimiento",
     "de": "Bewegung",
@@ -1255,7 +1149,6 @@
     "js": true,
     "fr": "Nom",
     "en": "Name",
-    "us": "Name",
     "it": "Nome",
     "es": "Nombre",
     "pt": "Nome",
@@ -1265,7 +1158,6 @@
     "js": true,
     "fr": "jamais",
     "en": "never",
-    "us": "never",
     "it": "mai",
     "pt": "nunca",
     "es": "nunca",
@@ -1275,7 +1167,6 @@
     "js": true,
     "fr": "suivant",
     "en": "next",
-    "us": "next",
     "es": "siguiente",
     "it": "prossimo",
     "pt": "próximo",
@@ -1284,7 +1175,6 @@
   "NOT_EXISTS": {
     "fr": "N’existe pas",
     "en": "Does not exist",
-    "us": "Does not exist",
     "it": "Non esiste",
     "es": "No existe",
     "pt": "Não existe",
@@ -1294,7 +1184,6 @@
     "js": true,
     "fr": "Introuvable",
     "en": "Not found",
-    "us": "Not found",
     "it": "Not found",
     "es": "Not found",
     "pt": "Not found",
@@ -1306,14 +1195,12 @@
     "es": "Más puntos para distribuir.",
     "pt": "Mais pontos para distribuir",
     "de": "Weitere Punkte zu verteilen",
-    "en": "More points to distribute",
-    "us": "More points to distribute"
+    "en": "More points to distribute"
   },
   "NO_MODIFICATION": {
     "js": true,
     "fr": "Pas de modification",
     "en": "No modifications",
-    "us": "No modifications",
     "it": "Nessuna modifica",
     "es": "Sin modificaciones",
     "pt": "Sem modificações",
@@ -1322,7 +1209,6 @@
   "NO_REPLY": {
     "fr": "pas de réponse",
     "en": "no reply",
-    "us": "no reply",
     "it": "nessuna risposta",
     "es": "sin respuesta",
     "de": "keine Antwort",
@@ -1332,7 +1218,6 @@
     "js": true,
     "fr": "Pas de résultats",
     "en": "No results",
-    "us": "No results",
     "it": "Nessun risultato",
     "es": "No hay resultados",
     "pt": "Nenhum resultado",
@@ -1342,7 +1227,6 @@
     "js": true,
     "fr": "Le titre n\u0027est pas renseigné",
     "en": "There\u0027s no title",
-    "us": "There\u0027s no title",
     "it": "Non c\u0026#39;è titolo",
     "es": "No hay titulo",
     "de": "Es gibt keinen Titel",
@@ -1351,7 +1235,6 @@
   "OAUTH_BLABLA": {
     "fr": "Pour vous connecter, récupérez rapidement vos informations de connexion chez un fournisseur de profils publics.",
     "en": "Quickly recover your login information at a public profile provider.",
-    "us": "Quickly recover your login information at a public profile provider.",
     "it": "Recupera rapidamente le tue informazioni di accesso presso un fornitore di profili pubblici.",
     "es": "Recupere rápidamente su información de inicio de sesión en un proveedor de perfil público.",
     "de": "Stellen Sie Ihre Anmeldeinformationen bei einem öffentlichen Profilanbieter schnell wieder her.",
@@ -1361,7 +1244,6 @@
     "js": true,
     "fr": "Au moins un parent est nécessaire",
     "en": "At least one parent is needed",
-    "us": "At least one parent is needed",
     "it": "È necessario almeno un genitore",
     "es": "Se necesita al menos un padre",
     "pt": "Pelo menos um dos pais é necessário",
@@ -1371,7 +1253,6 @@
     "js": true,
     "fr": "ordonner les catégories",
     "en": "order categories",
-    "us": "order categories",
     "it": "categorie di ordine",
     "es": "categorías de orden",
     "pt": "categorias de pedidos",
@@ -1380,13 +1261,11 @@
   "ORIGINE": {
     "fr": "source",
     "en": "source",
-    "us": "source",
     "pt": "fonte",
     "es": "fuente"
   },
   "PAGES": {
     "en": "Articles",
-    "us": "Articles",
     "fr": "Articles",
     "it": "Articoli",
     "es": "Artículos",
@@ -1396,7 +1275,6 @@
   "PAGES_CHILDRENS": {
     "fr": "Pages enfants",
     "en": "Childrens pages",
-    "us": "Childrens pages",
     "it": "Pagine per bambini",
     "es": "Páginas para niños",
     "pt": "Páginas para crianças",
@@ -1405,7 +1283,6 @@
   "PAGES_PARENTS": {
     "fr": "Pages parents",
     "en": "Parents pages",
-    "us": "Parents pages",
     "it": "Pagine dei genitori",
     "es": "Páginas de padres",
     "pt": "Páginas dos pais",
@@ -1414,7 +1291,6 @@
   "PAGE_CREATE": {
     "fr": "Créer la page",
     "en": "Create page",
-    "us": "Create page",
     "it": "Crea pagina",
     "es": "Crear página",
     "pt": "Criar página",
@@ -1423,7 +1299,6 @@
   "PAGE_EDIT": {
     "fr": "Editer la page",
     "en": "Edit page",
-    "us": "Edit page",
     "it": "Modifica Pagina",
     "es": "Editar página",
     "pt": "Editar Página",
@@ -1436,13 +1311,11 @@
     "de": "relativ",
     "es": "pariente",
     "fr": "parent",
-    "en": "relative",
-    "us": "relative"
+    "en": "relative"
   },
   "PASSWORD": {
     "fr": "Mot de passe",
     "en": "Password",
-    "us": "Password",
     "it": "Parola d\u0026#39;ordine",
     "es": "Contraseña",
     "pt": "Senha",
@@ -1451,7 +1324,6 @@
   "PASSWORD_NEW": {
     "fr": "Nouveau mot de passe",
     "en": "New Password",
-    "us": "New Password",
     "es": "Nueva contraseña",
     "de": "Neues Kennwort",
     "it": "Nuova password",
@@ -1461,7 +1333,6 @@
     "fr": "téléphone",
     "en": "phone",
     "es": "teléfono",
-    "us": "phone",
     "pt": "telefone",
     "de": "telefon",
     "it": "telefono"
@@ -1469,7 +1340,6 @@
   "PHOTOS": {
     "fr": "Photos",
     "en": "Pictures",
-    "us": "Pictures",
     "it": "Immagini",
     "es": "Imágenes",
     "de": "Bilder",
@@ -1478,7 +1348,6 @@
   "PHOTOS_EXPLAINS": {
     "fr": "Les images doivent être insérées dans le texte pour apparaître sur la page. La première image sert d\u0027illustration au texte dans les catégories.",
     "en": "Images should be inserted in the text to appear on the page. The first picture is for illustration to the text in the categories.",
-    "us": "Images should be inserted in the text to appear on the page. The first picture is for illustration to the text in the categories.",
     "it": "Le immagini dovrebbero essere inserite nel testo per apparire sulla pagina. La prima immagine è per illustrazione al testo nelle categorie.",
     "es": "Las imágenes deben insertarse en el texto para aparecer en la página. La primera imagen es para ilustrar el texto en las categorías.",
     "pt": "As imagens devem ser inseridas no texto para aparecer na página. A primeira imagem é para ilustração ao texto nas categorias.",
@@ -1488,7 +1357,6 @@
     "js": true,
     "fr": "Merci de vous connecter",
     "en": "Please login",
-    "us": "Please login",
     "it": "Accedete, per favore",
     "es": "Por favor Iniciar sesión",
     "pt": "Por favor entre",
@@ -1498,7 +1366,6 @@
     "js": true,
     "fr": "%1 mises à jour sont disponibles",
     "en": "%1 updates are available",
-    "us": "%1 updates are available",
     "it": "%1 aggiornamenti disponibili",
     "es": "%1 actualizaciones están disponibles",
     "pt": "%1 atualizações estão disponíveis",
@@ -1508,7 +1375,6 @@
     "js": true,
     "fr": "une mise à jour est disponible",
     "en": "an update is available",
-    "us": "an update is available",
     "it": "un aggiornamento è disponibile",
     "es": "hay disponible una actualización",
     "pt": "uma atualização está disponível",
@@ -1517,7 +1383,6 @@
   "POST": {
     "fr": "Message",
     "en": "Message",
-    "us": "Message",
     "it": "Messaggio",
     "es": "Mensaje",
     "pt": "Mensagem",
@@ -1529,13 +1394,11 @@
     "de": "Beiträge",
     "es": "Puestos",
     "it": "Messaggi",
-    "en": "Posts",
-    "us": "Posts"
+    "en": "Posts"
   },
   "POSTS_SAME": {
     "fr": "Même thèmes",
     "en": "Same themes",
-    "us": "Same themes",
     "it": "Stessi temi",
     "es": "Mismos temas",
     "pt": "Os mesmos temas",
@@ -1545,7 +1408,6 @@
     "js": true,
     "fr": "Poster un sujet, une question, une démonstration..",
     "en": "Post a topic, a question, a demonstration..",
-    "us": "Post a topic, a question, a demonstration..",
     "it": "Pubblica un argomento, una domanda, una dimostrazione ..",
     "es": "Publicar un tema, una pregunta, una demostración ..",
     "pt": "Postar um tópico, uma pergunta, uma demonstração ..",
@@ -1554,14 +1416,12 @@
   "POST_COMMENT": {
     "fr": "Poster un commentaire",
     "en": "Post a comment",
-    "us": "Post a comment",
     "pt": "Publicar um comentário",
     "es": "Publicar un comentario"
   },
   "POST_DATE": {
     "fr": "Posté %1",
     "en": "Posted %1",
-    "us": "Posted %1",
     "it": "Pubblicato %1",
     "es": "Publicado %1",
     "pt": "Postado %1",
@@ -1570,7 +1430,6 @@
   "POST_QUESTION": {
     "fr": "Poser une question",
     "en": "Ask a question",
-    "us": "Ask a question",
     "it": "Fai una domanda",
     "es": "Haz una pregunta",
     "pt": "Faça uma pergunta",
@@ -1579,7 +1438,6 @@
   "POST_QUESTION_ANONYMOUS": {
     "fr": "Vous n\u0027êtes pas connecté. Vous pouvez quand même poster une question, elle vous sera attribuée si vous décidez de vous connecter ultérieurement.",
     "en": "You are not connected. You can still ask a question. This question will be assigned to you when you decide to sign-in.",
-    "us": "You are not connected. You can still ask a question. This question will be assigned to you when you decide to sign-in.",
     "it": "Non sei connesso. Puoi ancora fare una domanda. Questa domanda ti sarà assegnata quando deciderai di accedere.",
     "es": "Tu no estas conectado. Todavía puedes hacer una pregunta. Esta pregunta se le asignará cuando decida iniciar sesión.",
     "pt": "Você não está conectado. Você ainda pode fazer uma pergunta. Esta pergunta será atribuída a você quando você decidir entrar.",
@@ -1589,7 +1447,6 @@
     "js": true,
     "fr": "prévisualiser",
     "en": "preview",
-    "us": "preview",
     "it": "anteprima",
     "es": "avance",
     "pt": "preview",
@@ -1599,7 +1456,6 @@
     "js": true,
     "fr": "précédent",
     "en": "previous",
-    "us": "previous",
     "it": "precedente",
     "es": "anterior",
     "pt": "anterior",
@@ -1609,7 +1465,6 @@
     "js": true,
     "fr": "Photos précédentes",
     "en": "Previous photos",
-    "us": "Previous photos",
     "it": "Foto precedenti",
     "es": "Fotos anteriores",
     "pt": "Fotos anteriores",
@@ -1619,7 +1474,6 @@
     "js": true,
     "fr": "Texte précédent",
     "en": "Previous text",
-    "us": "Previous text",
     "it": "Testo precedente",
     "es": "Texto anterior",
     "pt": "Texto anterior",
@@ -1629,7 +1483,6 @@
     "js": true,
     "fr": "Titre précédent",
     "en": "Previous title",
-    "us": "Previous title",
     "it": "Titolo precedente",
     "pt": "Título anterior",
     "es": "Titulo anterior",
@@ -1638,7 +1491,6 @@
   "PROCESSED": {
     "fr": "traité",
     "en": "processed",
-    "us": "processed",
     "it": "trasformati",
     "es": "procesada",
     "pt": "processado",
@@ -1647,7 +1499,6 @@
   "PROFILE": {
     "fr": "Profil",
     "en": "Profile",
-    "us": "Profile",
     "it": "Profilo",
     "es": "Perfil",
     "de": "Profil",
@@ -1658,14 +1509,12 @@
     "it": "Direttore della pubblicazione",
     "es": "Director de publicaciones",
     "en": "Publication director",
-    "us": "Publication director",
     "pt": "Diretor de publicação",
     "de": "Publikationsleiter"
   },
   "PUBLISH": {
     "fr": "Publier",
     "en": "Publish",
-    "us": "Publish",
     "it": "Pubblicare",
     "es": "Publicar",
     "pt": "Publicar",
@@ -1674,7 +1523,6 @@
   "QUESTION": {
     "fr": "Question",
     "en": "Question",
-    "us": "Question",
     "it": "Domanda",
     "es": "Pregunta",
     "pt": "Questão",
@@ -1683,7 +1531,6 @@
   "QUESTIONS": {
     "fr": "Questions",
     "en": "Questions",
-    "us": "Questions",
     "it": "Domande",
     "es": "Preguntas",
     "pt": "Questões",
@@ -1693,7 +1540,6 @@
     "js": true,
     "fr": "Commentaire rapide",
     "en": "Quick comment",
-    "us": "Quick comment",
     "it": "Commento veloce",
     "es": "Comentario rapido",
     "pt": "Comentário rápido",
@@ -1702,7 +1548,6 @@
   "RECOVER": {
     "fr": "retrouver",
     "en": "recover",
-    "us": "recover",
     "it": "recuperare",
     "es": "recuperar",
     "pt": "recuperar",
@@ -1712,7 +1557,6 @@
     "js": true,
     "fr": "refuser",
     "en": "refuse",
-    "us": "refuse",
     "it": "rifiutare",
     "es": "rechazar",
     "pt": "recusar",
@@ -1721,7 +1565,6 @@
   "RELOCATE": {
     "fr": "Attribuer à un autre fil",
     "en": "Assign to another thread",
-    "us": "Assign to another thread",
     "it": "Assegna a un altro thread",
     "es": "Asignar a otro hilo",
     "pt": "Atribuir a outro segmento",
@@ -1731,7 +1574,6 @@
     "js": true,
     "fr": "Supprimer",
     "en": "Remove",
-    "us": "Remove",
     "it": "Rimuovere",
     "pt": "Remover",
     "de": "Löschen",
@@ -1741,7 +1583,6 @@
     "js": true,
     "fr": "Élément supprimé",
     "en": "Deleted item",
-    "us": "Deleted item",
     "it": "Elemento eliminato",
     "es": "Elemento eliminado",
     "pt": "Item excluído",
@@ -1750,7 +1591,6 @@
   "REMOVEDS": {
     "fr": "Éléments supprimés",
     "en": "Deleted items",
-    "us": "Deleted items",
     "it": "Elementi cancellati",
     "es": "Elementos eliminados",
     "pt": "Elementos excluídos",
@@ -1759,7 +1599,6 @@
   "REPLIES": {
     "fr": "réponses",
     "en": "replies",
-    "us": "replies",
     "it": "risposte",
     "es": "respuestas",
     "pt": "respostas",
@@ -1768,7 +1607,6 @@
   "REPLY": {
     "fr": "réponse",
     "en": "reply",
-    "us": "reply",
     "it": "rispondere",
     "pt": "resposta",
     "de": "Antworten",
@@ -1777,7 +1615,6 @@
   "REPLY_TO_POSTS": {
     "fr": "Répondre au sujet",
     "en": "Reply to the subject",
-    "us": "Reply to the subject",
     "it": "Rispondi all\u0026#39;argomento",
     "es": "Responder al tema",
     "pt": "Responder ao assunto",
@@ -1787,7 +1624,6 @@
     "js": true,
     "fr": "signaler",
     "en": "report",
-    "us": "report",
     "it": "rapporto",
     "es": "informe",
     "pt": "relatório",
@@ -1796,7 +1632,6 @@
   "REPORTS": {
     "fr": "Rapports",
     "en": "Reports",
-    "us": "Reports",
     "it": "Rapporti",
     "pt": "Relatórios",
     "de": "Berichte",
@@ -1806,7 +1641,6 @@
     "js": true,
     "fr": "Restaurer",
     "en": "Restore",
-    "us": "Restore",
     "it": "Ristabilire",
     "es": "Restaurar",
     "pt": "Restaurar",
@@ -1816,7 +1650,6 @@
     "js": true,
     "fr": "Élément restoré",
     "en": "Restored element",
-    "us": "Restored element",
     "it": "Elemento ripristinato",
     "pt": "Elemento restaurado",
     "es": "Elemento restaurado",
@@ -1826,7 +1659,6 @@
     "js": true,
     "fr": "retour",
     "en": "return",
-    "us": "return",
     "it": "ritorno",
     "es": "regreso",
     "pt": "Retorna",
@@ -1835,7 +1667,6 @@
   "RETURN_EDIT": {
     "js": true,
     "en": "Go back to edit",
-    "us": "Go back to edit",
     "it": "Torna a modificare",
     "es": "Volver a editar",
     "pt": "Volte para editar",
@@ -1846,7 +1677,6 @@
     "js": true,
     "fr": "racine",
     "en": "root",
-    "us": "root",
     "it": "radice",
     "es": "raíz",
     "pt": "raiz",
@@ -1859,13 +1689,11 @@
     "es": "guardar",
     "de": "speichern",
     "pt": "salvar",
-    "en": "save",
-    "us": "save"
+    "en": "save"
   },
   "SAVE_AND_PUBLISH": {
     "fr": "sauvegarder et publier",
     "en": "save and publish",
-    "us": "save and publish",
     "it": "salva e pubblica",
     "es": "guardar y publicar",
     "de": "speichern und veröffentlichen",
@@ -1874,7 +1702,6 @@
   "SAVE_DRAFT": {
     "fr": "sauvegarder le brouillon",
     "en": "save the draft",
-    "us": "save the draft",
     "it": "salva la bozza",
     "es": "guarda el borrador",
     "pt": "salve o rascunho",
@@ -1887,8 +1714,7 @@
     "it": "accesso agli account secondari",
     "es": "acceso a subcuentas",
     "pt": "acesso a subcontas",
-    "de": "zugang zu Unterkonten",
-    "us": "access to subaccounts"
+    "de": "zugang zu Unterkonten"
   },
   "SCOPE_EMAIL_EXPLAIN": {
     "fr": "accès à l\u0027adresse email",
@@ -1906,7 +1732,6 @@
     "js": true,
     "fr": "Rechercher",
     "en": "Search",
-    "us": "Search",
     "it": "Ricerca",
     "es": "Buscar",
     "pt": "Procurar",
@@ -1915,7 +1740,6 @@
   "SEARCH_RESULTS": {
     "fr": "Résultats de la recherche",
     "en": "Search results",
-    "us": "Search results",
     "it": "Risultati di ricerca",
     "es": "Resultados de busqueda",
     "pt": "Resultados da pesquisa",
@@ -1927,13 +1751,11 @@
     "de": "zweite",
     "es": "segundo",
     "en": "second",
-    "us": "second",
     "pt": "segunda"
   },
   "SECONDS": {
     "fr": "secondes",
     "en": "seconds",
-    "us": "seconds",
     "it": "secondi",
     "es": "segundos",
     "pt": "segundos",
@@ -1943,7 +1765,6 @@
     "js": true,
     "fr": "envoyer",
     "en": "send",
-    "us": "send",
     "it": "inviare",
     "es": "enviar",
     "pt": "mandar",
@@ -1951,7 +1772,6 @@
   },
   "SEND_FILES": {
     "en": "send files",
-    "us": "send files",
     "fr": "envoyer des fichiers",
     "it": "inviare file",
     "es": "enviar archivos",
@@ -1961,7 +1781,6 @@
   "SEO_UTILS": {
     "fr": "Utile pour le référencement",
     "en": "SEO utils",
-    "us": "SEO utils",
     "it": "Utilità SEO",
     "es": "SEO utils",
     "de": "SEO-Utensilien",
@@ -1971,7 +1790,6 @@
     "js": true,
     "fr": "il y a %1",
     "en": "%1 ago",
-    "us": "%1 ago",
     "it": "%1 fa",
     "pt": "há %1",
     "de": "vor %1",
@@ -1981,7 +1799,6 @@
     "js": true,
     "fr": "dans %1",
     "en": "in %1",
-    "us": "in %1",
     "it": "in %1",
     "pt": "em %1",
     "de": "in %1",
@@ -1991,7 +1808,6 @@
     "js": true,
     "fr": "Scinder",
     "en": "Split",
-    "us": "Split",
     "it": "Diviso",
     "es": "División",
     "pt": "Dividido",
@@ -2000,7 +1816,6 @@
   "STATS": {
     "fr": "Statistiques",
     "en": "Statistics",
-    "us": "Statistics",
     "es": "Estadística",
     "pt": "Estatisticas",
     "it": "Statistica",
@@ -2010,7 +1825,6 @@
     "js": true,
     "fr": "envoyer",
     "en": "submit",
-    "us": "submit",
     "it": "sottoscrivi",
     "es": "enviar",
     "pt": "enviar",
@@ -2020,7 +1834,6 @@
     "js": true,
     "fr": "Les notifications push de votre navigateur sont bloquées pour notre site. Merci de vérifier vos paramètres.",
     "en": "Push notifications from your browser are blocked for our site. Please check your settings.",
-    "us": "Push notifications from your browser are blocked for our site. Please check your settings.",
     "it": "Le notifiche push dal browser sono bloccate per il nostro sito. Si prega di verificare le impostazioni.",
     "es": "Las notificaciones push de su navegador están bloqueadas para nuestro sitio. Por favor, compruebe su configuración.",
     "pt": "As notificações push do seu navegador estão bloqueadas para o nosso site. Por favor, verifique suas configurações.",
@@ -2028,20 +1841,17 @@
   },
   "SYNONYM": {
     "fr": "synonyme",
-    "en": "synonym",
-    "us": "synonym"
+    "en": "synonym"
   },
   "SYNONYMS": {
     "fr": "synonymes",
     "en": "synonyms",
-    "us": "synonyms",
     "pt": "sinónimos",
     "es": "sinónimos"
   },
   "TEST": {
     "fr": "tester",
     "en": "test",
-    "us": "test",
     "it": "test",
     "es": "test",
     "pt": "test",
@@ -2052,7 +1862,6 @@
     "js": true,
     "fr": "Texte",
     "en": "Text",
-    "us": "Text",
     "it": "Testo",
     "es": "Texto",
     "de": "Text",
@@ -2061,7 +1870,6 @@
   "TEXTE_EXPLAINS": {
     "fr": "Texte formaté automatiquement avec la syntax wiki",
     "en": "Automatically formatted text with wiki syntax",
-    "us": "Automatically formatted text with wiki syntax",
     "it": "Testo formattato automaticamente con sintassi wiki",
     "es": "Texto formateado automáticamente con sintaxis wiki",
     "pt": "Texto formatado automaticamente com sintaxe wiki",
@@ -2071,7 +1879,6 @@
     "js": true,
     "fr": "Texte détaillé",
     "en": "Topic reply",
-    "us": "Topic reply",
     "it": "Risposta all\u0026#39;argomento",
     "es": "Respuesta del tema",
     "pt": "Resposta do tópico",
@@ -2086,7 +1893,6 @@
     "js": true,
     "fr": "Texte trop court, veuillez le compléter",
     "en": "Text too short, please complete",
-    "us": "Text too short, please complete",
     "it": "Testo troppo corto, per favore, completa",
     "es": "Texto muy corto, por favor complete",
     "pt": "Texto muito curto, por favor complete",
@@ -2096,7 +1902,6 @@
     "js": true,
     "fr": "Merci !",
     "en": "Thank you !",
-    "us": "Thank you !",
     "it": "Grazie !",
     "es": "Gracias !",
     "pt": "Obrigado !",
@@ -2105,7 +1910,6 @@
   "THIS_MONTH": {
     "fr": "Ce mois",
     "en": "This Month",
-    "us": "This Month",
     "es": "Este mes",
     "it": "Questo mese",
     "de": "Diesen Monat",
@@ -2114,7 +1918,6 @@
   "THREAD_POSTED_SINCE": {
     "fr": "sujet posté %1",
     "en": "posted topic %1",
-    "us": "posted topic %1",
     "it": "argomento pubblicato %1",
     "es": "tema publicado %1",
     "pt": "tópico postado %1",
@@ -2124,7 +1927,6 @@
     "js": true,
     "fr": "Titre",
     "en": "Title",
-    "us": "Title",
     "it": "Titolo",
     "es": "Título",
     "pt": "Título",
@@ -2133,7 +1935,6 @@
   "TITLE_EXPLAIN": {
     "fr": "Titre obligatoire",
     "en": "Title wanted",
-    "us": "Title wanted",
     "it": "Titolo desiderato",
     "es": "Título querido",
     "pt": "Título desejado",
@@ -2143,7 +1944,6 @@
     "js": true,
     "fr": "Titre explicite",
     "en": "Explicit title",
-    "us": "Explicit title",
     "it": "Titolo esplicito",
     "es": "Título explícito",
     "pt": "Título explícito",
@@ -2153,7 +1953,6 @@
     "js": true,
     "fr": "Titre trop long, veuillez le réduire",
     "en": "Title too short, please reduce it",
-    "us": "Title too short, please reduce it",
     "it": "Titolo troppo breve, si prega di ridurlo",
     "es": "Título muy corto, por favor redúzcalo",
     "pt": "Título muito curto, por favor reduza",
@@ -2163,7 +1962,6 @@
     "js": true,
     "fr": "Titre trop court, veuillez le compléter",
     "en": "Title too short, please complete",
-    "us": "Title too short, please complete",
     "it": "Titolo troppo breve, per favore compila",
     "es": "Título muy corto, por favor complete",
     "pt": "Título muito curto, por favor complete",
@@ -2175,14 +1973,12 @@
     "pt": "Hoje",
     "it": "Oggi",
     "es": "Hoy",
-    "de": "Heute",
-    "us": "Today"
+    "de": "Heute"
   },
   "TOO_SHORT": {
     "js": true,
     "fr": "Trop court",
     "en": "Too short",
-    "us": "Too short",
     "it": "Troppo corto",
     "es": "Demasiado corto",
     "pt": "Curto demais",
@@ -2191,7 +1987,6 @@
   "T_TEXT_OF_THE_QUESTION": {
     "fr": "Texte de la question",
     "en": "Question text",
-    "us": "Question text",
     "it": "Testo della domanda",
     "es": "Texto de la pregunta",
     "pt": "Texto da pergunta",
@@ -2201,7 +1996,6 @@
     "js": true,
     "fr": "désactiver",
     "en": "deactivate",
-    "us": "deactivate",
     "es": "desactivar",
     "pt": "desativar",
     "it": "disattivare",
@@ -2211,7 +2005,6 @@
     "js": true,
     "fr": "Inconnu",
     "en": "Unknown",
-    "us": "Unknown",
     "it": "Sconosciuto",
     "es": "Desconocido",
     "pt": "Desconhecido",
@@ -2221,7 +2014,6 @@
     "js": true,
     "fr": "Inconnue",
     "en": "Unknown",
-    "us": "Unknown",
     "it": "Sconosciuto",
     "es": "Desconocido",
     "pt": "Desconhecido",
@@ -2229,7 +2021,6 @@
   },
   "UPDATE": {
     "en": "Updated",
-    "us": "Updated",
     "fr": "Mise à jour",
     "js": true,
     "pt": "Atualizada",
@@ -2239,7 +2030,6 @@
     "js": true,
     "fr": "mis à jour %1",
     "en": "Updated %1",
-    "us": "Updated %1",
     "it": "Aggiornato %1",
     "es": " %1 actualizado",
     "pt": " %1 atualizado",
@@ -2249,7 +2039,6 @@
     "js": true,
     "fr": "vos images",
     "en": "your images",
-    "us": "your images",
     "it": "le tue immagini",
     "es": "tus imagenes",
     "pt": "suas imagens",
@@ -2259,7 +2048,6 @@
     "js": true,
     "fr": "envoyer une image",
     "en": "send image",
-    "us": "send image",
     "it": "invia immagine",
     "es": "enviar imagen",
     "pt": "enviar imagem",
@@ -2267,7 +2055,6 @@
   },
   "URL": {
     "en": "url",
-    "us": "url",
     "fr": "url",
     "js": true,
     "it": "url"
@@ -2275,7 +2062,6 @@
   "URL_AUTO": {
     "fr": "Laisser vide pour la générer automatiquement",
     "en": "Let\u0027s empty for automatic generation",
-    "us": "Let\u0027s empty for automatic generation",
     "it": "Let\u0026#39;s empty per la generazione automatica",
     "es": "Vamos a vaciar para la generación automática.",
     "pt": "Vamos esvaziar para geração automática",
@@ -2285,7 +2071,6 @@
     "js": true,
     "fr": "L\u0027URL existe déjà",
     "en": "URL exist",
-    "us": "URL exist",
     "it": "L\u0026#39;URL esiste",
     "es": "URL existe",
     "pt": "URL existe",
@@ -2293,7 +2078,6 @@
   },
   "USER": {
     "en": "user",
-    "us": "user",
     "fr": "utilisateur",
     "de": "Benutzer",
     "pt": "usuário",
@@ -2303,7 +2087,6 @@
   "USERS": {
     "fr": "Utilisateurs",
     "en": "Users",
-    "us": "Users",
     "de": "Benutzer",
     "it": "Utenti",
     "pt": "Usuários",
@@ -2312,7 +2095,6 @@
   "USER_JOIN": {
     "fr": "L\u0027utilisateur a rejoint le site le %1",
     "en": "The user joined the site on %1",
-    "us": "The user joined the site on %1",
     "it": "L\u0027utente ha aderito al sito su %1",
     "es": "El usuario se unió al sitio en %1",
     "pt": "O usuário entrou no site em %1",
@@ -2321,7 +2103,6 @@
   "USER_LAST_ACTIVITY": {
     "fr": "dernière activité %1",
     "en": "last activity %1",
-    "us": "last activity %1",
     "it": "ultima attività %1",
     "es": "última actividad %1",
     "pt": "última atividade %1",
@@ -2330,7 +2111,6 @@
   "USER_MANAGEMENT": {
     "fr": "Gestion de l\u0027utilisateur",
     "en": "User management",
-    "us": "User management",
     "it": "Gestione utenti",
     "es": "Gestión de usuarios",
     "pt": "Gerenciamento de usuários",
@@ -2340,7 +2120,6 @@
     "js": true,
     "fr": "semaine",
     "en": "week",
-    "us": "week",
     "es": "semana",
     "it": "settimana",
     "pt": "semana",
@@ -2350,7 +2129,6 @@
     "js": true,
     "fr": "semaines",
     "en": "weeks",
-    "us": "weeks",
     "it": "settimane",
     "es": "semanas",
     "pt": "semanas",
@@ -2360,7 +2138,6 @@
     "js": true,
     "fr": "an",
     "en": "year",
-    "us": "year",
     "it": "anno",
     "es": "año",
     "de": "Jahr",
@@ -2370,7 +2147,6 @@
     "js": true,
     "fr": "ans",
     "en": "years",
-    "us": "years",
     "it": "anni",
     "es": "años",
     "pt": "anos",
@@ -2381,14 +2157,12 @@
     "it": "Ieri",
     "en": "Yesterday",
     "es": "Ayer",
-    "us": "Yesterday",
     "pt": "Ontem",
     "de": "Gestern"
   },
   "YOUR_RATING": {
     "fr": "Svp, notez l\u0027article",
     "en": "Please, note the article",
-    "us": "Please, note the article",
     "it": "Per favore, nota l\u0026#39;articolo",
     "es": "Por favor, tenga en cuenta el artículo",
     "pt": "Por favor, observe o artigo",
