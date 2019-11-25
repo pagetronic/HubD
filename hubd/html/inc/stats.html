@@ -3,10 +3,9 @@
         <h1>#lang('ANALYTICS','ucfirst')</h1>
         #foreach($stat in $stats)
         #if($velocityCount==0)
-        <h1 style="font-size:70px" id="now">#number($stat.unique)</h1>
+        <h1 style="font-size:70px" id="now">#number($stat.value.unique)</h1>
         #else
-        <p><strong>#number($stat.unique) Uniques - #number($stat.view) Views</strong>
-            #if($stat.start)<br/>#date($stat.start,'full') &rArr; #date($stat.stop,'full')#end</p>
+        <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques - #number($stat.value.view) Views</strong></p>
         #end
         #end
     </div>

@@ -3,9 +3,7 @@
  */
 package live.page.web.utils;
 
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.*;
 import live.page.web.db.Db;
 import live.page.web.socket.SessionData;
 import live.page.web.socket.SocketMessage;
@@ -65,7 +63,7 @@ public class StatsTools {
 		socketMessage.putKeyMessage("live", getLive());
 		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 		executor.scheduleAtFixedRate(() -> {
-			if ( sessiondata.isAbort(act) || !sessiondata.isOpen()) {
+			if (sessiondata.isAbort(act) || !sessiondata.isOpen()) {
 				executor.shutdown();
 				return;
 			}
@@ -85,87 +83,73 @@ public class StatsTools {
 	 *
 	 * @return list for templating
 	 */
-	public static List<Json> getSimplesStats(TimeZone tz) {
+	public static Json getSimplesStats(TimeZone tz) {
 
-		List<Json> stats = new ArrayList<>();
 
+		List<Bson> pipeline = new ArrayList<>();
+
+		pipeline.add(Aggregates.limit(1));
+		pipeline.add(Aggregates.project(
+				new Json("_id", false)
+		));
+
+		pipeline.add(Aggregates.addFields(new Field<>("NOW", new Json("unique", getLive()))));
+		pipeline.add(Aggregates.project(new Json("_id", false).put("NOW", true)));
 		Calendar cl = Calendar.getInstance(tz);
-
-		//NOW
-
-
-		Date stop_date = cl.getTime();
-		cl.add(Calendar.SECOND, -10);
-		Date start_date = cl.getTime();
-
-		Json unique = Db.aggregate("Stats", Arrays.asList(
-				Aggregates.match(
-						Filters.or(
-								Filters.and(
-										Filters.eq("gone", null),
-										Filters.gte("alive", start_date), Filters.lt("alive", stop_date)
-								),
-								Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
-						)
-				),
-				Aggregates.group(new Json("ip", "$ip").put("ua", "$ua")),
-				Aggregates.group(null, Accumulators.sum("unique", 1))
-
-		)).first();
-
-		stats.add(new Json("unique", unique == null ? 0 : unique.getInteger("unique", 0)));
-
-
-		cl = Calendar.getInstance(tz);
 
 		//Today
 		cl.add(Calendar.HOUR_OF_DAY, -24);
-		start_date = cl.getTime();
+		Date start_date = cl.getTime();
 
 		cl.add(Calendar.HOUR_OF_DAY, 24);
-		stop_date = cl.getTime();
-		stats.add(getStats(start_date, stop_date));
+		Date stop_date = cl.getTime();
+		pipeline.addAll(getPipelineStats("TODAY", start_date, stop_date));
 
 
 		cl = Calendar.getInstance(tz);
 		cl.set(Calendar.HOUR_OF_DAY, 0);
 		cl.set(Calendar.MINUTE, 0);
 		cl.set(Calendar.SECOND, 0);
+		cl.set(Calendar.MILLISECOND, 0);
 
-
-		//TODO more stats
 		//Yesterday
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 1);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 1);
 		stop_date = cl.getTime();
-		stats.add(getStats(start_date, stop_date));
+		pipeline.addAll(getPipelineStats("YESTERDAY", start_date, stop_date));
 
 		//Last week
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 7);
 		start_date = cl.getTime();
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 7);
 		stop_date = cl.getTime();
-		stats.add(getStats(start_date, stop_date));
+		pipeline.addAll(getPipelineStats("LAST_WEEK", start_date, stop_date));
 
 		//This month
 		cl = Calendar.getInstance(tz);
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 31);
-		start_date = cl.getTime();
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 31);
 		stop_date = cl.getTime();
-		stats.add(getStats(start_date, stop_date));
+		cl.add(Calendar.MONTH, -1);
+		start_date = cl.getTime();
+		pipeline.addAll(getPipelineStats("THIS_MONTH", start_date, stop_date));
 
 		//Last month
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 62);
+		cl = Calendar.getInstance(tz);
+		cl.add(Calendar.MONTH, -1);
+		cl.set(Calendar.HOUR_OF_DAY, 0);
+		cl.set(Calendar.MINUTE, 0);
+		cl.set(Calendar.SECOND, 0);
+		cl.set(Calendar.MILLISECOND, 0);
+		cl.set(Calendar.DAY_OF_MONTH, 1);
 		start_date = cl.getTime();
-		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) + 31);
+		cl.add(Calendar.MONTH, 1);
 		stop_date = cl.getTime();
-		stats.add(getStats(start_date, stop_date));
+		pipeline.addAll(getPipelineStats("LAST_MONTH", start_date, stop_date));
 
 		//Last year
-		stats.add(getStats(null, null));
-		return stats;
+		pipeline.addAll(getPipelineStats("LAST_YEAR", null, null));
+
+		return Db.aggregate("Stats", pipeline).first();
 	}
 
 
@@ -174,12 +158,11 @@ public class StatsTools {
 	 *
 	 * @param start_date from date, null for all
 	 * @param stop_date  to date
-	 * @return view and unique client
+	 * @return pipeline for aggregate lookup
 	 */
-	//TODO concat in only one query with $lookup
 	//TODO view url / domain etc...
-	private static Json getStats(Date start_date, Date stop_date) {
-		Json rez = new Json("start", start_date).put("stop", stop_date);
+	private static List<Bson> getPipelineStats(String key, Date start_date, Date stop_date) {
+
 		List<Bson> pipeline = new ArrayList<>();
 
 		if (start_date != null) {
@@ -187,20 +170,31 @@ public class StatsTools {
 					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
 			));
 		}
-		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua")));
-		pipeline.add(Aggregates.group(null, Accumulators.sum("unique", 1)));
-		Json unique = Db.aggregate("Stats", pipeline).first();
-		rez.put("unique", unique == null ? 0 : unique.getInteger("unique", 0));
 
-		pipeline.clear();
-		if (start_date != null) {
-			pipeline.add(Aggregates.match(Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))));
-		}
-		pipeline.add(Aggregates.group(null, Accumulators.sum("view", 1)));
-		Json view = Db.aggregate("Stats", pipeline).first();
-		rez.put("view", view == null ? 0 : view.getInteger("view", 0));
+		pipeline.add(Aggregates.project(new Json().put("start", start_date).put("stop", stop_date))
+		);
 
-		return rez;
+		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua"),
+				Accumulators.first("start", "$start"),
+				Accumulators.first("stop", "$stop"),
+				Accumulators.sum("view", 1)
+
+		));
+
+		pipeline.add(Aggregates.group(null,
+				Accumulators.first("start", "$start"),
+				Accumulators.first("stop", "$stop"),
+				Accumulators.sum("unique", 1),
+				Accumulators.sum("view", "$view")
+		));
+		pipeline.add(Aggregates.project(new Json("_id", false)
+				.put("unique", "$unique").put("view", "$view").put("start", start_date).put("stop", stop_date))
+		);
+
+		return Arrays.asList(
+				Aggregates.lookup("Stats", pipeline, key),
+				Aggregates.unwind("$" + key, new UnwindOptions().preserveNullAndEmptyArrays(true))
+		);
 	}
 
 }

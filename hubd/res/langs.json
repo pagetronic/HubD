@@ -1066,6 +1066,23 @@
     "pt": "Segmento de URL",
     "de": "URL-Segment"
   },
+  "LAST_WEEK": {
+    "fr": "Semaine passée",
+    "en": "Last Week",
+    "us": "Last Week",
+    "pt": "Semana passada",
+    "es": "La semana pasada",
+    "it": "La settimana scorsa"
+  },
+  "LAST_YEAR": {
+    "fr": "Cette année",
+    "en": "This Year",
+    "us": "This Year",
+    "it": "Quest\u0026#39;anno",
+    "es": "Este año",
+    "de": "Dieses Jahr",
+    "pt": "Este ano"
+  },
   "LOADING": {
     "js": true,
     "fr": "chargement",
@@ -1952,6 +1969,15 @@
     "pt": "Obrigado !",
     "de": "Vielen Dank !"
   },
+  "THIS_MONTH": {
+    "fr": "Ce mois",
+    "en": "This Month",
+    "us": "This Month",
+    "es": "Este mes",
+    "it": "Questo mese",
+    "de": "Diesen Monat",
+    "pt": "Este mês"
+  },
   "THREAD_POSTED_SINCE": {
     "fr": "sujet posté %1",
     "en": "posted topic %1",
@@ -2009,6 +2035,15 @@
     "es": "Título muy corto, por favor complete",
     "pt": "Título muito curto, por favor complete",
     "de": "Titel zu kurz, bitte ausfüllen"
+  },
+  "TODAY": {
+    "fr": "Aujourd\u0027hui",
+    "en": "Today",
+    "pt": "Hoje",
+    "it": "Oggi",
+    "es": "Hoy",
+    "de": "Heute",
+    "us": "Today"
   },
   "TOO_SHORT": {
     "js": true,
@@ -2200,6 +2235,15 @@
     "es": "años",
     "pt": "anos",
     "de": "Jahre"
+  },
+  "YESTERDAY": {
+    "fr": "Hier",
+    "it": "Ieri",
+    "en": "Yesterday",
+    "es": "Ayer",
+    "us": "Yesterday",
+    "pt": "Ontem",
+    "de": "Gestern"
   },
   "YOUR_RATING": {
     "fr": "Svp, notez l\u0027article",
