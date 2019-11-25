@@ -27,7 +27,9 @@ noscript {
         opacity: 1;
     }
 }
-
+help {
+    display: none;
+}
 .blink, #pushadd {
     animation: Blink 1.5s infinite;
 }

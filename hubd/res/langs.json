@@ -1910,6 +1910,26 @@
     "de": "SEO-Utensilien",
     "pt": "Utils de SEO"
   },
+  "NEVER": {
+    "js": true,
+    "fr": "jamais",
+    "en": "never",
+    "us": "never",
+    "it": "in %1",
+    "pt": "em %1",
+    "de": "in %1",
+    "es": "en %1"
+  },
+  "SINCE_IN": {
+    "js": true,
+    "fr": "dans %1",
+    "en": "in %1",
+    "us": "in %1",
+    "it": "in %1",
+    "pt": "em %1",
+    "de": "in %1",
+    "es": "en %1"
+  },
   "SINCE_AGO": {
     "js": true,
     "fr": "il y a %1",

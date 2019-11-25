@@ -1,12 +1,8 @@
 #parse("/inc/top.html")
 <div class="api_apps" id="middle">
-	<help>#lang('API_APPS_INFO')</help>
-	<div id="top_float">
-		<div class="flex">
-			<div class="flexitem">
-				<button id="add_apps">$svg.mi_apps#lang('ADD_APPS')</button>
-			</div>
-		</div>
+	<h1>$title</h1>
+	<div class="pagination">
+		<button id="add_apps">$svg.mi_apps#lang('ADD_APPS')</button>
 	</div>
 	#if(!$apps.first())
 	<div class="bx apps_empty">

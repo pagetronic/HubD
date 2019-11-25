@@ -1,7 +1,7 @@
 #parse("/inc/top.html")
-<div class="selectable" id="middle">
+<div id="middle">
 
-	<help>#lang('API_ACCESS_INFO')</help>
+	<h1>$title</h1>
 	#if($access.size()==0)
 	<div class="bx">
 		<h2>#lang('EMPTY')</h2>
@@ -48,10 +48,10 @@
 			#end
 		</div>
 
-		<div class="flex">
-			<button class="refresh_access flexitem short">$svg.fa_icon_refresh#lang('ACCESS_REFRESH')</button>
+		<div class="flexible">
+			<button class="refresh_access flexable short">$svg.fa_icon_refresh#lang('ACCESS_REFRESH')</button>
 			<div class="space"></div>
-			<button class="remove_access flexitem short">$svg.mi_delete_forever#lang('ACCESS_REMOVE')</button>
+			<button class="remove_access flexable short">$svg.mi_delete_forever#lang('ACCESS_REMOVE')</button>
 		</div>
 	</div>
 	#end
