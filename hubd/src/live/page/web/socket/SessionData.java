@@ -109,7 +109,11 @@ public class SessionData {
 	}
 
 	public boolean isAbort(String act) {
-		return aborts.contains(act);
+		try {
+			return aborts.contains(act);
+		} finally {
+			aborts.remove(act);
+		}
 	}
 
 }

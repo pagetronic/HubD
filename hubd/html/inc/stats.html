@@ -12,28 +12,16 @@
     </div>
     <script type="text/javascript">
         sys.push(function () {
-            var nowTimeout = -1;
-            var reload = function () {
-
-                ajax.get('/admin/stats', function (html) {
-                    html = $(html);
-                    var stats = $('#stats');
-                    var nowval = stats.find('#now').text();
-                    stats.html(html.find('#stats').html());
-                    var now = $('#now');
-                    if (nowval !== now.text()) {
-                        now.pulse();
-                    }
-                    clearTimeout(nowTimeout);
-                    nowTimeout = setTimeout(reload, 3000);
-                }, function () {
-                    clearTimeout(nowTimeout);
-                    nowTimeout = setTimeout(reload, 3000);
-                });
-            };
-            ajax.unload(function () {
+            var now = $('#now');
+            var act = socket.send({action: "live"}, function (msg) {
+                if (now.text() !== msg.live) {
+                    now.text(msg.live).pulse();
+                }
+                return true;
             });
-            reload();
+            ajax.unload(function () {
+                socket.abort(act);
+            });
         });
     </script>
 </div>

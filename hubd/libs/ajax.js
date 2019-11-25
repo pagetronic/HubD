@@ -81,16 +81,16 @@ var ajax = {
             error: error
         });
     },
-    unload_func: null,
+    unload_funcs: [],
     unload: function (func) {
         if (func === undefined) {
-            if (ajax.unload_func !== null) {
-                ajax.unload_func();
-                ajax.unload_func = null;
-            }
+            $.each(ajax.unload_funcs, function () {
+                this();
+            });
+            ajax.unload_funcs = [];
 
         } else {
-            ajax.unload_func = func;
+            ajax.unload_funcs.push(func);
         }
     },
     reload: function (silent, after) {
@@ -134,7 +134,7 @@ var ajax = {
                 if (scroll !== undefined) {
                     sys.scrollto(scroll * center[0].scrollHeight, 300);
                 } else if (!silent) {
-                    sys.scrollto(0,100);
+                    sys.scrollto(0, 100);
                 }
 
                 if (after !== undefined) {

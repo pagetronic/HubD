@@ -7,10 +7,15 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import live.page.web.db.Db;
+import live.page.web.socket.SessionData;
+import live.page.web.socket.SocketMessage;
 import live.page.web.utils.json.Json;
 import org.bson.conversions.Bson;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -18,6 +23,62 @@ import java.util.*;
  * TODO make live Executor service
  */
 public class StatsTools {
+
+	/**
+	 * Get users on stats
+	 *
+	 * @return count of users
+	 */
+	private static int getLive() {
+		List<Bson> pipeline = new ArrayList<>();
+
+		Date date = new Date(System.currentTimeMillis() - 10 * 1000);
+		Date gone = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+
+		pipeline.add(Aggregates.match(Filters.and(
+				Filters.eq("gone", null),
+				Filters.gt("date", gone),
+				Filters.or(
+						Filters.gt("alive", date),
+						Filters.gt("date", date)
+				)
+		)));
+
+		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua")));
+		pipeline.add(Aggregates.group(null, Accumulators.sum("unique", 1)));
+		Json unique = Db.aggregate("Stats", pipeline).first();
+		if (unique == null) {
+			return 0;
+		}
+		return unique.getInteger("unique", 0);
+	}
+
+	/**
+	 * Get users on stats and send into socket request
+	 *
+	 * @return socket message
+	 */
+	public static SocketMessage getLiveSocket(Json msg, SessionData sessiondata) {
+		String act = msg.getString("act");
+		SocketMessage socketMessage = new SocketMessage(act);
+		final int[] live = {getLive()};
+		socketMessage.putKeyMessage("live", getLive());
+		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+		executor.scheduleAtFixedRate(() -> {
+			if ( sessiondata.isAbort(act) || !sessiondata.isOpen()) {
+				executor.shutdown();
+				return;
+			}
+			int live_new = getLive();
+			if (live[0] != live_new) {
+				live[0] = live_new;
+				socketMessage.putKeyMessage("live", live_new);
+				sessiondata.send(socketMessage);
+			}
+		}, 3, 3, TimeUnit.SECONDS);
+
+		return socketMessage;
+	}
 
 	/**
 	 * Get all interested stats
@@ -71,6 +132,8 @@ public class StatsTools {
 		cl.set(Calendar.MINUTE, 0);
 		cl.set(Calendar.SECOND, 0);
 
+
+		//TODO more stats
 		//Yesterday
 		cl.set(Calendar.DAY_OF_YEAR, cl.get(Calendar.DAY_OF_YEAR) - 1);
 		start_date = cl.getTime();

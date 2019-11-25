@@ -52,6 +52,7 @@ var socket = {
             }
             if (socket.events[data.channel] !== undefined) {
                 try {
+                    //return true for multiple needed
                     if (socket.events[data.channel](data.message) !== true) {
                         delete socket.events[data.channel];
                     }
@@ -76,13 +77,6 @@ var socket = {
             $('#bell').removeClass('waiting connected');
         };
     },
-    abort: function (act) {
-        socket.funcs.push(JSON.stringify({
-            action: 'abort',
-            act: act
-        }));
-        delete socket.events[act];
-    },
     send: function (message, func) {
         var act = sys.uniqueId();
         if (func !== undefined && typeof message === "object") {
@@ -94,6 +88,13 @@ var socket = {
         }
         socket.funcs.push(message);
         return act;
+    },
+    abort: function (act) {
+        socket.funcs.push(JSON.stringify({
+            action: 'abort',
+            act: act
+        }));
+        delete socket.events[act];
     },
     follow: function (channel, func) {
         if (socket.fevents[channel] === undefined) {

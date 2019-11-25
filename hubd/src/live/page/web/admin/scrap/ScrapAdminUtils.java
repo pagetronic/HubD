@@ -100,7 +100,7 @@ public class ScrapAdminUtils {
 	public static SocketMessage scrapPreview(Json msg, SessionData session) {
 		Json data = msg.getJson("data");
 		String act = msg.getString("act");
-		SocketMessage socketMsg = new SocketMessage(act).addMessage("ok", true);
+		SocketMessage socketMsg = new SocketMessage(act).putKeyMessage("ok", true);
 		try {
 			return socketMsg;
 		} finally {

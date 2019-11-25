@@ -62,7 +62,7 @@ public class LogsUtils implements ServletContextListener {
 		stat.put("date", new Date());
 		stat.put("_id", Db.getKey());
 		asyncService.submit(() -> Db.getDb("Stats").insertOne(stat));
-		return new SocketMessage(act).addMessage("_id", stat.getId());
+		return new SocketMessage(act).putKeyMessage("_id", stat.getId());
 	}
 
 	@Override

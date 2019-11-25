@@ -10,6 +10,7 @@ import live.page.web.profile.ProfileUtils;
 import live.page.web.servlet.utils.LogsUtils;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
+import live.page.web.utils.StatsTools;
 import live.page.web.utils.json.Json;
 
 import javax.websocket.*;
@@ -22,9 +23,8 @@ public class BaseWebSocket {
 
 	public SocketMessage onMessageAuthSys(Json msg, SessionData sessiondata) {
 		switch (msg.getString("action")) {
-			case "abort":
-				sessiondata.abort(msg.getString("act"));
-				return new SocketMessage();
+			case "live":
+				return StatsTools.getLiveSocket(msg, sessiondata);
 			case "scrap":
 				return ScrapAdminUtils.scrapPreview(msg, sessiondata);
 			case "receive_notices":
@@ -32,10 +32,10 @@ public class BaseWebSocket {
 				return new SocketMessage();
 			case "read_message":
 				MessagesUtils.readMessage(sessiondata.getUserId(), msg.getId(), msg.getBoolean("read", false));
-				return new SocketMessage(msg.getString("act")).addMessage("ok", true);
+				return new SocketMessage(msg.getString("act")).putKeyMessage("ok", true);
 			case "settings":
 				SocketPusher.send("user", sessiondata.getUserId(), new Json("action", "settings").put("settings", ProfileUtils.setSettings(sessiondata.getUserId(), msg.getJson("data"))));
-				return new SocketMessage(msg.getString("act")).addMessage("ok", true);
+				return new SocketMessage(msg.getString("act")).putKeyMessage("ok", true);
 
 		}
 		return null;
@@ -58,6 +58,9 @@ public class BaseWebSocket {
 				}
 
 				return data;
+			case "abort":
+				sessiondata.abort(msg.getString("act"));
+				return new SocketMessage();
 			case "unfollow":
 				sessiondata.removeElement(msg.getString("channel"));
 				return data;
@@ -88,13 +91,13 @@ public class BaseWebSocket {
 
 			if (data == null && user_session.getUserId() == null) {
 				data = new SocketMessage(msg.getString("act"));
-				data.addMessage("error", "PLEASE_LOGIN");
+				data.putKeyMessage("error", "PLEASE_LOGIN");
 			} else if (data == null && user_session.getUserId() != null) {
 				data = onMessageAuthSys(msg, user_session);
 			}
 			if (data == null) {
 				data = new SocketMessage(msg.getString("act"));
-				data.addMessage("error", "UNKNOWN_METHOD");
+				data.putKeyMessage("error", "UNKNOWN_METHOD");
 			}
 			try {
 				if (data.getMessage() != null) {

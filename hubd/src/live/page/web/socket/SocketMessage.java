@@ -17,7 +17,7 @@ public class SocketMessage {
 		datas.put("channel", channel);
 	}
 
-	public SocketMessage addMessage(String key, Object value) {
+	public SocketMessage putKeyMessage(String key, Object value) {
 
 		Json data = datas.getJson("message");
 		if (data == null) {
