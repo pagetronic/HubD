@@ -27,11 +27,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * General class for Db connections
+ * used as a static functions provider for comfortable/wellness coding
+ */
 @WebListener
 public class Db implements ServletContextListener {
 
+	// DB key length used somewhere for detection
 	public static final int DB_KEY_LENGTH = 26;
+	// Be sure Db key are unique, at least for this machine
 	private static int keyDiff = 0;
+	//Global timeout for DB operations
 	private static final int TIME_OUT = 10000;
 
 	/**
@@ -72,27 +79,60 @@ public class Db implements ServletContextListener {
 		return key;
 	}
 
-	public synchronized static MongoDatabase getDb() {
+	/**
+	 * Return base Db function from MongoDb library
+	 *
+	 * @return MongoDatabase for the current project
+	 */
+	public static MongoDatabase getDb() {
 		return db;
 	}
 
-	public synchronized static MongoCollection<Json> getDb(String collection) {
+	/**
+	 * Return base Db function from MongoDb library
+	 *
+	 * @param collection collection to select
+	 * @return MongoCollection for the current project
+	 */
+	public static MongoCollection<Json> getDb(String collection) {
 		return db.getCollection(collection, Json.class);
 	}
 
-	public synchronized static Json findByIdUser(String collection, String _id, String user_id) {
+	/**
+	 * Return db object for ID and USER
+	 *
+	 * @param collection where search
+	 * @param _id        of the object
+	 * @param user_id    of the object
+	 * @return Db object
+	 */
+	public static Json findByIdUser(String collection, String _id, String user_id) {
 		Bson filter = Filters.and(Filters.eq("_id", _id), Filters.eq("user", user_id));
 		return Db.find(collection, filter).first();
 	}
 
-	public synchronized static Json findById(String collection, String _id) {
+	/**
+	 * Return db object for ID
+	 *
+	 * @param collection where search
+	 * @param _id        of the object
+	 * @return Db object
+	 */
+	public static Json findById(String collection, String _id) {
 		if (_id == null) {
 			return null;
 		}
 		return find(collection, Filters.and(Filters.eq("_id", _id), Filters.ne("_id", null))).first();
 	}
 
-	public synchronized static boolean save(String collection, Json document) {
+	/**
+	 * Save one db object
+	 *
+	 * @param collection where search
+	 * @param document   to save
+	 * @return true if saved
+	 */
+	public static boolean save(String collection, Json document) {
 		if (document.get("_id") == null) {
 			try {
 				document.put("_id", getKey());
@@ -111,7 +151,14 @@ public class Db implements ServletContextListener {
 		return true;
 	}
 
-	public synchronized static boolean save(String collection, List<Json> documents) {
+	/**
+	 * Save multiple db objects
+	 *
+	 * @param collection where search
+	 * @param documents  to save
+	 * @return true if saved
+	 */
+	public static boolean save(String collection, List<Json> documents) {
 		try {
 			// Can't "update" when insertMany used, so no Ids needed.
 			documents.forEach(doc -> doc.put("_id", getKey()));
@@ -125,78 +172,207 @@ public class Db implements ServletContextListener {
 		}
 	}
 
-	public synchronized static FindIterable<Json> find(String collection, Bson filter) {
+	/**
+	 * Find multiple db objects
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @return iterable response
+	 */
+	public static FindIterable<Json> find(String collection, Bson filter) {
 		if (filter == null) {
 			return getDb(collection).find();
 		}
 		return getDb(collection).find(filter);
 	}
 
-	public synchronized static FindIterable<Json> find(String collection, Bson filter, Bson sort) {
+	/**
+	 * Find multiple db objects
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param sort       order
+	 * @return iterable response
+	 */
+	public static FindIterable<Json> find(String collection, Bson filter, Bson sort) {
 		return find(collection, filter).sort(sort);
 	}
 
-	public synchronized static AggregateIterable<Json> aggregate(String collection, List<? extends Bson> pipeline) {
-		return getDb(collection).aggregate(pipeline);
-	}
 
-	public synchronized static FindIterable<Json> find(String collection) {
+	/**
+	 * Find all db objects with aggregation
+	 *
+	 * @param collection where search
+	 * @return iterable response
+	 */
+	public static FindIterable<Json> find(String collection) {
 		return find(collection, null);
 	}
 
-	public synchronized static long count(String collection, Bson filter) {
+	/**
+	 * Find multiple db objects with aggregation
+	 *
+	 * @param collection where search
+	 * @param pipeline   operations
+	 * @return iterable response
+	 */
+	public static AggregateIterable<Json> aggregate(String collection, List<? extends Bson> pipeline) {
+		return getDb(collection).aggregate(pipeline);
+	}
+
+	/**
+	 * Count db objects
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @return long result of counts
+	 */
+	public static long count(String collection, Bson filter) {
 		if (filter == null) {
 			return getDb(collection).countDocuments();
 		}
 		return getDb(collection).countDocuments(filter);
 	}
 
-	public synchronized static long countLimit(String collection, Bson filter, int limit) {
+	/**
+	 * Count db objects with limitation
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param limit      count maximum
+	 * @return long result of counts
+	 */
+	public static long countLimit(String collection, Bson filter, int limit) {
 		return getDb(collection).countDocuments(filter, new CountOptions().limit(limit));
 	}
 
-	public synchronized static long count(String collection) {
+	/**
+	 * Count all db objects in a collection
+	 *
+	 * @param collection where search
+	 * @return long result of counts
+	 */
+	public static long count(String collection) {
 		return count(collection, Filters.exists("_id", true));
 	}
 
-	public synchronized static boolean deleteOne(String collection, Bson filter) {
+	/**
+	 * Delete one db object
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @return true|false deleted or not
+	 */
+	public static boolean deleteOne(String collection, Bson filter) {
 		return getDb(collection).deleteOne(filter).getDeletedCount() > 0L;
 	}
 
-	public synchronized static DeleteResult deleteMany(String collection, Bson filter) {
+	/**
+	 * Delete db objects
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @return delete informations
+	 */
+	public static DeleteResult deleteMany(String collection, Bson filter) {
 		return getDb(collection).deleteMany(filter);
 	}
 
-	public synchronized static boolean exists(String collection, Bson filter) {
+	/**
+	 * Test if db objects exists
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @return true|false exists or not
+	 */
+	public static boolean exists(String collection, Bson filter) {
 		return countLimit(collection, filter, 1) > 0;
 	}
 
-	public synchronized static UpdateResult updateMany(String collection, Bson filter, Bson update) {
+	/**
+	 * Update db objects
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param update     operations
+	 * @return update result class
+	 */
+	public static UpdateResult updateMany(String collection, Bson filter, Bson update) {
 		return getDb(collection).updateMany(filter, update);
 	}
 
-	public synchronized static UpdateResult updateOne(String collection, Bson filter, Bson update) {
+
+	/**
+	 * Update one db object
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param update     operations
+	 * @return update result class
+	 */
+	public static UpdateResult updateOne(String collection, Bson filter, Bson update) {
 		return getDb(collection).updateOne(filter, update);
 	}
 
-	public synchronized static UpdateResult updateOne(String collection, Bson filter, List<Bson> update) {
+	/**
+	 * Update one db object
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param update     multiple and consecutive operations
+	 * @return update result class
+	 */
+	public static UpdateResult updateOne(String collection, Bson filter, List<Bson> update) {
 		return getDb(collection).updateOne(filter, update);
 	}
 
-	public synchronized static UpdateResult updateOne(String collection, Bson filter, Bson update, UpdateOptions options) {
+	/**
+	 * Update one db object
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param update     operations
+	 * @param options    operations
+	 * @return update result class
+	 */
+	public static UpdateResult updateOne(String collection, Bson filter, Bson update, UpdateOptions options) {
 		return getDb(collection).updateOne(filter, update, options);
 	}
 
-	public synchronized static Json findOneAndUpdate(String collection, Bson filter, Bson update, FindOneAndUpdateOptions options) {
+
+	/**
+	 * Find one db object and update
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param update     operations
+	 * @param options    operations
+	 * @return db object
+	 */
+	public static Json findOneAndUpdate(String collection, Bson filter, Bson update, FindOneAndUpdateOptions options) {
 		return getDb(collection).findOneAndUpdate(filter, update, options);
 	}
 
-	public synchronized static Json findOneAndUpdate(String collection, Bson filter, Bson update) {
+
+	/**
+	 * Find one db object, update and return after operations
+	 *
+	 * @param collection where search
+	 * @param filter     restrictions
+	 * @param update     operations
+	 * @return updated db object
+	 */
+	public static Json findOneAndUpdate(String collection, Bson filter, Bson update) {
 		return getDb(collection).findOneAndUpdate(filter, update, new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 	}
 
+	/**
+	 * Seed DB and build indexes
+	 *
+	 * @param unused as named
+	 */
 	@Override
-	public synchronized void contextInitialized(ServletContextEvent sce) {
+	public void contextInitialized(ServletContextEvent unused) {
 		try {
 			IndexBuilder.seed();
 			IndexBuilder.buildIndexes();
@@ -205,8 +381,13 @@ public class Db implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Close Db to avoid memory leaks
+	 *
+	 * @param unused as named
+	 */
 	@Override
-	public synchronized void contextDestroyed(ServletContextEvent sce) {
+	public void contextDestroyed(ServletContextEvent unused) {
 		client.close();
 	}
 }
