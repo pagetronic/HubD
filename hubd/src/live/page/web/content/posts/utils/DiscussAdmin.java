@@ -8,7 +8,7 @@ import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.Updates;
 import live.page.web.content.congrate.CoinsUtils;
 import live.page.web.system.db.Db;
-import live.page.web.system.db.tags.DbTagsParser;
+import live.page.web.system.db.tags.DbTags;
 import live.page.web.system.json.Json;
 import live.page.web.system.sessions.Users;
 
@@ -26,7 +26,7 @@ public class DiscussAdmin {
 			parent = "ROOT";
 		}
 		List<String> posts_ids = data.getList("posts");
-		DbTagsParser parentParse = new DbTagsParser(data.getString("parent"));
+		DbTags parentParse = new DbTags(data.getString("parent"));
 		Json first = Db.find("Posts", Filters.in("_id", posts_ids)).sort(Sorts.ascending("date")).first();
 		Json last = Db.find("Posts", Filters.in("_id", posts_ids)).sort(Sorts.descending("date")).first();
 

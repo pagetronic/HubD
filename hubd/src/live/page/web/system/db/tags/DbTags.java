@@ -5,18 +5,21 @@ package live.page.web.system.db.tags;
 
 import live.page.web.system.Settings;
 
-public class DbTagsParser {
+/**
+ * Simple parser for DbTags
+ */
+public class DbTags {
 	private String parent;
 	private String collection;
 	private String _id;
 
-	public DbTagsParser(String collection, String _id) {
+	public DbTags(String collection, String _id) {
 		this.collection = collection;
 		this._id = _id;
 
 	}
 
-	public DbTagsParser(String parent) {
+	public DbTags(String parent) {
 		this.parent = parent;
 		if (parent != null) {
 			try {

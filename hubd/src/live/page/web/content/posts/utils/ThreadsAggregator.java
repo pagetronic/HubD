@@ -15,7 +15,7 @@ import live.page.web.system.db.Db;
 import live.page.web.system.db.PipelinerStore;
 import live.page.web.system.db.paginer.Paginer;
 import live.page.web.system.db.tags.DbTagsLinker;
-import live.page.web.system.db.tags.DbTagsParser;
+import live.page.web.system.db.tags.DbTags;
 import live.page.web.system.json.Json;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Hidder;
@@ -180,15 +180,15 @@ public class ThreadsAggregator {
 		if (post == null) {
 			return null;
 		}
-		DbTagsParser thread = null;
-		for (DbTagsParser parent : post.getParents("parents")) {
+		DbTags thread = null;
+		for (DbTags parent : post.getParents("parents")) {
 			if (parent.getCollection().equals("Posts")) {
 				thread = parent;
 			}
 		}
 
 		if (thread == null) {
-			thread = new DbTagsParser("Posts", post.getId());
+			thread = new DbTags("Posts", post.getId());
 		}
 
 		int limitbefore = number_posts - (number_posts / 3);
