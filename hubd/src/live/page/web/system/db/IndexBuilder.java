@@ -6,15 +6,18 @@ package live.page.web.system.db;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.IndexModel;
 import com.mongodb.client.model.IndexOptions;
-import live.page.web.utils.Fx;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
+import live.page.web.utils.Fx;
 import org.bson.conversions.Bson;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * Class used to build on update indexes
+ */
 public class IndexBuilder {
 
 	private static final IndexesStore indexes = baseIndexes();
@@ -228,19 +231,37 @@ public class IndexBuilder {
 
 	}
 
+	/**
+	 * Get hint aka information for using a specific index in a query
+	 *
+	 * @param collection collection where is the index
+	 * @param name       of the index
+	 * @return object to use as a .hint() in a DB query
+	 */
 	public static Bson getHint(String collection, String name) {
 		return indexes.getIndex(collection, name).getKeys();
 	}
 
-
+	/**
+	 * Add index needed
+	 *
+	 * @param collection where to create index
+	 * @param index      informations
+	 */
 	public static void addIndex(String collection, IndexModel... index) {
 		indexes.addIndex(collection, index);
 	}
 
+	/**
+	 * Build standard indexes
+	 */
 	public static void buildIndexes() {
 		buildIndexes(indexes);
 	}
 
+	/**
+	 * Build specific indexes
+	 */
 	private static void buildIndexes(IndexesStore indexes_store) {
 		try {
 
@@ -316,6 +337,9 @@ public class IndexBuilder {
 		}
 	}
 
+	/**
+	 * Seeding special think in a Collection
+	 */
 	public static void seed() {
 
 		List<String> collections = Db.getDb().listCollectionNames().into(new ArrayList<>());
@@ -327,7 +351,17 @@ public class IndexBuilder {
 
 	}
 
-	private static boolean compare(Json orig, Bson indb, Json weights, String default_language, IndexOptions options) {
+	/**
+	 * Compare indexes changes
+	 *
+	 * @param original         index to compare
+	 * @param other            index to compare
+	 * @param weights          search index weight
+	 * @param default_language of the search index
+	 * @param options          of the index
+	 * @return true|false index are same ?
+	 */
+	private static boolean compare(Json original, Bson other, Json weights, String default_language, IndexOptions options) {
 		if (weights != null) {
 			if (options.getDefaultLanguage() != null && !options.getDefaultLanguage().equals(default_language)) {
 				return false;
@@ -339,18 +373,21 @@ public class IndexBuilder {
 			}
 			return true;
 		}
-		Json indb_ = new Json(indb);
-		if (indb_.size() != orig.size()) {
+		Json indb_ = new Json(other);
+		if (indb_.size() != original.size()) {
 			return false;
 		}
 		for (Map.Entry<String, Object> entry : indb_.entrySet()) {
-			if (!entry.getValue().equals(orig.get(entry.getKey()))) {
+			if (!entry.getValue().equals(original.get(entry.getKey()))) {
 				return false;
 			}
 		}
 		return true;
 	}
 
+	/**
+	 * Store list of index
+	 */
 	public static class IndexesStore {
 		private final List<String> colindex = new ArrayList<>();
 		private final Map<String, List<IndexModel>> collection_indexes = new HashMap<>();
@@ -360,6 +397,11 @@ public class IndexBuilder {
 
 		}
 
+		/**
+		 * @param collection where use the index
+		 * @param index      to use in the collection
+		 * @return this IndexesStore
+		 */
 		public IndexesStore addIndex(String collection, IndexModel index) {
 			String name = index.getOptions().getName();
 			if (contains(collection, name)) {
@@ -372,10 +414,21 @@ public class IndexBuilder {
 			return this;
 		}
 
+		/**
+		 * @param collection where use the index
+		 * @param indexes    to use in the collection
+		 * @return this IndexesStore
+		 */
 		public IndexesStore addIndex(String collection, IndexModel... indexes) {
 			return addIndex(collection, Arrays.asList(indexes));
 		}
 
+
+		/**
+		 * @param collection where use the index
+		 * @param indexes    to use in the collection
+		 * @return this IndexesStore
+		 */
 		public IndexesStore addIndex(String collection, List<IndexModel> indexes) {
 			for (IndexModel index : indexes) {
 				addIndex(collection, index);
@@ -384,10 +437,23 @@ public class IndexBuilder {
 
 		}
 
+		/**
+		 * Is there an index named in the collection ?
+		 *
+		 * @param collection where search the index
+		 * @param name       of the index
+		 * @return true|false contains the index ?
+		 */
 		public boolean contains(String collection, String name) {
 			return colindex.contains(collection + "@" + name);
 		}
 
+		/**
+		 * Get the indexes in this store for the collection
+		 *
+		 * @param collection where search the indexes
+		 * @return List of indexes
+		 */
 		public List<IndexModel> getIndexes(String collection) {
 			if (!collection_indexes.containsKey(collection)) {
 				return new ArrayList<>();
@@ -395,6 +461,13 @@ public class IndexBuilder {
 			return collection_indexes.get(collection);
 		}
 
+		/**
+		 * Get the index in this store for the name and the collection
+		 *
+		 * @param collection where search the indexes
+		 * @param name       of the index needed
+		 * @return the index or null if there no index
+		 */
 		public IndexModel getIndex(String collection, String name) {
 			for (IndexModel index : collection_indexes.get(collection)) {
 				if (name.equals(index.getOptions().getName())) {
@@ -404,37 +477,97 @@ public class IndexBuilder {
 			return null;
 		}
 
+		/**
+		 * Get the collection in this store
+		 *
+		 * @return a list of the collections
+		 */
 		public List<String> getCollections() {
 			return Arrays.asList((String[]) collection_indexes.keySet().toArray(new String[0]));
 		}
 
+		/**
+		 * Get collection@name in this store
+		 *
+		 * @return a list of collection@name
+		 */
 		public List<String> getCollectionsIndexesNames() {
 			return colindex;
 		}
 	}
 
+	/**
+	 * Class to simplify index model creation
+	 */
 	public static class IndexData {
 
-		public static IndexModel get(Json key, String name) {
-			return new IndexModel(key, new IndexOptions().name(name));
+		/**
+		 * Get simple index
+		 *
+		 * @param keys to use in index
+		 * @param name of the index needed
+		 * @return Index model accepted for creation
+		 */
+		public static IndexModel get(Json keys, String name) {
+			return new IndexModel(keys, new IndexOptions().name(name));
 		}
 
-		public static IndexModel getUnique(Json key, String name) {
-			return new IndexModel(key, new IndexOptions().name(name).unique(true));
+		/**
+		 * Get unique index
+		 *
+		 * @param keys to use in index
+		 * @param name of the index needed
+		 * @return Index model accepted for creation
+		 */
+		public static IndexModel getUnique(Json keys, String name) {
+			return new IndexModel(keys, new IndexOptions().name(name).unique(true));
 		}
 
-		public static IndexModel getExpire(Json key, String name, long delay, TimeUnit unit) {
-			return new IndexModel(key, new IndexOptions().name(name).expireAfter(delay, unit));
+		/**
+		 * Get an index where objects expires
+		 *
+		 * @param keys  to use in index
+		 * @param name  of the index needed
+		 * @param delay when db object are removed
+		 * @param unit  to use in delay
+		 * @return Index model accepted for creation
+		 */
+		public static IndexModel getExpire(Json keys, String name, long delay, TimeUnit unit) {
+			return new IndexModel(keys, new IndexOptions().name(name).expireAfter(delay, unit));
 		}
 
+		/**
+		 * Get a text index for search
+		 *
+		 * @param weights of keys
+		 * @param name    of the index needed
+		 * @return Index model accepted for creation
+		 */
 		public static IndexModel getText(Json weights, String name) {
 			return getText(new Json(), weights, name, null);
 		}
 
+		/**
+		 * Get a text index for search with default language
+		 *
+		 * @param weights of keys
+		 * @param name    of the index needed
+		 * @param lang    as default language
+		 * @return Index model accepted for creation
+		 */
 		public static IndexModel getText(Json weights, String name, String lang) {
 			return getText(new Json(), weights, name, lang);
 		}
 
+		/**
+		 * Get a text index for search with default language
+		 *
+		 * @param base    used as preconfigured
+		 * @param weights of keys
+		 * @param name    of the index needed
+		 * @param lang    as default language
+		 * @return Index model accepted for creation
+		 */
 		public static IndexModel getText(Json base, Json weights, String name, String lang) {
 
 			for (String key : weights.keySet()) {
