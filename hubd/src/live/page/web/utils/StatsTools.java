@@ -8,6 +8,7 @@ import live.page.web.db.Db;
 import live.page.web.socket.SessionData;
 import live.page.web.socket.SocketMessage;
 import live.page.web.utils.json.Json;
+import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
 import javax.servlet.ServletContextEvent;
@@ -181,9 +182,12 @@ public class StatsTools implements ServletContextListener {
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua"),
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
 				Accumulators.sum("view", 1),
-				//$alive/$gone, I think it's too long for some clients
 				Accumulators.avg("bound", new Json("$subtract", Arrays.asList(
-						"$alive", "$date"
+						new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$gone", new BsonUndefined())),
+								new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$alive", new BsonUndefined())),
+										"$date", "$alive"))
+								, "$gone"))
+						, "$date"
 				)))
 
 		));
