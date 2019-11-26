@@ -12,31 +12,53 @@ import org.bson.conversions.Bson;
 
 import java.util.*;
 
+/**
+ * A store of method to query standards and specials collections
+ */
 public class PipelinerStore {
 
-	private static final Map<String, Class<? extends Pipeliner>> searchers = new HashMap<>();
+	private static final Map<String, Class<? extends Pipeliner>> methods = new HashMap<>();
 
 	static {
 		addPipeliner("posts", ThreadsAggregator.PostsPipeliner.class);
 		addPipeliner("pages", PagesAggregator.PagesPipelines.class);
 	}
 
+	/**
+	 * Add a method to this store
+	 *
+	 * @param key where store this method
+	 * @param cls class of the method
+	 */
 	public static void addPipeliner(String key, Class<? extends Pipeliner> cls) {
-		searchers.put(key, cls);
+		methods.put(key, cls);
 	}
 
-	public static Map<String, Class<? extends Pipeliner>> getSearchers() {
-		return searchers;
+	/**
+	 * Get all methods for special interrogations
+	 * @return all methods stored
+	 */
+	public static Map<String, Class<? extends Pipeliner>> getMethods() {
+		return methods;
 	}
 
+	/**
+	 * Get standard construcor for a specific method
+	 * @param key where is the method wanted
+	 * @return the method
+	 */
 	public static Pipeliner getConstructor(String key) {
 		try {
-			return searchers.get(key.toLowerCase()).getConstructor(String.class, String.class, Paginer.class).newInstance(null, null, null);
+			return methods.get(key.toLowerCase()).getConstructor(String.class, String.class, Paginer.class).newInstance(null, null, null);
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
+
+	/**
+	 * Class of method to abstract
+	 */
 	public abstract static class Pipeliner {
 
 		protected final Paginer paginer;

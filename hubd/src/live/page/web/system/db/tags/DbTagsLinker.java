@@ -35,7 +35,7 @@ public class DbTagsLinker {
 		List<Bson> pipeline = new ArrayList<>();
 
 		pipeline.add(Aggregates.project(grouper.getProjection().put("links", new ArrayList<>())));
-		Map<String, Class<? extends PipelinerStore.Pipeliner>> pipeliner = PipelinerStore.getSearchers();
+		Map<String, Class<? extends PipelinerStore.Pipeliner>> pipeliner = PipelinerStore.getMethods();
 
 		for (String parent : Settings.VALID_PARENTS) {
 

@@ -23,12 +23,12 @@ public class SearchUtils {
 	public static Json search(String query, String lng, String type, String paging_str) {
 		try {
 			if (type != null && !type.equals("")) {
-				if (!PipelinerStore.getSearchers().containsKey(type)) {
+				if (!PipelinerStore.getMethods().containsKey(type)) {
 					return null;
 				}
 				return SearchUtils.searchOne(query, lng, type, paging_str);
 			}
-			return SearchUtils.searchAll(query, lng, paging_str, PipelinerStore.getSearchers().keySet());
+			return SearchUtils.searchAll(query, lng, paging_str, PipelinerStore.getMethods().keySet());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,9 +46,9 @@ public class SearchUtils {
 
 		pipeline.add(Aggregates.project(new Json("_id", false).put("empty", true)));
 
-		for (String collection : PipelinerStore.getSearchers().keySet()) {
+		for (String collection : PipelinerStore.getMethods().keySet()) {
 
-			PipelinerStore.Pipeliner searcher = PipelinerStore.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
+			PipelinerStore.Pipeliner searcher = PipelinerStore.getMethods().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
 			pipeline.add(Aggregates.lookup(Fx.ucfirst(collection), searcher
 							.addFilter(Filters.text(query))
 							.getSearcher(),
@@ -57,7 +57,7 @@ public class SearchUtils {
 
 
 		List<String> keys_exps = new ArrayList<>();
-		for (String key : PipelinerStore.getSearchers().keySet()) {
+		for (String key : PipelinerStore.getMethods().keySet()) {
 			keys_exps.add("$" + key);
 		}
 		pipeline.add(Aggregates.project(new Json("result", new Json("$concatArrays", keys_exps))));
@@ -75,7 +75,7 @@ public class SearchUtils {
 
 	private static Json searchOne(String query, String lng, String collection, String paging_str) throws Exception {
 		Paginer paginer = new Paginer(paging_str, "-score", limit);
-		PipelinerStore.Pipeliner searcher = PipelinerStore.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
+		PipelinerStore.Pipeliner searcher = PipelinerStore.getMethods().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
 		return paginer.getResult(Fx.ucfirst(collection), searcher.addFilter(Filters.text(query)).setLng(lng).getSearcher());
 	}
 
