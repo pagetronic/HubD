@@ -10,7 +10,6 @@ import live.page.web.system.Settings;
 import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
 import live.page.web.system.db.Pipeliner;
-import live.page.web.system.db.tags.DbTagsUtils;
 import live.page.web.system.json.Json;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
@@ -22,7 +21,14 @@ import java.util.Map;
 
 public class DbTagsLinker {
 
-	public static List<Bson> getPipeline(String text, Aggregator grouper) {
+	/**
+	 * Detect DbTags(XXX) and produce url in links key
+	 *
+	 * @param key     where parse tags
+	 * @param grouper aggregator used in the aggregation
+	 * @return a liste of operation to add to other aggregation operations
+	 */
+	public static List<Bson> getPipeline(String key, Aggregator grouper) {
 
 		List<Bson> pipeline = new ArrayList<>();
 
@@ -32,7 +38,7 @@ public class DbTagsLinker {
 		for (String parent : Settings.VALID_PARENTS) {
 
 			if (pipeliner.containsKey(parent.toLowerCase())) {
-				pipeline.add(Aggregates.project(grouper.getProjection().put("links" + parent, new Json("$slice", Arrays.asList(new Json("$split", Arrays.asList("$" + text, parent + "(")), 1, 100)))));
+				pipeline.add(Aggregates.project(grouper.getProjection().put("links" + parent, new Json("$slice", Arrays.asList(new Json("$split", Arrays.asList("$" + key, parent + "(")), 1, 100)))));
 
 
 				pipeline.add(Aggregates.unwind("$links" + parent, new UnwindOptions().preserveNullAndEmptyArrays(true)));
