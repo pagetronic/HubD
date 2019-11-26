@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Servlet used for OAuth authorization
+ */
 @WebServlet(urlPatterns = {"/auth"})
 public class AuthorizeServlet extends HttpServlet {
 

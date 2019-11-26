@@ -7,25 +7,24 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import live.page.web.system.db.Db;
+import live.page.web.system.json.Json;
+import live.page.web.system.json.XMLJsonParser;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.BruteLocker;
 import live.page.web.system.servlet.utils.ServletUtils;
-import live.page.web.system.servlet.wrapper.ApiServletRequest;
-import live.page.web.system.servlet.wrapper.ApiServletResponse;
-import live.page.web.system.servlet.wrapper.WebServletRequest;
-import live.page.web.system.servlet.wrapper.WebServletResponse;
+import live.page.web.system.servlet.wrapper.*;
 import live.page.web.utils.Fx;
-import live.page.web.system.json.Json;
-import live.page.web.system.json.XMLJsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
 
+/**
+ * Servlet used for OAuth token
+ */
 @WebServlet(urlPatterns = {"/token"})
 public class TokenServlet extends HttpServlet {
 
@@ -40,7 +39,7 @@ public class TokenServlet extends HttpServlet {
 		doToken(req, resp, data);
 	}
 
-	public void doToken(HttpServletRequest req, HttpServletResponse resp, Json data) throws IOException {
+	private void doToken(BaseServletRequest req, BaseServletResponse resp, Json data) throws IOException {
 
 		resp.setHeader("X-Robots-Tag", "noindex");
 
@@ -60,58 +59,57 @@ public class TokenServlet extends HttpServlet {
 		}
 
 
-		Json access = null;
-		if (grant_type == null) {
-			grant_type = "";
-		}
+		Json access;
 
+		switch (grant_type) {
 
-		if (grant_type.equals("refresh_token")) {
-			access = Db.find("ApiAccess", Filters.and(Filters.eq("refresh_token", refreshToken), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
-			if (access == null) {
-				sendJson(resp, 401, new Json("error", "INVALID_REFRESH_TOKEN"));
+			case "refresh_token":
+				access = Db.find("ApiAccess", Filters.and(Filters.eq("refresh_token", refreshToken), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
+				if (access == null) {
+					sendJson(resp, 401, new Json("error", "INVALID_REFRESH_TOKEN"));
+					return;
+				}
+
+				break;
+
+			case "authorization_code":
+
+				access = Db.findOneAndUpdate("ApiAccess",
+						Filters.and(Filters.eq("code", code), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret)),
+						new Json("$unset", new Json("code", "").put("access", "").put("count", "")),
+						new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+				);
+				if (access == null) {
+					sendJson(resp, 500, new Json("error", "CODE_VERIFICATION_ERROR"));
+					return;
+				}
+
+				break;
+			case "password":
+
+				Json user = Db.find("Users", Filters.and(Filters.eq("email", email), Filters.eq("password", Fx.crypt(password)))).first();
+				if (user == null) {
+					BruteLocker.add(ServletUtils.realIp(req));
+					sendJson(resp, 401, new Json("error", "INVALID_ACCESS"));
+					return;
+				}
+				access = Db.find("ApiAccess", Filters.and(Filters.eq("user", user.getId()), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
+
+				Date date = new Date();
+				Date expire = new Date(date.getTime() + 3600 * 1000);
+				if (access == null) {
+					access = new Json();
+					access.put("date", date);
+					access.put("user", user.getId());
+				}
+				access.put("expire", expire);
+				access.put("client_id", app.getString("client_id"));
+				access.put("client_secret", app.getString("client_secret"));
+
+				break;
+			default:
+				sendJson(resp, 500, new Json("error", "GRANT_TYPE_UNKNOWN"));
 				return;
-			}
-
-		} else if (grant_type.equals("authorization_code")) {
-
-			access = Db.findOneAndUpdate("ApiAccess",
-					Filters.and(Filters.eq("code", code), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret)),
-					new Json("$unset", new Json("code", "").put("access", "").put("count", "")),
-					new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
-			);
-			if (access == null) {
-				sendJson(resp, 500, new Json("error", "CODE_VERIFICATION_ERROR"));
-				return;
-			}
-
-		} else if (grant_type.equals("password")) {
-
-
-			Json user = Db.find("Users", Filters.and(Filters.eq("email", email), Filters.eq("password", Fx.crypt(password)))).first();
-
-			if (user == null) {
-				BruteLocker.add(ServletUtils.realIp(req));
-				sendJson(resp, 401, new Json("error", "INVALID_ACCESS"));
-				return;
-			}
-			access = Db.find("ApiAccess", Filters.and(Filters.eq("user", user.getId()), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
-
-			Date date = new Date();
-			Date expire = new Date(date.getTime() + 3600 * 1000);
-			if (access == null) {
-				access = new Json();
-				access.put("date", date);
-				access.put("user", user.getId());
-			}
-			access.put("expire", expire);
-			access.put("client_id", app.getString("client_id"));
-			access.put("client_secret", app.getString("client_secret"));
-
-
-		} else {
-			sendJson(resp, 500, new Json("error", "GRANT_TYPE_UNKNOWN"));
-			return;
 		}
 
 
@@ -143,7 +141,7 @@ public class TokenServlet extends HttpServlet {
 	}
 
 
-	public void sendJson(HttpServletResponse resp, int status, Json data) throws IOException {
+	private void sendJson(HttpServletResponse resp, int status, Json data) throws IOException {
 
 		resp.setStatus(status);
 		resp.setHeader("Content-Type", "application/json; charset=utf-8");
