@@ -5,9 +5,9 @@ package live.page.web.utils.scrap;
 
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
-import live.page.web.db.Db;
+import live.page.web.utils.db.Db;
 import live.page.web.utils.Fx;
-import live.page.web.utils.google.YouTubeApi;
+import live.page.web.utils.apis.YouTubeApi;
 import live.page.web.utils.http.HttpClient;
 import live.page.web.utils.json.Json;
 import org.apache.commons.text.StringEscapeUtils;

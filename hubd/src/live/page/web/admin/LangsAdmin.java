@@ -3,13 +3,13 @@
  */
 package live.page.web.admin;
 
-import live.page.web.servlet.style.UiStyleServlet;
-import live.page.web.servlet.wrapper.ApiServletResponse;
-import live.page.web.servlet.wrapper.WebServletRequest;
-import live.page.web.servlet.wrapper.WebServletResponse;
+import live.page.web.system.cosmetic.UiStyleServlet;
+import live.page.web.system.servlet.wrapper.ApiServletResponse;
+import live.page.web.system.servlet.wrapper.WebServletRequest;
+import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
-import live.page.web.utils.google.Translater;
+import live.page.web.utils.apis.Translater;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.langs.Language;
 import org.apache.commons.io.FileUtils;

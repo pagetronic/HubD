@@ -3,8 +3,8 @@
  */
 package live.page.web.admin.scrap;
 
-import live.page.web.servlet.wrapper.WebServletRequest;
-import live.page.web.servlet.wrapper.WebServletResponse;
+import live.page.web.system.servlet.wrapper.WebServletRequest;
+import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.utils.json.Json;
 import live.page.web.utils.scrap.ScrapDataUtils;
 

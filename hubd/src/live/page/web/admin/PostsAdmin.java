@@ -3,11 +3,11 @@
  */
 package live.page.web.admin;
 
-import live.page.web.posts.utils.ThreadsAggregator;
-import live.page.web.servlet.HttpServlet;
-import live.page.web.servlet.wrapper.WebServletRequest;
-import live.page.web.servlet.wrapper.WebServletResponse;
-import live.page.web.session.Users;
+import live.page.web.content.posts.utils.ThreadsAggregator;
+import live.page.web.system.servlet.HttpServlet;
+import live.page.web.system.servlet.wrapper.WebServletRequest;
+import live.page.web.system.servlet.wrapper.WebServletResponse;
+import live.page.web.system.sessions.Users;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

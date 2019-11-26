@@ -4,11 +4,11 @@
 package live.page.web;
 
 import com.mongodb.client.model.Filters;
-import live.page.web.pages.PagesAggregator;
-import live.page.web.posts.utils.ThreadsAggregator;
-import live.page.web.servlet.HttpServlet;
-import live.page.web.servlet.wrapper.WebServletRequest;
-import live.page.web.servlet.wrapper.WebServletResponse;
+import live.page.web.content.pages.PagesAggregator;
+import live.page.web.content.posts.utils.ThreadsAggregator;
+import live.page.web.system.servlet.HttpServlet;
+import live.page.web.system.servlet.wrapper.WebServletRequest;
+import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.utils.Settings;
 import live.page.web.utils.langs.Language;
 

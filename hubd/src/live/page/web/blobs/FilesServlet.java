@@ -3,9 +3,9 @@
  */
 package live.page.web.blobs;
 
-import live.page.web.servlet.BaseServlet;
-import live.page.web.servlet.wrapper.BaseServletRequest;
-import live.page.web.servlet.wrapper.BaseServletResponse;
+import live.page.web.system.servlet.BaseServlet;
+import live.page.web.system.servlet.wrapper.BaseServletRequest;
+import live.page.web.system.servlet.wrapper.BaseServletResponse;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;

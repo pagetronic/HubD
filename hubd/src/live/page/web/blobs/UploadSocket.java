@@ -3,8 +3,7 @@
  */
 package live.page.web.blobs;
 
-import live.page.web.blobs.BlobsUtils;
-import live.page.web.socket.SocketConfig;
+import live.page.web.system.socket.SocketConfig;
 import live.page.web.utils.Settings;
 import live.page.web.utils.json.Json;
 

@@ -4,12 +4,12 @@
 package live.page.web.admin.scrap;
 
 import com.mongodb.client.model.*;
-import live.page.web.db.Aggregator;
-import live.page.web.db.Db;
-import live.page.web.socket.SessionData;
-import live.page.web.socket.SocketMessage;
+import live.page.web.utils.db.Aggregator;
+import live.page.web.utils.db.Db;
+import live.page.web.system.socket.SessionData;
+import live.page.web.system.socket.SocketMessage;
 import live.page.web.utils.json.Json;
-import live.page.web.utils.paginer.Paginer;
+import live.page.web.utils.db.paginer.Paginer;
 import live.page.web.utils.scrap.ScrapDataUtils;
 import live.page.web.utils.scrap.ScrapLinksUtils;
 import org.bson.conversions.Bson;

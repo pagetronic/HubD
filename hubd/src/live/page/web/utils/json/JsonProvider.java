@@ -3,7 +3,7 @@
  */
 package live.page.web.utils.json;
 
-import live.page.web.db.Db;
+import live.page.web.utils.db.Db;
 import org.bson.*;
 import org.bson.codecs.*;
 import org.bson.codecs.configuration.CodecProvider;

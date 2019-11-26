@@ -3,11 +3,11 @@
  */
 package live.page.web.blobs;
 
-import live.page.web.servlet.HttpServlet;
-import live.page.web.servlet.utils.Api;
-import live.page.web.servlet.wrapper.ApiServletRequest;
-import live.page.web.servlet.wrapper.ApiServletResponse;
-import live.page.web.session.Users;
+import live.page.web.system.servlet.HttpServlet;
+import live.page.web.system.servlet.utils.Api;
+import live.page.web.system.servlet.wrapper.ApiServletRequest;
+import live.page.web.system.servlet.wrapper.ApiServletResponse;
+import live.page.web.system.sessions.Users;
 import live.page.web.utils.json.Json;
 
 import javax.servlet.annotation.WebServlet;

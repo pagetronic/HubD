@@ -5,15 +5,15 @@ package live.page.web.admin;
 
 import com.mongodb.client.model.Filters;
 import live.page.web.admin.scrap.ScrapAdmin;
-import live.page.web.db.Db;
-import live.page.web.servlet.HttpServlet;
-import live.page.web.servlet.wrapper.ApiServletRequest;
-import live.page.web.servlet.wrapper.ApiServletResponse;
-import live.page.web.servlet.wrapper.WebServletRequest;
-import live.page.web.servlet.wrapper.WebServletResponse;
-import live.page.web.session.Users;
+import live.page.web.utils.db.Db;
+import live.page.web.system.servlet.HttpServlet;
+import live.page.web.system.servlet.wrapper.ApiServletRequest;
+import live.page.web.system.servlet.wrapper.ApiServletResponse;
+import live.page.web.system.servlet.wrapper.WebServletRequest;
+import live.page.web.system.servlet.wrapper.WebServletResponse;
+import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
-import live.page.web.utils.RatingsTools;
+import live.page.web.content.RatingsTools;
 import live.page.web.utils.StatsTools;
 import live.page.web.utils.json.Json;
 

@@ -8,7 +8,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.jpeg.JpegDirectory;
 import com.mongodb.client.MongoCollection;
-import live.page.web.db.Db;
+import live.page.web.utils.db.Db;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Settings;
 import live.page.web.utils.http.HttpClient;
