@@ -6,21 +6,28 @@ package live.page.web.content.profile;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.UpdateResult;
+import live.page.web.system.Settings;
 import live.page.web.system.db.Db;
+import live.page.web.system.json.Json;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.system.Settings;
-import live.page.web.system.json.Json;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;
 import java.util.Date;
 
 public class CookiesUtils {
+
+	/**
+	 * log consent (RGPD/GDPR usage)
+	 */
 	public static Json consent(String id, String ip, boolean accept, String choice) {
 		return new Json("ok", Db.save("Consents", new Json("uid", id).put("ip", ip).put("date", new Date()).put("consent", accept).put("type", choice)));
 	}
 
+	/**
+	 * log adBlock users
+	 */
 	public static Json adBlock(String ip, boolean accept) {
 		Date date = new Date();
 		UpdateResult rez = Db.getDb("AdBlock").updateOne(Filters.eq("_id", ip),
@@ -33,8 +40,11 @@ public class CookiesUtils {
 		return new Json("ok", rez.getMatchedCount() > 0 || rez.getModifiedCount() > 0);
 	}
 
+	/**
+	 * purge all cookies
+	 */
 	public static boolean purge(WebServletRequest req, WebServletResponse resp) throws IOException {
-		if (req.getString("purge", "xxx").equals("")) {
+		if (req.contains("purge")) {
 			WebServletResponse.setNoHeaderCache(resp);
 			Cookie[] cookies = req.getCookies();
 			if (cookies != null) {
