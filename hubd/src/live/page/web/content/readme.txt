@@ -1,1 +1,1 @@
-Class used for content
+Classes used for content

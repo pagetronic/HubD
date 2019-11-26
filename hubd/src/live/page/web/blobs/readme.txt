@@ -1,1 +1,1 @@
-Class used for files and images manipulations
+Classes used for files and images manipulations
