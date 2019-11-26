@@ -3,7 +3,7 @@
  */
 package live.page.web.system.cosmetic.tmpl.parsers;
 
-import live.page.web.system.db.ObjsUtils;
+import live.page.web.system.db.tags.DbTagsUtils;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -90,7 +90,7 @@ public class PostParser extends Directive {
 
 		text = text.replace("@~X@X~@", "#");
 
-		text = ObjsUtils.parse(text, links);
+		text = DbTagsUtils.parse(text, links);
 		return text;
 	}
 

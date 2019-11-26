@@ -74,6 +74,6 @@ public abstract class Pipeliner {
 
 	abstract protected List<Bson> getSearchPipeline();
 
-	abstract public List<Bson> getUrlizifier(Aggregator grouper, String key);
+	abstract public List<Bson> getUrlDbTags(Aggregator grouper, String key);
 
 }

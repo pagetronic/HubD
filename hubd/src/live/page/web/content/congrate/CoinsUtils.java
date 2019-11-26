@@ -5,7 +5,7 @@ package live.page.web.content.congrate;
 
 import com.mongodb.client.model.Filters;
 import live.page.web.system.db.Db;
-import live.page.web.system.db.ParentParser;
+import live.page.web.system.db.tags.DbTagsParser;
 import live.page.web.system.socket.SocketPusher;
 import live.page.web.system.json.Json;
 
@@ -28,7 +28,7 @@ public class CoinsUtils {
 		if (user_coins <= 0) {
 			return new Json("error", "NO_COINS");
 		}
-		ParentParser ele = new ParentParser(element);
+		DbTagsParser ele = new DbTagsParser(element);
 		if (ele.getId() == null) {
 			return new Json("error", "UNKNOWN_ELEMENT");
 		}

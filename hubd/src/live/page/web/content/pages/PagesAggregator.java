@@ -10,7 +10,7 @@ import live.page.web.system.db.Pipeliner;
 import live.page.web.content.posts.utils.ThreadsAggregator;
 import live.page.web.content.users.UsersAggregator;
 import live.page.web.utils.Fx;
-import live.page.web.system.db.LinkerAggregator;
+import live.page.web.system.db.tags.DbTagsLinker;
 import live.page.web.content.congrate.RatingsTools;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
@@ -125,7 +125,7 @@ public class PagesAggregator {
 				.put("logo", new Json("$concat", Arrays.asList(Settings.getCDNHttp() + "/files/", "$logo._id")))
 		));
 
-		pipeline.addAll(LinkerAggregator.getPipeline("text", grouper));
+		pipeline.addAll(DbTagsLinker.getPipeline("text", grouper));
 		//parents
 
 		pipeline.add(Aggregates.lookup("Pages", "parents", "_id", "parents"));
@@ -856,7 +856,7 @@ public class PagesAggregator {
 		}
 
 		@Override
-		public List<Bson> getUrlizifier(Aggregator grouper, String key) {
+		public List<Bson> getUrlDbTags(Aggregator grouper, String key) {
 			List<Bson> pipeline = new ArrayList<>();
 
 			pipeline.add(Aggregates.graphLookup("Pages", "$" + key + "._id", "parents.0", "_id", "breadcrumblinks", new GraphLookupOptions().depthField("depth").maxDepth(50)));

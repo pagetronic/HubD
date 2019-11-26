@@ -6,7 +6,7 @@ package live.page.web.content.posts.utils;
 import com.mongodb.client.model.*;
 import live.page.web.content.congrate.CoinsUtils;
 import live.page.web.system.db.Db;
-import live.page.web.system.db.ParentParser;
+import live.page.web.system.db.tags.DbTagsParser;
 import live.page.web.content.notices.Notifier;
 import live.page.web.system.servlet.utils.Antiflood;
 import live.page.web.system.sessions.Users;
@@ -48,7 +48,7 @@ public class DiscussPoster {
 			return postEdit(data, user, ip);
 		}
 
-		List<ParentParser> parents = data.getParents("parents");
+		List<DbTagsParser> parents = data.getParents("parents");
 		if (parents == null) {
 			parents = Arrays.asList(data.getParent("parent"));
 		}
@@ -104,7 +104,7 @@ public class DiscussPoster {
 		return response;
 	}
 
-	private static Json postPost(List<ParentParser> parents, Json data, Users user, String ip) {
+	private static Json postPost(List<DbTagsParser> parents, Json data, Users user, String ip) {
 		String lng = data.getString("lng", Settings.getLang(data.getString("domain")));
 		Date date = new Date();
 		Json response = new Json();
@@ -149,7 +149,7 @@ public class DiscussPoster {
 
 
 		boolean isReply = true;
-		for (ParentParser parent : parents) {
+		for (DbTagsParser parent : parents) {
 			post.add("parents", parent.toString());
 			if (parent.getCollection().equals("Forums")) {
 				isReply = false;
@@ -195,7 +195,7 @@ public class DiscussPoster {
 			}
 			post = Db.findOneAndUpdate("Posts", Filters.eq("_id", previous.getId()), update, new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 
-			for (ParentParser parent : parents) {
+			for (DbTagsParser parent : parents) {
 				Db.updateOne(parent.getCollection(), Filters.eq("_id", parent.getId()), new Json().put("$set", new Json("update", date)));
 			}
 
@@ -208,7 +208,7 @@ public class DiscussPoster {
 				}
 
 
-				for (ParentParser parent : parents) {
+				for (DbTagsParser parent : parents) {
 
 					Db.updateOne(parent.getCollection(), Filters.eq("_id", parent.getId()),
 							new Json()
@@ -235,7 +235,7 @@ public class DiscussPoster {
 					.put("url", post.getString("url")).put("user", post.getJson("user"));
 
 			List<String> parents_clean = new ArrayList<>();
-			for (ParentParser parent : parents) {
+			for (DbTagsParser parent : parents) {
 				SocketPusher.send(parent.getCollection().toLowerCase() + "/" + parent.getId(), push_infos);
 				parents_clean.add(parent.toString());
 
@@ -401,7 +401,7 @@ public class DiscussPoster {
 				SocketPusher.send("posts/" + post.getString("thread"), new Json("comments", comment));
 
 
-				for (ParentParser parent : post.getParents("parents")) {
+				for (DbTagsParser parent : post.getParents("parents")) {
 					if (parent.getCollection().equals("Posts")) {
 						Json thread = ThreadsAggregator.getSimplePost(parent.getId());
 						if (thread != null) {
@@ -487,7 +487,7 @@ public class DiscussPoster {
 			}
 			Json post = Db.findOneAndUpdate("Posts", Filters.and(filter), update, new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 			if (post != null) {
-				for (ParentParser parent : post.getParents("parents")) {
+				for (DbTagsParser parent : post.getParents("parents")) {
 					Json update_ = new Json();
 					Json last_ = Db.find("Posts", Filters.and(Filters.eq("parents", parent.toString()), Filters.exists("remove", false))).sort(Sorts.descending("date")).first();
 					Json last = new Json();

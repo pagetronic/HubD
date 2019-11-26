@@ -1,12 +1,16 @@
 /*
  * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.system.db;
+package live.page.web.system.db.tags;
 
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.UnwindOptions;
 import live.page.web.system.Settings;
+import live.page.web.system.db.Aggregator;
+import live.page.web.system.db.Db;
+import live.page.web.system.db.Pipeliner;
+import live.page.web.system.db.tags.DbTagsUtils;
 import live.page.web.system.json.Json;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
@@ -16,13 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class LinkerAggregator {
+public class DbTagsLinker {
+
 	public static List<Bson> getPipeline(String text, Aggregator grouper) {
 
 		List<Bson> pipeline = new ArrayList<>();
 
 		pipeline.add(Aggregates.project(grouper.getProjection().put("links", new ArrayList<>())));
-		Map<String, Class<? extends Pipeliner>> pipeliner = ObjsUtils.getSearchers();
+		Map<String, Class<? extends Pipeliner>> pipeliner = DbTagsUtils.getSearchers();
 
 		for (String parent : Settings.VALID_PARENTS) {
 
@@ -49,7 +54,7 @@ public class LinkerAggregator {
 
 				pipeline.add(Aggregates.unwind("$links" + parent, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
-				pipeline.addAll(ObjsUtils.getConstructor(parent.toLowerCase()).getUrlizifier(grouper.clone()
+				pipeline.addAll(DbTagsUtils.getConstructor(parent.toLowerCase()).getUrlDbTags(grouper.clone()
 						.addKey("links_order").addKey("links" + parent), "links" + parent));
 
 				pipeline.add(Aggregates.project(grouper.getProjection()

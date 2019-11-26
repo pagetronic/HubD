@@ -7,13 +7,13 @@ import com.mongodb.client.model.*;
 import live.page.web.blobs.BlobsDb;
 import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
-import live.page.web.system.db.ParentParser;
+import live.page.web.system.db.tags.DbTagsParser;
 import live.page.web.system.db.Pipeliner;
 import live.page.web.content.pages.PagesAggregator;
 import live.page.web.system.sessions.Users;
 import live.page.web.content.users.UsersAggregator;
 import live.page.web.utils.Hidder;
-import live.page.web.system.db.LinkerAggregator;
+import live.page.web.system.db.tags.DbTagsLinker;
 import live.page.web.content.congrate.RatingsTools;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
@@ -85,7 +85,7 @@ public class ThreadsAggregator {
 		pipeline.addAll(ForumsAggregator.getMenuPipeline(grouper));
 
 
-		pipeline.addAll(LinkerAggregator.getPipeline("text", grouper));
+		pipeline.addAll(DbTagsLinker.getPipeline("text", grouper));
 
 		pipeline.add(Aggregates.project(grouper.getProjection().put("forums", "$parents").remove("parents")));
 
@@ -180,15 +180,15 @@ public class ThreadsAggregator {
 		if (post == null) {
 			return null;
 		}
-		ParentParser thread = null;
-		for (ParentParser parent : post.getParents("parents")) {
+		DbTagsParser thread = null;
+		for (DbTagsParser parent : post.getParents("parents")) {
 			if (parent.getCollection().equals("Posts")) {
 				thread = parent;
 			}
 		}
 
 		if (thread == null) {
-			thread = new ParentParser("Posts", post.getId());
+			thread = new DbTagsParser("Posts", post.getId());
 		}
 
 		int limitbefore = number_posts - (number_posts / 3);
@@ -359,7 +359,7 @@ public class ThreadsAggregator {
 		));
 
 		pipeline.addAll(BlobsDb.getBlobsPipeline(grouper));
-		pipeline.addAll(LinkerAggregator.getPipeline("text", grouper));
+		pipeline.addAll(DbTagsLinker.getPipeline("text", grouper));
 
 
 		pipeline.addAll(getCommentsPipeline(grouper, remove));
@@ -677,7 +677,7 @@ public class ThreadsAggregator {
 
 		pipeline.addAll(UsersAggregator.getUserPipeline(grouper, false));
 
-		pipeline.addAll(LinkerAggregator.getPipeline("text", grouper));
+		pipeline.addAll(DbTagsLinker.getPipeline("text", grouper));
 
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
@@ -795,7 +795,7 @@ public class ThreadsAggregator {
 		}
 
 		@Override
-		public List<Bson> getUrlizifier(Aggregator grouper, String key) {
+		public List<Bson> getUrlDbTags(Aggregator grouper, String key) {
 			List<Bson> pipeline = new ArrayList<>();
 
 			pipeline.add(Aggregates.project(grouper.getProjection()

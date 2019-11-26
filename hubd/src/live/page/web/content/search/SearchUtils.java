@@ -7,7 +7,7 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import live.page.web.system.db.Pipeliner;
 import live.page.web.utils.Fx;
-import live.page.web.system.db.ObjsUtils;
+import live.page.web.system.db.tags.DbTagsUtils;
 import live.page.web.system.json.Json;
 import live.page.web.system.db.paginer.Paginer;
 import live.page.web.system.db.paginer.PolyPaginer;
@@ -24,12 +24,12 @@ public class SearchUtils {
 	public static Json search(String query, String lng, String type, String paging_str) {
 		try {
 			if (type != null && !type.equals("")) {
-				if (!ObjsUtils.getSearchers().containsKey(type)) {
+				if (!DbTagsUtils.getSearchers().containsKey(type)) {
 					return null;
 				}
 				return SearchUtils.searchOne(query, lng, type, paging_str);
 			}
-			return SearchUtils.searchAll(query, lng, paging_str, ObjsUtils.getSearchers().keySet());
+			return SearchUtils.searchAll(query, lng, paging_str, DbTagsUtils.getSearchers().keySet());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,9 +47,9 @@ public class SearchUtils {
 
 		pipeline.add(Aggregates.project(new Json("_id", false).put("empty", true)));
 
-		for (String collection : ObjsUtils.getSearchers().keySet()) {
+		for (String collection : DbTagsUtils.getSearchers().keySet()) {
 
-			Pipeliner searcher = ObjsUtils.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
+			Pipeliner searcher = DbTagsUtils.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
 			pipeline.add(Aggregates.lookup(Fx.ucfirst(collection), searcher
 							.addFilter(Filters.text(query))
 							.getSearcher(),
@@ -58,7 +58,7 @@ public class SearchUtils {
 
 
 		List<String> keys_exps = new ArrayList<>();
-		for (String key : ObjsUtils.getSearchers().keySet()) {
+		for (String key : DbTagsUtils.getSearchers().keySet()) {
 			keys_exps.add("$" + key);
 		}
 		pipeline.add(Aggregates.project(new Json("result", new Json("$concatArrays", keys_exps))));
@@ -76,7 +76,7 @@ public class SearchUtils {
 
 	private static Json searchOne(String query, String lng, String collection, String paging_str) throws Exception {
 		Paginer paginer = new Paginer(paging_str, "-score", limit);
-		Pipeliner searcher = ObjsUtils.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
+		Pipeliner searcher = DbTagsUtils.getSearchers().get(collection).getConstructor(String.class, String.class, Paginer.class).newInstance(collection, lng, paginer);
 		return paginer.getResult(Fx.ucfirst(collection), searcher.addFilter(Filters.text(query)).setLng(lng).getSearcher());
 	}
 

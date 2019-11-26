@@ -1,22 +1,22 @@
 /*
  * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.system.db;
+package live.page.web.system.db.tags;
 
 import live.page.web.system.Settings;
 
-public class ParentParser {
+public class DbTagsParser {
 	private String parent;
 	private String collection;
 	private String _id;
 
-	public ParentParser(String collection, String _id) {
+	public DbTagsParser(String collection, String _id) {
 		this.collection = collection;
 		this._id = _id;
 
 	}
 
-	public ParentParser(String parent) {
+	public DbTagsParser(String parent) {
 		this.parent = parent;
 		if (parent != null) {
 			try {

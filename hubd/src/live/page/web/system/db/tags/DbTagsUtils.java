@@ -1,10 +1,11 @@
 /*
  * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.system.db;
+package live.page.web.system.db.tags;
 
 import live.page.web.content.pages.PagesAggregator;
 import live.page.web.content.posts.utils.ThreadsAggregator;
+import live.page.web.system.db.Pipeliner;
 import live.page.web.system.json.Json;
 import live.page.web.system.db.paginer.Paginer;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ObjsUtils {
+public class DbTagsUtils {
 
 	private static final Map<String, Class<? extends Pipeliner>> searchers = new HashMap<>();
 

@@ -4,7 +4,7 @@
 package live.page.web.system.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.page.web.system.db.ParentParser;
+import live.page.web.system.db.tags.DbTagsParser;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
 import org.bson.BsonDocument;
@@ -480,19 +480,19 @@ public class Json implements Map<String, Object>, Serializable, Bson {
 
 	}
 
-	public ParentParser getParent(String key) {
+	public DbTagsParser getParent(String key) {
 		try {
-			return new ParentParser(getString(key));
+			return new DbTagsParser(getString(key));
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	public List<ParentParser> getParents(String key) {
+	public List<DbTagsParser> getParents(String key) {
 		try {
-			List<ParentParser> parents = new ArrayList<>();
+			List<DbTagsParser> parents = new ArrayList<>();
 			for (String parent : getList(key)) {
-				parents.add(new ParentParser(parent));
+				parents.add(new DbTagsParser(parent));
 			}
 			return parents;
 		} catch (Exception e) {
