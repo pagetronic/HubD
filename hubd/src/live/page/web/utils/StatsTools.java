@@ -63,12 +63,12 @@ public class StatsTools implements ServletContextListener {
 		Calendar cl = Calendar.getInstance();
 		cl.add(Calendar.SECOND, -10);
 		Date date = cl.getTime();
-		cl.add(Calendar.MINUTE, -10);
+		cl.add(Calendar.MINUTE, -1);
 		Date gone = cl.getTime();
 
 		pipeline.add(Aggregates.match(Filters.and(
 				Filters.eq("gone", null),
-				Filters.gt("date", gone),
+				Filters.gt("alive", gone),
 				Filters.or(
 						Filters.gt("alive", date),
 						Filters.gt("date", date)
