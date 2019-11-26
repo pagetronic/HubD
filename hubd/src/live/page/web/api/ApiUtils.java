@@ -3,45 +3,74 @@
  */
 package live.page.web.api;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.*;
+import com.mongodb.client.result.UpdateResult;
 import live.page.web.system.db.Db;
+import live.page.web.system.json.Json;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
-import live.page.web.system.json.Json;
 import org.bson.conversions.Bson;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class ApiUtils {
-	public static Json removeAccess(String acc_id, Users user) {
-		Json accs = Db.find("ApiAccess", Filters.and(Filters.eq("_id", acc_id), Filters.eq("user", user.getId()))).first();
-		if (accs != null) {
-			Db.deleteOne("ApiAccess", accs);
-			return new Json("ok", true);
-		}
 
-		return new Json("ok", false);
+	/**
+	 * remove access from OAuth service
+	 *
+	 * @param id   access ID
+	 * @param user granted removal
+	 * @return Api response ok=true|false
+	 */
+	public static Json removeAccess(String id, Users user) {
+		return new Json("ok", Db.deleteOne("ApiAccess",
+				Filters.and(
+						Filters.eq("_id", id),
+						Filters.eq("user", user.getId())
+				)
+		));
+
 	}
 
-	public static Json refreshAccess(String acc_id, Users user) {
-		Json accs = Db.findOneAndUpdate("ApiAccess", Filters.and(Filters.eq("_id", acc_id), Filters.eq("user", user.getId())),
-				new Json("$set", new Json("access_token", Fx.getSecureKey()).put("refresh_token", Fx.getSecureKey()).put("expire", new Date(System.currentTimeMillis() + 3600000))),
-				new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
-		if (accs != null) {
-			return new Json("ok", true);
-		}
+	/**
+	 * refresh accessToken from OAuth service
+	 *
+	 * @param id   access ID to refresh
+	 * @param user granted refreshment
+	 * @return Api response ok=true|false
+	 */
+	public static Json refreshAccess(String id, Users user) {
 
-		return new Json("ok", false);
+		return new Json("ok", Db.updateOne("ApiAccess",
+				Filters.and(
+						Filters.eq("_id", id),
+						Filters.eq("user", user.getId())
+				),
+				new Json("$set", new Json("access_token", Fx.getSecureKey())
+						.put("refresh_token", Fx.getSecureKey())
+						.put("expire", new Date(System.currentTimeMillis() + 3600000))
+				)
+		));
+
 	}
 
+	/**
+	 * Create OAuth application
+	 *
+	 * @param user         granted creation
+	 * @param name         of the app
+	 * @param redirect_uri where redirection is authorized
+	 * @param scope        identification for authorization of management
+	 * @param auto         is come from an automatic request ?
+	 * @return the new Application informations or the same if an apps has been already created on automatic request
+	 */
 	public static Json createApps(Users user, String name, String redirect_uri, String scope, boolean auto) {
 		List<String> scopes = parseScope(scope);
-
 		Json app = null;
 		if (auto) {
 			List<Bson> filters = new ArrayList<>();
@@ -80,11 +109,18 @@ public class ApiUtils {
 		return new Json("ok", true).put("client_id", app.getString("client_id")).put("client_secret", app.getString("client_secret"));
 	}
 
-	public static Json getAccess(String app_id, Users user) {
+	/**
+	 * Generate an OAuth access for an user and an application
+	 *
+	 * @param id   of the application to connect the access
+	 * @param user granted access
+	 * @return
+	 */
+	public static Json getAccess(String id, Users user) {
 
 		Json app = null;
-		if (app_id != null) {
-			app = Db.find("ApiApps", Filters.and(Filters.eq("_id", app_id), Filters.eq("user", user.getId()))).first();
+		if (id != null) {
+			app = Db.find("ApiApps", Filters.and(Filters.eq("_id", id), Filters.eq("user", user.getId()))).first();
 		}
 		if (app == null) {
 			return new Json("error", "NO_APPS");
@@ -109,53 +145,67 @@ public class ApiUtils {
 		return new Json("ok", true).put("id", access.getId());
 	}
 
-	public static Json renameApps(String app_id, String name, Users user) {
-		Json app = null;
-		if (app_id != null) {
-			app = Db.find("ApiApps", Filters.and(Filters.eq("_id", app_id), Filters.eq("user", user.getId()))).first();
-		}
-		if (app == null) {
-			return new Json("error", "no apps");
+	/**
+	 * Rename an OAuth application
+	 *
+	 * @param id      of the application
+	 * @param newname of the application
+	 * @param user    granted the rename
+	 * @return Api response rename true|false and cleaned name
+	 */
+	public static Json renameApps(String id, String newname, Users user) {
 
-		}
-		if (name != null) {
-			name = Jsoup.clean(name, new Whitelist());
-			if (!name.equals("")) {
-				app.put("name", name);
-				Db.save("ApiApps", app);
-				return new Json("ok", true).put("name", app.getString("name"));
-			}
+		newname = Jsoup.clean(newname, new Whitelist());
+
+		UpdateResult rez = Db.updateOne("ApiApps",
+				Filters.and(
+						Filters.eq("_id", id), Filters.eq("user", user.getId())
+				)
+				, new Json("$set", new Json("name", newname))
+		);
+
+		if (rez.getMatchedCount() > 0) {
+			return new Json("ok", true).put("name", newname);
 		}
 		return new Json("ok", false);
 	}
 
-	public static Json deleteApps(String app_id, Users user) {
-		Json app = null;
-		if (app_id != null) {
-			app = Db.find("ApiApps", Filters.and(Filters.eq("_id", app_id), Filters.eq("user", user.getId()))).first();
-		}
-		if (app == null) {
-			return new Json("error", "no apps");
+	/**
+	 * Delete an OAuth application
+	 *
+	 * @param id   of the application
+	 * @param user granted the deletion
+	 * @return Api response deleted true or error
+	 */
+	public static Json deleteApps(String id, Users user) {
 
+		Json app = Db.find("ApiApps", Filters.and(Filters.eq("_id", id), Filters.eq("user", user.getId()))).first();
+		if (app == null) {
+			return new Json("error", "NO_APPS");
 		}
-		app.put("client_id_before", app.getString("client_id"));
-		app.put("client_secret_before", app.getString("client_secret"));
+
+		//Backup
+		app.put("client_id_before", app.getString("client_id")).remove("client_id");
+		app.put("client_secret_before", app.getString("client_secret")).remove("client_secret");
 		app.put("removed", true);
+
 		Db.deleteMany("ApiAccess", Filters.eq("client_id", app.getString("client_id")));
-		app.remove("client_id");
-		app.remove("client_secret");
 		Db.save("ApiApps", app);
+
 		return new Json("ok", true);
 	}
 
-	public static Json changeSecret(String app_id, Users user) {
-		Json app = null;
-		if (app_id != null) {
-			app = Db.find("ApiApps", Filters.and(Filters.eq("_id", app_id), Filters.eq("user", user.getId()))).first();
-		}
+	/**
+	 * Change OAuth application client secret
+	 *
+	 * @param id   of the application
+	 * @param user granted the change
+	 * @return Api response changing true and new client secret or error
+	 */
+	public static Json changeSecret(String id, Users user) {
+		Json app = Db.find("ApiApps", Filters.and(Filters.eq("_id", id), Filters.eq("user", user.getId()))).first();
 		if (app == null) {
-			return new Json("error", "no apps");
-
+			return new Json("error", "NO_APPS");
 		}
 		app.put("client_secret_before", app.getString("client_secret"));
 		app.put("client_secret", Fx.getSecureKey().substring(0, 12) + Fx.getSecureKey());
@@ -163,10 +213,19 @@ public class ApiUtils {
 		return new Json("ok", true).put("client_secret", app.get("client_secret"));
 	}
 
-	public static Json redirectUri(String appid, String type, String redirect_uri, Users user) {
+	/**
+	 * Add or remove a redirection uri to an OAuth Application
+	 *
+	 * @param id           of the application
+	 * @param type         add or remove?
+	 * @param redirect_uri to add or remove
+	 * @param user         granted the change
+	 * @return Api response changing true|false
+	 */
+	public static Json redirectUri(String id, String type, String redirect_uri, Users user) {
 
 		if (type != null && redirect_uri != null) {
-			Json accs = Db.findOneAndUpdate("ApiApps", Filters.and(Filters.eq("_id", appid), Filters.eq("user", user.getId())),
+			Json accs = Db.findOneAndUpdate("ApiApps", Filters.and(Filters.eq("_id", id), Filters.eq("user", user.getId())),
 					new Json(type.equals("add") ? "$push" : "$pull", new Json("redirect_uri", redirect_uri)),
 					new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 
@@ -179,24 +238,40 @@ public class ApiUtils {
 
 	}
 
-	public static Json setScopes(String appid, List<String> scopes, Users user) {
+	/**
+	 * Update Scopes from an OAuth application
+	 *
+	 * @param id     of the application
+	 * @param scopes to set
+	 * @param user   granted the change
+	 * @return Api response changing true|false
+	 */
+	public static Json setScopes(String id, List<String> scopes, Users user) {
 		if (scopes != null && Scopes.scopes.containsAll(scopes)) {
 			scopes = Scopes.sort(scopes);
-			Json accs = Db.findOneAndUpdate("ApiApps", Filters.and(Filters.eq("_id", appid), Filters.eq("user", user.getId())),
+			Json accs = Db.findOneAndUpdate("ApiApps", Filters.and(Filters.eq("_id", id), Filters.eq("user", user.getId())),
 					new Json("$set", new Json("scopes", scopes)),
 					new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 
 			if (accs != null) {
 				return new Json("ok", true);
 			}
+		} else if (!Scopes.scopes.containsAll(scopes)) {
+			return new Json("ok", false).put("error", "UNKNOWN_SCOP");
 		}
 
 		return new Json("ok", false);
 
 	}
 
-	public static Object getAccesses(Users user) {
-
+	/**
+	 * Get OAuth access authorized by user
+	 *
+	 * @param user user need his accesses
+	 * @return Iterable DB
+	 */
+	//TODO pagination
+	public static AggregateIterable<Json> getAccesses(Users user) {
 
 		List<Bson> pipeline = new ArrayList<>();
 
@@ -210,6 +285,12 @@ public class ApiUtils {
 
 	}
 
+	/**
+	 * URL scopes parser
+	 *
+	 * @param scope_str dot separate Scopes
+	 * @return clean scope list
+	 */
 	public static List<String> parseScope(String scope_str) {
 		if (scope_str == null || scope_str.equals("")) {
 			return null;
@@ -224,6 +305,14 @@ public class ApiUtils {
 		return scopes;
 	}
 
+	/**
+	 * Verify if an OAuth application is known and all is correct
+	 *
+	 * @param client_id     of the app
+	 * @param client_secret of the app
+	 * @param scope         string dot separated of the app
+	 * @return infos about the app or error if the verification fail
+	 */
 	public static Json verifyApp(String client_id, String client_secret, String scope) {
 		Json rez = new Json();
 		Json app = Db.find("ApiApps", Filters.and(
@@ -240,32 +329,4 @@ public class ApiUtils {
 		return rez;
 	}
 
-	public static class Scopes {
-
-		public final static List<String> scopes = new ArrayList<>();
-
-		static {
-			scopes.addAll(
-					Arrays.asList(
-							"email",
-							"pm",
-							"threads",
-							"accounts"
-					)
-			);
-
-
-		}
-
-		public static List<String> sort(List<String> scopes) {
-			List<String> sorted = new ArrayList<>();
-			scopes.forEach(scope -> {
-				if (scopes.contains(scope)) {
-					sorted.add(scope);
-				}
-			});
-			return sorted;
-		}
-
-	}
 }

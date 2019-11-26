@@ -39,7 +39,7 @@ public class AuthorizeServlet extends HttpServlet {
 		try {
 			OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(req);
 
-			List<String> scopes = ApiUtils.Scopes.sort((req.getParameterValues("scope").length > 1) ? new ArrayList<>(Arrays.asList(req.getParameterValues("scope"))) : ApiUtils.parseScope(req.getString("scope", "")));
+			List<String> scopes = Scopes.sort((req.getParameterValues("scope").length > 1) ? new ArrayList<>(Arrays.asList(req.getParameterValues("scope"))) : ApiUtils.parseScope(req.getString("scope", "")));
 			Json app = null;
 
 			if (oauthRequest.getClientId() != null) {

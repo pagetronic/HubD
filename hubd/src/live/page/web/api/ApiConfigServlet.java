@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 
-
+/**
+ * Servlet who distro "apps" and "access" using OAuth functions
+ */
 @WebServlet(name = "API Configuration", urlPatterns = {"/api/apps", "/api/access"})
 public class ApiConfigServlet extends HttpServlet {
 
@@ -64,7 +66,7 @@ public class ApiConfigServlet extends HttpServlet {
 			req.setAttribute("api_active", "apps");
 			req.setTitle(Fx.ucfirst(Language.get("API_APPS", req.getLng())));
 			req.setAttribute("apps", Db.find("ApiApps", Filters.and(Filters.eq("user", user.getId()), Filters.ne("client_id", null))).sort(Sorts.descending("date")));
-			req.setAttribute("scopes", ApiUtils.Scopes.scopes);
+			req.setAttribute("scopes", Scopes.scopes);
 			resp.sendTemplate(req, "/api/apps.html");
 
 		} else if (req.getRequestURI().equals("/api/access")) {
