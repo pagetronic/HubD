@@ -19,8 +19,17 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.zip.Deflater;
 
+/**
+ * Brotli and Gzip compression tools
+ */
 public class Compressors {
 
+	/**
+	 * Brotli algorithm compression
+	 *
+	 * @param data to compress
+	 * @return byte array of compressed data
+	 */
 	public static byte[] brotliCompressor(byte[] data) {
 		if (data == null) {
 			return null;
@@ -32,10 +41,17 @@ public class Compressors {
 			int outLength = compressor.compress(Brotli.DEFAULT_PARAMETER, ByteBuffer.wrap(data), compressedBuf);
 			return java.util.Arrays.copyOfRange(compressedBuf.array(), 0, outLength);
 		} catch (BrotliException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 
+	/**
+	 * Gzip algorithm compression
+	 *
+	 * @param data to compress
+	 * @return byte array of compressed data
+	 */
 	public static byte[] gzipCompressor(byte[] data) {
 		if (data == null) {
 			return null;
@@ -54,18 +70,24 @@ public class Compressors {
 		}
 	}
 
-	public static String compressCss(String uiCss) throws IOException {
+	/**
+	 * yuiCompressor compression algorithm
+	 *
+	 * @param css cascading style sheets content to compress
+	 * @return String of compressed css
+	 */
+	public static String compressCss(String css) throws IOException {
 		File tempfile = File.createTempFile("uiCompress", ".css");
 		tempfile.deleteOnExit();
 		FileReader reader = new FileReader(tempfile);
 		StringWriter writer = new StringWriter();
 		try {
-			FileUtils.write(tempfile, uiCss);
+			FileUtils.write(tempfile, css);
 			new CssCompressor(reader).compress(writer, Integer.MAX_VALUE);
 			return writer.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return uiCss;
+			return css;
 		} finally {
 			reader.close();
 			writer.close();
@@ -73,18 +95,24 @@ public class Compressors {
 		}
 	}
 
-	public static String compressJs(String uiJs) throws IOException {
+	/**
+	 * yuiCompressor compression algorithm
+	 *
+	 * @param js JavaScript content to compress
+	 * @return String of compressed JavaScript
+	 */
+	public static String compressJs(String js) throws IOException {
 		File tempfile = File.createTempFile("uiCompress", ".js");
 		tempfile.deleteOnExit();
 		FileReader freader = new FileReader(tempfile);
 		StringWriter writer = new StringWriter();
 		try {
-			FileUtils.write(tempfile, uiJs);
+			FileUtils.write(tempfile, js);
 			new JavaScriptCompressor(freader, new YuiCompressorErrorReporter()).compress(writer, -1, false, true, false, true);
 			return writer.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return uiJs;
+			return js;
 		} finally {
 			freader.close();
 			writer.close();
@@ -92,6 +120,9 @@ public class Compressors {
 		}
 	}
 
+	/**
+	 * YUI Error reported, needed to verify good compression
+	 */
 	public static class YuiCompressorErrorReporter implements ErrorReporter {
 
 		@Override
