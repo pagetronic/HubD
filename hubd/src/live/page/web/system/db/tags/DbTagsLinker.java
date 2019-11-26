@@ -101,6 +101,13 @@ public class DbTagsLinker {
 		return pipeline;
 	}
 
+	/**
+	 * Make clickable DbTags
+	 *
+	 * @param text  where replace tags
+	 * @param links to replace
+	 * @return parsed string
+	 */
 	public static String parse(String text, List<Json> links) {
 		if (links == null || links.size() == 0) {
 			return text;
