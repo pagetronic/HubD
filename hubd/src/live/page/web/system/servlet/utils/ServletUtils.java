@@ -3,10 +3,10 @@
  */
 package live.page.web.system.servlet.utils;
 
-import live.page.web.utils.db.Db;
+import live.page.web.system.db.Db;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.utils.Fx;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletRequest;

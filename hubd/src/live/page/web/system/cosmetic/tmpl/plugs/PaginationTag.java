@@ -4,8 +4,8 @@
 package live.page.web.system.cosmetic.tmpl.plugs;
 
 import live.page.web.utils.Fx;
-import live.page.web.utils.json.Json;
-import live.page.web.utils.db.paginer.Paginer;
+import live.page.web.system.json.Json;
+import live.page.web.system.db.paginer.Paginer;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;

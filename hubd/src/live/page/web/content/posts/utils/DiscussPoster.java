@@ -4,9 +4,9 @@
 package live.page.web.content.posts.utils;
 
 import com.mongodb.client.model.*;
-import live.page.web.content.users.coins.CoinsUtils;
-import live.page.web.utils.db.Db;
-import live.page.web.utils.db.ParentParser;
+import live.page.web.content.congrate.CoinsUtils;
+import live.page.web.system.db.Db;
+import live.page.web.system.db.ParentParser;
 import live.page.web.content.notices.Notifier;
 import live.page.web.system.servlet.utils.Antiflood;
 import live.page.web.system.sessions.Users;
@@ -14,8 +14,8 @@ import live.page.web.system.socket.SocketPusher;
 import live.page.web.system.cosmetic.tmpl.BaseTemplate;
 import live.page.web.content.users.UsersAggregator;
 import live.page.web.utils.Fx;
-import live.page.web.utils.Settings;
-import live.page.web.utils.json.Json;
+import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
 import org.bson.conversions.Bson;
 
 import java.util.*;

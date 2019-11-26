@@ -6,7 +6,7 @@ package live.page.web.system.servlet.bases;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

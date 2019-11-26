@@ -7,7 +7,7 @@ import live.page.web.system.servlet.BaseServlet;
 import live.page.web.system.servlet.wrapper.BaseServletRequest;
 import live.page.web.system.servlet.wrapper.BaseServletResponse;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

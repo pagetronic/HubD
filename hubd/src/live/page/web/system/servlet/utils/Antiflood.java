@@ -3,7 +3,7 @@
  */
 package live.page.web.system.servlet.utils;
 
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

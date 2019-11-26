@@ -3,6 +3,7 @@
  */
 package live.page.web.utils;
 
+import live.page.web.system.Settings;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.lang3.RandomStringUtils;

@@ -5,12 +5,12 @@ package live.page.web.content.search;
 
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import live.page.web.utils.db.Pipeliner;
+import live.page.web.system.db.Pipeliner;
 import live.page.web.utils.Fx;
-import live.page.web.utils.db.ObjsUtils;
-import live.page.web.utils.json.Json;
-import live.page.web.utils.db.paginer.Paginer;
-import live.page.web.utils.db.paginer.PolyPaginer;
+import live.page.web.system.db.ObjsUtils;
+import live.page.web.system.json.Json;
+import live.page.web.system.db.paginer.Paginer;
+import live.page.web.system.db.paginer.PolyPaginer;
 import org.bson.conversions.Bson;
 
 import java.text.Normalizer;

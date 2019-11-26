@@ -8,7 +8,7 @@ import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import live.page.web.utils.Fx;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

@@ -1,18 +1,18 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.db.paginer;
+package live.page.web.system.db.paginer;
 
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
-import live.page.web.utils.db.Db;
-import live.page.web.utils.db.IndexBuilder;
+import live.page.web.system.db.Db;
+import live.page.web.system.db.IndexBuilder;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
-import live.page.web.utils.json.Json;
-import live.page.web.utils.langs.Language;
+import live.page.web.system.json.Json;
+import live.page.web.system.Language;
 import live.page.web.system.cosmetic.svg.SVGTemplate;
 import org.bson.conversions.Bson;
 

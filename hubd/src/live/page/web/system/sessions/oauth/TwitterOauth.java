@@ -4,8 +4,8 @@
 package live.page.web.system.sessions.oauth;
 
 import live.page.web.content.users.UsersUtils;
-import live.page.web.utils.Settings;
-import live.page.web.utils.json.Json;
+import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;

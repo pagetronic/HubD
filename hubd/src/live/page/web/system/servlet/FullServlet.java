@@ -11,7 +11,7 @@ import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.system.sessions.BaseCookie;
 import live.page.web.utils.Fx;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

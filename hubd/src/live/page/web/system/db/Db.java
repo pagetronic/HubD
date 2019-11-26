@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.db;
+package live.page.web.system.db;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
@@ -12,9 +12,9 @@ import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import live.page.web.utils.Fx;
-import live.page.web.utils.Settings;
-import live.page.web.utils.json.Json;
-import live.page.web.utils.json.JsonProvider;
+import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
+import live.page.web.system.json.JsonProvider;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;

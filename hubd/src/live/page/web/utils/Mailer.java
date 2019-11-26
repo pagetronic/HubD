@@ -3,7 +3,8 @@
  */
 package live.page.web.utils;
 
-import live.page.web.utils.langs.Language;
+import live.page.web.system.Language;
+import live.page.web.system.Settings;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

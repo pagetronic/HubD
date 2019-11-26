@@ -3,7 +3,7 @@
  */
 package live.page.web.system.sessions.oauth;
 
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 public enum OauthDatas {
 

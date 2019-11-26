@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web;
+package live.page.web.content;
 
 import com.mongodb.client.model.Filters;
 import live.page.web.content.pages.PagesAggregator;
@@ -9,8 +9,8 @@ import live.page.web.content.posts.utils.ThreadsAggregator;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.utils.Settings;
-import live.page.web.utils.langs.Language;
+import live.page.web.system.Settings;
+import live.page.web.system.Language;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;

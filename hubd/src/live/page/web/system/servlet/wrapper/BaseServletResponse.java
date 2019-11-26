@@ -3,7 +3,7 @@
  */
 package live.page.web.system.servlet.wrapper;
 
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;

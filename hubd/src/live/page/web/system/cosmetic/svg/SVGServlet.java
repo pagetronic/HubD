@@ -10,7 +10,7 @@ import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.system.cosmetic.UiStyleServlet;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 import live.page.web.system.cosmetic.Compressors;
 import org.apache.commons.io.FileUtils;
 

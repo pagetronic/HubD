@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.utils.db;
+package live.page.web.system.db;
 
 import live.page.web.content.pages.PagesAggregator;
 import live.page.web.content.posts.utils.ThreadsAggregator;
-import live.page.web.utils.json.Json;
-import live.page.web.utils.db.paginer.Paginer;
+import live.page.web.system.json.Json;
+import live.page.web.system.db.paginer.Paginer;
 
 import java.util.HashMap;
 import java.util.List;

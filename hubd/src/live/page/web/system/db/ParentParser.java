@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.utils.db;
+package live.page.web.system.db;
 
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 public class ParentParser {
 	private String parent;

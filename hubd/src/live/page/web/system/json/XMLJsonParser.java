@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.json;
+package live.page.web.system.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

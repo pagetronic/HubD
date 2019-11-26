@@ -4,7 +4,7 @@
 package live.page.web.system.cosmetic.tmpl.plugs;
 
 import live.page.web.utils.Fx;
-import live.page.web.utils.langs.Language;
+import live.page.web.system.Language;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;

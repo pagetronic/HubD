@@ -1,13 +1,13 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.content.users.coins;
+package live.page.web.content.congrate;
 
 import com.mongodb.client.model.Filters;
-import live.page.web.utils.db.Db;
-import live.page.web.utils.db.ParentParser;
+import live.page.web.system.db.Db;
+import live.page.web.system.db.ParentParser;
 import live.page.web.system.socket.SocketPusher;
-import live.page.web.utils.json.Json;
+import live.page.web.system.json.Json;
 
 import java.util.Date;
 

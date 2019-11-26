@@ -4,9 +4,9 @@
 package live.page.web.system.cosmetic.tmpl.parsers;
 
 import live.page.web.utils.Fx;
-import live.page.web.utils.db.ObjsUtils;
-import live.page.web.utils.Settings;
-import live.page.web.utils.json.Json;
+import live.page.web.system.db.ObjsUtils;
+import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;

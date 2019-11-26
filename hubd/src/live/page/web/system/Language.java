@@ -1,11 +1,10 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.langs;
+package live.page.web.system;
 
 import live.page.web.utils.Fx;
-import live.page.web.utils.Settings;
-import live.page.web.utils.json.Json;
+import live.page.web.system.json.Json;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

@@ -6,11 +6,11 @@ package live.page.web.content.profile;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.UpdateResult;
-import live.page.web.utils.db.Db;
+import live.page.web.system.db.Db;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.utils.Settings;
-import live.page.web.utils.json.Json;
+import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;

@@ -1,9 +1,9 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.utils.json;
+package live.page.web.system.json;
 
-import live.page.web.utils.db.Db;
+import live.page.web.system.db.Db;
 import org.bson.*;
 import org.bson.codecs.*;
 import org.bson.codecs.configuration.CodecProvider;

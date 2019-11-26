@@ -1,17 +1,17 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.content;
+package live.page.web.content.congrate;
 
 import com.mongodb.client.model.*;
-import live.page.web.utils.db.Aggregator;
-import live.page.web.utils.db.Db;
+import live.page.web.system.db.Aggregator;
+import live.page.web.system.db.Db;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.ServletUtils;
 import live.page.web.system.servlet.wrapper.ApiServletRequest;
 import live.page.web.system.servlet.wrapper.ApiServletResponse;
 import live.page.web.system.sessions.Users;
-import live.page.web.utils.json.Json;
+import live.page.web.system.json.Json;
 import org.bson.conversions.Bson;
 
 import javax.servlet.annotation.WebServlet;

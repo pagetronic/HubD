@@ -7,7 +7,7 @@ import live.page.web.content.posts.utils.ForumsAggregator;
 import live.page.web.system.servlet.utils.LogsUtils;
 import live.page.web.system.servlet.utils.ServletUtils;
 import live.page.web.system.servlet.wrapper.BaseServletResponse;
-import live.page.web.utils.Settings;
+import live.page.web.system.Settings;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
