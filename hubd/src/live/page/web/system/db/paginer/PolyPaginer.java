@@ -11,6 +11,10 @@ import org.bson.conversions.Bson;
 
 import java.util.*;
 
+/**
+ * A Paginer.class used in Search result with multiple collections and methods
+ * //TODO known as buggy
+ */
 public class PolyPaginer extends Paginer {
 
 	private final Set<String> keys;
@@ -19,7 +23,11 @@ public class PolyPaginer extends Paginer {
 		super(paging_str, sort_str, limit);
 		this.keys = keys;
 	}
-
+	/**
+	 * Make filter depend on state
+	 * @param type of the filter needed
+	 * @return Filter for query
+	 */
 	public Bson getFilters(String type) {
 		if (paging == null || !paging.containsKey(type) || paging.getJson(type).get(key) == null) {
 			return null;
@@ -41,6 +49,12 @@ public class PolyPaginer extends Paginer {
 
 	}
 
+	/**
+	 * Compose result with paging on an already queried
+	 *
+	 * @param results already queried
+	 * @return special json include result and paging
+	 */
 	@Override
 	public Json getResult(List<Json> results) {
 
@@ -136,6 +150,13 @@ public class PolyPaginer extends Paginer {
 		return new Json(key, value);
 	}
 
+	/**
+	 * Generate pagination object aka paging
+	 *
+	 * @param first result
+	 * @param last  result
+	 * @return paging object
+	 */
 	@Override
 	protected Json getPaging(Json first, Json last) {
 		Json paging = new Json();
