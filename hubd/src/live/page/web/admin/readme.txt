@@ -1,0 +1,1 @@
+Class used for Admin functions

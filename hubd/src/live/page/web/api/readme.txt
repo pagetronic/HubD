@@ -1,0 +1,1 @@
+Class used for OAuth Server Api configuration, displaying, usage and more
