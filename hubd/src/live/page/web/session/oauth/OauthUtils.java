@@ -203,7 +203,7 @@ public class OauthUtils {
 						}
 					}
 					if (access_token == null) {
-						Fx.log(res, OauthUtils.class);
+						Fx.log(res);
 						return null;
 					}
 				} else {
@@ -211,7 +211,7 @@ public class OauthUtils {
 					access_token = apiresp.getText("access_token");
 
 					if (access_token == null) {
-						Fx.log(apiresp, OauthUtils.class);
+						Fx.log(apiresp);
 						return null;
 					}
 				}

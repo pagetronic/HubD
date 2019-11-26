@@ -71,7 +71,7 @@ public class HttpServlet extends ApiServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Fx.log(e.getMessage(), HttpServlet.class);
+			Fx.log(e.getMessage());
 			try {
 				resp.sendError(500, "error unknown");
 			} catch (Exception ignore) {

@@ -3,8 +3,6 @@
  */
 package live.page.web.utils;
 
-import live.page.web.db.Db;
-import live.page.web.utils.json.Json;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -226,19 +224,13 @@ public class Fx {
 	}
 
 	public static void log(Object log) {
-		log(log, null);
-	}
-
-	public static void log(Object log, Class<?> cls) {
+		if (log == null) {
+			log("null");
+			return;
+		}
 		try {
-			if (IS_DEBUG) {
-				System.out.println(ConsoleColors.YELLOW_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + log.toString() + ConsoleColors.RESET);
-			} else {
-				Db.save("SysLog", new Json("date", new Date()).put("message", log).put("class", cls == null ? null : cls.getName()));
-				System.out.println(log.toString());
-
-			}
-		} catch (Exception e) {
+			System.out.println(log.toString());
+		} catch (Exception ignore) {
 		}
 	}
 

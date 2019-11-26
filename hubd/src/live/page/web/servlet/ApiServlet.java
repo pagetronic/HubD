@@ -193,12 +193,12 @@ public class ApiServlet extends FullServlet {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Fx.log(ex.getMessage(), ApiServlet.class);
+			Fx.log(ex.getMessage());
 			try {
 				resp.setStatus(500);
 				resp.getWriter().write(new Json("error", "UNKNOWN").toString());
 			} catch (Exception e) {
-				Fx.log(e.getMessage(), ApiServlet.class);
+				Fx.log(e.getMessage());
 			}
 
 		}
