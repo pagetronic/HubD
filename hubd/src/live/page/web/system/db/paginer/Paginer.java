@@ -7,13 +7,13 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
-import live.page.web.system.db.Db;
-import live.page.web.system.db.IndexBuilder;
-import live.page.web.utils.Fx;
-import live.page.web.utils.Hidder;
-import live.page.web.system.json.Json;
 import live.page.web.system.Language;
 import live.page.web.system.cosmetic.svg.SVGTemplate;
+import live.page.web.system.db.Db;
+import live.page.web.system.db.IndexBuilder;
+import live.page.web.system.json.Json;
+import live.page.web.utils.Fx;
+import live.page.web.utils.Hidder;
 import org.bson.conversions.Bson;
 
 import java.io.IOException;
@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class used for pagination of NoSQL request
+ */
 public class Paginer {
 
 	protected Json paging = new Json();
@@ -67,6 +70,11 @@ public class Paginer {
 		return Aggregates.limit(getLimitInt());
 	}
 
+	/**
+	 * First Sort to use, need when direction is "back"
+	 *
+	 * @return Aggregation object for sorting
+	 */
 	public Bson getFirstSort() {
 		return Aggregates.sort(
 				((direction.equals(Direction.REWIND) || direction.equals(Direction.LAST) ? -1 : 1) * order) > 0 ?
@@ -75,10 +83,20 @@ public class Paginer {
 		);
 	}
 
+	/**
+	 * Last Sort to use, the good direction
+	 *
+	 * @return Aggregation object for sorting
+	 */
 	public Bson getLastSort() {
 		return Aggregates.sort(order > 0 ? Sorts.orderBy(Sorts.ascending(key), Sorts.descending("_id")) : Sorts.orderBy(Sorts.descending(key), Sorts.ascending("_id")));
 	}
 
+	/**
+	 * Make filter depend on state
+	 *
+	 * @return Filter for query
+	 */
 	public Bson getFilters() {
 		if (paging == null) {
 			return null;
@@ -96,10 +114,25 @@ public class Paginer {
 		return null;
 	}
 
+	/**
+	 * Query DB and compose result with paging
+	 *
+	 * @param collection to query in DB
+	 * @param pipeline   for Aggregation
+	 * @return Special json include result and paging
+	 */
 	public Json getResult(String collection, List<Bson> pipeline) {
 		return getResult(collection, pipeline, null);
 	}
 
+	/**
+	 * Query DB and compose result with paging
+	 *
+	 * @param collection to query in DB
+	 * @param pipeline   for Aggregation
+	 * @param index      name of index to force
+	 * @return Special json include result and paging
+	 */
 	public Json getResult(String collection, List<Bson> pipeline, String index) {
 		try {
 			List<Json> results = new ArrayList<>();
@@ -117,6 +150,12 @@ public class Paginer {
 		}
 	}
 
+	/**
+	 * Compose result with paging on an already queried
+	 *
+	 * @param results already queried
+	 * @return special json include result and paging
+	 */
 	public Json getResult(List<Json> results) {
 		if (results == null || results.size() == 0) {
 			return new Json("result", Arrays.asList()).put("paging", getPaging(null, null));
@@ -133,6 +172,12 @@ public class Paginer {
 		return getForward(results);
 	}
 
+	/**
+	 * Get the first truly result
+	 *
+	 * @param results already queried
+	 * @return the first object
+	 */
 	private Json getFirst(List<Json> results) {
 		int size = results.size();
 		Json last = null;
@@ -144,6 +189,12 @@ public class Paginer {
 		return new Json("result", results.subList(0, Math.min(size, limit))).put("paging", getPaging(null, last));
 	}
 
+	/**
+	 * Get the last truly result
+	 *
+	 * @param results already queried
+	 * @return the first object
+	 */
 	private Json getLast(List<Json> results) {
 		int size = results.size();
 		Json first = null;
@@ -153,6 +204,12 @@ public class Paginer {
 		return new Json("result", results.subList(Math.max(0, size - limit), size)).put("paging", getPaging(first, null));
 	}
 
+	/**
+	 * Get result on forward query
+	 *
+	 * @param results already queried
+	 * @return special json include result and paging
+	 */
 	private Json getForward(List<Json> results) {
 		int size = results.size();
 		int start;
@@ -191,6 +248,12 @@ public class Paginer {
 		return new Json("result", results.subList(start, stop)).put("paging", getPaging(first, last));
 	}
 
+	/**
+	 * Get result on rewind query
+	 *
+	 * @param results already queried
+	 * @return special json include result and paging
+	 */
 	private Json getRewind(List<Json> results) {
 
 		int size = results.size();
@@ -230,6 +293,13 @@ public class Paginer {
 		return new Json("result", results.subList(start, stop)).put("paging", getPaging(prev, next));
 	}
 
+	/**
+	 * Generate pagination object aka paging
+	 *
+	 * @param first result
+	 * @param last  result
+	 * @return paging object
+	 */
 	protected Json getPaging(Json first, Json last) {
 		Json paging = new Json();
 		try {
@@ -248,6 +318,19 @@ public class Paginer {
 		return paging;
 	}
 
+	/**
+	 * Generate pagination html string
+	 *
+	 * @param url       for base
+	 * @param pager     name of parameter to use in url
+	 * @param paging    object where find information about pagination
+	 * @param isfirst   is start at end or first ?
+	 * @param anchor    #anchor to jump after loading url
+	 * @param incontent add special string in the middle of the result
+	 * @param lng       lang to user
+	 * @return a string of html
+	 * @throws IOException is there a writer ?
+	 */
 	public static String getHtml(String url, String pager, Json paging, boolean isfirst, String anchor, String incontent, String lng) throws IOException {
 
 		if (url == null || pager == null) {
