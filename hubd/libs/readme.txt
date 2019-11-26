@@ -1,0 +1,1 @@
+JavaScript files always (even NOUI setting) loaded at first
