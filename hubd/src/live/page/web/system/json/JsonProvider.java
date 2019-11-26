@@ -18,6 +18,9 @@ import static java.util.Arrays.asList;
 import static org.bson.assertions.Assertions.notNull;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 
+/**
+ * Provide support for Json in MongoDB
+ */
 public class JsonProvider implements CodecProvider {
 
 	private final BsonTypeClassMap bsonTypeClassMap = new BsonTypeClassMap();

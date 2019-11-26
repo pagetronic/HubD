@@ -11,10 +11,10 @@ import com.mongodb.client.*;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import live.page.web.utils.Fx;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
 import live.page.web.system.json.JsonProvider;
+import live.page.web.utils.Fx;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -34,8 +34,14 @@ public class Db implements ServletContextListener {
 	private static int keyDiff = 0;
 	private static final int TIME_OUT = 10000;
 
+	/**
+	 * Generate support for Json
+	 */
 	public static final CodecRegistry codecRegistry = CodecRegistries.fromRegistries(CodecRegistries.fromProviders(new JsonProvider()), MongoClientSettings.getDefaultCodecRegistry());
 
+	/**
+	 * Permanently connect to DB
+	 */
 	private static final MongoClient client = MongoClients.create(MongoClientSettings.builder()
 			.applicationName(Settings.SITE_TITLE)
 			.retryReads(true).retryWrites(true)
@@ -45,9 +51,15 @@ public class Db implements ServletContextListener {
 			.credential(MongoCredential.createCredential(Settings.DB_USER, Settings.DB_NAME, Settings.DB_PASS))
 			.writeConcern(WriteConcern.JOURNALED).codecRegistry(codecRegistry).build());
 
+	/**
+	 * Open Project Database
+	 */
 	private static final MongoDatabase db = client.getDatabase(Settings.DB_NAME);
 
-	public synchronized static String getKey() {
+	/**
+	 * @return an unique key for DB objects
+	 */
+	public static String getKey() {
 		//Key difference incremented after
 		String base = Long.toString(keyDiff, Character.MAX_RADIX);
 		//live.page.hub time increment sys epoc
