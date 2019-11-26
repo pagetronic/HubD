@@ -3,21 +3,35 @@
  */
 package live.page.web.system;
 
-import live.page.web.utils.Fx;
 import live.page.web.system.json.Json;
+import live.page.web.utils.Fx;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
 public class Language {
 
-	private static final Json langs = built();
+	private static final Json langs = build();
 
-
+	/**
+	 * Test if Language translation exist
+	 *
+	 * @param key of the translation
+	 * @param lng language wanted
+	 * @return true|false if exist
+	 */
 	public static boolean exist(String key, String lng) {
 		return langs != null && langs.containsKey(key) && langs.getJson(key).containsKey(lng);
 	}
 
+	/**
+	 * Get language string for a specific key
+	 *
+	 * @param key      of the translation
+	 * @param lng_     language wanted
+	 * @param replaces array of strings to replace in order : %1,%2,%3...
+	 * @return
+	 */
 	public static String get(String key, String lng_, Object... replaces) {
 
 		if (lng_ == null) {
@@ -51,6 +65,11 @@ public class Language {
 		}
 	}
 
+	/**
+	 * Get language for JavaScript
+	 *
+	 * @return Json string
+	 */
 	public static String getLangsJs() {
 		Json langs_js = new Json();
 		langs.keySet().forEach(key -> {
@@ -62,7 +81,10 @@ public class Language {
 		return langs_js.toString(true) + ";";
 	}
 
-	private static Json built() {
+	/**
+	 * Build language data from file
+	 */
+	private static Json build() {
 		Json langs = new Json();
 
 		try {
@@ -79,12 +101,11 @@ public class Language {
 		return langs;
 	}
 
-	public static Json getLangs() {
-		return langs;
-	}
-
-	public static void rebuilt() {
+	/**
+	 * Rebuild language data from file
+	 */
+	public static void rebuild() {
 		langs.clear();
-		langs.putAll(built());
+		langs.putAll(build());
 	}
 }

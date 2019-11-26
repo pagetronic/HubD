@@ -216,7 +216,7 @@ public class LangsAdmin {
 	private static void setLangs(Json langs, boolean local) {
 		try {
 			FileUtils.writeStringToFile(new File((local ? Settings.REPO : Settings.HUB_REPO) + "/res/langs.json"), langs.sort().toString(false));
-			Language.rebuilt();
+			Language.rebuild();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
