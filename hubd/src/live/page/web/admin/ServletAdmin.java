@@ -5,7 +5,9 @@ package live.page.web.admin;
 
 import com.mongodb.client.model.Filters;
 import live.page.web.admin.scrap.ScrapAdmin;
+import live.page.web.content.congrate.RatingsTools;
 import live.page.web.system.db.Db;
+import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.wrapper.ApiServletRequest;
 import live.page.web.system.servlet.wrapper.ApiServletResponse;
@@ -13,9 +15,7 @@ import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
-import live.page.web.content.congrate.RatingsTools;
 import live.page.web.utils.StatsTools;
-import live.page.web.system.json.Json;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;

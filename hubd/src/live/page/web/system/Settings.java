@@ -293,6 +293,6 @@ public class Settings {
 	}
 
 	public static String getString(String key) {
-		return  settings.getProperty(key);
+		return settings.getProperty(key);
 	}
 }

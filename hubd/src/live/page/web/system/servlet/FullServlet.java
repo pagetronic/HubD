@@ -3,6 +3,7 @@
  */
 package live.page.web.system.servlet;
 
+import live.page.web.system.Settings;
 import live.page.web.system.servlet.utils.BruteLocker;
 import live.page.web.system.servlet.utils.ServletUtils;
 import live.page.web.system.servlet.wrapper.ApiServletRequest;
@@ -11,7 +12,6 @@ import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.system.sessions.BaseCookie;
 import live.page.web.utils.Fx;
-import live.page.web.system.Settings;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

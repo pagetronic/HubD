@@ -3,8 +3,8 @@
  */
 package live.page.web.system.socket;
 
-import live.page.web.system.db.Db;
 import live.page.web.system.Settings;
+import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 
 import javax.websocket.HandshakeResponse;

@@ -3,8 +3,8 @@
  */
 package live.page.web.system.cosmetic.svg;
 
-import live.page.web.utils.Fx;
 import live.page.web.system.Settings;
+import live.page.web.utils.Fx;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;

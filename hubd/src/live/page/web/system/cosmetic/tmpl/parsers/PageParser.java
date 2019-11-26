@@ -3,10 +3,10 @@
  */
 package live.page.web.system.cosmetic.tmpl.parsers;
 
-import live.page.web.utils.Fx;
-import live.page.web.system.db.tags.DbTagsUtils;
 import live.page.web.system.Settings;
+import live.page.web.system.db.tags.DbTagsLinker;
 import live.page.web.system.json.Json;
+import live.page.web.utils.Fx;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -64,7 +64,7 @@ public class PageParser extends Directive {
 		}
 		text = parseWiki(text);
 		text = sectionNizer(text);
-		text = DbTagsUtils.parse(text, links);
+		text = DbTagsLinker.parse(text, links);
 		text = parsePhotos(text);
 		text = clean(text);
 		text = PostParser.video(text);

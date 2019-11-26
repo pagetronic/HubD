@@ -3,13 +3,13 @@
  */
 package live.page.web.system.cosmetic.tmpl;
 
+import live.page.web.system.Settings;
+import live.page.web.system.cosmetic.svg.SVGTemplate;
 import live.page.web.system.cosmetic.tmpl.parsers.Cleaner;
 import live.page.web.system.cosmetic.tmpl.parsers.PageParser;
 import live.page.web.system.cosmetic.tmpl.parsers.PostParser;
 import live.page.web.system.cosmetic.tmpl.plugs.*;
 import live.page.web.utils.Fx;
-import live.page.web.system.Settings;
-import live.page.web.system.cosmetic.svg.SVGTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

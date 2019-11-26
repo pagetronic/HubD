@@ -4,9 +4,9 @@
 package live.page.web.system.db.paginer;
 
 import com.mongodb.client.model.Filters;
+import live.page.web.system.json.Json;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
-import live.page.web.system.json.Json;
 import org.bson.conversions.Bson;
 
 import java.util.*;
@@ -23,8 +23,10 @@ public class PolyPaginer extends Paginer {
 		super(paging_str, sort_str, limit);
 		this.keys = keys;
 	}
+
 	/**
 	 * Make filter depend on state
+	 *
 	 * @param type of the filter needed
 	 * @return Filter for query
 	 */

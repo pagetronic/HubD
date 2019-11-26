@@ -3,15 +3,15 @@
  */
 package live.page.web.admin;
 
+import live.page.web.system.Language;
+import live.page.web.system.Settings;
 import live.page.web.system.cosmetic.UiStyleServlet;
+import live.page.web.system.json.Json;
 import live.page.web.system.servlet.wrapper.ApiServletResponse;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.utils.Fx;
-import live.page.web.system.Settings;
 import live.page.web.utils.apis.Translater;
-import live.page.web.system.json.Json;
-import live.page.web.system.Language;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -107,7 +107,7 @@ public class LangsAdmin {
 
 			Json lang = langs.getJson(key);
 			for (String lng : lngs) {
-				if(!lng.toLowerCase().equals(lng)) {
+				if (!lng.toLowerCase().equals(lng)) {
 					continue;
 				}
 				if (!lang.containsKey(lng)) {

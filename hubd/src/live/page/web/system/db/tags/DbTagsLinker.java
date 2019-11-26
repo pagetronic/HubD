@@ -9,7 +9,7 @@ import com.mongodb.client.model.UnwindOptions;
 import live.page.web.system.Settings;
 import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
-import live.page.web.system.db.Pipeliner;
+import live.page.web.system.db.PipelinerStore;
 import live.page.web.system.json.Json;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DbTagsLinker {
 
@@ -33,7 +35,7 @@ public class DbTagsLinker {
 		List<Bson> pipeline = new ArrayList<>();
 
 		pipeline.add(Aggregates.project(grouper.getProjection().put("links", new ArrayList<>())));
-		Map<String, Class<? extends Pipeliner>> pipeliner = DbTagsUtils.getSearchers();
+		Map<String, Class<? extends PipelinerStore.Pipeliner>> pipeliner = PipelinerStore.getSearchers();
 
 		for (String parent : Settings.VALID_PARENTS) {
 
@@ -60,7 +62,7 @@ public class DbTagsLinker {
 
 				pipeline.add(Aggregates.unwind("$links" + parent, new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
-				pipeline.addAll(DbTagsUtils.getConstructor(parent.toLowerCase()).getUrlDbTags(grouper.clone()
+				pipeline.addAll(PipelinerStore.getConstructor(parent.toLowerCase()).getUrlDbTags(grouper.clone()
 						.addKey("links_order").addKey("links" + parent), "links" + parent));
 
 				pipeline.add(Aggregates.project(grouper.getProjection()
@@ -97,5 +99,33 @@ public class DbTagsLinker {
 
 
 		return pipeline;
+	}
+
+	public static String parse(String text, List<Json> links) {
+		if (links == null || links.size() == 0) {
+			return text;
+		}
+
+		for (Json link : links) {
+			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + "[ ]+?([^]]+)?]", Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(text);
+
+			while (matcher.find()) {
+				String title = matcher.group(1);
+				if (matcher.group(1) == null || title.equals("")) {
+					title = link.getString("title");
+				}
+				String replacement = "<a href=\"" + link.getString("url") + "\"";
+				if (link.containsKey("top_title")) {
+					replacement += " title=\"" + link.getString("top_title").replace("\"", "\\\"") + "\"";
+				} else if (!link.getString("title", "").equals(title)) {
+					replacement += " title=\"" + link.getString("title").replace("\"", "\\\"") + "\"";
+				}
+				text = text.replace(matcher.group(), replacement + ">" + title + "</a>");
+
+			}
+		}
+		return text;
+
 	}
 }

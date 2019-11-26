@@ -3,6 +3,9 @@
  */
 package live.page.web.system.sessions;
 
+import live.page.web.system.Language;
+import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.Api;
 import live.page.web.system.servlet.wrapper.ApiServletRequest;
@@ -10,9 +13,6 @@ import live.page.web.system.servlet.wrapper.ApiServletResponse;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.utils.Fx;
-import live.page.web.system.Settings;
-import live.page.web.system.json.Json;
-import live.page.web.system.Language;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;

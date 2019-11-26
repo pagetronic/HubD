@@ -5,20 +5,20 @@ package live.page.web.content.posts.utils;
 
 import com.mongodb.client.model.*;
 import live.page.web.blobs.BlobsDb;
+import live.page.web.content.congrate.RatingsTools;
+import live.page.web.content.pages.PagesAggregator;
+import live.page.web.content.users.UsersAggregator;
+import live.page.web.system.Settings;
+import live.page.web.system.cosmetic.svg.SVGTemplate;
 import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
-import live.page.web.system.db.tags.DbTagsParser;
-import live.page.web.system.db.Pipeliner;
-import live.page.web.content.pages.PagesAggregator;
-import live.page.web.system.sessions.Users;
-import live.page.web.content.users.UsersAggregator;
-import live.page.web.utils.Hidder;
-import live.page.web.system.db.tags.DbTagsLinker;
-import live.page.web.content.congrate.RatingsTools;
-import live.page.web.system.Settings;
-import live.page.web.system.json.Json;
+import live.page.web.system.db.PipelinerStore;
 import live.page.web.system.db.paginer.Paginer;
-import live.page.web.system.cosmetic.svg.SVGTemplate;
+import live.page.web.system.db.tags.DbTagsLinker;
+import live.page.web.system.db.tags.DbTagsParser;
+import live.page.web.system.json.Json;
+import live.page.web.system.sessions.Users;
+import live.page.web.utils.Hidder;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
@@ -697,7 +697,7 @@ public class ThreadsAggregator {
 		return Db.aggregate("Posts", pipeline).first();
 	}
 
-	public static class PostsPipeliner extends Pipeliner {
+	public static class PostsPipeliner extends PipelinerStore.Pipeliner {
 
 		public PostsPipeliner(String type, String lng, Paginer paginer) {
 			super(type, paginer);

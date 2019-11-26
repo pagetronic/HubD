@@ -4,18 +4,18 @@
 package live.page.web.content.pages;
 
 import com.mongodb.client.model.*;
-import live.page.web.system.db.Aggregator;
-import live.page.web.system.db.Db;
-import live.page.web.system.db.Pipeliner;
+import live.page.web.content.congrate.RatingsTools;
 import live.page.web.content.posts.utils.ThreadsAggregator;
 import live.page.web.content.users.UsersAggregator;
-import live.page.web.utils.Fx;
-import live.page.web.system.db.tags.DbTagsLinker;
-import live.page.web.content.congrate.RatingsTools;
 import live.page.web.system.Settings;
-import live.page.web.system.json.Json;
-import live.page.web.system.db.paginer.Paginer;
 import live.page.web.system.cosmetic.svg.SVGTemplate;
+import live.page.web.system.db.Aggregator;
+import live.page.web.system.db.Db;
+import live.page.web.system.db.PipelinerStore;
+import live.page.web.system.db.paginer.Paginer;
+import live.page.web.system.db.tags.DbTagsLinker;
+import live.page.web.system.json.Json;
+import live.page.web.utils.Fx;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
@@ -772,7 +772,7 @@ public class PagesAggregator {
 		return pipeline;
 	}
 
-	public static class PagesPipelines extends Pipeliner {
+	public static class PagesPipelines extends PipelinerStore.Pipeliner {
 
 
 		public PagesPipelines(String type, String lng, Paginer paginer) {

@@ -7,8 +7,8 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
-import live.page.web.utils.Fx;
 import live.page.web.system.Settings;
+import live.page.web.utils.Fx;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ public class Translater {
 		InputStream props_stream;
 		try {
 			String file = "/res/.translate.json";
-			props_stream =new FileInputStream(Settings.HUB_REPO + file);
+			props_stream = new FileInputStream(Settings.HUB_REPO + file);
 			if (props_stream == null) {
 				file = "/res/translate.json";
 				props_stream = Translater.class.getResourceAsStream(file);

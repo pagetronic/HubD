@@ -4,17 +4,17 @@
 package live.page.web.system.cosmetic;
 
 import live.page.web.blobs.BlobsService;
+import live.page.web.system.Language;
+import live.page.web.system.Settings;
+import live.page.web.system.cosmetic.svg.SVGServlet;
+import live.page.web.system.cosmetic.svg.SVGTemplate;
+import live.page.web.system.json.Json;
 import live.page.web.system.servlet.BaseServlet;
 import live.page.web.system.servlet.wrapper.BaseServletRequest;
 import live.page.web.system.servlet.wrapper.BaseServletResponse;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.system.cosmetic.svg.SVGServlet;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
-import live.page.web.system.Settings;
-import live.page.web.system.json.Json;
-import live.page.web.system.Language;
-import live.page.web.system.cosmetic.svg.SVGTemplate;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 

@@ -3,15 +3,15 @@
  */
 package live.page.web.system.cosmetic.svg;
 
+import live.page.web.system.Settings;
+import live.page.web.system.cosmetic.Compressors;
+import live.page.web.system.cosmetic.UiStyleServlet;
 import live.page.web.system.servlet.BaseServlet;
 import live.page.web.system.servlet.wrapper.BaseServletRequest;
 import live.page.web.system.servlet.wrapper.BaseServletResponse;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
-import live.page.web.system.cosmetic.UiStyleServlet;
 import live.page.web.utils.Fx;
 import live.page.web.utils.Hidder;
-import live.page.web.system.Settings;
-import live.page.web.system.cosmetic.Compressors;
 import org.apache.commons.io.FileUtils;
 
 import javax.servlet.ServletConfig;
