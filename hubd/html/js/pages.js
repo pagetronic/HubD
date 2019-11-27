@@ -30,7 +30,7 @@ sys.pages = {
                 scroller.off('scroll.qr');
             };
             var showQr = function () {
-                if (Cookies.get('consent') === null) {
+                if (sys.pub && Cookies.get('consent') === null) {
                     return;
                 }
                 stopQr();
