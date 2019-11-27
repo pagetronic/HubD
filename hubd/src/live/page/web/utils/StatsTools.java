@@ -181,25 +181,16 @@ public class StatsTools implements ServletContextListener {
 
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua"),
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
-				Accumulators.sum("view", 1),
-				Accumulators.avg("bound", new Json("$subtract", Arrays.asList(
-						new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$gone", new BsonUndefined())),
-								new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$alive", new BsonUndefined())),
-										"$date", "$alive"))
-								, "$gone"))
-						, "$date"
-				)))
+				Accumulators.sum("view", 1)
 
 		));
 
 		pipeline.add(Aggregates.group(null,
 				Accumulators.sum("unique", 1),
-				Accumulators.sum("view", "$view"),
-				Accumulators.avg("bound", "$bound")
+				Accumulators.sum("view", "$view")
 		));
 		pipeline.add(Aggregates.project(new Json("_id", false)
 				.put("unique", "$unique").put("view", "$view")
-				.put("bound", new Json("$floor", new Json("$divide", Arrays.asList("$bound", 1000))))
 				.put("start", start_date).put("stop", stop_date))
 		);
 
