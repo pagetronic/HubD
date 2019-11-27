@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -27,28 +26,52 @@ import java.util.concurrent.TimeUnit;
 
 public class Fx {
 
+	/**
+	 * Test if system is in debug mode
+	 */
 	public static final boolean IS_DEBUG = java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp");
+
+	/**
+	 * Date format for JSON
+	 */
 	public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; // Warning.. Z necessary for next
 
 	private static final SecureRandom random = new SecureRandom(Fx.getUnique().getBytes());
 
+	/**
+	 * Generate a Secure key
+	 *
+	 * @return a random secure key
+	 */
 	public static String getSecureKey() {
 		String big = new BigInteger(280, random).toString(Character.MAX_RADIX);
 		big = big.substring(0, 52);
 		return big.toUpperCase();
 	}
 
+	/**
+	 * Generate an unique key
+	 *
+	 * @return unique key
+	 */
 	public static String getUnique() {
 		return RandomStringUtils.randomAlphabetic(8).toLowerCase();
 	}
 
-	public static List<File> listFiles(String dir, String... exts) {
-		List<String> extsl = Arrays.asList(exts);
+	/**
+	 * List Files recursively by extension in a specific folder
+	 *
+	 * @param directory  where search recursively
+	 * @param extensions to search
+	 * @return a List of File
+	 */
+	public static List<File> listFiles(String directory, String... extensions) {
+		List<String> extsl = Arrays.asList(extensions);
 		List<File> files = new ArrayList<>();
-		for (File file : new File(dir).listFiles()) {
+		for (File file : new File(directory).listFiles()) {
 
 			if (file.isDirectory()) {
-				files.addAll(listFiles(file.getAbsolutePath(), exts));
+				files.addAll(listFiles(file.getAbsolutePath(), extensions));
 			} else if (extsl.contains(file.getName().replaceFirst(".*\\.(" + StringUtils.join(extsl, "|") + ")$", "$1"))) {
 				files.add(file);
 			}
@@ -66,18 +89,31 @@ public class Fx {
 		return files;
 	}
 
-	public static List<String> listFilesNames(String dir, String... ext) {
+	/**
+	 * List filenames recursively by extension in a specific folder
+	 *
+	 * @param directory  where search recursively
+	 * @param extensions to search
+	 * @return a List of String filenames
+	 */
+	public static List<String> listFilesNames(String directory, String... extensions) {
 
 		List<String> files = new ArrayList<>();
-		for (File file : listFiles(dir, ext)) {
+		for (File file : listFiles(directory, extensions)) {
 			files.add(file.getAbsolutePath());
 		}
 		return files;
 	}
 
-	public static String getResource(String res) {
+	/**
+	 * Read a resource as String
+	 *
+	 * @param location of the resource
+	 * @return String representing the content of the resource
+	 */
+	public static String getResource(String location) {
 		try {
-			InputStream sr = Thread.currentThread().getContextClassLoader().getResourceAsStream(res);
+			InputStream sr = Thread.currentThread().getContextClassLoader().getResourceAsStream(location);
 			String str = Streams.asString(sr, StandardCharsets.UTF_8.displayName());
 			sr.close();
 			return str;
@@ -86,56 +122,72 @@ public class Fx {
 		}
 	}
 
-
-	public static String truncate(String chaine, int length) {
-		if (chaine == null) {
+	/**
+	 * Truncate a String
+	 *
+	 * @param str    string to truncate
+	 * @param length of the output
+	 * @return the string truncated
+	 */
+	public static String truncate(String str, int length) {
+		if (str == null) {
 			return null;
 		}
-		if (textWidth(chaine) <= length) {
-			return chaine;
+		if (str.length() <= length) {
+			return str;
 		}
 
-		int end = chaine.lastIndexOf(' ', length - 3);
+		int end = str.lastIndexOf(' ', length - 3);
 
 		if (end == -1) {
-			return chaine.substring(0, length - 3) + "&#8230;";
+			return str.substring(0, length - 3) + "&#8230;";
 		}
 		int newEnd = end;
 		do {
 			end = newEnd;
-			newEnd = chaine.indexOf(' ', end + 1);
+			newEnd = str.indexOf(' ', end + 1);
 
 			if (newEnd == -1) {
-				newEnd = chaine.length();
+				newEnd = str.length();
 			}
 
-		} while (textWidth(chaine.substring(0, newEnd) + "&#8230;") < length);
+		} while ((str.substring(0, newEnd) + "&#8230;").length() < length);
 
-		return chaine.substring(0, end) + "&#8230;";
+		return str.substring(0, end) + "&#8230;";
 	}
 
-	public static String textbrut(String chaine) {
-		if (chaine == null) {
+	/**
+	 * Strip tag of a html string
+	 *
+	 * @param html to process
+	 * @return a string without html tags
+	 */
+	public static String textbrut(String html) {
+		if (html == null) {
 			return null;
 		}
-		return Jsoup.parse(chaine).text().replace("\"", "&#34;");
+		return Jsoup.parse(html).text().replace("\"", "&#34;");
 	}
 
-	private static int textWidth(String chaine) {
-		if (chaine == null) {
-			return 0;
-		} else {
-			return chaine.length();
+	/**
+	 * Capitalize string
+	 *
+	 * @param str to capitalize
+	 * @return a capitalized string
+	 */
+	public static String ucfirst(String str) {
+		if (str == null || str.equals("")) {
+			return str;
 		}
+		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
 	}
 
-	public static String ucfirst(String chaine) {
-		if (chaine == null || chaine.equals("")) {
-			return chaine;
-		}
-		return chaine.substring(0, 1).toUpperCase() + chaine.substring(1).toLowerCase();
-	}
-
+	/**
+	 * Normalize a sequence of text.
+	 *
+	 * @param text to normalize
+	 * @return the text normalized
+	 */
 	public static String normalize(String text) {
 		if (text == null) {
 			return null;
@@ -143,6 +195,12 @@ public class Fx {
 		return Normalizer.normalize(text, Normalizer.Form.NFKC);
 	}
 
+	/**
+	 * Normalize a sequence of char values and strip strange tags
+	 *
+	 * @param text to normalize
+	 * @return the text normalized
+	 */
 	public static String normalizePost(String text) {
 		if (text == null) {
 			return null;
@@ -154,54 +212,47 @@ public class Fx {
 		return text;
 	}
 
-	public static String cleanSpaces(String str) {
-		return str.replaceAll("([ ]{2,})", " ").replaceAll("^ ", "").replaceAll(" $", "");
-	}
-
-	public static String cleanURL(String title) {
-		if (title == null) {
+	/**
+	 * Clean a string to use as URL
+	 *
+	 * @param str to clean
+	 * @return an url
+	 */
+	public static String cleanURL(String str) {
+		if (str == null) {
 			return null;
 		}
 		try {
-			title = title.replace("?", "");
-			title = Normalizer.normalize(title, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-			title = title.replaceAll("([\\p{javaWhitespace}]+)", "-");
-			title = title.replaceAll("([-]+)", "-");
-			title = title.replaceAll("([.]+)", "");
+			str = str.replace("?", "");
+			str = Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+			str = str.replaceAll("([\\p{javaWhitespace}]+)", "-");
+			str = str.replaceAll("([-]+)", "-");
+			str = str.replaceAll("([.]+)", "");
 
-			title = title.replaceAll("([()]+)", "").replaceAll("^ ?(.*) ?$", "$1").replaceAll("[ ':,;]+", "-");
-			title = title.replaceAll("^[\\-]+", "").replaceAll("[\\-]+$", "");
-			title = URLEncoder.encode(title, StandardCharsets.UTF_8);
+			str = str.replaceAll("([()]+)", "").replaceAll("^ ?(.*) ?$", "$1").replaceAll("[ ':,;]+", "-");
+			str = str.replaceAll("^[\\-]+", "").replaceAll("[\\-]+$", "");
+			str = URLEncoder.encode(str, StandardCharsets.UTF_8);
 
-			return title.toLowerCase();
+			return str.toLowerCase();
 		} catch (Exception e) {
 			return "~~~error~~~";
 		}
 	}
 
-	public static String cleanDecode(String title) {
-		try {
-			String clean = URLDecoder.decode(title, StandardCharsets.UTF_8);
-			clean = clean.replace("_", "-");
-			clean = clean.toLowerCase();
-			String[] find = "àáâãäåòóôõöøèéêëçìíîïùúûüÿñ’/".split("");
-			String[] replace = "aaaaaaooooooeeeeciiiiuuuuyn--".split("");
-			for (int i = 0; i < find.length; i++) {
-				clean = clean.replace(find[i], replace[i]);
-			}
-			clean = clean.replace("œ", "oe");
-			clean = clean.replaceAll("[\\-]+$", "-");
-			return clean;
-		} catch (Exception e) {
-			return "~~~error~~~";
-		}
-	}
-
+	/**
+	 * Get Date at UTC time zone
+	 *
+	 * @return date at UTC time zone
+	 */
 	public static Date UTCDate() {
 		return Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
 	}
 
-
+	/**
+	 * Shutdown correctly an executorService
+	 *
+	 * @param service to shutdown
+	 */
 	public static void shutdownService(ExecutorService service) {
 		if (service != null && !service.isTerminated()) {
 			service.shutdown();
@@ -216,14 +267,21 @@ public class Fx {
 		}
 	}
 
+	/**
+	 * Crypt a string/password
+	 *
+	 * @param password to crypt
+	 * @return password encrypted
+	 */
 	public static String crypt(String password) {
 		return DigestUtils.sha256Hex(Settings.SALT + password + Settings.SALT);
 	}
 
-	public static String md5(String str) {
-		return DigestUtils.md5Hex(str).toUpperCase();
-	}
-
+	/**
+	 * Print string to console
+	 *
+	 * @param log object to display in console
+	 */
 	public static void log(Object log) {
 		if (log == null) {
 			log("null");
