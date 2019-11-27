@@ -15,7 +15,10 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/tools"}, displayName = "scrap")
+/**
+ * Servlet used for specials function, in general for transition
+ */
+@WebServlet(urlPatterns = {"/tools"}, displayName = "tools")
 public class ToolsServlet extends HttpServlet {
 
 
