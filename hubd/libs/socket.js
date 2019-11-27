@@ -1,18 +1,26 @@
-/*
- *
- *
- *	socket.follow(channel, function(msg) {});
- *	socket.send({command : "",	data : data	}, function(msg) {});
- *
- *
+/**
+ * Class used for WebSocket functions
  */
-
 var socket = {
+    /**
+     * Object contains functions to execute on send event
+     */
     events: {},
+    /**
+     * Object contains functions to execute on follow event
+     */
     fevents: {},
+    /**
+     * Object contains functions waiting connection open
+     */
     funcs: [],
+    /**
+     * Unique WebSocket connection
+     */
     ctx: null,
-
+    /**
+     * Initialization, connect the WebSocket
+     */
     init: function () {
 
         if (WebSocket === undefined) {
@@ -20,13 +28,14 @@ var socket = {
         }
         socket.ctx = new WebSocket(constants.apiurl.replace(/^http/, 'ws') + '/socket', sys.lng);
 
-        socket.ctx.onopen = function (event) {
+        socket.ctx.onopen = function () {
+            //Execute functions stored who waiting connection
             var funcs = socket.funcs;
             socket.funcs = [];
             socket.funcs.push = function (msg) {
                 socket.ctx.send(msg);
             };
-            $.each(funcs, function(key) {
+            $.each(funcs, function (key) {
                 if (key !== "push") {
                     socket.ctx.send(this);
                 }
@@ -34,6 +43,7 @@ var socket = {
         };
 
         socket.ctx.onmessage = function (event) {
+
             var data = {};
             try {
                 data = eval("(" + event.data + ")");
@@ -44,12 +54,15 @@ var socket = {
             if (data.channel === undefined) {
                 return;
             }
+
+            //Is there a follow ?
             if (socket.fevents[data.channel] !== undefined) {
                 try {
                     socket.fevents[data.channel](data.message);
                 } catch (e) {
                 }
             }
+            //Is there a function to execute on reply ?
             if (socket.events[data.channel] !== undefined) {
                 try {
                     //return true for multiple needed
@@ -66,18 +79,24 @@ var socket = {
             }
         };
 
+        //Try to reconnect 5 seconds after close
         socket.ctx.onclose = function () {
             socket.funcs.push = Array.prototype.push;
             setTimeout(function () {
                 socket.init();
-            }, 3000);
+            }, 5000);
 
         };
-        socket.ctx.onerror = function (event) {
-            $('#bell').removeClass('waiting connected');
-        };
     },
+    /**
+     * Send request to WebSocket
+     *
+     * @param message object to send
+     * @param func function to execute on reply
+     * @returns act identifier
+     */
     send: function (message, func) {
+        // generate an unique identifier for store function to execute on reply
         var act = sys.uniqueId();
         if (func !== undefined && typeof message === "object") {
             message.act = act;
@@ -89,6 +108,11 @@ var socket = {
         socket.funcs.push(message);
         return act;
     },
+    /**
+     * Abort a action
+     *
+     * @param act action to abort
+     */
     abort: function (act) {
         socket.funcs.push(JSON.stringify({
             action: 'abort',
@@ -96,6 +120,12 @@ var socket = {
         }));
         delete socket.events[act];
     },
+    /**
+     * Follow a channel and get updates
+     *
+     * @param channel to follow
+     * @param func function to execute on event transmit by webSocket
+     */
     follow: function (channel, func) {
         if (socket.fevents[channel] === undefined) {
             socket.fevents[channel] = func;
@@ -108,6 +138,10 @@ var socket = {
             socket.fevents[channel] = func;
         }
     },
+    /**
+     * Unfollow a channel
+     * @param channel to unfollow
+     */
     unfollow: function (channel) {
         delete socket.fevents[channel];
         socket.send({
@@ -116,6 +150,9 @@ var socket = {
         });
     }
 };
+/**
+ * Close websocket on client quit
+ */
 $(window).on('beforeunload.socket', function () {
     try {
         socket.ctx.close();

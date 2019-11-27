@@ -3,6 +3,9 @@ var saver = {
         this.purge();
         this.save();
     },
+    /**
+     * Save entry in every input form contais saver tag
+     */
     save: function () {
         if (typeof localStorage !== undefined) {
             $('[saver]').each(function () {
@@ -41,6 +44,11 @@ var saver = {
             });
         }
     },
+    /**
+     * remove data saved
+     *
+     * @param inputs where remove is needed
+     */
     remove: function (inputs) {
         if (typeof localStorage !== undefined) {
             inputs.each(function () {
@@ -48,6 +56,9 @@ var saver = {
             });
         }
     },
+    /**
+     * Purge all form saved
+     */
     purge: function () {
         if (typeof localStorage !== undefined) {
             for (var i = 0; i < localStorage.length; i++) {
@@ -64,4 +75,4 @@ var saver = {
             }
         }
     }
-}
+};
