@@ -19,6 +19,8 @@ import live.page.web.utils.Fx;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +52,7 @@ public class PagesAggregator {
 			Json revision = Db.find("Revisions", Filters.eq("url", clean)).sort(Sorts.descending("edit")).first();
 			if (revision == null) {
 				try {
-					clean = Fx.cleanDecode(clean);
+					clean = Fx.cleanURL(clean);
 				} catch (Exception e) {
 					return null;
 				}
