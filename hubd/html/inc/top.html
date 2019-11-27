@@ -17,7 +17,6 @@
 			<div id="bell"#if($user.notices>0) class="unread"#end onclick="sys.notices.view()">
 				<span class="info">$user.notices</span><span class="active">$svg.mi_notifications_active</span><span class="inactive">$svg.mi_notifications</span>
 			</div>
-			
 			#if($user.editor)
 				#if($page && $page.url)
 					<a href="$page.url?edit" title="#lang('EDIT')">$svg.fa_icon_pencil</a>

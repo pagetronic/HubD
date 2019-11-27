@@ -123,6 +123,8 @@ var ajax = {
 
                 var body = $(html);
                 var center = $('#center');
+
+                $('#comodo').html(body.find('#comodo').html());
                 $('#menu').html(body.find('#menu').html());
                 center.html(body.find('#center').html());
                 $('header h1').html(body.find('header h1').html());
