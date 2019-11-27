@@ -1,7 +1,6 @@
 package live.page.web.api;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,19 +9,6 @@ import java.util.List;
 public class Scopes {
 
 	public final static List<String> scopes = new ArrayList<>();
-
-	static {
-		scopes.addAll(
-				Arrays.asList(
-						"email",
-						"pm",
-						"threads",
-						"accounts"
-				)
-		);
-
-
-	}
 
 	public static List<String> sort(List<String> scopes) {
 		List<String> sorted = new ArrayList<>();

@@ -114,7 +114,7 @@ public class DbTagsLinker {
 		}
 
 		for (Json link : links) {
-			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + "[ ]+?([^]]+)?]", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + "[ ]?+([^]]+)?]", Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(text);
 
 			while (matcher.find()) {

@@ -36,6 +36,7 @@ public class PipelinerStore {
 
 	/**
 	 * Get all methods for special interrogations
+	 *
 	 * @return all methods stored
 	 */
 	public static Map<String, Class<? extends Pipeliner>> getMethods() {
@@ -44,6 +45,7 @@ public class PipelinerStore {
 
 	/**
 	 * Get standard construcor for a specific method
+	 *
 	 * @param key where is the method wanted
 	 * @return the method
 	 */
