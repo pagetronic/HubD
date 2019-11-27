@@ -81,10 +81,9 @@ public class WebServletRequest extends BaseServletRequest {
 		if (user != null && user.getEditor()) {
 			setAttribute("draft_count", PagesUtils.getDraftsCount());
 		}
-		if (user != null && !isAjax()) {
-			user.put("messages", MessagesUtils.countUnreads(user.getId()));
-			user.put("notices", SocketPusher.countUnreads(user.getId()));
-		}
+		user.put("messages", MessagesUtils.countUnreads(user.getId()));
+		user.put("notices", SocketPusher.countUnreads(user.getId()));
+
 		AddToServletRequest.seed(user, this);
 
 	}
