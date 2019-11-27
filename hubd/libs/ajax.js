@@ -1,4 +1,7 @@
 var ajax = {
+    /**
+     * Init Ajax watch back button
+     */
     init: function () {
         //TODO save page in history, is not necessary to reload or just for crontrol
         $(window).on('popstate.ajax', function (event) {
@@ -28,21 +31,17 @@ var ajax = {
         }
 
     },
-    hide: function () {
-        var center = $('#center');
-        history.pushState({
-            ajax: false
-        }, document.title, document.location.href);
-        $(document.body).addClass('hide_loading').html(sys.loading(50).css({marginTop: 200}));
 
-    },
+    /**
+     * Make links ajax clickable if possible
+     */
     it: function (where) {
         if (where === undefined) {
             where = $('#menu, header, #center');
         }
         where.find("a[href][noajax]:not([onclick])").off('click.noajax').on('click.noajax', function (e) {
             if ($(this).attr('target') !== '_blank' && !$(this).attr('href').startsWith("/")) {
-                ajax.hide();
+                sys.wait(true);
             }
             return true;
         });
@@ -69,6 +68,13 @@ var ajax = {
             return false;
         });
     },
+    /**
+     * Get url
+     *
+     * @param url request to get
+     * @param func function to execute on success
+     * @param error function to execute on error
+     */
     get: function (url, func, error) {
 
         var headers = {
@@ -81,18 +87,28 @@ var ajax = {
             error: error
         });
     },
-    unload_funcs: [],
+    /**
+     * Functions to execute on new ajax request, like "on quit"
+     */
     unload: function (func) {
+        if (ajax.unload_funcs === undefined) {
+            ajax.unload_funcs = [];
+        }
         if (func === undefined) {
             $.each(ajax.unload_funcs, function () {
                 this();
             });
             ajax.unload_funcs = [];
-
         } else {
             ajax.unload_funcs.push(func);
         }
     },
+    /**
+     * Reload current page by Ajax
+     *
+     * @param silent mode if true
+     * @param after function to execute
+     */
     reload: function (silent, after) {
         ajax.load(sys.uri(), (silent !== undefined && silent), undefined, function () {
             if (typeof after === 'function') {
@@ -100,6 +116,15 @@ var ajax = {
             }
         });
     },
+    /**
+     * Reload page by Ajax
+     *
+     * @param url of the page
+     * @param silent mode if true
+     * @param success function to execute on success
+     * @param after function to execute on finish
+     * @param scroll jump to previous position ?
+     */
     load: function (url, silent, success, after, scroll) {
         silent = silent === undefined ? false : silent;
         if (success === undefined || success === null) {
@@ -144,8 +169,6 @@ var ajax = {
                 }
 
             }
-
-
         }
 
         xhr.abort();
