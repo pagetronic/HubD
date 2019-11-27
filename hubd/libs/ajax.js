@@ -59,7 +59,7 @@ var ajax = {
 
             var href = $(this).attr('href');
             if (href.startsWith('#')) {
-                var dest = $(this.href);
+                var dest = $(href);
                 sys.scrollto(dest, 300, function () {
                     dest.pulse();
                 });
