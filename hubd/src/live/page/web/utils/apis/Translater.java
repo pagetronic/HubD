@@ -14,6 +14,13 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class Translater {
+	/**
+	 * Google Api Translation
+	 * @param str to translate
+	 * @param source_lng source language
+	 * @param destination_lng destination language
+	 * @return the translation
+	 */
 	public static String translate(String str, String source_lng, String destination_lng) {
 		if (str == null || str.equals("") || str.length() <= 1) {
 			return str;

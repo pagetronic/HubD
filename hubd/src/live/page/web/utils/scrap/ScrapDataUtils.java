@@ -29,7 +29,12 @@ public class ScrapDataUtils {
 
 	private static final int max = 1000;
 
-
+	/**
+	 * Get snippet and abstract from an Url without cache
+	 *
+	 * @param url to get
+	 * @return data of the page
+	 */
 	public static Json scrapNoCache(String url) {
 		String html = HttpClient.getAsFacebook(url);
 		if (html != null && html.length() > 10) {
@@ -38,6 +43,13 @@ public class ScrapDataUtils {
 		return null;
 	}
 
+
+	/**
+	 * Get snippet and abstract from an Url with cache
+	 *
+	 * @param url to get
+	 * @return data of the page
+	 */
 	public static Json getData(String url) {
 		Json preview;
 		if (url.matches("//(www.)?(youtube.com|youtu.be)")) {
@@ -53,6 +65,13 @@ public class ScrapDataUtils {
 		return preview;
 	}
 
+
+	/**
+	 * Get snippet and abstract from a Jsoup document
+	 *
+	 * @param page Jsoup document
+	 * @return data of the page
+	 */
 	public static Json parseData(Document page) {
 
 		Json rez = new Json();
@@ -148,6 +167,12 @@ public class ScrapDataUtils {
 		return rez;
 	}
 
+	/**
+	 * Get logo of the page
+	 *
+	 * @param page Jsoup document where to find logos
+	 * @return a List of logos ordered by size
+	 */
 	private static List<String> getLogos(Document page) {
 
 		List<String> dejavu = new ArrayList<>();
@@ -193,7 +218,7 @@ public class ScrapDataUtils {
 							}
 						}
 					}
-				} catch (Exception e) {
+				} catch (Exception ignore) {
 
 				}
 
@@ -204,7 +229,7 @@ public class ScrapDataUtils {
 				try {
 					URL url = new URL(page.location());
 					src = url.getProtocol() + "://" + url.getHost() + (src.startsWith("/") ? "" : "/");
-				} catch (Exception e) {
+				} catch (Exception ignore) {
 				}
 			}
 
@@ -242,12 +267,24 @@ public class ScrapDataUtils {
 	}
 
 
+	/**
+	 * Get snippet and abstract from an YouTube Url
+	 *
+	 * @param url to get
+	 * @return data of the page
+	 */
 	private static Json youtube(String url) {
 		String pattern = Pattern.compile("(?:https?://)?(?:youtu\\.be/|(?:www\\.)?youtube\\.com/(?:watch(?:\\.php)?\\?.*v=|v/|embed/))([a-zA-Z0-9\\-_]+)").pattern();
 		String id = url.replaceAll(pattern, "$1");
 		return YouTubeApi.getVideoSnippets(id);
 	}
 
+	/**
+	 * Get snippet and abstract from an Url
+	 *
+	 * @param url to get
+	 * @return data of the page
+	 */
 	private static Json normal(String url) {
 		Json dejavu = Db.findOneAndUpdate("DejaVu",
 				Filters.eq("_id", url),
@@ -272,6 +309,13 @@ public class ScrapDataUtils {
 		}
 	}
 
+
+	/**
+	 * Get Title from an Url
+	 *
+	 * @param url to get
+	 * @return title of the page
+	 */
 	public static String getTitle(String url) {
 		try {
 			if (url.contains("youtube.com/channel")) {
@@ -283,9 +327,17 @@ public class ScrapDataUtils {
 		}
 	}
 
+	/**
+	 * Class to order images by sizes
+	 */
 	private static class ImagesSortedStore {
 		private final List<ImageElement> list = new ArrayList<>();
 
+		/**
+		 * List of images sorted by size
+		 *
+		 * @return List of images in order
+		 */
 		public List<String> getSorted() {
 			list.sort((img1, img2) -> {
 				try {
@@ -302,10 +354,23 @@ public class ScrapDataUtils {
 			return sorted;
 		}
 
+		/**
+		 * Add image to the store
+		 *
+		 * @param src    of the image
+		 * @param width  of the image
+		 * @param height of the image
+		 */
 		public void addImage(String src, int width, int height) {
 			list.add(new ImageElement(src, width, height));
 		}
 
+		/**
+		 * Is this Store contains the image?
+		 *
+		 * @param src of the image
+		 * @return true if image is in this store
+		 */
 		public boolean contains(String src) {
 			for (ImageElement img : list) {
 				if (img.src.equals(src)) {
@@ -315,7 +380,9 @@ public class ScrapDataUtils {
 			return false;
 		}
 
-
+		/**
+		 * Image information stored in the store
+		 */
 		private class ImageElement {
 			final String src;
 			final int width;

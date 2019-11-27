@@ -34,22 +34,53 @@ import java.util.regex.Pattern;
 public class HttpClient {
 
 
-	public static String getAsGoogle(String url) {
-		return get(url, "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36");
-	}
-
-	public static String getAsFacebook(String url) {
-		return get(url, "FacebookExternalHit/1.1");
-	}
-
-	public static String getAsChromium(String url) {
-		return get(url, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko; compatible) Ubuntu Chromium/76.0.3809.100 Chrome/76.0.3809.100 Safari/537.36");
-	}
-
+	/**
+	 * Get the content of a web page
+	 *
+	 * @param url of the web page
+	 * @return the content of the web page
+	 */
 	public static String get(String url) {
 		return get(url, "PageLive/0.9; +" + Settings.getFullHttp());
 	}
 
+	/**
+	 * Get the content of a web page as Google crawler
+	 *
+	 * @param url of the web page
+	 * @return the content of the web page
+	 */
+	public static String getAsGoogle(String url) {
+		return get(url, "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36");
+	}
+
+	/**
+	 * Get the content of a web page as Facebook crawler
+	 *
+	 * @param url of the web page
+	 * @return the content of the web page
+	 */
+	public static String getAsFacebook(String url) {
+		return get(url, "FacebookExternalHit/1.1");
+	}
+
+	/**
+	 * Get the content of a web page as Chromium browser
+	 *
+	 * @param url of the web page
+	 * @return the content of the web page
+	 */
+	public static String getAsChromium(String url) {
+		return get(url, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko; compatible) Ubuntu Chromium/76.0.3809.100 Chrome/76.0.3809.100 Safari/537.36");
+	}
+
+	/**
+	 * Get the content of a web page as a specific user agent signature
+	 *
+	 * @param url of the web page
+	 * @param ua  user agent signature
+	 * @return the content of the web page
+	 */
 	public static String get(String url, String ua) {
 		CloseableHttpClient httpclient = null;
 		HttpGet request = null;
@@ -122,7 +153,7 @@ public class HttpClient {
 							rez = new String(src, Charset.forName(matcher.group(1).toLowerCase()));
 							rez = rez.replace("\u0092", "'");
 							break;
-						} catch (Exception e) {
+						} catch (Exception ignore) {
 						}
 					}
 				}
@@ -137,27 +168,33 @@ public class HttpClient {
 		} finally {
 			try {
 				in.close();
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 			try {
 				EntityUtils.consume(entity);
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 			try {
 				response.close();
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 			try {
 				request.completed();
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 			try {
 				httpclient.close();
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 		}
 	}
 
+	/**
+	 * Encode the url as a correct format
+	 *
+	 * @param url to encode
+	 * @return the url encoded
+	 */
 	public static String encodeUrlPath(String url) {
 		try {
 			URL uri = new URL(url);
@@ -184,7 +221,7 @@ public class HttpClient {
 				str.append(uri.getQuery());
 			}
 			return str.toString();
-		} catch (Exception e) {
+		} catch (Exception ignore) {
 
 		}
 		return url;

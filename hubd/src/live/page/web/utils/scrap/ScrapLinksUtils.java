@@ -23,10 +23,30 @@ import java.util.regex.Pattern;
 
 public class ScrapLinksUtils {
 
+	/**
+	 * Get page content
+	 *
+	 * @param url of the page
+	 * @return string representing content
+	 */
 	public static String get(String url) {
 		return HttpClient.getAsFacebook(url);
 	}
 
+	/**
+	 * Get page content
+	 *
+	 * @param onResult   function to execute on result
+	 * @param url        to get
+	 * @param cleaner    regex for clean title
+	 * @param lng        language needed
+	 * @param scraps     elements to get
+	 * @param aggregater is search external links ?
+	 * @param link       where to get ?
+	 * @param exclude    words from page
+	 * @param preview    is preview mode?
+	 * @throws InterruptedException on interruption
+	 */
 	public static void scrap(OnScrapResult onResult, String url, String cleaner, String lng, List<Json> scraps, boolean aggregater, String link, String exclude, boolean preview) throws InterruptedException {
 
 		if (Fx.IS_DEBUG) {
@@ -43,6 +63,20 @@ public class ScrapLinksUtils {
 		}
 	}
 
+	/**
+	 * Get page content
+	 *
+	 * @param onResult   function to execute on result
+	 * @param url        to get
+	 * @param cleaner    regex for clean title
+	 * @param lng        language needed
+	 * @param scraps     elements to get
+	 * @param aggregater is search external links ?
+	 * @param link       where to get ?
+	 * @param excludes   List of terms to exclude if in page
+	 * @param preview    is preview mode?
+	 * @throws InterruptedException on interruption
+	 */
 	public static void getPages(OnScrapResult onResult, String url, String cleaner, String lng, List<Json> scraps, boolean aggregater, String link, List<String> excludes, boolean preview) throws InterruptedException {
 		String html = get(url);
 		if (html == null) {
@@ -69,7 +103,7 @@ public class ScrapLinksUtils {
 			for (Element page : pages) {
 				String sub_url = page.absUrl("href").replaceAll("#.*$", "");
 				if (sub_url.equals(url) ||
-						!isIncludeUrl(sub_url, includes) || isFixedEclude(sub_url) || isExclude(sub_url, excludes) || (!preview && isDejaVu(sub_url))) {
+						!isIncludeUrl(sub_url, includes) || isFixedExclude(sub_url) || isExclude(sub_url, excludes) || (!preview && isDejaVu(sub_url))) {
 					continue;
 				}
 
@@ -138,7 +172,7 @@ public class ScrapLinksUtils {
 							}
 
 							if (agg_link == null || agg_link.equals("") ||
-									isFixedEclude(agg_link) || isExclude(agg_link, excludes) || (!preview && isDejaVu(agg_link))) {
+									isFixedExclude(agg_link) || isExclude(agg_link, excludes) || (!preview && isDejaVu(agg_link))) {
 								continue;
 							}
 
@@ -185,6 +219,13 @@ public class ScrapLinksUtils {
 		onResult.run(new Json("finish", true));
 	}
 
+	/**
+	 * Regex @ separated for cleaning result
+	 *
+	 * @param cleaners Regex @ separated
+	 * @param data     to clean
+	 * @return data cleaned
+	 */
 	private static Json cleaner(String cleaners, Json data) {
 		if (cleaners != null && !cleaners.equals("")) {
 			try {
@@ -206,6 +247,16 @@ public class ScrapLinksUtils {
 	}
 
 
+	/**
+	 * Get youtube last videos contents
+	 *
+	 * @param onResult function to execute on result
+	 * @param channel  where to get videos
+	 * @param forums   where post video
+	 * @param cleaner  regex for clean title
+	 * @param excludes List of terms to exclude if in video snippets
+	 * @param preview  is preview mode?
+	 */
 	private static void getYoutubeChannelLinks(OnScrapResult onResult, String channel, List<String> forums, String cleaner, List<String> excludes, boolean preview) {
 
 		List<Json> videos = YouTubeApi.getChannelVideos(channel);
@@ -271,6 +322,12 @@ public class ScrapLinksUtils {
 		onResult.run(new Json("finish", true));
 	}
 
+	/**
+	 * Get snippets of a page
+	 *
+	 * @param url of the page
+	 * @return Json contains snippets: title, abstract, url
+	 */
 	private static Json getPageData(String url) {
 		String urlhtml = get(url);
 		if (urlhtml == null) {
@@ -287,6 +344,13 @@ public class ScrapLinksUtils {
 
 	}
 
+	/**
+	 * Is string contain exclude term ?
+	 *
+	 * @param str      to analyze
+	 * @param excludes terms to exclude
+	 * @return true if string contain a term to exclude
+	 */
 	private static boolean isExclude(String str, List<String> excludes) {
 		if (excludes == null) {
 			return false;
@@ -302,6 +366,13 @@ public class ScrapLinksUtils {
 		return false;
 	}
 
+	/**
+	 * Is url accepted ?
+	 *
+	 * @param url      to test
+	 * @param includes list of terms must be in the url
+	 * @return true if url is include
+	 */
 	private static boolean isIncludeUrl(String url, List<String> includes) {
 		if (includes == null) {
 			return true;
@@ -314,10 +385,22 @@ public class ScrapLinksUtils {
 		return false;
 	}
 
-	private static boolean isFixedEclude(String url) {
+	/**
+	 * Exclude socials links
+	 *
+	 * @param url to analyze
+	 * @return true if is excluded
+	 */
+	private static boolean isFixedExclude(String url) {
 		return isExclude(url, Arrays.asList("twitter.com", "paypal.com", "//t.co", "wikipedia.org", "facebook.com", "linkedin.com", ".pdf", ".mp3"));
 	}
 
+	/**
+	 * Is url already scanned ?
+	 *
+	 * @param url to search
+	 * @return true if url is already scanned
+	 */
 	private static boolean isDejaVu(String url) {
 		String url_id = url.substring(0, Math.min(url.length(), 1024));
 		return (Db.updateOne("DejaVu", Filters.eq("_id", url_id), new Json()
@@ -327,19 +410,38 @@ public class ScrapLinksUtils {
 				|| linkExist(url));
 	}
 
+	/**
+	 * Remove url from already scanned
+	 *
+	 * @param url to remove
+	 */
 	private static void unDejaVu(String url) {
 		Db.deleteOne("DejaVu", Filters.eq("_id", url));
 	}
 
+	/**
+	 * Is data snippet too short ?
+	 *
+	 * @param data to analyze
+	 * @return true if data is too short
+	 */
 	private static boolean tooShort(Json data) {
 		return data.getString("title", "").length() < 10 || data.getString("description", "").length() < 500;
 	}
 
+	/**
+	 * Interface for execute on result
+	 */
 	public interface OnScrapResult {
 		boolean run(Json data);
 	}
 
-
+	/**
+	 * Is url exist in posts ?
+	 *
+	 * @param url to search
+	 * @return true if url already posted
+	 */
 	public static boolean linkExist(String url) {
 		return Db.exists("Posts", Filters.eq("link.url", url));
 	}

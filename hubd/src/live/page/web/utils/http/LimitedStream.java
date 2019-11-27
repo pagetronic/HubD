@@ -8,6 +8,9 @@ import live.page.web.utils.Fx;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Limit the size of an InputStream
+ */
 public class LimitedStream extends InputStream {
 
 	private final InputStream original;
@@ -15,17 +18,38 @@ public class LimitedStream extends InputStream {
 	private long total;
 
 
+	/**
+	 * Constructor with size limitation
+	 *
+	 * @param in     input stream to limit
+	 * @param octets maximum octets
+	 * @return the inputStream limited
+	 */
+	private LimitedStream(InputStream in, long octets) {
+		this.original = in;
+		this.maxSize = octets;
+	}
+
+	/**
+	 * Get an InputStream with size limitation
+	 *
+	 * @param in            input stream to limit
+	 * @param maxMegaOctets maximum mega octets
+	 * @return the inputStream limited
+	 */
 	public static InputStream asLimited(InputStream in, int maxMegaOctets) {
 		return new LimitedStream(in, maxMegaOctets * 1024L * 1024L);
 	}
 
+	/**
+	 * Get an InputStream with size limitation
+	 *
+	 * @param in     input stream to limit
+	 * @param octets maximum octets
+	 * @return the inputStream limited
+	 */
 	public static InputStream asLimited(InputStream in, long octets) {
 		return new LimitedStream(in, octets);
-	}
-
-	private LimitedStream(InputStream original, long maxSize) {
-		this.original = original;
-		this.maxSize = maxSize;
 	}
 
 	@Override
