@@ -13,10 +13,18 @@ import java.util.Properties;
 
 public class Mailer {
 
-	public static boolean send(String to, String subject, String message) {
+	/**
+	 * Send an email
+	 *
+	 * @param recipient of the message
+	 * @param subject   of the message
+	 * @param message   to send
+	 * @return true if send successful
+	 */
+	public static boolean send(String recipient, String subject, String message) {
 
 		if (Fx.IS_DEBUG) {
-			Fx.log(to);
+			Fx.log(recipient);
 			Fx.log(subject);
 			Fx.log(message);
 			return true;
@@ -43,7 +51,7 @@ public class Mailer {
 				}
 			}));
 			mail.setFrom(new InternetAddress(Settings.SMTP_MAIL_USER, Settings.SITE_TITLE));
-			mail.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			mail.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			mail.setSubject(subject);
 			mail.setContent(message, "text/html; charset=utf-8");
 			Transport.send(mail);
@@ -55,8 +63,16 @@ public class Mailer {
 		}
 	}
 
-	public static boolean sendActivation(String lng, String to, String key) {
-		String link = Settings.getFullHttp(lng) + "/profile?activate=" + key;
+	/**
+	 * Send an activation code
+	 *
+	 * @param lng  where requested
+	 * @param to   user
+	 * @param code to send
+	 * @return true if send successful
+	 */
+	public static boolean sendActivation(String lng, String to, String code) {
+		String link = Settings.getFullHttp(lng) + "/profile?activate=" + code;
 		link = "<a href=\"" + link + "\">" + link + "</a>";
 		return send(to, Language.get("ACTIVATION_MAIL_TITLE", lng), Language.get("ACTIVATION_MAIL_TEXT", lng).replace("%1", link));
 
