@@ -50,5 +50,8 @@
             <url>https://raw.github.com/pagetronic/yuicompressor/repository/</url>
         </repository>
     </repositories>
+    <build>
+        <defaultGoal>install</defaultGoal>
+    </build>
 
 </project>

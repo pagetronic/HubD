@@ -14,6 +14,7 @@
         <relativePath>../../HubD</relativePath>
     </parent>
     <build>
+        <defaultGoal>install</defaultGoal>
         <finalName>page-live-croner</finalName>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
