@@ -58,7 +58,7 @@ public class Notices {
 						)
 				));
 				pipeline.add(Aggregates.group(
-						new Json("tag", "$tag").put("user", "$user")
+						new Json("tag", "$tag").put("user", "$user").put("config", "$config.auth")
 						, grouper.getGrouper(
 								Accumulators.first("id", "$_id"),
 								Accumulators.first("tag", "$tag"),
