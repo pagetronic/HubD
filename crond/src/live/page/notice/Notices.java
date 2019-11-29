@@ -57,12 +57,15 @@ public class Notices {
 								Filters.lt("delay", new Date())
 						)
 				));
-				pipeline.add(Aggregates.group("tag", grouper.getGrouper(
-						Accumulators.first("id", "$_id"),
-						Accumulators.push("ids", "$_id"),
-						Accumulators.push("title", "$title"),
-						Accumulators.push("message", "$message")
-				)));
+				pipeline.add(Aggregates.group(
+						new Json("tag", "$tag").put("user", "$user")
+						, grouper.getGrouper(
+								Accumulators.first("id", "$_id"),
+								Accumulators.first("tag", "$tag"),
+								Accumulators.push("ids", "$_id"),
+								Accumulators.push("title", "$title"),
+								Accumulators.push("message", "$message")
+						)));
 
 				pipeline.add(Aggregates.project(grouper.getProjection().put("_id", "$id")));
 				pipeline.add(Aggregates.sort(Sorts.descending("date")));
