@@ -61,7 +61,6 @@ public class Notices {
 						new Json("tag", "$tag").put("user", "$user").put("config", "$config.auth")
 						, grouper.getGrouper(
 								Accumulators.first("id", "$_id"),
-								Accumulators.first("tag", "$tag"),
 								Accumulators.push("ids", "$_id"),
 								Accumulators.push("title", "$title"),
 								Accumulators.push("message", "$message")
