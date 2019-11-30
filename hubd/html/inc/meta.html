@@ -25,10 +25,11 @@ $robotsmetas
 <link rel="manifest" href="$http_site/manifest.json" />
 #if($analytics)
     <script async type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=$analytics"></script>
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];function gtag() {window.dataLayer.push(arguments);}
+    </script>
 #end
 <script type="text/javascript">
-window.dataLayer = window.dataLayer || [];function gtag() {window.dataLayer.push(arguments);}
-<!--(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;-->
 var sys={$:[],analytics:"$!analytics",debug:$debug,pub:$pub,lng:'$lng',#if(!$user)user:{id:null}#{else}user:{id:'$user.id',admin:$user.admin,editor:$user.editor,parent:#if($user.original)true#{else}false#end}#end,sets:#if($user.settings)$user.settings#else{}#end,push:function(f){sys.$.push(f)}};
 </script>
 #if($pub)
