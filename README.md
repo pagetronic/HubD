@@ -7,12 +7,6 @@ A Java Engine to deploy complex Website. A Toolbox to create many features with 
 * HTML Template: Apache Velocity Engine
 * Libs Management: Apache Maven
 
-
-* Multiple servers supported
-* User Friendly, Seo Ready
-* Only Mongodb cache
-* LightWeight and performance oriented
-
 You can see in action on [Agroneo](https://agroneo.com) and [GitHub example](https://github.com/pagetronic/Agroneo).
 
 #### Functionalities
@@ -27,5 +21,9 @@ You can see in action on [Agroneo](https://agroneo.com) and [GitHub example](htt
 * [Language](hubd/src/live/page/web/system/Language.java) processor
 * [WebPush](crond/src/live/page/notice)
 * [Love Ajax](hubd/libs/ajax.js)
+* Multiple servers supported
+* User Friendly, Seo Ready
+* Only Mongodb cache
+* LightWeight and performance oriented
 * and more..
 
