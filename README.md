@@ -7,7 +7,7 @@ You can see in action on [Agroneo](https://agroneo.com) and [GitHub example](htt
 #### Functionalities
 
 * Cool HTML Template system
-* Json/XML Api
+* [Json/XML Api](src/live/page/web/system/json)
 * WebSocket Api
 * Content deliver and images manipulation
 * OAuth provider
