@@ -14,7 +14,7 @@ You can see in action on [Agroneo](https://agroneo.com) and [GitHub example](htt
 * Cool HTML [Template system](hubd/html)
 * [Json/XML Api](hubd/src/live/page/web/system/json)
 * [WebSocket Api](hubd/src/live/page/web/system/socket)
-* [Content deliver and images manipulation](hubd/src/live/page/web/blobs)
+* [Images/Docs manipulation](hubd/src/live/page/web/blobs)
 * [OAuth provider](hubd/src/live/page/web/api)
 * [WebPush](crond/src/live/page/notice)
 * OAuth client (Gafam)
