@@ -2,7 +2,7 @@
 
 A Jar Engine to deploy complex Website. A Toolbox to create many features with apis.
 
-* Performance: Java Servlet
+* Performance: Tomcat Servlet
 * NoSQL: MongoDb
 * HTML Engine: Velocity
 * Management: Maven
