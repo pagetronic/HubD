@@ -1,11 +1,11 @@
 # HubD
 
-A Jar Engine to deploy complex Website. A Toolbox to create many features with apis.
+A Java Engine to deploy complex Website. A Toolbox to create many features with apis.
 
-* Performance: Tomcat Servlet
-* NoSQL: MongoDb
-* HTML Engine: Velocity
-* Management: Maven
+* Performance: Apache Tomcat
+* Database NoSQL: MongoDb
+* HTML Template: Apache Velocity Engine
+* Libs Management: Apache Maven
 
 
 * Multiple servers supported
