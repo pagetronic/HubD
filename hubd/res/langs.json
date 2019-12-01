@@ -1073,6 +1073,14 @@
     "it": "ultimo accesso",
     "pt": "último acesso"
   },
+  "LAST_MONTH": {
+    "de": "Im vergangenen Monat",
+    "en": "Last month",
+    "es": "El mes pasado",
+    "fr": "Le mois dernier",
+    "it": "Lo scorso mese",
+    "pt": "Mês passado"
+  },
   "LAST_REPLY": {
     "de": "letzte Antwort",
     "en": "last reply",
@@ -1973,7 +1981,7 @@
   },
   "THIS_MONTH": {
     "de": "Diesen Monat",
-    "en": "This Month",
+    "en": "This month",
     "es": "Este mes",
     "fr": "Ce mois",
     "it": "Questo mese",
