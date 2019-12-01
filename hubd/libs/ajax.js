@@ -16,9 +16,12 @@ var ajax = {
                 }
                 if (document.location.hash.match("#.*")) {
                     var center = $('#center');
-                    center.animate({
-                        scrollTop: $(document.location.hash).position().top - center.height() / 2
-                    }, 300);
+                    try {
+                        center.animate({
+                            scrollTop: $(document.location.hash).position().top - center.height() / 2
+                        }, 300);
+                    } catch (e) {
+                    }
                     return;
                 }
 
