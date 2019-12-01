@@ -16,7 +16,7 @@ You can see in action on [Agroneo](https://agroneo.com) and [GitHub example](htt
 * [Json/XML](hubd/src/live/page/web/system/json) [Api](hubd/libs/api.js)
 * [Love Ajax](hubd/libs/ajax.js)
 * [Live](hubd/src/live/page/web/system/socket/SocketDb.java) [WebSocket](hubd/src/live/page/web/system/socket) [Api](hubd/libs/socket.js)
-* [Images/Docs manipulation](hubd/src/live/page/web/blobs)
+* [Images/Docs](hubd/src/live/page/web/blobs) [manipulation](hubd/src/live/page/web/blobs/Thumbnailer.java)
 * [OAuth provider](hubd/src/live/page/web/api)
 * [WebPush](crond/src/live/page/notice)
 * [OAuth client](hubd/src/live/page/web/system/sessions/oauth)
