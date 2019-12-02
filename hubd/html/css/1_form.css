@@ -198,6 +198,10 @@ select:invalid, .select .placeholder {
     flex-wrap: wrap;
 }
 
+.select .text small {
+    display: none;
+}
+
 .select .text svg {
     margin-right: 3px;
     flex: 0 0 auto;
