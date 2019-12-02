@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
  * In Javascript use : socket.follow('channel/tofollow', function (msg) {});
  */
 @WebListener
-public class SocketDb implements ServletContextListener {
+public class SocketCapper implements ServletContextListener {
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
