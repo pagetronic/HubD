@@ -107,19 +107,19 @@
                         filter.push(seclss.element.val())
                     }
                 }
-                    if (typeof seclss.element.val() === 'object') {
-                        $.each(seclss.element.val(), function () {
-                            filter.push(this);
-                        });
-                    } else {
-                        filter.push(seclss.element.val());
-                    }
+                if (typeof seclss.element.val() === 'object') {
+                    $.each(seclss.element.val(), function () {
+                        filter.push(this);
+                    });
+                } else {
+                    filter.push(seclss.element.val());
+                }
 
                 return filter.length > 0 ? filter : null;
             },
             loadData: function (select, url, search, id, list, paging, append) {
 
-                if (append === undefined && append !== false) {
+                if (append === undefined || append === false) {
                     list.html(seclss.wait);
                 } else {
                     list.append(seclss.wait);
