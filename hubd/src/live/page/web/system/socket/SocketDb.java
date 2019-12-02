@@ -27,12 +27,22 @@ import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * For multi-server system, you can't have a live websocket update if you don't store update in a common system to all servers
+ * Here we use Capped Collection from MongodDB https://docs.mongodb.com/manual/core/capped-collections/
+ * Every push are live.
+ * In Javascript use : socket.follow('channel/tofollow', function (msg) {});
+ */
 @WebListener
 public class SocketDb implements ServletContextListener {
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-
+	/**
+	 * Create and Run Capped Collection
+	 *
+	 * @param sce not used
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		executor.submit(() -> {
@@ -74,10 +84,15 @@ public class SocketDb implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-
 		Fx.shutdownService(executor);
 	}
 
+	/**
+	 * Push to all users
+	 *
+	 * @param message  to push
+	 * @param excludes users
+	 */
 	private void pushToAll(Json message, List<String> excludes) {
 		for (Entry<String, SessionData> entry : SocketSessions.getSessions().entrySet()) {
 			SessionData data = entry.getValue();
@@ -88,6 +103,13 @@ public class SocketDb implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Push to a specifics users
+	 *
+	 * @param channel where push
+	 * @param users   to push
+	 * @param message to push
+	 */
 	private void pushToUser(String channel, List<String> users, Json message) {
 		if ((channel == null) || (message == null)) {
 			return;
