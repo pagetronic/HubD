@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
  * For multi-server system, you can't have a live websocket update if you don't store update in a common system to all servers
  * Here we use Capped Collection from MongodDB https://docs.mongodb.com/manual/core/capped-collections/
  * Every push are live.
+ *
  * In Javascript use : socket.follow('channel/tofollow', function (msg) {});
  */
 @WebListener
