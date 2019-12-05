@@ -28,6 +28,25 @@ var socket = {
         }
         socket.ctx = new WebSocket(constants.apiurl.replace(/^http/, 'ws') + '/socket', sys.lng);
 
+        var inactive = 0;
+        var socketTimeout = setInterval(function () {
+            if (!document.hasFocus()) {
+                inactive += 1000;
+                if (inactive > 20 * 60 * 1000) {
+                    log('Socket closed for inactivity');
+                    clearInterval(socketTimeout);
+                    socket.lock = true;
+                    socket.ctx.close();
+                    $(window).on('focus', function () {
+                        document.location.reload();
+                    });
+
+                }
+            } else {
+                inactive = 0
+            }
+        }, 1000);
+
         socket.ctx.onopen = function () {
             //Execute functions stored who waiting connection
             var funcs = socket.funcs;
@@ -82,9 +101,11 @@ var socket = {
         //Try to reconnect 5 seconds after close
         socket.ctx.onclose = function () {
             socket.funcs.push = Array.prototype.push;
-            setTimeout(function () {
-                socket.init();
-            }, 5000);
+            if (socket.lock !== true) {
+                setTimeout(function () {
+                    socket.init();
+                }, 5000);
+            }
 
         };
     },
