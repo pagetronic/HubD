@@ -28,6 +28,9 @@ var socket = {
         }
         socket.ctx = new WebSocket(constants.apiurl.replace(/^http/, 'ws') + '/socket', sys.lng);
 
+        /**
+         * Disconnect on 20 minutes of inactivity
+         */
         var inactive = 0;
         var socketTimeout = setInterval(function () {
             if (!document.hasFocus()) {
