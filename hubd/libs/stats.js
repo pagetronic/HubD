@@ -3,6 +3,7 @@ var stats = {
         if (!sys.debug && (sys.user.admin || sys.user.editor)) {
             return;
         }
+        var i = 0;
         var infos = sys.device();
         socket.send({
             action: 'stats',
@@ -18,14 +19,16 @@ var stats = {
         }, function (msg) {
 
             var goneInterval = setInterval(function () {
-                socket.send({
-                    action: 'stats',
-                    data: {
-                        id: msg.id,
-                        gone: false
-                    }
-                });
-            }, 5000);
+                if (document.hasFocus()) {
+                    socket.send({
+                        action: 'stats',
+                        data: {
+                            id: msg.id,
+                            gone: false
+                        }
+                    });
+                }
+            }, 3000);
 
             var gone = function (after) {
                 clearInterval(goneInterval);
