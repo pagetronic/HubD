@@ -652,11 +652,14 @@
                                         var title = seclss.identifyTitle(rez.result[0]);
                                         seclss.element.find('option[value=' + rez.result[0].id + ']').remove();
                                         seclss.element.append($('<option selected="selected"/>').html(title).val(rez.result[0].id));
+                                    } else {
+                                        values.slice(i, 1);
                                     }
                                     i++;
                                     if (i < values.length) {
                                         addVal(i);
                                     } else {
+
                                         setValue();
                                         text.removeClass('blink');
 
@@ -671,7 +674,7 @@
                             }
                         };
 
-                        addVal(0)
+                        addVal(0);
 
                     });
 

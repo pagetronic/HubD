@@ -259,9 +259,13 @@
     transition-delay: 0ms;
 }
 
-.coverSelectable .popSelectable {
-    z-index: 10000;
+.coverSelectable {
+    z-index: 1;
+}
+.coverSelectable .popSelectable,.coverSelectable.select .popSelectable {
     position: fixed;
+    z-index: 10000;
+    background:#FFF;
     box-shadow: 0px 0px 0px 10000px rgba(0, 0, 0, 0.70);
     max-width: 400px;
     max-height: 80%;
