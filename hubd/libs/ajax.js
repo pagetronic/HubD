@@ -61,9 +61,10 @@ var ajax = {
 
             var href = $(this).attr('href');
             if (href.startsWith('#')) {
-                var dest = $(href);
+                //Google support (?>2017) only <a name /> for anchor jump in search results
+                var dest = $(href + ', a[name=' + href.substr(1) + ']');
                 sys.scrollto(dest, 300, function () {
-                    dest.pulse();
+                    dest.parent().pulse();
                 });
             } else {
                 ajax.load(href);
