@@ -36,13 +36,13 @@ public class Settings {
 	public static final long MAX_FILE_SIZE = 1024 * 1024 * 10;
 
 	// AdSense or not
-	public static final boolean PUBS = Boolean.valueOf(settings.getProperty("PUBS", "false"));
+	public static final boolean PUBS = Boolean.parseBoolean(settings.getProperty("PUBS", "false"));
 
 	// Salt for passwords
 	public static final String SALT = settings.getProperty("SALT", "qsfsd~sfs#f55q@d8re6qze4sq6666683");
 
 	// Flood delay, delay before post other
-	public static final long FLOOD_DELAY = Long.valueOf(settings.getProperty("FLOOD_DELAY", "5000"));
+	public static final long FLOOD_DELAY = Long.parseLong(settings.getProperty("FLOOD_DELAY", "5000"));
 
 
 	// List of keys available for parent form an item
@@ -96,7 +96,7 @@ public class Settings {
 
 
 	// Calculation and include special breadcrumb menu
-	public static final boolean MENU_FORUM = Boolean.valueOf(settings.getProperty("MENU_FORUM", "false"));
+	public static final boolean MENU_FORUM = Boolean.parseBoolean(settings.getProperty("MENU_FORUM", "false"));
 
 	// SMTP host for send email
 	public static final String SMTP_MAIL_HOST = settings.getProperty("SMTP_MAIL_HOST");
@@ -146,10 +146,10 @@ public class Settings {
 	public static final String YOUTUBE_API_KEY = settings.getProperty("YOUTUBE_API_KEY");
 
 	// Disable all base UI exempt libs for specials projects
-	public static final boolean NOUI = Boolean.valueOf(settings.getProperty("NOUI", "false"));
+	public static final boolean NOUI = Boolean.parseBoolean(settings.getProperty("NOUI", "false"));
 
 	// Enable ajax navigation
-	public static final boolean AJAX = Boolean.valueOf(settings.getProperty("AJAX", "true"));
+	public static final boolean AJAX = Boolean.parseBoolean(settings.getProperty("AJAX", "true"));
 
 	// Theme color (address bar in chrome mobile)
 	public static final String THEME_COLOR = settings.getProperty("THEME_COLOR", "#FFFFFF");
