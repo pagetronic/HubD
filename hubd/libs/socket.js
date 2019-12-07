@@ -29,26 +29,22 @@ var socket = {
         socket.ctx = new WebSocket(constants.apiurl.replace(/^http/, 'ws') + '/socket', sys.lng);
 
         /**
-         * Disconnect on 20 minutes of inactivity
+         * Disconnect on 15 minutes of inactivity
          */
-        var inactive = 0;
-        var socketTimeout = setInterval(function () {
-            if (!document.hasFocus()) {
-                inactive += 1000;
-                if (inactive > 20 * 60 * 1000) {
-                    log('Socket closed for inactivity');
-                    clearInterval(socketTimeout);
-                    socket.lock = true;
-                    socket.ctx.close();
-                    $(window).on('focus', function () {
-                        document.location.reload();
-                    });
-
-                }
-            } else {
-                inactive = 0
-            }
-        }, 1000);
+        var socketTimeout = -1;
+        var inactiveEvents = 'mousedown mousemove keypress click scroll touchstart focus';
+        $(window).on(inactiveEvents, function () {
+            clearTimeout(socketTimeout);
+            socketTimeout = setTimeout(function () {
+                log('Socket closed for inactivity');
+                socket.lock = true;
+                socket.ctx.close();
+                $(window).off('resize scroll').on(inactiveEvents, function () {
+                    document.location.reload();
+                });
+                $(document.body).html('').css('background', '#EEE url(' + constants.logo + ') 50% 50% no-repeat');
+            }, 15 * 60 * 1000);
+        });
 
         socket.ctx.onopen = function () {
             //Execute functions stored who waiting connection
@@ -103,8 +99,8 @@ var socket = {
 
         //Try to reconnect 5 seconds after close
         socket.ctx.onclose = function () {
-            socket.funcs.push = Array.prototype.push;
             if (socket.lock !== true) {
+                socket.funcs.push = Array.prototype.push;
                 setTimeout(function () {
                     socket.init();
                 }, 5000);
