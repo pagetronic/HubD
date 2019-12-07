@@ -81,6 +81,9 @@ public class Settings {
 	// The name of the cookie session
 	private static final String COOKIE_NAME = settings.getProperty("COOKIE_NAME", "session");
 
+	// Transmit or not the referrer
+	public static final String REFERRER_POLICY =  settings.getProperty("REFERRER_POLICY", "origin-when-cross-origin");
+
 	// All host by language
 	public static final Json LANGS_DOMAINS = getLangsDomains();
 

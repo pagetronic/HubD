@@ -3,6 +3,7 @@
  */
 package live.page.web.system.servlet.wrapper;
 
+import live.page.web.system.Settings;
 import live.page.web.system.cosmetic.UiStyleServlet;
 import live.page.web.system.cosmetic.tmpl.BaseTemplate;
 import live.page.web.system.json.Json;
@@ -25,7 +26,7 @@ public class WebServletResponse extends BaseServletResponse {
 
 	public WebServletResponse(ServletResponse response) throws IOException {
 		super(response);
-		setHeader("Referrer-Policy", "origin-when-cross-origin");
+		setHeader("Referrer-Policy", Settings.REFERRER_POLICY);
 		setHeader("Vary", "Accept-Language,X-Requested-With,Cookie");
 	}
 
