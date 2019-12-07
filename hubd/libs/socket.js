@@ -42,7 +42,7 @@ var socket = {
                 $(window).off('resize scroll').on(inactiveEvents, function () {
                     document.location.reload();
                 });
-                $(document.body).html('').css('background', '#EEE url(' + constants.logo + ') 50% 50% no-repeat');
+                $(document.body).html('').css('background', '#EEE url(' + constants.logo + ') 50% 20% no-repeat');
             }, 15 * 60 * 1000);
         });
 
