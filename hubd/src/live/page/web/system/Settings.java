@@ -82,7 +82,7 @@ public class Settings {
 	private static final String COOKIE_NAME = settings.getProperty("COOKIE_NAME", "session");
 
 	// Transmit or not the referrer
-	public static final String REFERRER_POLICY =  settings.getProperty("REFERRER_POLICY", "origin-when-cross-origin");
+	public static final String REFERRER_POLICY = settings.getProperty("REFERRER_POLICY", "origin-when-cross-origin");
 
 	// All host by language
 	public static final Json LANGS_DOMAINS = getLangsDomains();
@@ -238,9 +238,7 @@ public class Settings {
 	 */
 	public static List<String> getDomains() {
 		List<String> domains = new ArrayList<>();
-		Settings.LANGS_DOMAINS.values().forEach(obj -> {
-			domains.add((String) obj);
-		});
+		Settings.LANGS_DOMAINS.values().forEach(obj -> domains.add((String) obj));
 		return domains;
 	}
 
