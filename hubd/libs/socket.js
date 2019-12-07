@@ -29,7 +29,7 @@ var socket = {
         socket.ctx = new WebSocket(constants.apiurl.replace(/^http/, 'ws') + '/socket', sys.lng);
 
         /**
-         * Disconnect on 15 minutes of inactivity
+         * Disconnect on 60 minutes of inactivity
          */
         var socketTimeout = -1;
         var inactiveEvents = 'mousedown mousemove keypress click scroll touchstart focus';
@@ -43,7 +43,7 @@ var socket = {
                     document.location.reload();
                 });
                 $(document.body).html('').css('background', '#EEE url(' + constants.logo + ') 50% 20% no-repeat');
-            }, 15 * 60 * 1000);
+            }, 60 * 60 * 1000);
         });
 
         socket.ctx.onopen = function () {
