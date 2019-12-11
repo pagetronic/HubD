@@ -13,7 +13,7 @@ var ajax = {
                     return true;
                 }
 
-                var event = e.originalEvent;
+                history.replaceState({scroll: sys.scroller()[0].scrollTop}, document.title);
 
                 var after = function () {
                     ajax.previous = document.location.pathname;
@@ -22,7 +22,7 @@ var ajax = {
                     if (hash !== null) {
                         sys.jumpto(hash);
                     } else {
-                        sys.scrollto(event.state.scroll === undefined ? 0 : event.state.scroll, 500);
+                        sys.scrollto(e.originalEvent.state.scroll === undefined ? 0 : e.originalEvent.state.scroll, 500);
                     }
                 };
                 if (ajax.previous !== document.location.pathname) {
