@@ -1,7 +1,6 @@
 sys.pages = {
     init: function () {
         sys.nocopy();
-        sys.pages.ancrage();
 
         var question = $('#qrbox');
         question.locker = false;
@@ -133,7 +132,7 @@ sys.pages = {
                         if (msg.ok === true) {
                             $('#edit_form').html('<h3><span class="error">' + lang.get('REMOVED') + '</span></h3>');
                             $('.cmd_top').remove();
-                            sys.reload();
+                             ajax.reload();
                         } else if (msg.error) {
                             alert(lang.get(msg.error));
                         }
@@ -273,7 +272,7 @@ sys.pages = {
                 url: '/edit', filter: filter, select: function (parent_id, name) {
                     api.post("/edit", {action: 'parents_add', id: id, parent_id: parent_id}, function (rez) {
                         if (rez.ok) {
-                            sys.reload();
+                             ajax.reload();
                         } else {
                             alert(lang.get("EXISTS"));
                         }
@@ -293,7 +292,7 @@ sys.pages = {
                         }, function (rez) {
                             if (rez.ok) {
                                 li.slowRemove();
-                                sys.reload();
+                                 ajax.reload();
                             } else {
                                 alert(lang.get(rez.error));
                             }
@@ -332,7 +331,7 @@ sys.pages = {
                 url: '/edit', filter: filter, select: function (children_id, name) {
                     api.post("/edit", {action: 'childrens_add', id: id, children_id: children_id}, function (rez) {
                         if (rez.ok) {
-                            sys.reload();
+                             ajax.reload();
                         } else {
                             alert(lang.get("EXISTS"));
                         }
@@ -395,7 +394,7 @@ sys.pages = {
                                 alert(lang.get("NOT_EXISTS"));
                             } else {
                                 li.slowRemove();
-                                sys.reload();
+                                 ajax.reload();
                             }
                         });
                     });
@@ -409,7 +408,7 @@ sys.pages = {
                 url: '/forums', filter: filter, select: function (forum_id, name) {
                     api.post("/edit", {action: 'forums_add', id: id, forum_id: forum_id}, function (rez) {
                         if (rez.ok) {
-                            sys.reload();
+                             ajax.reload();
                         } else {
                             alert(lang.get("EXISTS"));
                         }
@@ -431,50 +430,5 @@ sys.pages = {
                 }
             });
         }
-    },
-    ancrage: function () {
-
-        $(window).off('resize.ancrage').on('resize.ancrage', sys.pages.ancrage);
-
-        var jump = function (ancre) {
-            if (ancre !== undefined && ancre !== "") {
-                ancre = ancre.replace(/^(#)?(.*)/g, '$2');
-                sys.scrollto($('#' + ancre + ', [name=' + ancre + ']'), 500, function () {
-                    var dest = $('[name=' + ancre + ']').parent();
-                    if (dest.length === 0) {
-                        dest = $('#' + ancre);
-                    }
-                    dest.animate({
-                        backgroundColor: 'rgba(169, 222, 166, 0.3)',
-                        borderRadius: 10
-                    }, 400, function () {
-                        $(this).animate({
-                            backgroundColor: 'transparent',
-                            borderRadius: 0
-                        }, 200);
-                    });
-                });
-            } else {
-                sys.scrollto(0, 500);
-            }
-        };
-
-        $('#ancrage a').off('click.ancrage').on('click.ancrage', function () {
-            var a = $(this);
-            history.pushState({}, a.text(), a.attr('href'));
-            jump(a.attr('href'));
-            return false;
-        });
-        $(window).on('popstate', function (event) {
-            if (document.location.hash === "") {
-                jump();
-            } else {
-                jump(document.location.hash);
-            }
-        });
-
-        ajax.unload(function () {
-            $(window).off('popstate.jump')
-        });
     }
 };

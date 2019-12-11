@@ -2,7 +2,7 @@ sys.admin = {
     ckeckReport: function (id_report) {
         api.post("/reports", {action: 'processed', id_report: id_report}, function () {
             var report = $('#' + id_report).css({opacity: 0.3});
-            sys.reload();
+             ajax.reload();
         });
 
     },

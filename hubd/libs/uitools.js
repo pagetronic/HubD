@@ -169,6 +169,16 @@ sys = $.extend({}, sys, {
             });
         },
         /**
+         * Get the scrolling div
+         */
+        scroller: function () {
+            var scroller = $('#middle');
+            if (scroller.scrollParent().is(document.body)) {
+                return $(window);
+            }
+            return scroller;
+        },
+        /**
          * Used for scroll principal content
          * @param ele jQuery or pixels from top
          * @param delay Delay of scroll time //TODO pixels per millisecond
@@ -185,25 +195,7 @@ sys = $.extend({}, sys, {
                     }
                 };
             }
-
-            // Middle or window ?
-            var scroller = $('#middle');
-            if (scroller.scrollParent().is(document.body)) {
-                $(window).scrollTo(ele, delay, after);
-            } else {
-                scroller.scrollTo(ele, delay, after);
-            }
-
-        },
-        //TODO .. space
-        reload: function () {
-            /*
-             ajax.get(sys.uri(), function (html) {
-                var body = $("<div/>").html(html);
-                $('#center').html(body.find('#center').html());
-            });
-             */
-            ajax.reload();
+            sys.scroller().scrollTo(ele, delay, after);
         }
     }
 );

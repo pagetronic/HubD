@@ -512,7 +512,7 @@ sys.threads = {
         var ids = [];
         var update = $('<a/>').on('click', function () {
             ids = [];
-            sys.reload();
+             ajax.reload();
             title.reset();
             socket.unfollow(what);
         });

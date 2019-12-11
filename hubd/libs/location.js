@@ -1,20 +1,5 @@
 var sys = (sys === undefined) ? {} : sys;
 sys = $.extend({}, sys, {
-    replaceState: function (url, isAjax) {
-        var state = {
-            ajax: isAjax === undefined ? history.state !== undefined && history.state !== null && history.state.ajax !== undefined ? history.state.ajax : false : isAjax
-        };
-        var center = $('#center');
-        if (center.length > 0) {
-            state.scroll = center.length > 0 ? center[0].scrollTop / center[0].scrollHeight : 0;
-        }
-        history.replaceState(state, document.title, url);
-    },
-    pushState: function (url, isAjax) {
-        history.pushState({
-            ajax: isAjax === undefined ? true : isAjax
-        }, document.title, url);
-    },
 
     correctParameter: function (param, uri, replace) {
         var parameters = sys.getAllParameters(uri);
@@ -31,7 +16,7 @@ sys = $.extend({}, sys, {
         if (!did) {
             query.push(param);
         }
-        sys.replaceState('?' + query.join('&'));
+        history.replaceState({}, document.title, '?' + query.join('&'));
 
     },
     getParameter: function (key, uri) {

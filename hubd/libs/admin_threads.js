@@ -21,7 +21,7 @@ sys.admin_threads = {
                     page_id: page_id
                 }, function (rez) {
                     if (rez.ok) {
-                        sys.reload();
+                         ajax.reload();
                     } else {
                         alert(lang.get("EXISTS"));
                     }
@@ -42,7 +42,7 @@ sys.admin_threads = {
                                 alert(lang.get("NOT_EXISTS"));
                             } else {
                                 li.slowRemove();
-                                sys.reload();
+                                 ajax.reload();
                             }
                         });
                     });
@@ -87,7 +87,7 @@ sys.admin_threads = {
                     parent: 'Forums(' + forum_id + ')'
                 }, function (rez) {
                     if (rez.ok) {
-                        sys.reload();
+                         ajax.reload();
                     } else {
                         alert(lang.get("EXISTS"));
                     }
@@ -106,7 +106,7 @@ sys.admin_threads = {
                     }, function (rez) {
                         if (rez.ok) {
                             li.slowRemove();
-                            sys.reload();
+                             ajax.reload();
                         } else {
                             alert(lang.get(rez.error));
                         }

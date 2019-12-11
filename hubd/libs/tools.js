@@ -1,12 +1,32 @@
 var sys = (sys === undefined) ? {} : sys;
 sys = $.extend({}, sys, {
         hellip: '&#8230;',
+
+        /**
+         * Jump to an anchor
+         * @param anchor
+         */
+        jumpto: function (anchor) {
+            var ele = $('#' + anchor + ', [name=' + anchor + ']').eq(0);
+            sys.scrollto(ele, 500, function () {
+                var dest = ele.attr('id') === anchor ? ele : ele.parent();
+                dest.animate({
+                    backgroundColor: 'rgba(169, 222, 166, 0.3)',
+                    borderRadius: 10
+                }, 400, function () {
+                    dest.animate({
+                        backgroundColor: 'transparent',
+                        borderRadius: 0
+                    }, 200);
+                });
+            });
+        },
         /**
          * Execute a function to execute after client do other action
          * @param func to execute on blur
          */
         focus: function (func) {
-            var input = $('<input />')
+            var input = $('<input />');
             input.css({width: 1, height: 1, opacity: 0.01});
             $(document.body).append(input);
             input.on('blur', function () {
