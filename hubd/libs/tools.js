@@ -6,9 +6,12 @@ sys = $.extend({}, sys, {
          * Jump to an anchor
          * @param anchor
          */
-        jumpto: function (anchor) {
+        jumpto: function (anchor, delay) {
+            if (delay === undefined) {
+                delay = 500;
+            }
             var ele = $('#' + anchor + ', [name=' + anchor + ']').eq(0);
-            sys.scrollto(ele, 500, function () {
+            sys.scrollto(ele, delay, function () {
                 var dest = ele.attr('id') === anchor ? ele : ele.parent();
                 dest.animate({
                     backgroundColor: 'rgba(169, 222, 166, 0.3)',
