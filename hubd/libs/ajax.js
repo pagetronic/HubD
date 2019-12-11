@@ -156,12 +156,15 @@ var ajax = {
                     }
 
                     var body = $(html);
-                    var center = $('#center');
 
-                    $('#menu').html(body.find('#menu').html());
-                    center.html(body.find('#center').html());
-                    $('header h1').html(body.find('header h1').html());
-                    $('header').attr('style', body.find('header').attr('style'));
+                    $('#center').html(body.find('#center').html());
+
+                    var header = $('header');
+                    if (header.length > 0) {
+                        header.find('h1').html(body.find('header h1').html());
+                        header.attr('style', body.find('header').attr('style'));
+                    }
+
                     sys.load(xhr.getResponseHeader('X-Speed').replace('ms', ''));
 
                     sys.wait(false);
