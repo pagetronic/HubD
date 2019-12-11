@@ -147,7 +147,11 @@ var ajax = {
                         try {
                             var canonical = xhr.getAllResponseHeaders().match(/Link: ?<([^>]+)>; ?rel="?canonical"?/mi);
                             if (canonical !== null && canonical.length > 0) {
-                                url = canonical[0].replace(/Link: ?<([^>]+)>; ?rel="?canonical"?/i, '$1');
+                                var hash = '';
+                                if (url.indexOf('#') >= 0) {
+                                    hash = '#' + url.split('#')[1];
+                                }
+                                url = canonical[0].replace(/Link: ?<([^>]+)>; ?rel="?canonical"?/i, '$1') + hash;
                             }
                         } catch (e) {
                             log(e);
@@ -164,14 +168,18 @@ var ajax = {
                         header.find('h1').html(body.find('header h1').html());
                         header.attr('style', body.find('header').attr('style'));
                     }
-
                     sys.load(xhr.getResponseHeader('X-Speed').replace('ms', ''));
 
-                    sys.wait(false);
-
                     if (!silent) {
-                        sys.scrollto(0, 100);
+                        if (url.indexOf('#') >= 0) {
+                            var jump = url.split('#')[1];
+                            sys.jumpto(jump, 0);
+                        } else {
+                            sys.scrollto(0, 0);
+                        }
                     }
+
+                    sys.wait(false);
 
                     if (after !== undefined) {
                         after();
