@@ -59,8 +59,9 @@ sys.notices = {
                             a.addClass('unread');
                         }
                         notices_list.append(li.append(a));
+                        ajax.it(li);
 
-                    })
+                    });
                 });
             };
             get();
