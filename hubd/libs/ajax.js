@@ -189,8 +189,12 @@ var ajax = {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 success: success,
-                error: function () {
-                    document.location.href = url;
+                error: function (e) {
+                    if (e.status === 404) {
+                        success(e.responseText);
+                    } else {
+                        document.location.href = url;
+                    }
                 }
             });
         }
