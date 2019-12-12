@@ -2120,9 +2120,9 @@
   },
   "UPLOAD_IMAGE": {
     "de": "Bild senden",
-    "en": "send image",
+    "en": "add image",
     "es": "enviar imagen",
-    "fr": "envoyer une image",
+    "fr": "ajouter une image",
     "it": "invia immagine",
     "js": true,
     "pt": "enviar imagem"
