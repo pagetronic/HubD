@@ -22,6 +22,7 @@
 
 .button, button {
     user-select: none;
+    display: flex;
 }
 
 .pagination em {
@@ -78,6 +79,7 @@ button.disabled, .button.disabled {
 }
 
 textarea, .textarea, input, .input, select, .select {
+    font-size: 14px;
     border-radius: 5px;
     color: #444;
     text-align: left;
