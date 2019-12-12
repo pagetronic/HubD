@@ -29,15 +29,16 @@
 
 #set($local=($req.local==''))
 <div id="middle" class="users_admin selectable">
-        <div class="flexible">
-                <button class="add flexable short">#lang('ADD_LANG_ITEM')</button>
-                #if($local)
-                <a class="button flexable short" href="/admin/langs">Base Lang</a>
-                #else
-                <a class="button flexable short" href="?local">Local Lang</a>
-                <div class="space"></div>
-                <button class="translateall flexable short">$svg.mi_g_translate Translate All Empty</button>
-                #end
+    <div class="flexible">
+        <button class="add flexable short">#lang('ADD_LANG_ITEM')</button>
+        #if($local)
+        <a class="button flexable short" href="/admin/langs">Base Lang</a>
+        <div class="space"></div>
+        #else
+        <a class="button flexable short" href="?local">Local Lang</a>
+        <div class="space"></div>
+        <button class="translateall flexable short">$svg.mi_g_translate Translate All Empty</button>
+        #end
     </div>
 
     #foreach($lang in $langs)
@@ -75,7 +76,7 @@
                     });
                 });
             });
-            $('#top_float .add').click(function () {
+            $('button.add').click(function () {
                 api.post('/admin/langs', {
                     action: 'create',
                     local: $local
