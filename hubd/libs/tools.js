@@ -10,7 +10,7 @@ sys = $.extend({}, sys, {
             if (delay === undefined) {
                 delay = 500;
             }
-            var ele = $('#' + anchor + ', [name=' + anchor + ']').eq(0);
+            var ele = $('#' + $.escapeSelector(anchor) + ', [name=' + $.escapeSelector(anchor) + ']').eq(0);
             sys.scrollto(ele, delay, function () {
                 var dest = ele.attr('id') === anchor ? ele : ele.parent();
                 dest.animate({
