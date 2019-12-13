@@ -297,6 +297,7 @@
     "pt": "autorizações"
   },
   "AUTHORS": {
+    "js": true,
     "de": "Autoren",
     "en": "Authors",
     "es": "Autores",
