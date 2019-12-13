@@ -54,11 +54,6 @@ public class UsersServlet extends HttpServlet {
 	@Override
 	public void doPostApiAuth(ApiServletRequest req, ApiServletResponse resp, Json data, Users user) throws IOException {
 
-		if (!user.getEditor()) {
-			resp.sendResponse(new Json("error", "PLEASE_LOGIN"));
-			return;
-		}
-
 		Json rez = new Json();
 		switch (data.getString("action")) {
 

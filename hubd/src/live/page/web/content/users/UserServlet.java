@@ -77,5 +77,4 @@ public class UserServlet extends HttpServlet {
 	public void doGetApiPublic(ApiServletRequest req, ApiServletResponse resp) throws IOException {
 		doGetApiAuth(req, resp, null);
 	}
-
 }

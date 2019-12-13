@@ -46,7 +46,12 @@ public class UsersUtils {
 		}
 
 		if (!data.getString("search", "").equals("")) {
-			filters.add(Filters.regex("name", Pattern.compile(data.getString("search"), Pattern.CASE_INSENSITIVE)));
+			filters.add(
+					Filters.or(
+							Filters.eq("_id", data.getString("search", "")),
+							Filters.regex("name", Pattern.compile(data.getString("search"), Pattern.CASE_INSENSITIVE))
+					)
+			);
 		}
 		if (data.containsKey("filter") && data.getList("filter").size() > 0) {
 			filters.add(Filters.nin("_id", data.getList("filter")));
