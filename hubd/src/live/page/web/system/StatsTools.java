@@ -35,7 +35,7 @@ public class StatsTools implements ServletContextListener {
 		String act = msg.getString("act");
 		SocketMessage socketMessage = new SocketMessage(act);
 		final int[] live = {getLive()};
-		socketMessage.putKeyMessage("live", getLive());
+		socketMessage.putKeyMessage("live", live[0]);
 		ScheduledFuture<?>[] task = new ScheduledFuture<?>[1];
 		task[0] = executor.scheduleAtFixedRate(() -> {
 			if (executor.isShutdown() || sessiondata.isAbort(act) || !sessiondata.isOpen()) {
@@ -226,8 +226,7 @@ public class StatsTools implements ServletContextListener {
 			stat.put("user", data.getString("user"));
 		}
 		stat.put("date", new Date());
-		stat.put("_id", Db.getKey());
-		Db.getDb("Stats").insertOne(stat);
+		Db.save("Stats", stat);
 		return new SocketMessage(act).putKeyMessage("_id", stat.getId());
 	}
 
