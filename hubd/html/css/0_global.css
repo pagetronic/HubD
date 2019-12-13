@@ -27,9 +27,11 @@ noscript {
         opacity: 1;
     }
 }
+
 help {
     display: none;
 }
+
 .blink, #pushadd {
     animation: Blink 1.5s infinite;
 }
@@ -291,9 +293,16 @@ blockquote:before {
     margin-bottom: -10px;
 }
 
-.error_input, .error_input::placeholder, .error_input .placeholder {
+.error_input {
+    color: #980000 !important;
     border-color: #980000 !important;
+}
+.error_input::placeholder, .error_input .placeholder {
     color: rgba(152, 0, 0, 0.50) !important;
+}
+
+.error_input svg {
+    fill: #980000;
 }
 
 .error {
