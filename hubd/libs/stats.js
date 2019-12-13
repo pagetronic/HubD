@@ -4,30 +4,28 @@ var stats = {
             return;
         }
         var i = 0;
-        var infos = sys.device();
+        var device = sys.device();
         socket.send({
             action: 'stats',
             data: {
                 location: document.location.toString(),
                 width: $(window).width(),
                 height: $(window).height(),
-                device: infos.device,
-                os: infos.os,
+                device: device.device,
+                os: device.os,
                 ua: navigator.userAgent,
                 user: sys.user.id
             }
         }, function (msg) {
 
             var goneInterval = setInterval(function () {
-                if (document.hasFocus()) {
-                    socket.send({
-                        action: 'stats',
-                        data: {
-                            id: msg.id,
-                            gone: false
-                        }
-                    });
-                }
+                socket.send({
+                    action: 'stats',
+                    data: {
+                        id: msg.id,
+                        gone: false
+                    }
+                });
             }, 3000);
 
             var gone = function (after) {
