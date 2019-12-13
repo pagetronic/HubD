@@ -3,7 +3,6 @@ sys.swipe = {
      * Make lateral menus swipable and openable like Android Ui
      */
     make: function () {
-        var comodo = $('#comodo, #lateral, #menu');
         var menu = $('#menu');
         var menu_btn = $('.opener[to=menu]');
         var lateral = $('#lateral');
@@ -36,7 +35,7 @@ sys.swipe = {
                 left = posX;
             }
             if (left >= 0) {
-                comodo.removeClass('hider');
+                sys.comodo.show();
                 menu.css({zIndex: 10001, left: Math.min(0, Math.max(40, left) - menu.width())});
                 lateral.css({zIndex: 10000});
                 return false;
@@ -96,7 +95,7 @@ sys.swipe = {
                 right = x;
             }
             if (right >= 0) {
-                comodo.removeClass('hider');
+                sys.comodo.show();
                 lateral.css({position: 'fixed', zIndex: 10001, right: Math.min(0, Math.max(40, right) - lateral.width())});
                 menu.css({zIndex: 10000});
                 return false;
@@ -148,7 +147,7 @@ sys.swipe = {
         menu_btn.off('click.swipe')
             .on('click.swipe', function () {
                 lateral.removeClass('open');
-                comodo.removeAttr('style').removeClass('hider');
+                sys.comodo.show();
                 if (menu.hasClass('open')) {
                     menu.removeClass('open');
                     win.css({overflow: ''});
@@ -165,7 +164,7 @@ sys.swipe = {
             lateral_btn.on('click', function () {
                 clearTimeout(timer_lateral);
                 menu.removeClass('open');
-                comodo.removeClass('hider');
+                sys.comodo.show();
                 if (lateral.hasClass('open')) {
                     lateral.removeClass('open');
                     timer_lateral = setTimeout(function () {
