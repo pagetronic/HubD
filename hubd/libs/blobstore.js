@@ -56,8 +56,12 @@ var blobstore = {
             var image = $('<img width="' + width + '" height="' + height + '" />').attr('draggable', false);
             var imgbox = $('<div class="img" />');
             var figure = $('<figure />');
-
-            where.append(imgbox.append(figure.append(image)));
+            imgbox.append(figure.append(image));
+            if (uniq) {
+                where.html(imgbox);
+            } else {
+                where.append(imgbox);
+            }
             imgbox.append($('<span class="rm" />').html('$svg.mi_remove_circle_outline').click(function () {
                 if (reader !== undefined) {
                     reader.abort();
