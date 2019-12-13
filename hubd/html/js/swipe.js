@@ -39,8 +39,6 @@ sys.swipe = {
                 comodo.removeClass('hider');
                 menu.css({zIndex: 10001, left: Math.min(0, Math.max(40, left) - menu.width())});
                 lateral.css({zIndex: 10000});
-                e.preventDefault();
-                e.stopPropagation();
                 return false;
             }
             return true;
@@ -51,19 +49,19 @@ sys.swipe = {
                 return;
             }
             if (posX < menu.width() * 3 / 4 && menu.hasClass('open')) {
-                sys.comodo.show();
+                //   sys.comodo.show();
                 menu.animate({left: -menu.width()}, 200, function () {
                     menu.removeClass('open');
                     menu.css({left: ''});
                 });
             } else if (posX > (menu.width() / 4)) {
                 menu.animate({left: 0}, 200, function () {
-                    sys.comodo.hide();
+                    // sys.comodo.hide();
                     menu.addClass('open');
                     menu.css({left: ''});
                 });
             } else {
-                sys.comodo.show();
+                //sys.comodo.show();
                 menu.animate({left: -menu.width()}, 200, function () {
                     menu.css({left: ''});
                 });
@@ -101,8 +99,6 @@ sys.swipe = {
                 comodo.removeClass('hider');
                 lateral.css({position: 'fixed', zIndex: 10001, right: Math.min(0, Math.max(40, right) - lateral.width())});
                 menu.css({zIndex: 10000});
-                e.preventDefault();
-                e.stopPropagation();
                 return false;
             }
             return true;
@@ -118,19 +114,19 @@ sys.swipe = {
             }
 
             if (Math.abs(x) < lateral.width() * 3 / 4 && lateral.hasClass('open')) {
-                sys.comodo.show();
+                // sys.comodo.show();
                 lateral.animate({position: '', right: -lateral.width()}, 200, function () {
                     lateral.removeClass('open');
                     lateral.css({right: '', position: ''});
                 });
             } else if (x > (lateral.width() / 4)) {
                 lateral.animate({right: 0}, 200, function () {
-                    sys.comodo.hide();
+                    //    sys.comodo.hide();
                     lateral.addClass('open');
                     lateral.css({right: ''});
                 });
             } else {
-                sys.comodo.show();
+                //   sys.comodo.show();
                 lateral.animate({right: -lateral.width()}, 200, function () {
                     lateral.removeClass('open').css({right: '', position: ''});
                 });
