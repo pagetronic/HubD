@@ -358,6 +358,16 @@
                         return false;
                     });
                     seclss.selector.append(add);
+                } else if (seclss.options.add !== undefined) {
+                    add.html('$svg.mi_add').on('click', function () {
+                        seclss.options.add(function (id, name) {
+
+                            seclss.element.find('option[value=' + id + ']').remove();
+                            seclss.element.append('<option>' + name + '</option>').val(id).trigger('change')
+                        });
+                        return false;
+                    });
+                    seclss.selector.append(add);
                 }
 
                 var clearfunc = function () {
