@@ -10,7 +10,7 @@ import live.page.web.content.profile.ProfileUtils;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
 import live.page.web.utils.Fx;
-import live.page.web.utils.StatsTools;
+import live.page.web.system.StatsTools;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;

@@ -15,7 +15,7 @@ import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
-import live.page.web.utils.StatsTools;
+import live.page.web.system.StatsTools;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;

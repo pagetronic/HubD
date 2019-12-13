@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019. PAGE and Sons
  */
-package live.page.web.utils;
+package live.page.web.system;
 
 import live.page.web.content.search.SearchUtils;
 import live.page.web.system.json.Json;
