@@ -3,6 +3,11 @@ sys.pages = {
         sys.nocopy();
 
         var question = $('#qrbox');
+
+        if (question.length === 0 || Cookies.get('qrbox') === 'yes') {
+            return;
+        }
+
         question.locker = false;
         $('#post_question').on('click', function () {
 
@@ -98,7 +103,7 @@ sys.pages = {
             }
 
             blobstore.button($('#imgs'), $('#send_file'), $('#middle'), 224, 126, docs);
-            ocode.link($('.links_tag'),'tarea');
+            ocode.link($('.links_tag'), 'tarea');
 
             $('.save_edit, .save_draft').on('click', function () {
                 sys.pages.edit.save($('#edit_form'), $(this).hasClass('save_draft'));
@@ -132,7 +137,7 @@ sys.pages = {
                         if (msg.ok === true) {
                             $('#edit_form').html('<h3><span class="error">' + lang.get('REMOVED') + '</span></h3>');
                             $('.cmd_top').remove();
-                             ajax.reload();
+                            ajax.reload();
                         } else if (msg.error) {
                             alert(lang.get(msg.error));
                         }
@@ -272,7 +277,7 @@ sys.pages = {
                 url: '/edit', filter: filter, select: function (parent_id, name) {
                     api.post("/edit", {action: 'parents_add', id: id, parent_id: parent_id}, function (rez) {
                         if (rez.ok) {
-                             ajax.reload();
+                            ajax.reload();
                         } else {
                             alert(lang.get("EXISTS"));
                         }
@@ -292,7 +297,7 @@ sys.pages = {
                         }, function (rez) {
                             if (rez.ok) {
                                 li.slowRemove();
-                                 ajax.reload();
+                                ajax.reload();
                             } else {
                                 alert(lang.get(rez.error));
                             }
@@ -331,7 +336,7 @@ sys.pages = {
                 url: '/edit', filter: filter, select: function (children_id, name) {
                     api.post("/edit", {action: 'childrens_add', id: id, children_id: children_id}, function (rez) {
                         if (rez.ok) {
-                             ajax.reload();
+                            ajax.reload();
                         } else {
                             alert(lang.get("EXISTS"));
                         }
@@ -394,7 +399,7 @@ sys.pages = {
                                 alert(lang.get("NOT_EXISTS"));
                             } else {
                                 li.slowRemove();
-                                 ajax.reload();
+                                ajax.reload();
                             }
                         });
                     });
@@ -408,7 +413,7 @@ sys.pages = {
                 url: '/forums', filter: filter, select: function (forum_id, name) {
                     api.post("/edit", {action: 'forums_add', id: id, forum_id: forum_id}, function (rez) {
                         if (rez.ok) {
-                             ajax.reload();
+                            ajax.reload();
                         } else {
                             alert(lang.get("EXISTS"));
                         }
