@@ -75,11 +75,6 @@ public class SwitchServlet extends HttpServlet {
 
 		Json rez = new Json("error", "INVALID_DATA");
 		switch (data.getString("action")) {
-			case "create":
-				if (user.getEditor()) {
-					rez = UsersUtils.create(data, user);
-				}
-				break;
 			case "search":
 				rez = UsersUtils.searchChilds(data, user);
 				break;

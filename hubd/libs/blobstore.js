@@ -262,7 +262,7 @@ var blobstore = {
                         image.parent().find('source').each(function () {
                             var source = $(this);
                             source.attr('srcset', data.src + '@' + source.attr('width') + 'x' + source.attr('height'));
-                        })
+                        });
                         if (finished !== undefined) {
                             finished(data.id);
                         }

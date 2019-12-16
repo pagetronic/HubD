@@ -73,7 +73,6 @@ public class TokenServlet extends HttpServlet {
 				break;
 
 			case "authorization_code":
-
 				access = Db.findOneAndUpdate("ApiAccess",
 						Filters.and(Filters.eq("code", code), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret)),
 						new Json("$unset", new Json("code", "").put("access", "").put("count", "")),
@@ -85,8 +84,8 @@ public class TokenServlet extends HttpServlet {
 				}
 
 				break;
-			case "password":
 
+			case "password":
 				Json user = Db.find("Users", Filters.and(Filters.eq("email", email), Filters.eq("password", Fx.crypt(password)))).first();
 				if (user == null) {
 					BruteLocker.add(ServletUtils.realIp(req));
@@ -146,7 +145,7 @@ public class TokenServlet extends HttpServlet {
 		resp.setStatus(status);
 		resp.setHeader("Content-Type", "application/json; charset=utf-8");
 		resp.setHeader("X-Robots-Tag", "noindex");
-		resp.getWriter().write(XMLJsonParser.toJSON(data));
+		resp.getWriter().write(data.toString());
 
 	}
 }

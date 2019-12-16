@@ -48,16 +48,13 @@ public class AccountsServlet extends HttpServlet {
 
 		switch (data.getString("action", "")) {
 			case "create":
-				rez = AccountsUtils.generateUser(data.getString("name", Language.get("ANONYMOUS", user.getString("locale", "en"))), user.getId(), null);
+				rez = AccountsUtils.generateUser(data.getString("name", Language.get("ANONYMOUS", user.getString("locale", "en"))), data.getString("email"), user.getId());
 				break;
 			case "name":
 				rez = AccountsUtils.renameUser(data.getString("name", ""), data.getString("id", ""), user.getId());
 				break;
 			case "reset":
 				rez = AccountsUtils.initUser(data.getString("id", ""), user.getId());
-				break;
-			case "search":
-				//   rez = AccountsUtils.search(data.getString("search", ""), user, req.getInteger("start", 0));
 				break;
 		}
 

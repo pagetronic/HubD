@@ -38,15 +38,14 @@ public class AccountsUtils {
 
 	}
 
-	public static Json generateUser(String name, String user_id, String _id) {
+	public static Json generateUser(String name, String email, String user_id) {
 		Json subuser = UsersBase.getBase();
 		subuser.put("key", Fx.getSecureKey().toLowerCase());
 		subuser.put("parent", user_id);
 		subuser.put("join", new Date());
+		//TODO duplicate email ?
+		subuser.put("email", email);
 		subuser.put("name", UsersUtils.uniqueName(name));
-		if (_id != null) {
-			subuser.put("_id", _id);
-		}
 		Db.save("Users", subuser);
 		RelationsUtils.addRelation(user_id, subuser.getId(), true);
 		return subuser;

@@ -155,8 +155,7 @@ public class BaseSession implements ServletContextListener {
 	}
 
 	public static Json getOrCreateSession(HttpServletRequest req, HttpServletResponse resp) {
-		BaseCookie gaia = BaseCookie.getAuth(req);
-		Json session = (gaia == null) ? null : Db.findById("Sessions", gaia.getValue());
+		Json session = getSession(req);
 		if (session == null) {
 			return createSession(req, resp);
 		}
@@ -165,8 +164,7 @@ public class BaseSession implements ServletContextListener {
 
 	public static Json getSession(HttpServletRequest req) {
 		BaseCookie gaia = BaseCookie.getAuth(req);
-		Json session = (gaia == null) ? null : Db.findById("Sessions", gaia.getValue());
-		return session;
+		return (gaia == null) ? null : Db.findById("Sessions", gaia.getValue());
 	}
 
 	public static Json register(HttpServletRequest req, HttpServletResponse resp, String name, String email, String new_password, Json settings, String key) {

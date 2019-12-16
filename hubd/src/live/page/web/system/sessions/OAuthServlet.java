@@ -65,10 +65,10 @@ public class OAuthServlet extends HttpServlet {
 	private static void logout(WebServletRequest req, WebServletResponse resp) throws IOException {
 
 		resp.addHeader("Vary", HttpHeaders.REFERER);
-		Json session = BaseSession.getOrCreateSession(req, resp);
+		Json session = BaseSession.getSession(req);
 		BaseCookie.clearAuth(req, resp);
-		if (session != null) {
-			Db.deleteOne("Sessions", session);
+		if (session != null && session.getId() != null) {
+			Db.deleteOne("Sessions", Filters.eq("_id", session.getId()));
 		}
 	}
 

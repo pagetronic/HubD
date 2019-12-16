@@ -163,7 +163,7 @@ public class ApiServlet extends FullServlet {
 					return;
 				}
 
-				if (contentType.equalsIgnoreCase("application/json")) {
+				if (contentType.matches("application/json;?.*")) {
 					data = new Json(IOUtils.toString(req.getInputStream()));
 				} else if (contentType.equalsIgnoreCase("application/x-www-form-urlencoded")) {
 					data = new Json(req.getParameter("data"));

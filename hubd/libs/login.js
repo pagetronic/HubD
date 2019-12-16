@@ -7,34 +7,38 @@ var login = {
     },
     add: function (after) {
 
-        //TODO use normal form for registration
 
         var popper = pop(false, 500);
         popper.header(lang.get('ACCOUNT_CREATE'));
         var form = $('<div class="createaccount" />');
-        var name = $('<input autocomplete="off" name="title" />').attr('placeholder', lang.get('NAME'));
+        var name = $('<input autocomplete="off" />').attr('placeholder', lang.get('NAME'));
         form.append(name);
-        var avatar = $('<button/>').html('$svg.mi_portrait ' + lang.get('AVATAR'));
-        var avatar_box = $('<div class="logo flexible" />').append(avatar);
-        form.append(avatar_box);
+        var email = $('<input autocomplete="off" />').attr('placeholder', lang.get('EMAIL').ucfirst());
+        form.append(email);
+        var avatar = $('<img width="32" height="32" />').attr('src', constants.logo + '@32x32').attr('title', lang.get('AVATAR'));
+        form.append(avatar);
         var submit = $('<button />').text(lang.get('SAVE'));
         form.append(submit);
         popper.content(form);
-        blobstore.button(avatar_box, avatar, avatar_box, 30, 30, [], true);
+        var data = {action: 'create'};
+        avatar.on('click', function () {
+            blobstore.image(avatar, function (avatar) {
+                data.avatar = avatar;
+            });
+        });
         submit.on('click', function () {
-            var data = {action: 'create'};
+            $('.error_input').removeClass('error_input');
             if (name.val() === '') {
-                name.addClass('error');
+                name.addClass('error_input');
                 return;
             }
             data.name = name.val();
-            var avainput = avatar_box.find('input');
-            if (avainput.length > 0) {
-                data.avatar = avainput.val();
+            if (email.val() !== '') {
+                data.email = email.val();
             }
 
             popper.loading(true);
-            api.post('/switch', data, function (rez) {
+            api.post('/accounts', data, function (rez) {
                 popper.loading(false);
                 popper.close();
                 if (after !== undefined) {
@@ -80,7 +84,7 @@ var login = {
                             id: data.email,
                             name: data.name,
                             password: data['new-password'],
-                            iconURL: constants.logo
+                            iconURL: constants.logo + '@256x256'
                         }));
                     }
                     document.location.href = '/';
