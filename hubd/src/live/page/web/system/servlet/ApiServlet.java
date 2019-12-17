@@ -101,7 +101,9 @@ public class ApiServlet extends FullServlet {
 
 				).first();
 
-				if (userdb != null && userdb.get("app_id") != null) {
+				if (userdb != null && userdb.get("app_id") != null &&
+						(userdb.getDate("expire").before(new Date()) || userdb.getDate("expire").equals(new Date()))
+				) {
 					List<String> app_scopes = userdb.getList("app_scopes");
 					List<String> scopes = userdb.getList("scopes");
 					List<String> real_scopes = new ArrayList<>();
@@ -126,7 +128,7 @@ public class ApiServlet extends FullServlet {
 				} else if (userdb != null && userdb.getDate("expire").after(new Date())) {
 
 					resp.setStatus(401);
-					resp.getWriter().write(new Json("error", "TOKEN_EXPIRED").toString());
+					resp.getWriter().write(new Json("error", "INVALID_ACCESS_TOKEN").toString());
 					return;
 
 				} else if (userdb != null && userdb.get("app_id") == null) {
@@ -138,7 +140,7 @@ public class ApiServlet extends FullServlet {
 				} else {
 					resp.setStatus(401);
 					BruteLocker.add(ServletUtils.realIp(req));
-					resp.getWriter().write(new Json("error", "AUTHORIZATION_INVALID").toString());
+					resp.getWriter().write(new Json("error", "INVALID_ACCESS_TOKEN").toString());
 					return;
 				}
 
