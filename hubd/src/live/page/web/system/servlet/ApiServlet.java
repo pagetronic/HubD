@@ -128,7 +128,7 @@ public class ApiServlet extends FullServlet {
 				} else if (userdb != null && userdb.getDate("expire").after(new Date())) {
 
 					resp.setStatus(401);
-					resp.getWriter().write(new Json("error", "INVALID_ACCESS_TOKEN").toString());
+					resp.getWriter().write(new Json("error", "EXPIRED_ACCESS_TOKEN").toString());
 					return;
 
 				} else if (userdb != null && userdb.get("app_id") == null) {
