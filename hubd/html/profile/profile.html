@@ -24,6 +24,7 @@
     </div>
     <p>&nbsp;</p>
     #end
+    #if(!$activate)
     <div class="item cookies">
         #parse('/profile/cookies.html')
     </div>
@@ -31,6 +32,7 @@
     <div class="item #if(!$webpushs || $webpushs.result.size()==0) none#end" id="pushs">
         #parse('/profile/webpush.html')
     </div>
+    #end
     <p>&nbsp;</p>
     #if($user)
     <div class="item">

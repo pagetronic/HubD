@@ -8,7 +8,6 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
-import live.page.web.system.json.XMLJsonParser;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.BruteLocker;
 import live.page.web.system.servlet.utils.ServletUtils;
@@ -52,9 +51,9 @@ public class TokenServlet extends HttpServlet {
 		String password = data.getString("password");
 
 
-		Json app = Db.find("ApiApps", Filters.and(Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
+		Json app = (client_id == null || client_secret == null) ? null : Db.find("ApiApps", Filters.and(Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
 		if (app == null) {
-			sendJson(resp, 500, new Json("error", "INVALID_APP"));
+			sendJson(resp, 401, new Json("error", "INVALID_APP"));
 			return;
 		}
 
@@ -64,6 +63,7 @@ public class TokenServlet extends HttpServlet {
 		switch (grant_type) {
 
 			case "refresh_token":
+
 				access = Db.find("ApiAccess", Filters.and(Filters.eq("refresh_token", refreshToken), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
 				if (access == null) {
 					sendJson(resp, 401, new Json("error", "INVALID_REFRESH_TOKEN"));

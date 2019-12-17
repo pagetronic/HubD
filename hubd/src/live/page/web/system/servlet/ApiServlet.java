@@ -90,6 +90,7 @@ public class ApiServlet extends FullServlet {
 								Aggregates.lookup("Users", "user", "_id", "user"),
 								Aggregates.unwind("$user"),
 								Aggregates.addFields(
+										new Field<>("user.expire", "$expire"),
 										new Field<>("user.scopes", "$scopes"),
 										new Field<>("user.app_scopes", "$app.scopes"),
 										new Field<>("user.app_id", "$app._id"),
@@ -102,7 +103,7 @@ public class ApiServlet extends FullServlet {
 				).first();
 
 				if (userdb != null && userdb.get("app_id") != null &&
-						(userdb.getDate("expire").before(new Date()) || userdb.getDate("expire").equals(new Date()))
+						(userdb.getDate("expire").after(new Date()) || userdb.getDate("expire").equals(new Date()))
 				) {
 					List<String> app_scopes = userdb.getList("app_scopes");
 					List<String> scopes = userdb.getList("scopes");
@@ -125,7 +126,7 @@ public class ApiServlet extends FullServlet {
 						return;
 					}
 
-				} else if (userdb != null && userdb.getDate("expire").after(new Date())) {
+				} else if (userdb != null && userdb.getDate("expire").before(new Date())) {
 
 					resp.setStatus(401);
 					resp.getWriter().write(new Json("error", "EXPIRED_ACCESS_TOKEN").toString());
