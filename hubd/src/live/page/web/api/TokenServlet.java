@@ -101,6 +101,7 @@ public class TokenServlet extends HttpServlet {
 					access.put("date", date);
 					access.put("user", user.getId());
 				}
+				access.put("scopes", Scopes.scopes);
 				access.put("expire", expire);
 				access.put("client_id", app.getString("client_id"));
 				access.put("client_secret", app.getString("client_secret"));
