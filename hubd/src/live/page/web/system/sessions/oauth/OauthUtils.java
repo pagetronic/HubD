@@ -46,9 +46,12 @@ public class OauthUtils {
 		String provider = req.getQueryString().replaceAll("^(Google|Facebook|Twitter|Live).*", "$1").toLowerCase();
 
 		if (req.getString("client_id", null) != null) {
-			Json app = Db.find("ApiApps", Filters.eq("client_id", session.getString("client_id"))).first();
+			Json app = Db.find("ApiApps", Filters.eq("client_id", session.getString("client_id", ""))).first();
 			if (app != null) {
 				session.put("app_id", app.getId());
+			} else {
+				resp.sendError(401, "INVALID_APP");
+				return;
 			}
 		}
 
@@ -301,7 +304,7 @@ public class OauthUtils {
 						user.put("avatar", "https://apis.live.net/v5.0/" + user_json.getId() + "/picture");
 						break;
 				}
-				if (user.getString("name") == null || user.getString("name") == "") {
+				if (user.getString("name") == null || user.getString("name").equals("")) {
 					user.put("name", "anonymous");
 				}
 				user.put("provider", provider);
