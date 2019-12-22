@@ -182,8 +182,7 @@ public class OauthUtils {
 			access.put("code", Fx.getSecureKey());
 			access.put("app_id", session.getString("app_id"));
 			Db.save("ApiAccess", access);
-			String scheme = session.getString("scheme");
-			resp.sendRedirect(scheme + "://" + access.getText("code"));
+			resp.sendRedirect(session.getString("scheme") + "://" + access.getText("code"));
 
 		} else if (session.containsKey("referer")) {
 
