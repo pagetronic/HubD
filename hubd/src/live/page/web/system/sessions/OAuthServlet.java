@@ -17,7 +17,7 @@ import org.apache.http.HttpHeaders;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
-@WebServlet(name = "oAuthServlet", urlPatterns = {"/oauth", "/oauth", "/activate/*", "/logout"})
+@WebServlet(name = "oAuthServlet", urlPatterns = {"/oauth", "/activate/*", "/logout"})
 public class OAuthServlet extends HttpServlet {
 
 	@Override
