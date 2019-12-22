@@ -46,7 +46,7 @@ public class OauthUtils {
 		String provider = req.getQueryString().replaceAll("^(Google|Facebook|Twitter|Live).*", "$1").toLowerCase();
 
 		if (req.getString("client_id", null) != null) {
-			Json app = Db.find("ApiApps", Filters.eq("client_id", session.getString("client_id", ""))).first();
+			Json app = Db.find("ApiApps", Filters.eq("client_id", req.getString("client_id", ""))).first();
 			if (app != null) {
 				session.put("app_id", app.getId());
 			} else {
