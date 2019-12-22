@@ -42,7 +42,6 @@ public class TokenServlet extends HttpServlet {
 
 		resp.setHeader("X-Robots-Tag", "noindex");
 
-		String code = data.getString("code");
 		String client_id = data.getString("client_id");
 		String client_secret = data.getString("client_secret");
 		String grant_type = data.getString("grant_type");
@@ -73,7 +72,8 @@ public class TokenServlet extends HttpServlet {
 				break;
 
 			case "authorization_code":
-				access = Db.findOneAndUpdate("ApiAccess", Filters.and(Filters.eq("code", code), Filters.eq("app_id", app.getId())),
+
+				access = Db.findOneAndUpdate("ApiAccess", Filters.and(Filters.eq("code", data.getString("code")), Filters.eq("app_id", app.getId())),
 						new Json("$unset", new Json("code", "")),
 						new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
 				);
