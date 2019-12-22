@@ -208,11 +208,13 @@ public class IndexBuilder {
 				IndexData.get(new Json("client_secret", 1), "client_secret"),
 				IndexData.get(new Json("redirect_uri", 1), "redirect_uri")
 		);
+
 		indexes.addIndex("ApiAccess",
 				IndexData.get(new Json("user", 1), "user"),
-				IndexData.get(new Json("client_id", 1), "client_id"),
 				IndexData.get(new Json("access_token", 1), "access_token"),
 				IndexData.get(new Json("refresh_token", 1), "refresh_token"),
+				IndexData.get(new Json("code", 1), "code"),
+				IndexData.get(new Json("app_id", 1), "app_id"),
 				IndexData.get(new Json("scopes", 1), "scopes"),
 				IndexData.get(new Json("expire", -1), "expire"),
 				IndexData.get(new Json("date", -1), "date")

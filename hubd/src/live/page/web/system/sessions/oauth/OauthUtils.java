@@ -43,7 +43,19 @@ public class OauthUtils {
 
 		resp.addHeader(HttpHeaders.VARY, HttpHeaders.REFERER);
 		Json session = BaseSession.getOrCreateSession(req, resp);
-		String provider = req.getQueryString().replaceAll("^(Google|Facebook|Twitter|Live)", "$1").toLowerCase();
+		String provider = req.getQueryString().replaceAll("^(Google|Facebook|Twitter|Live).*", "$1").toLowerCase();
+
+		if (req.getString("client_id", null) != null) {
+			Json app = Db.find("ApiApps", Filters.eq("client_id", session.getString("client_id"))).first();
+			if (app != null) {
+				session.put("app_id", app.getId());
+			}
+		}
+
+		if (req.getString("scheme", null) != null) {
+			session.put("scheme", req.getString("scheme", null));
+		}
+
 		if (req.getHeader(HttpHeaders.REFERER) != null) {
 			session.put("referer", req.getHeader(HttpHeaders.REFERER));
 		}
@@ -161,9 +173,23 @@ public class OauthUtils {
 
 		Db.save("Sessions", session);
 
-		if (session.containsKey("referer")) {
+
+		if (session.containsKey("scheme")) {
+
+			Json access = new Json();
+			access.put("user", user.getId());
+			access.put("code", Fx.getSecureKey());
+			access.put("app_id", session.getString("app_id"));
+			Db.save("ApiAccess", access);
+			String scheme = session.getString("scheme");
+			resp.sendRedirect(scheme + "://" + access.getString("code"));
+
+		} else if (session.containsKey("referer")) {
+
 			resp.sendRedirect(session.getString("referer"));
+
 		} else {
+
 			resp.sendRedirect("/");
 		}
 	}

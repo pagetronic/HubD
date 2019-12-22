@@ -23,7 +23,7 @@ public class OAuthServlet extends HttpServlet {
 	@Override
 	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException {
 
-		if (req.getQueryString() != null && req.getQueryString().matches("^(Google|Facebook|Twitter|Live)")) {
+		if (req.getQueryString() != null && req.getQueryString().matches("^(Google|Facebook|Twitter|Live).*?")) {
 			if (req.getUser() != null) {
 				logout(req, resp);
 				resp.sendTemplate(req, "/profile/profile.html");

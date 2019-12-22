@@ -12,7 +12,6 @@ import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.BruteLocker;
 import live.page.web.system.servlet.utils.ServletUtils;
 import live.page.web.system.servlet.wrapper.*;
-import live.page.web.system.sessions.oauth.OauthUtils;
 import live.page.web.utils.Fx;
 
 import javax.servlet.ServletException;
@@ -27,18 +26,6 @@ import java.util.Date;
  */
 @WebServlet(urlPatterns = {"/token"})
 public class TokenServlet extends HttpServlet {
-
-	@Override
-	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
-		if (req.getQueryString() != null && req.getQueryString().matches("^(Google|Facebook|Twitter|Live)")) {
-			if (req.getUser() != null) {
-				resp.sendJson(new Json());
-				return;
-			}
-			OauthUtils.requestOauth(req, resp);
-
-		}
-	}
 
 	@Override
 	public void doPostApiPublic(ApiServletRequest req, ApiServletResponse resp, Json data) throws IOException, ServletException {
@@ -77,7 +64,7 @@ public class TokenServlet extends HttpServlet {
 
 			case "refresh_token":
 
-				access = Db.find("ApiAccess", Filters.and(Filters.eq("refresh_token", refreshToken), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
+				access = Db.find("ApiAccess", Filters.and(Filters.eq("refresh_token", refreshToken), Filters.eq("app_id", app.getId()))).first();
 				if (access == null) {
 					sendJson(resp, 401, new Json("error", "INVALID_REFRESH_TOKEN"));
 					return;
@@ -86,9 +73,8 @@ public class TokenServlet extends HttpServlet {
 				break;
 
 			case "authorization_code":
-				access = Db.findOneAndUpdate("ApiAccess",
-						Filters.and(Filters.eq("code", code), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret)),
-						new Json("$unset", new Json("code", "").put("access", "").put("count", "")),
+				access = Db.findOneAndUpdate("ApiAccess", Filters.and(Filters.eq("code", code), Filters.eq("app_id", app.getId())),
+						new Json("$unset", new Json("code", "")),
 						new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
 				);
 				if (access == null) {
@@ -105,7 +91,7 @@ public class TokenServlet extends HttpServlet {
 					sendJson(resp, 401, new Json("error", "INVALID_ACCESS"));
 					return;
 				}
-				access = Db.find("ApiAccess", Filters.and(Filters.eq("user", user.getId()), Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
+				access = Db.find("ApiAccess", Filters.and(Filters.eq("user", user.getId()), Filters.eq("app_id", app.getId()))).first();
 
 				Date date = new Date();
 				Date expire = new Date(date.getTime() + 3600 * 1000);
@@ -116,8 +102,7 @@ public class TokenServlet extends HttpServlet {
 				}
 				access.put("scopes", Scopes.scopes);
 				access.put("expire", expire);
-				access.put("client_id", app.getString("client_id"));
-				access.put("client_secret", app.getString("client_secret"));
+				access.put("app_id", app.getId());
 
 				break;
 
