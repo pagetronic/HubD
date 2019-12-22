@@ -12,6 +12,7 @@ import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.BruteLocker;
 import live.page.web.system.servlet.utils.ServletUtils;
 import live.page.web.system.servlet.wrapper.*;
+import live.page.web.system.sessions.oauth.OauthUtils;
 import live.page.web.utils.Fx;
 
 import javax.servlet.ServletException;
@@ -27,6 +28,17 @@ import java.util.Date;
 @WebServlet(urlPatterns = {"/token"})
 public class TokenServlet extends HttpServlet {
 
+	@Override
+	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
+		if (req.getQueryString() != null && req.getQueryString().matches("^(Google|Facebook|Twitter|Live)")) {
+			if (req.getUser() != null) {
+				resp.sendJson(new Json());
+				return;
+			}
+			OauthUtils.requestOauth(req, resp);
+
+		}
+	}
 
 	@Override
 	public void doPostApiPublic(ApiServletRequest req, ApiServletResponse resp, Json data) throws IOException, ServletException {
@@ -37,6 +49,7 @@ public class TokenServlet extends HttpServlet {
 	public void doPostPublic(WebServletRequest req, WebServletResponse resp, Json data) throws IOException {
 		doToken(req, resp, data);
 	}
+
 
 	private void doToken(BaseServletRequest req, BaseServletResponse resp, Json data) throws IOException {
 
@@ -107,6 +120,7 @@ public class TokenServlet extends HttpServlet {
 				access.put("client_secret", app.getString("client_secret"));
 
 				break;
+
 			default:
 				sendJson(resp, 500, new Json("error", "GRANT_TYPE_UNKNOWN"));
 				return;

@@ -121,8 +121,8 @@ public class OauthUtils {
 			user.put("name", UsersUtils.uniqueName(user_oauth.getString("name")));
 		}
 
-		if (user.get("locale") == null || user.getString("locale").equals("")) {
-			user.put("locale", req.getLng());
+		if (user.get("lng") == null || user.getString("lng").equals("")) {
+			user.put("lng", req.getLng());
 		}
 		if (user.get("join") == null) {
 			user.put("join", date);
@@ -161,7 +161,7 @@ public class OauthUtils {
 
 		Db.save("Sessions", session);
 
-		if (session != null && session.containsKey("referer")) {
+		if (session.containsKey("referer")) {
 			resp.sendRedirect(session.getString("referer"));
 		} else {
 			resp.sendRedirect("/");
@@ -215,9 +215,6 @@ public class OauthUtils {
 						return null;
 					}
 				}
-				if (access_token == null) {
-					return null;
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -242,38 +239,41 @@ public class OauthUtils {
 				HttpEntity entity = response.getEntity();
 				String res = EntityUtils.toString(entity);
 				EntityUtils.consume(entity);
-				EntityUtils.consume(entity);
 				Json user_json = new Json(res);
 				Json user = new Json();
 
-				if (provider.equals("google")) {
+				switch (provider) {
+					case "google":
 
-					user.put("id", user_json.getId());
-					user.put("name", user_json.getString("name"));
-					user.put("verified", user_json.getBoolean("verified_email", false));
-					user.put("email", user_json.getString("email"));
-					user.put("avatar", user_json.getString("picture"));
+						user.put("id", user_json.getId());
+						user.put("name", user_json.getString("name"));
+						user.put("verified", user_json.getBoolean("verified_email", false));
+						user.put("email", user_json.getString("email"));
+						user.put("avatar", user_json.getString("picture"));
 
-				} else if (provider.equals("facebook")) {
+						break;
+					case "facebook":
 
-					user.put("id", user_json.getId());
-					user.put("name", user_json.getString("name"));
-					user.put("verified", user_json.getBoolean("verified", false));
-					user.put("email", user_json.getString("email"));
-					String avatar = null;
-					Json avatar_data = user_json.getJson("picture");
-					if (avatar_data != null && avatar_data.getJson("data") != null) {
-						avatar = avatar_data.getJson("data").getString("url");
-					}
-					user.put("avatar", avatar);
+						user.put("id", user_json.getId());
+						user.put("name", user_json.getString("name"));
+						user.put("verified", user_json.getBoolean("verified", false));
+						user.put("email", user_json.getString("email"));
+						String avatar = null;
+						Json avatar_data = user_json.getJson("picture");
+						if (avatar_data != null && avatar_data.getJson("data") != null) {
+							avatar = avatar_data.getJson("data").getString("url");
+						}
+						user.put("avatar", avatar);
 
-				} else if (provider.equals("live")) {
+						break;
+					case "live":
 
-					user.put("id", user_json.getId());
-					user.put("name", user_json.getString("name"));
-					user.put("verified", true);
-					user.put("email", user_json.getJson("emails").getString("preferred"));
-					user.put("avatar", "https://apis.live.net/v5.0/" + user_json.getId() + "/picture");
+						user.put("id", user_json.getId());
+						user.put("name", user_json.getString("name"));
+						user.put("verified", true);
+						user.put("email", user_json.getJson("emails").getString("preferred"));
+						user.put("avatar", "https://apis.live.net/v5.0/" + user_json.getId() + "/picture");
+						break;
 				}
 				if (user.getString("name") == null || user.getString("name") == "") {
 					user.put("name", "anonymous");
