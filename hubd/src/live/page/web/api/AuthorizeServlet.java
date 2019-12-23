@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,44 +56,32 @@ public class AuthorizeServlet extends HttpServlet {
 			OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(req);
 
 			List<String> scopes = Scopes.sort((req.getParameterValues("scope").length > 1) ? new ArrayList<>(Arrays.asList(req.getParameterValues("scope"))) : ApiUtils.parseScope(req.getString("scope", "")));
-			Json app;
-
-			if (oauthRequest.getClientId() != null) {
-
-				app = Db.find("ApiApps", Filters.eq("client_id", oauthRequest.getClientId())).first();
-
-				if (app == null) {
-					resp.sendError(500, Language.get("CLIENT_ID_NOT_EXISTS", req.getLng()));
-					return;
-				}
 
 
-				List<String> app_scopes = app.getList("scopes");
-				if (app_scopes == null || !app_scopes.containsAll(scopes)) {
-					resp.sendError(500, Language.get("SCOPE_INVALID", req.getLng()));
-					return;
-				}
-
-				String redirect_uri = oauthRequest.getRedirectURI();
-				List<String> app_redirect_uri = app.getList("redirect_uri");
-				boolean valid = false;
-				if (app_redirect_uri != null && app_redirect_uri.size() > 0) {
-					for (String redirect : app_redirect_uri) {
-						if (redirect_uri.equals(redirect)) {
-							valid = true;
-							break;
-						}
-					}
-				} else {
-					valid = true;
-				}
-
-				if (!valid) {
-					resp.sendError(500, Language.get("URL_REDIRECTION_INVALID", req.getLng()));
-					return;
-				}
-			} else {
+			if (oauthRequest.getClientId() == null) {
 				resp.sendError(500, Language.get("CLIENT_ID_EMPTY", req.getLng()));
+				return;
+			}
+
+			Json app = Db.find("ApiApps", Filters.eq("client_id", oauthRequest.getClientId())).first();
+
+			if (app == null) {
+				resp.sendError(500, Language.get("APP_UNKNOWN", req.getLng()));
+				return;
+			}
+
+
+			List<String> app_scopes = app.getList("scopes");
+			if (app_scopes == null || !app_scopes.containsAll(scopes)) {
+				resp.sendError(500, Language.get("SCOPE_INVALID", req.getLng()));
+				return;
+			}
+
+			String redirect_uri = oauthRequest.getRedirectURI();
+
+			List<String> app_redirect_uri = app.getList("redirect_uri");
+			if (app_redirect_uri != null && app_redirect_uri.size() > 0 && !app_redirect_uri.contains(redirect_uri)) {
+				resp.sendError(500, Language.get("URL_REDIRECTION_INVALID", req.getLng()));
 				return;
 			}
 
@@ -116,17 +105,16 @@ public class AuthorizeServlet extends HttpServlet {
 
 			OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(new UUIDValueGenerator());
 			String code = oauthIssuerImpl.authorizationCode();
-			String client_id = oauthRequest.getClientId();
 
-			Json access = Db.find("ApiAccess", Filters.and(Filters.ne("force", true), Filters.eq("user", user.getId()), Filters.eq("client_id", client_id))).first();
+			Json access = Db.find("ApiAccess", Filters.and(Filters.ne("force", true), Filters.eq("user", user.getId()), Filters.eq("app_id", app.getId()))).first();
 			if (access == null) {
 				access = new Json();
 			}
 			access.put("code", code);
 			access.put("user", user.getId());
-			access.put("client_id", client_id);
-			access.put("client_secret", app.getString("client_secret"));
+			access.put("app_id", app.getId());
 			access.put("scopes", scopes);
+			access.put("perishable", new Date());
 
 			Db.save("ApiAccess", access);
 

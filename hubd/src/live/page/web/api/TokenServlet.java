@@ -74,7 +74,7 @@ public class TokenServlet extends HttpServlet {
 			case "authorization_code":
 
 				access = Db.findOneAndUpdate("ApiAccess", Filters.and(Filters.eq("code", data.getString("code")), Filters.eq("app_id", app.getId())),
-						new Json("$unset", new Json("code", "")),
+						new Json("$unset", new Json("code", "").put("perishable", "")),
 						new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
 				);
 				if (access == null) {
@@ -94,14 +94,13 @@ public class TokenServlet extends HttpServlet {
 				access = Db.find("ApiAccess", Filters.and(Filters.eq("user", user.getId()), Filters.eq("app_id", app.getId()))).first();
 
 				Date date = new Date();
-				Date expire = new Date(date.getTime() + 3600 * 1000);
 				if (access == null) {
 					access = new Json();
 					access.put("date", date);
 					access.put("user", user.getId());
 				}
 				access.put("scopes", Scopes.scopes);
-				access.put("expire", expire);
+				access.put("expire", new Date(date.getTime() + 3600 * 1000));
 				access.put("app_id", app.getId());
 
 				break;
@@ -113,24 +112,22 @@ public class TokenServlet extends HttpServlet {
 
 
 		Date date = new Date();
-		Date expire = new Date(date.getTime() + 3600 * 1000);
 		access.put("access_token", Fx.getSecureKey());
 		access.put("refresh_token", Fx.getSecureKey());
 
-		access.put("expire", expire);
-		access.put("date", date);
+		if (!access.containsKey("date")) {
+			access.put("date", date);
+		}
+		access.put("expire", new Date(date.getTime() + 3600 * 1000));
 
 		if (Db.save("ApiAccess", access)) {
 
-			Json rez = new Json()
+			sendJson(resp, 200, new Json()
 					.put("access_token", access.getString("access_token"))
 					.put("refresh_token", access.getString("refresh_token"))
 					.put("expires_in", 3600)
-					.put("expires_at", expire)
-					.put("token_type", "Bearer");
-
-
-			sendJson(resp, 200, rez);
+					.put("expires_at", access.getDate("expire"))
+					.put("token_type", "Bearer"));
 			return;
 		}
 

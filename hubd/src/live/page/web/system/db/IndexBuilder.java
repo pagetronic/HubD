@@ -217,7 +217,8 @@ public class IndexBuilder {
 				IndexData.get(new Json("app_id", 1), "app_id"),
 				IndexData.get(new Json("scopes", 1), "scopes"),
 				IndexData.get(new Json("expire", -1), "expire"),
-				IndexData.get(new Json("date", -1), "date")
+				IndexData.get(new Json("date", -1), "date"),
+				IndexData.getExpire(new Json("perishable", 1), "perishable", 1, TimeUnit.DAYS)
 		);
 
 		indexes.addIndex("Scraps",
