@@ -43,7 +43,7 @@ public class AuthorizeServlet extends HttpServlet {
 			OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(req);
 
 			List<String> scopes = Scopes.sort((req.getParameterValues("scope").length > 1) ? new ArrayList<>(Arrays.asList(req.getParameterValues("scope"))) : ApiUtils.parseScope(req.getString("scope", "")));
-			Json app = null;
+			Json app;
 
 			if (oauthRequest.getClientId() != null) {
 
@@ -54,33 +54,34 @@ public class AuthorizeServlet extends HttpServlet {
 					return;
 				}
 
-				if (app != null) {
 
-					List<String> app_scopes = app.getList("scopes");
-					if ((app_scopes == null && scopes != null) || (app_scopes != null && scopes == null) || (app_scopes != null && !app_scopes.containsAll(scopes))) {
-						resp.sendError(500, Language.get("SCOPE_INVALID", req.getLng()));
-						return;
-					}
-
-					String redirect_uri = oauthRequest.getRedirectURI();
-					List<String> app_redirect_uri = app.getList("redirect_uri");
-					boolean valid = false;
-					if (app_redirect_uri != null && app_redirect_uri.size() > 0) {
-						for (String redirect : app_redirect_uri) {
-							if (redirect_uri.equals(redirect)) {
-								valid = true;
-								break;
-							}
-						}
-					} else {
-						valid = true;
-					}
-
-					if (!valid) {
-						resp.sendError(500, Language.get("URL_REDIRECTION_INVALID", req.getLng()));
-						return;
-					}
+				List<String> app_scopes = app.getList("scopes");
+				if (app_scopes == null || !app_scopes.containsAll(scopes)) {
+					resp.sendError(500, Language.get("SCOPE_INVALID", req.getLng()));
+					return;
 				}
+
+				String redirect_uri = oauthRequest.getRedirectURI();
+				List<String> app_redirect_uri = app.getList("redirect_uri");
+				boolean valid = false;
+				if (app_redirect_uri != null && app_redirect_uri.size() > 0) {
+					for (String redirect : app_redirect_uri) {
+						if (redirect_uri.equals(redirect)) {
+							valid = true;
+							break;
+						}
+					}
+				} else {
+					valid = true;
+				}
+
+				if (!valid) {
+					resp.sendError(500, Language.get("URL_REDIRECTION_INVALID", req.getLng()));
+					return;
+				}
+			} else {
+				resp.sendError(500, Language.get("CLIENT_ID_EMPTY", req.getLng()));
+				return;
 			}
 
 			if (req.getParameter("secure") == null || !req.getParameter("secure").equals(req.getSessionData().getString("secure"))) {
