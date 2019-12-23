@@ -35,6 +35,18 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/auth"})
 public class AuthorizeServlet extends HttpServlet {
 
+
+	@Override
+	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
+
+		req.setAttribute("profile_active", "profile");
+		req.setRobotsIndex(false);
+		req.setCanonical("/auth");
+		req.setTitle(Language.get("ACCOUNT_CONNECT", req.getLng()));
+		resp.sendTemplate(req, "/profile/auth.html");
+
+	}
+
 	/// auth?scope= &response_type=code &redirect_uri= &client_id= &prompt=
 	@Override
 	public void doGetAuth(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
@@ -89,6 +101,7 @@ public class AuthorizeServlet extends HttpServlet {
 				String secure = Fx.getSecureKey();
 				req.setSessionData(new Json("secure", secure));
 				req.setAttribute("secure", secure);
+				req.setAttribute("scheme", req.getParameter("scheme"));
 
 				req.setAttribute("appname", app.getString("name"));
 				req.setAttribute("scopes", scopes);
@@ -122,6 +135,7 @@ public class AuthorizeServlet extends HttpServlet {
 				resp.sendRedirect(oauthresp.getLocationUri());
 			} else {
 				req.setAttribute("code", code);
+				req.setAttribute("scheme", req.getParameter("scheme"));
 				resp.sendTemplate(req, "/api/code.html");
 			}
 
@@ -136,5 +150,4 @@ public class AuthorizeServlet extends HttpServlet {
 	public void doPostAuth(WebServletRequest req, WebServletResponse resp, Json data, Users user) throws IOException, ServletException {
 		doGetAuth(req, resp, user);
 	}
-
 }

@@ -87,7 +87,7 @@ var login = {
                             iconURL: constants.logo + '@256x256'
                         }));
                     }
-                    document.location.href = '/';
+                    document.location.reload();
                 } else {
                     register.find('input').removeAttr('disabled');
                     register.css({opacity: ''});
@@ -167,7 +167,7 @@ var login = {
                 password.css({opacity: ''});
                 if (rez.ok) {
                     $('#password').remove();
-                    document.location.href = document.location.pathname;
+                    document.location.reload();
                 } else {
                     password.find('input').removeAttr('disabled');
                     password.find('[name=email]').val('').addClass('error_input');

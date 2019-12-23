@@ -17,6 +17,22 @@
     "js": true,
     "pt": "acesso"
   },
+  "AUTHORIZATION": {
+    "fr": "autorisation",
+    "en": "authorization"
+  },
+  "CONNECT_IN": {
+    "en": "connected as",
+    "fr": "connecté en tant que"
+  },
+  "AUTHORIZE": {
+    "en": "authorize",
+    "fr": "autoriser"
+  },
+  "AUTHORIZE_APPS_ACCESS": {
+    "fr": "%1 souhaite accéder à l\u0027APi de Textbox.live. Vous pourrez révoquer l’accès de cette application à tous moment ultérieurement dans votre espace personnel.",
+    "en": "%1 wants to access the APi from Textbox.live. You may revoke the access of this application at any time later in your personal space."
+  },
   "ACCESS_REFRESH": {
     "de": "token aktualisieren",
     "en": "refresh token",

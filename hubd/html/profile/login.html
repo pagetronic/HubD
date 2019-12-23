@@ -58,8 +58,7 @@
         <form id="recover" method="post" class="option">
             <h3>#lang('ACCOUNT_RECOVER')</h3>
             <p>
-                <input required type="email" placeholder="#lang('EMAIL','ucfirst')" name="email" value="$!email"
-                       autocomplete="email"/>
+                <input required type="email" placeholder="#lang('EMAIL','ucfirst')" name="email" value="$!email" autocomplete="email"/>
                 <button type="submit" name="action" value="recover">$svg.fa_icon_history #lang('RECOVER')</button>
             </p>
         </form>
@@ -67,7 +66,6 @@
     #end
     <script type="text/javascript">
         sys.push(function () {
-
             login.init();
         });
     </script>

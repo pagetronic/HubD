@@ -7,18 +7,17 @@
 		#if($req.redirect_uri)<input type="hidden" name="redirect_uri" value="$req.redirect_uri"/>#end
 		<input type="hidden" name="client_id" value="$req.client_id"/>
 		<input type="hidden" name="secure" value="$secure" />
+		#if($scheme)<input type="hidden" name="scheme" value="$scheme" />#end
 		<p>#lang('CONNECT_IN') $user.name &lt;$user.email&gt;</p>
 		<ul class="scopes">
 			#foreach($scope in $scopes)
-			<li><input type="checkbox" name="scope" value="$scope" checked="checked" />#lang("SCOPE_${scope}_INFO")</li>
+			<li><input type="checkbox" name="scope" value="$scope" checked="checked" />#lang("SCOPE_${scope}_EXPLAIN")</li>
 			#end
 		</ul>
-		<div class="set">
+		<div class="set flexible">
 			<button type="submit">$svg.mi_check_box#lang('AUTHORIZE')</button>
-			<a class="button" href="#if($req.redirect_uri)$req.redirect_uri#else/#end">$svg.mi_do_not_disturb_on#lang('REFUSE')</a>
+			<a style="margin-left: 5px" class="button" href="#if($req.redirect_uri)$req.redirect_uri#else/#end">$svg.mi_do_not_disturb_on#lang('REFUSE')</a>
 		</div>
 	</form>
-
-	</ul>
 </div>
 #parse("/inc/bottom.html")
