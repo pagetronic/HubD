@@ -283,15 +283,13 @@ sys = $.extend({}, sys, {
                     localStorage.setItem("sysid", sysid());
                 }
                 Cookies.set("sysid", localStorage.getItem("sysid"), {
-                    expires: 'max',
-                    samesite: 'none'
+                    expires: 'max'
                 });
                 return localStorage.getItem("sysid");
             } else {
                 if (Cookies.get("sysid") === null) {
                     Cookies.set("sysid", sysid(), {
-                        expires: 'max',
-                        samesite: 'none'
+                        expires: 'max'
                     });
                 }
                 return Cookies.get("sysid");

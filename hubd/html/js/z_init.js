@@ -8,8 +8,7 @@ sys.init = function (xspeed) {
     socket.init();
 
     Cookies.set('tz', new Date().getTimezoneOffset(), {
-        expires: 'max',
-        samesite: 'none'
+        expires: 'max'
     });
 
     sys.consent.message();
@@ -27,8 +26,7 @@ sys.init = function (xspeed) {
 sys.debuggable = function (set) {
     if (set) {
         Cookies.set('debug', 'debug', {
-            expires: 'max',
-            samesite: 'none'
+            expires: 'max'
         });
     } else {
         Cookies.remove('debug');
