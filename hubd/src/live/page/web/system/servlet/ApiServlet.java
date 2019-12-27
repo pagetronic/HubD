@@ -85,7 +85,7 @@ public class ApiServlet extends FullServlet {
 						Arrays.asList(
 								Aggregates.match(Filters.eq("access_token", access_token)),
 								Aggregates.limit(1),
-								Aggregates.lookup("ApiApps", "client_id", "client_id", "app"),
+								Aggregates.lookup("ApiApps", "app_id", "_id", "app"),
 								Aggregates.unwind("$app", new UnwindOptions().preserveNullAndEmptyArrays(true)),
 								Aggregates.lookup("Users", "user", "_id", "user"),
 								Aggregates.unwind("$user"),
