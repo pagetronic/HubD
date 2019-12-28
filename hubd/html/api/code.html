@@ -1,20 +1,8 @@
 #parse("/inc/top.html")
 <div id="middle">
     <div class="bx">
-        #if($scheme)
-        <h2>#lang('THANK_YOU')</h2>
-        <script type="text/javascript">
-            setTimeout(function () {
-                document.location.href = '$scheme://$code';
-            }, 100);
-            setTimeout(function () {
-                document.location.href = '/';
-            }, 3000);
-        </script>
-        #else
         <h2>Code</h2>
         <input type="text" value="$code" onchange="this.value='$code'" onclick="this.select()" style="max-width:300px;text-align:center"/>
-        #end
     </div>
 </div>
 #parse("/inc/bottom.html")

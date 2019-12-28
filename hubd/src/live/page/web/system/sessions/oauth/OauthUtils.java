@@ -55,9 +55,6 @@ public class OauthUtils {
 			}
 		}
 
-		if (req.getString("scheme", null) != null) {
-			session.put("scheme", req.getString("scheme", null));
-		}
 
 		if (req.getHeader(HttpHeaders.REFERER) != null) {
 			session.put("referer", req.getHeader(HttpHeaders.REFERER));
@@ -176,23 +173,9 @@ public class OauthUtils {
 
 		Db.save("Sessions", session);
 
-
-		if (session.containsKey("scheme")) {
-
-			Json access = new Json();
-			access.put("date", new Date());
-			access.put("user", user.getId());
-			access.put("code", Fx.getSecureKey());
-			access.put("app_id", session.getString("app_id"));
-			Db.save("ApiAccess", access);
-			resp.sendRedirect(session.getString("scheme") + "://" + access.getText("code"));
-
-		} else if (session.containsKey("referer")) {
-
+		if (session.containsKey("referer")) {
 			resp.sendRedirect(session.getString("referer"));
-
 		} else {
-
 			resp.sendRedirect("/");
 		}
 	}

@@ -7,7 +7,6 @@
 		#if($req.redirect_uri)<input type="hidden" name="redirect_uri" value="$req.redirect_uri"/>#end
 		<input type="hidden" name="client_id" value="$req.client_id"/>
 		<input type="hidden" name="secure" value="$secure" />
-		#if($scheme)<input type="hidden" name="scheme" value="$scheme" />#end
 		<p>#lang('CONNECT_IN') $user.name &lt;$user.email&gt;</p>
 		<ul class="scopes">
 			#foreach($scope in $scopes)

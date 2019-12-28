@@ -55,9 +55,12 @@ public class AuthorizeServlet extends HttpServlet {
 		try {
 			OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(req);
 
-			List<String> scopes = Scopes.sort((req.getParameterValues("scope").length > 1) ? new ArrayList<>(Arrays.asList(req.getParameterValues("scope"))) : ApiUtils.parseScope(req.getString("scope", "")));
+			List<String> scopes = new ArrayList<>();
+			try {
+				scopes = Scopes.sort((req.getParameterValues("scope").length > 1) ? new ArrayList<>(Arrays.asList(req.getParameterValues("scope"))) : ApiUtils.parseScope(req.getString("scope", "")));
+			} catch (Exception ignore) {
 
-
+			}
 			if (oauthRequest.getClientId() == null) {
 				resp.sendError(500, Language.get("CLIENT_ID_EMPTY", req.getLng()));
 				return;
@@ -90,7 +93,6 @@ public class AuthorizeServlet extends HttpServlet {
 				String secure = Fx.getSecureKey();
 				req.setSessionData(new Json("secure", secure));
 				req.setAttribute("secure", secure);
-				req.setAttribute("scheme", req.getParameter("scheme"));
 
 				req.setAttribute("appname", app.getString("name"));
 				req.setAttribute("scopes", scopes);
@@ -123,7 +125,6 @@ public class AuthorizeServlet extends HttpServlet {
 				resp.sendRedirect(oauthresp.getLocationUri());
 			} else {
 				req.setAttribute("code", code);
-				req.setAttribute("scheme", req.getParameter("scheme"));
 				resp.sendTemplate(req, "/api/code.html");
 			}
 
