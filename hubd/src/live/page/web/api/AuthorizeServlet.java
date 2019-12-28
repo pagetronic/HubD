@@ -81,13 +81,13 @@ public class AuthorizeServlet extends HttpServlet {
 			}
 
 			String redirect_uri = oauthRequest.getRedirectURI();
-
-			List<String> app_redirect_uri = app.getList("redirect_uri");
-			if (app_redirect_uri != null && app_redirect_uri.size() > 0 && !app_redirect_uri.contains(redirect_uri)) {
-				resp.sendError(500, Language.get("URL_REDIRECTION_INVALID", req.getLng()));
-				return;
+			if (redirect_uri != null) {
+				List<String> app_redirect_uri = app.getList("redirect_uri");
+				if (app_redirect_uri != null && app_redirect_uri.size() > 0 && !app_redirect_uri.contains(redirect_uri)) {
+					resp.sendError(500, Language.get("URL_REDIRECTION_INVALID", req.getLng()));
+					return;
+				}
 			}
-
 			if (req.getParameter("secure") == null || !req.getParameter("secure").equals(req.getSessionData().getString("secure"))) {
 
 				String secure = Fx.getSecureKey();
