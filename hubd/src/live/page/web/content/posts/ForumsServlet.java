@@ -22,7 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
-@Api(scope = "forums")
+@Api(scope = "threads")
 @WebServlet(urlPatterns = {"/forums"})
 public class ForumsServlet extends HttpServlet {
 
