@@ -54,6 +54,9 @@ sys.notices = {
                         a.attr('href', item.url);
                         a.on('click', function () {
                             a.removeClass('unread');
+                            if (sys.isMobile()) {
+                                notices.slowRemove(300);
+                            }
                         });
                         if (item.read === undefined) {
                             a.addClass('unread');
