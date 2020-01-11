@@ -25,16 +25,20 @@ sys.notices = {
             notices.append($('<style type="text/css" />').text('#notices:before{left:' + Math.round((bell.outerWidth() / 2) + bell.position().left - notices.position().left) + 'px}'));
 
             var xhr;
-            var paging = null;
-            var get = function () {
+            var next = null;
+            var get = function (paging) {
                 var pager = {};
                 if (paging !== null) {
                     pager.paging = paging;
                 }
                 xhr = api.get('/notices', pager, function (rez) {
+
                     if (rez.result.length === 0) {
                         notices_list.append($('<li/>').html(lang.get('EMPTY')));
                         return;
+                    }
+                    if (rez.paging !== undefined) {
+                        next = rez.paging.next;
                     }
                     $(rez.result).each(function (i, item) {
                         var li = $('<li/>');
@@ -67,7 +71,7 @@ sys.notices = {
                     });
                 });
             };
-            get();
+            get(null);
             var abort = function () {
                 body.off('mouseup.notice');
                 try {
@@ -85,9 +89,9 @@ sys.notices = {
             });
             notices_list.on('scroll.notice', function () {
                 var height = notices_list.innerHeight();
-                if (paging == null && (notices_list.scrollTop() + height) > notices_list[0].scrollHeight - height) {
-                    get();
-                    paging = null;
+                if (next != null && (notices_list.scrollTop() + height) > notices_list[0].scrollHeight - height) {
+                    get(next);
+                    next = null;
                 }
             }).trigger('scroll.notice');
         }
