@@ -137,10 +137,13 @@ public class Paginer {
 		try {
 			List<Json> results = new ArrayList<>();
 			MongoCursor<Json> result_it = index != null ? Db.aggregate(collection, pipeline).hint(IndexBuilder.getHint(collection, index)).iterator() : Db.aggregate(collection, pipeline).iterator();
-			while (result_it.hasNext()) {
-				results.add(result_it.next());
+			try {
+				while (result_it.hasNext()) {
+					results.add(result_it.next());
+				}
+			} finally {
+				result_it.close();
 			}
-			result_it.close();
 			return getResult(results);
 		} catch (Exception e) {
 			if (Fx.IS_DEBUG) {
