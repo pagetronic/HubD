@@ -51,10 +51,10 @@ public class BlobsService {
 					return;
 				}
 				if (matcher.group(2) != null) {
-					width = Integer.valueOf(matcher.group(2));
+					width = Integer.parseInt(matcher.group(2));
 				}
 				if (matcher.group(3) != null) {
-					height = Integer.valueOf(matcher.group(3).replaceFirst("^x", ""));
+					height = Integer.parseInt(matcher.group(3).replaceFirst("^x", ""));
 				}
 				if (matcher.group(4) != null) {
 					format = matcher.group(4).substring(1);
@@ -86,16 +86,24 @@ public class BlobsService {
 					return;
 
 				}
+
+				doHeaders(req, resp, file);
+				ServletOutputStream outStream = resp.getOutputStream();
 				try {
-					doHeaders(req, resp, file);
-					ServletOutputStream outStream = resp.getOutputStream();
 					for (Binary bin : file.getList("binaries", Binary.class)) {
 						outStream.write(bin.getData());
 					}
 					outStream.flush();
-					outStream.close();
 				} catch (Exception e) {
 
+					if (Fx.IS_DEBUG) {
+						e.printStackTrace();
+					}
+				} finally {
+					try {
+						outStream.close();
+					} catch (Exception ignore) {
+					}
 				}
 				return;
 			}
@@ -128,9 +136,9 @@ public class BlobsService {
 			int height = -1;
 
 			if (matcher.group(1) != null) {
-				width = Integer.valueOf(matcher.group(1));
+				width = Integer.parseInt(matcher.group(1));
 				if (matcher.group(2) != null) {
-					height = Integer.valueOf(matcher.group(2).replaceFirst("^x", ""));
+					height = Integer.parseInt(matcher.group(2).replaceFirst("^x", ""));
 				}
 
 				if (matcher.group(3) != null) {
@@ -145,7 +153,6 @@ public class BlobsService {
 				resp.sendTextError(404, "Not found");
 				return;
 			}
-
 
 			Json blobCache = Thumbnailer.getCache(blob, format, width, height);
 
@@ -170,10 +177,14 @@ public class BlobsService {
 				for (Binary bin : blobCache.getList("binaries", Binary.class)) {
 					outStream.write(bin.getData());
 				}
-				outStream.close();
 			} catch (Exception e) {
 				if (Fx.IS_DEBUG) {
 					e.printStackTrace();
+				}
+			} finally {
+				try {
+					outStream.close();
+				} catch (Exception ignore) {
 				}
 			}
 		} else {
@@ -195,18 +206,32 @@ public class BlobsService {
 			Bson sort = Sorts.ascending("o");
 			MongoCursor<Json> chunks = Db.getDb("BlobChunks").find(filter).hint(IndexBuilder.getHint("BlobChunks", "file")).sort(sort).iterator();
 			ServletOutputStream outStream = resp.getOutputStream();
-			while (chunks.hasNext()) {
-				try {
-					outStream.write(chunks.next().getBinary("b").getData());
-					outStream.flush();
-				} catch (Exception e) {
-					if (Fx.IS_DEBUG) {
-						e.printStackTrace();
+			try {
+				while (chunks.hasNext()) {
+					try {
+						outStream.write(chunks.next().getBinary("b").getData());
+						outStream.flush();
+					} catch (Exception e) {
+						if (Fx.IS_DEBUG) {
+							e.printStackTrace();
+						}
+						break;
 					}
 				}
+			} catch (Exception e) {
+				if (Fx.IS_DEBUG) {
+					e.printStackTrace();
+				}
+			} finally {
+				try {
+					chunks.close();
+				} catch (Exception ignore) {
+				}
+				try {
+					outStream.close();
+				} catch (Exception ignore) {
+				}
 			}
-			chunks.close();
-			outStream.close();
 		} else {
 			resp.sendTextError(404, "Not found");
 		}
