@@ -187,16 +187,21 @@ public class Thumbnailer {
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
-			writer.setOutput(ios);
-			writer.write(null, new IIOImage(image, null, null), param);
-			baos.flush();
-			byte[] bt = baos.toByteArray();
-			writer.reset();
-			writer.abort();
-			writer.dispose();
-			ios.close();
-			baos.close();
+			try {
+				writer.setOutput(ios);
+				writer.write(null, new IIOImage(image, null, null), param);
+				baos.flush();
+				writer.reset();
+				writer.abort();
+				writer.dispose();
+			} catch (Exception ignore) {
+				return null;
+			} finally {
+				ios.close();
+				baos.close();
+			}
 
+			byte[] bt = baos.toByteArray();
 			cache.put("size", bt.length);
 
 			if (outputformat.equalsIgnoreCase("png")) {
@@ -207,11 +212,16 @@ public class Thumbnailer {
 
 			List<Binary> binaries = new ArrayList<>();
 			ByteArrayInputStream bin = new ByteArrayInputStream(bt);
-			byte[] buffer = new byte[Math.min(bt.length, Settings.CHUNCK_SIZE)];
-			while (bin.read(buffer) != -1) {
-				binaries.add(new Binary(buffer));
+			try {
+				byte[] buffer = new byte[Math.min(bt.length, Settings.CHUNCK_SIZE)];
+				while (bin.read(buffer) != -1) {
+					binaries.add(new Binary(buffer));
+				}
+			} catch (Exception ignore) {
+				return null;
+			} finally {
+				bin.close();
 			}
-			bin.close();
 			cache.put("binaries", binaries);
 			Db.save("BlobCache", cache);
 			return cache;
