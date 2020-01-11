@@ -102,7 +102,10 @@ public class BlobsService {
 				} finally {
 					try {
 						outStream.close();
-					} catch (Exception ignore) {
+					} catch (Exception e) {
+						if (Fx.IS_DEBUG) {
+							e.printStackTrace();
+						}
 					}
 				}
 				return;
@@ -177,6 +180,7 @@ public class BlobsService {
 				for (Binary bin : blobCache.getList("binaries", Binary.class)) {
 					outStream.write(bin.getData());
 				}
+				blobCache.clear();
 			} catch (Exception e) {
 				if (Fx.IS_DEBUG) {
 					e.printStackTrace();
@@ -184,7 +188,10 @@ public class BlobsService {
 			} finally {
 				try {
 					outStream.close();
-				} catch (Exception ignore) {
+				} catch (Exception e) {
+					if (Fx.IS_DEBUG) {
+						e.printStackTrace();
+					}
 				}
 			}
 		} else {
@@ -225,11 +232,17 @@ public class BlobsService {
 			} finally {
 				try {
 					chunks.close();
-				} catch (Exception ignore) {
+				} catch (Exception e) {
+					if (Fx.IS_DEBUG) {
+						e.printStackTrace();
+					}
 				}
 				try {
 					outStream.close();
-				} catch (Exception ignore) {
+				} catch (Exception e) {
+					if (Fx.IS_DEBUG) {
+						e.printStackTrace();
+					}
 				}
 			}
 		} else {

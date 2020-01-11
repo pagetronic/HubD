@@ -10,6 +10,7 @@ import live.page.web.system.Settings;
 import live.page.web.system.db.Db;
 import live.page.web.system.db.IndexBuilder;
 import live.page.web.system.json.Json;
+import live.page.web.utils.Fx;
 import live.page.web.utils.http.HttpClient;
 import net.sf.image4j.codec.ico.ICODecoder;
 import org.apache.commons.io.FileUtils;
@@ -69,21 +70,39 @@ public class Thumbnailer {
 					Bson sort = Sorts.ascending("o");
 					MongoCursor<Json> chunks = Db.getDb("BlobChunks").find(filter).sort(sort).iterator();
 					File tmp = File.createTempFile("pagebase_thumb", ".file");
+					FileOutputStream outStream = new FileOutputStream(tmp);
 					try {
 						if (!chunks.hasNext()) {
 							return null;
 						}
-						FileOutputStream outStream = new FileOutputStream(tmp);
 						while (chunks.hasNext()) {
 							outStream.write(chunks.next().getBinary("b").getData());
 						}
-						outStream.close();
 						return makeFile(tmp, blob, type, width, height);
 					} catch (Exception e) {
 						return null;
 					} finally {
-						chunks.close();
-						tmp.delete();
+						try {
+							chunks.close();
+						} catch (Exception e) {
+							if (Fx.IS_DEBUG) {
+								e.printStackTrace();
+							}
+						}
+						try {
+							tmp.delete();
+						} catch (Exception e) {
+							if (Fx.IS_DEBUG) {
+								e.printStackTrace();
+							}
+						}
+						try {
+							outStream.close();
+						} catch (Exception e) {
+							if (Fx.IS_DEBUG) {
+								e.printStackTrace();
+							}
+						}
 					}
 				} else if (file.getString("type").equals("application/pdf")) {
 					InputStream sr = Thumbnailer.class.getResourceAsStream("/res/pdf.png");
