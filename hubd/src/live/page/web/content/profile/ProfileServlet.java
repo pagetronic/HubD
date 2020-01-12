@@ -18,9 +18,13 @@ import live.page.web.system.sessions.BaseSession;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
+/**
+ * Profile servelt used to login users
+ */
 @Api
 @WebServlet(urlPatterns = {"/profile"})
 public class ProfileServlet extends HttpServlet {
@@ -55,6 +59,7 @@ public class ProfileServlet extends HttpServlet {
 	@Override
 	public void doGetAuth(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
 
+		//Purging cookies
 		if (CookiesUtils.purge(req, resp)) {
 			return;
 		}
@@ -71,6 +76,11 @@ public class ProfileServlet extends HttpServlet {
 
 		resp.sendTemplate(req, "/profile/profile.html");
 
+	}
+
+	@Override
+	public void doGetApiPublic(ApiServletRequest req, ApiServletResponse resp) throws IOException, ServletException {
+		resp.sendResponse(new Json("error", "PLEASE_LOGIN"));
 	}
 
 	@Override
