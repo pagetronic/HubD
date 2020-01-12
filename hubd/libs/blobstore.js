@@ -399,5 +399,5 @@ var blobstore = {
             }
             file_input.remove();
         }).trigger('click');
-    },
+    }
 };
