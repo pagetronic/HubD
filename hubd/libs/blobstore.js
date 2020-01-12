@@ -302,5 +302,102 @@ var blobstore = {
             }
             file_input.remove();
         }).trigger('click');
-    }
+    },
+    /**
+     *
+     * @param choose
+     * @param success
+     * @param progress
+     * @param preview
+     * @param error
+     * @param file
+     */
+    uploader: function (choose, success, progress, preview, error, file) {
+
+        var def = function () {
+        };
+        choose = (choose === null || choose === undefined) ? def : choose;
+        success = (success === null || success === undefined) ? def : success;
+        error = (error === null || error === undefined) ? def : error;
+        progress = (progress === null || progress === undefined) ? def : progress;
+        preview = (preview === null || preview === undefined) ? def : preview;
+
+
+        var send = function (file) {
+            if (WebSocket===undefined) {
+                return;
+            }
+
+            var upsocket = new WebSocket(constants.apiurl.replace(/^http/, 'ws') + '/up');
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                upsocket.send(e.target.result);
+            };
+            reader.onabort = function () {
+                upsocket.close(1000, "cancel");
+            };
+
+            preview(file);
+
+            upsocket.onmessage = function (event) {
+                try {
+                    var data = eval("(" + event.data + ")");
+                    if (data.id === undefined) {
+                        progress(data.percent);
+                    } else {
+                        upsocket.close(1000, "done");
+                        success(data);
+                    }
+                } catch (e) {
+                    upsocket.close(1000, "error");
+                }
+            };
+            var interval = setInterval(function () {
+                if (upsocket.readyState === 1) {
+                    clearInterval(interval);
+                    upsocket.send(JSON.stringify({type: file.type, size: file.size, name: file.name}));
+                    reader.readAsArrayBuffer(file);
+                }
+            }, 200);
+
+            upsocket.onerror = function (event) {
+                upsocket.close(1000, "error");
+                error();
+            };
+        };
+
+        if (file !== null && file !== undefined) {
+            var errors = [];
+            if (file.type === undefined || constants.files_type.indexOf(file.type) === -1) {
+                errors.push(lang.get('FILE_TYPE_ERROR', file.name));
+                error(errors);
+            } else {
+                choose(file);
+                send(file);
+            }
+            return;
+        }
+
+
+        var file_input = $('<input type="file" />').css({
+            position: 'absolute',
+            width: 1,
+            height: 1,
+            right: 0,
+            bottom: 0
+        }).attr('accept', constants.files_type.join(', '));
+        $(document.body).append(file_input);
+        file_input.on('change', function () {
+            var errors = [];
+            var file = this.files[0];
+            if (file.type === undefined || constants.files_type.indexOf(file.type) === -1) {
+                errors.push(lang.get('FILE_TYPE_ERROR', file.name));
+                error(errors);
+            } else {
+                choose(file);
+                send(file);
+            }
+            file_input.remove();
+        }).trigger('click');
+    },
 };
