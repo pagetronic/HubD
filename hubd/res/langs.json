@@ -17,22 +17,6 @@
     "js": true,
     "pt": "acesso"
   },
-  "AUTHORIZATION": {
-    "fr": "autorisation",
-    "en": "authorization"
-  },
-  "CONNECT_IN": {
-    "en": "connected as",
-    "fr": "connecté en tant que"
-  },
-  "AUTHORIZE": {
-    "en": "authorize",
-    "fr": "autoriser"
-  },
-  "AUTHORIZE_APPS_ACCESS": {
-    "fr": "%1 souhaite accéder à l\u0027APi de Textbox.live. Vous pourrez révoquer l’accès de cette application à tous moment ultérieurement dans votre espace personnel.",
-    "en": "%1 wants to access the APi from Textbox.live. You may revoke the access of this application at any time later in your personal space."
-  },
   "ACCESS_REFRESH": {
     "de": "token aktualisieren",
     "en": "refresh token",
@@ -304,6 +288,14 @@
     "it": "Autore",
     "pt": "Autor"
   },
+  "AUTHORIZATION": {
+    "de": "Genehmigung",
+    "en": "authorization",
+    "es": "autorización",
+    "fr": "autorisation",
+    "it": "autorizzazione",
+    "pt": "autorização"
+  },
   "AUTHORIZATIONS": {
     "de": "Berechtigungen",
     "en": "authorizations",
@@ -312,13 +304,29 @@
     "it": "le autorizzazioni",
     "pt": "autorizações"
   },
+  "AUTHORIZE": {
+    "de": "autorisieren",
+    "en": "authorize",
+    "es": "autorizar",
+    "fr": "autoriser",
+    "it": "autorizzare",
+    "pt": "autorizar"
+  },
+  "AUTHORIZE_APPS_ACCESS": {
+    "de": "% 1 möchte über Textbox.live auf die APi zugreifen. Sie können den Zugriff auf diese Anwendung zu einem späteren Zeitpunkt in Ihrem persönlichen Bereich widerrufen.",
+    "en": "%1 wants to access the APi from Textbox.live. You may revoke the access of this application at any time later in your personal space.",
+    "es": "% 1 quiere acceder a APi desde Textbox.live. Puede revocar el acceso a esta aplicación en cualquier momento posterior en su espacio personal.",
+    "fr": "%1 souhaite accéder à l\u0027APi de Textbox.live. Vous pourrez révoquer l’accès de cette application à tous moment ultérieurement dans votre espace personnel.",
+    "it": "% 1 vuole accedere all\u0026#39;API da Textbox.live. È possibile revocare l\u0026#39;accesso a questa applicazione in qualsiasi momento successivo nel proprio spazio personale.",
+    "pt": "% 1 deseja acessar a APi em Textbox.live. Você pode revogar o acesso a este aplicativo a qualquer momento posteriormente em seu espaço pessoal."
+  },
   "AUTHORS": {
-    "js": true,
     "de": "Autoren",
     "en": "Authors",
     "es": "Autores",
     "fr": "Auteurs",
     "it": "Autori",
+    "js": true,
     "pt": "Autores"
   },
   "AVATAR": {
@@ -456,6 +464,14 @@
     "fr": "connexion",
     "it": "connessione",
     "pt": "conexão"
+  },
+  "CONNECT_IN": {
+    "de": "verbunden als",
+    "en": "connected as",
+    "es": "conectado como",
+    "fr": "connecté en tant que",
+    "it": "collegato come",
+    "pt": "conectado como"
   },
   "COOKIES_ADS": {
     "de": "Kontrolle der ordnungsgemäßen Verwendung von Werbung und Vermeidung von Betrug.",
@@ -737,12 +753,12 @@
     "pt": "editable"
   },
   "EMAIL": {
-    "js": true,
     "de": "email",
     "en": "email",
     "es": "correo electrónico",
     "fr": "email",
     "it": "e-mail",
+    "js": true,
     "pt": "o email"
   },
   "EMPTY": {
@@ -2170,6 +2186,14 @@
     "it": "L\u0026#39;URL esiste",
     "js": true,
     "pt": "URL existe"
+  },
+  "URL_REDIRECTION_INVALID": {
+    "de": "Ungültige Weiterleitungs-URL",
+    "en": "Invalid redirect URL",
+    "es": "URL de redireccionamiento no válida",
+    "fr": "URL de redirection invalide",
+    "it": "URL di reindirizzamento non valido",
+    "pt": "URL de redirecionamento inválido"
   },
   "USER": {
     "de": "Benutzer",
