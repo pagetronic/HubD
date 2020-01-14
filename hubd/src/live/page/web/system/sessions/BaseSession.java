@@ -322,7 +322,7 @@ public class BaseSession implements ServletContextListener {
 
 
 		if (user.getString("avatar") != null) {
-			data.put("logo", Settings.getCDNHttp() + "/files/" + user.getString("avatar"));
+			data.put("logo", (user.getString("avatar").startsWith("http") ? "" : Settings.getCDNHttp() + "/files/") + user.getString("avatar"));
 		} else {
 			data.put("logo", Settings.getLogo());
 		}
