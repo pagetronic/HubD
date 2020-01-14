@@ -300,7 +300,8 @@ public class BaseSession implements ServletContextListener {
 		).getModifiedCount() > 0);
 	}
 
-	public static Json getUserData(Json user, boolean email) {
+	public static Json getUserData(Json user_, boolean email) {
+		Users user = new Users(user_);
 		Json data = new Json();
 
 		data.put("id", user.getId());
@@ -324,7 +325,12 @@ public class BaseSession implements ServletContextListener {
 			data.put("logo", Settings.getCDNHttp() + "/files/" + user.getString("avatar"));
 		} else {
 			data.put("logo", Settings.getLogo());
-
+		}
+		if (user.getAdmin()) {
+			data.put("admin", true);
+		}
+		if (user.getEditor()) {
+			data.put("editor", true);
 		}
 		return data;
 	}
