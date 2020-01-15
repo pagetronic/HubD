@@ -184,7 +184,7 @@ var login = {
                     password: true,
                     unmediated: false
                 }).then(function (credential) {
-                        if (credential === null) {
+                        if (credential === null || credential === undefined) {
                             data.set("autologin", false, true);
                             return;
                         }
