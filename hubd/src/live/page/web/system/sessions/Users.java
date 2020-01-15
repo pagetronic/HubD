@@ -17,6 +17,9 @@ public class Users extends Json {
 	}
 
 	public boolean getAdmin() {
+		if (getListJson("teams") == null) {
+			return false;
+		}
 		for (Json team : getListJson("teams")) {
 			if (team.getBoolean("admin", false)) {
 				return true;
@@ -28,6 +31,9 @@ public class Users extends Json {
 	public boolean getEditor() {
 		if (getAdmin()) {
 			return true;
+		}
+		if (getListJson("teams") == null) {
+			return false;
 		}
 		for (Json team : getListJson("teams")) {
 			if (team.getBoolean("editor", false)) {
