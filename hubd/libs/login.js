@@ -179,7 +179,7 @@ var login = {
     autologin: function () {
         if (sys.user.id === null && window.PasswordCredential !== undefined &&
             document.location.pathname !== '/profile' && data.get("autologin", true) === null) {
-            navigator.credentials.preventSilentAccess().then(function () {
+            var autologin = function () {
                 navigator.credentials.get({
                     password: true,
                     unmediated: false
@@ -201,7 +201,12 @@ var login = {
                         });
                     }
                 );
-            });
+            };
+            if (navigator.credentials.preventSilentAccess !== undefined) {
+                navigator.credentials.preventSilentAccess().then(autologin);
+            } else {
+                autologin();
+            }
         }
     }
 };
