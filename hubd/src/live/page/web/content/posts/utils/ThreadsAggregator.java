@@ -259,8 +259,11 @@ public class ThreadsAggregator {
 		pipeline.add(Aggregates.lookup("Users", "last.user", "_id", "last.user"));
 		pipeline.add(Aggregates.unwind("$last.user", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
+
 		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("text", new Json("$reduce", new Json("input", new Json("$split", Arrays.asList("$text", "\n"))).put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", " ", "$$this")))))
+				.put("text", new Json("$reduce", new Json("input", new Json("$split", Arrays.asList("$text", "\n"))).put("initialValue", "").put("in", new Json("$concat", Arrays.asList(
+						"$$value", new Json("$cond", Arrays.asList(new Json("$ne", Arrays.asList("$$value", "")), " ", "")), "$$this"))))
+				)
 				.put("last",
 						new Json("$cond", Arrays.asList(new Json("$ne", Arrays.asList("$last.id", new BsonUndefined())),
 								new Json()
@@ -766,7 +769,7 @@ public class ThreadsAggregator {
 							new Json("$or", Arrays.asList(new Json("$eq", Arrays.asList("$title", null)), new Json("$eq", Arrays.asList("$title", new BsonUndefined())))),
 							"$thread.title", "$title")))
 					.put("url", new Json("$concat", Arrays.asList("$url", "#", "$post_id")))
-					.put("text", new Json("$reduce", new Json("input", new Json("$split", Arrays.asList("$text", "\n"))).put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", " ", "$$this")))))
+					.put("text", new Json("$reduce", new Json("input", new Json("$split", Arrays.asList("$text", "\n"))).put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", new Json("$cond", Arrays.asList(new Json("$ne", Arrays.asList("$$value", "")), " ", "")), "$$this")))))
 					.put("breadcrumb", new Json()
 							.put("id", true)
 							.put("title", true)
