@@ -117,7 +117,7 @@ public class ThreadsServlet extends HttpServlet {
 		Json postdata = ThreadsAggregator.getThread(req.getId(), user, req.getString("paging", "last"), user != null && user.getEditor() && req.contains("remove"));
 
 		if (postdata == null) {
-			req.getRequestDispatcher("∕threads").forward(req, resp);
+			resp.sendError(404, "Not found");
 			return;
 		}
 
