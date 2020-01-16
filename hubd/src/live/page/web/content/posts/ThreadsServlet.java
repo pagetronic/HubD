@@ -51,8 +51,8 @@ public class ThreadsServlet extends HttpServlet {
 			resp.sendError(404, "Not found");
 			return;
 		}
-		if (!req.getServerName().equals(thread.getString("domain"))) {
-			resp.sendRedirect(Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url"));
+		if (thread.getString("domain") != null && !req.getServerName().equals(thread.getString("domain"))) {
+			resp.sendRedirect(Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url"), 301);
 			return;
 		}
 		if (thread.get("remove") != null && !req.contains("remove")) {
