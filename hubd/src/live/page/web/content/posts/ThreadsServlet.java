@@ -3,6 +3,7 @@
  */
 package live.page.web.content.posts;
 
+import com.mongodb.client.model.Filters;
 import live.page.web.content.posts.utils.DiscussAdmin;
 import live.page.web.content.posts.utils.DiscussPoster;
 import live.page.web.content.posts.utils.ThreadsAggregator;
@@ -22,6 +23,7 @@ import live.page.web.system.sessions.Users;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @Api(scope = "threads")
 @WebServlet(urlPatterns = {"/threads", "/threads/*"})
@@ -110,10 +112,21 @@ public class ThreadsServlet extends HttpServlet {
 			return;
 		}
 
+		if (req.getRequestURI().equals("/threads")) {
+			resp.sendResponse(ThreadsAggregator.getThreads(
+					Filters.and(
+							Filters.eq("lng", req.getLng()),
+							Filters.exists("remove", false),
+							Filters.regex("parents", Pattern.compile("^Forums\\("))
+					),
+					req.getString("paging", null), false));
+			return;
+		}
 		if (req.contains("simple")) {
 			resp.sendResponse(ThreadsAggregator.getSimplePost(req.getId()));
 			return;
 		}
+
 		Json postdata = ThreadsAggregator.getThread(req.getId(), user, req.getString("paging", "last"), user != null && user.getEditor() && req.contains("remove"));
 
 		if (postdata == null) {
