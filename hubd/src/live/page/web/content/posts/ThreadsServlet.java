@@ -106,12 +106,6 @@ public class ThreadsServlet extends HttpServlet {
 	@Override
 	public void doGetApiAuth(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException, ServletException {
 
-
-		if (req.getId() == null) {
-			resp.sendError(404, "Not found");
-			return;
-		}
-
 		if (req.getRequestURI().equals("/threads")) {
 			resp.sendResponse(ThreadsAggregator.getThreads(
 					Filters.and(
@@ -120,6 +114,11 @@ public class ThreadsServlet extends HttpServlet {
 							Filters.regex("parents", Pattern.compile("^Forums\\("))
 					),
 					req.getString("paging", null), false));
+			return;
+		}
+
+		if (req.getId() == null) {
+			resp.sendError(404, "Not found");
 			return;
 		}
 
