@@ -552,12 +552,21 @@ public class ForumsAggregator {
 	}
 
 	public static Json getAllForum() {
+		return getAllForum(null);
+	}
 
+	public static Json getAllForumRoot(String lng) {
+		return getAllForum(Filters.and(Filters.eq("lng", lng), Filters.or(Filters.eq("parents", null), Filters.eq("parents.0", null))));
+	}
+
+	public static Json getAllForum(Bson filter) {
 		Aggregator grouper = new Aggregator("id", "title", "text", "url", "urls", "childrens", "branche", "breadcrumb");
 
 		List<Bson> pipeline = new ArrayList<>();
-
-		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("date"), Sorts.ascending("_id"))));
+		if (filter != null) {
+			pipeline.add(Aggregates.match(filter));
+		}
+		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("position"), Sorts.descending("date"), Sorts.ascending("_id"))));
 
 		pipeline.add(Aggregates.graphLookup("Forums", "$_id", "parents.0", "_id", "breadcrumb", new GraphLookupOptions().depthField("depth").maxDepth(50)));
 
@@ -618,7 +627,7 @@ public class ForumsAggregator {
 		return new Json("result", Db.aggregate("Forums", pipeline).into(new ArrayList<>()));
 	}
 
-	public static List<Json> getForumsRacine(String url, String lng) {
+	public static List<Json> getForumsRoot(String url, String lng) {
 
 		Aggregator grouper = new Aggregator("id", "title", "url", "active", "position");
 

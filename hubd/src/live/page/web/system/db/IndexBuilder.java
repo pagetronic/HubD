@@ -94,6 +94,7 @@ public class IndexBuilder {
 				IndexData.get(new Json("title", 1), "title"),
 				IndexData.get(new Json("teams", 1), "teams"),
 				IndexData.get(new Json("parent", 1), "parent"),
+				IndexData.get(new Json("position", 1), "position"),
 				IndexData.get(new Json("lng", 1), "lng")
 		);
 

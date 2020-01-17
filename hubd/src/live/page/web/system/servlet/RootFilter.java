@@ -39,7 +39,7 @@ public class RootFilter implements Filter {
 		if (Settings.MENU_FORUM) {
 			String lng = req.getParameter("lng") != null ? req.getParameter("lng") : Settings.getLang(req.getServerName());
 			String url = ((HttpServletRequest) req).getRequestURI().replaceAll("^/([^/.]+).*", "$1");
-			req.setAttribute("menus", ForumsAggregator.getForumsRacine(url, lng));
+			req.setAttribute("menus", ForumsAggregator.getForumsRoot(url, lng));
 		}
 
 		String requestURI = ((HttpServletRequest) req).getRequestURI();

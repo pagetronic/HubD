@@ -102,11 +102,18 @@ public class ForumsServlet extends HttpServlet {
 			resp.sendResponse(ForumsAggregator.getAllForum());
 			return;
 		}
+
 		if (!req.contains("lng")) {
 			resp.setStatus(500);
 			resp.sendResponse(new Json("error", "NO_LANG"));
 			return;
 		}
+
+		if (req.getRequestURI().endsWith("/root")) {
+			resp.sendResponse(ForumsAggregator.getAllForumRoot(req.getLng()));
+			return;
+		}
+
 		if (req.getRequestURI().endsWith("/home")) {
 			resp.sendResponse(ThreadsAggregator.getThreads(Filters.and(Filters.gt("replies", 0), Filters.eq("lng", null)), req.getString("paging", null), false));
 			return;
