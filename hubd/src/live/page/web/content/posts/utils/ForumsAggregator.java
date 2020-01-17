@@ -556,7 +556,7 @@ public class ForumsAggregator {
 	}
 
 	public static Json getAllForumRoot(String lng) {
-		return getAllForum(Filters.and(Filters.eq("lng", lng), Filters.or(Filters.eq("parents", null), Filters.eq("parents.0", null))));
+		return getAllForum(Filters.and(Filters.eq("lng", lng), Filters.or(Filters.eq("parents", null), Filters.size("parents", 0))));
 	}
 
 	public static Json getAllForum(Bson filter) {
