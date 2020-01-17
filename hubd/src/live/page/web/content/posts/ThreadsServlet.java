@@ -122,6 +122,7 @@ public class ThreadsServlet extends HttpServlet {
 					req.getString("paging", null), false));
 			return;
 		}
+
 		if (req.contains("simple")) {
 			resp.sendResponse(ThreadsAggregator.getSimplePost(req.getId()));
 			return;
