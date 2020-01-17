@@ -98,10 +98,6 @@ public class ForumsServlet extends HttpServlet {
 	public void doGetApiAuth(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException {
 
 
-		if (req.getRequestURI().endsWith("/all")) {
-			resp.sendResponse(ForumsAggregator.getAllForum());
-			return;
-		}
 
 		if (!req.contains("lng")) {
 			resp.setStatus(500);

@@ -551,78 +551,18 @@ public class ForumsAggregator {
 		return pipeline;
 	}
 
-	public static Json getAllForum() {
-		return getAllForum(null);
-	}
-
 	public static Json getAllForumRoot(String lng) {
-		return getAllForum(Filters.and(Filters.eq("lng", lng), Filters.or(Filters.eq("parents", null), Filters.size("parents", 0))));
-	}
 
-	public static Json getAllForum(Bson filter) {
-		Aggregator grouper = new Aggregator("id", "title", "text", "url", "urls", "childrens", "branche", "breadcrumb");
+		Aggregator grouper = new Aggregator("id", "title", "meta_title", "text", "url", "domain", "lng", "childrens");
+
+		Bson filter = Filters.and(Filters.eq("lng", lng), Filters.or(Filters.eq("parents", null), Filters.size("parents", 0)));
 
 		List<Bson> pipeline = new ArrayList<>();
-		if (filter != null) {
-			pipeline.add(Aggregates.match(filter));
-		}
-		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("position"), Sorts.descending("date"), Sorts.ascending("_id"))));
 
-		pipeline.add(Aggregates.graphLookup("Forums", "$_id", "parents.0", "_id", "breadcrumb", new GraphLookupOptions().depthField("depth").maxDepth(50)));
+		pipeline.addAll(getForumsPipeline(grouper, filter, false, false));
+		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.ascending("position"), Sorts.descending("date"), Sorts.ascending("_id"))));
 
-		pipeline.add(Aggregates.unwind("$breadcrumb", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-
-		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("depth", true)
-				.put("breadcrumb", new Json("_id", true).put("title", true).put("url", new Json("$arrayElemAt", Arrays.asList("$breadcrumb.url", 0))))
-		));
-		pipeline.add(Aggregates.sort(new Json("breadcrumb.depth", -1)));
-
-		pipeline.add(Aggregates.group("$_id", grouper.getGrouper(
-				Accumulators.push("breadcrumb", "$breadcrumb"),
-				Accumulators.push("urls", "$breadcrumb.url")
-		)));
-
-		pipeline.add(Aggregates.lookup("Forums", "_id", "parents", "childrens"));
-		pipeline.add(Aggregates.unwind("$childrens", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-
-		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("childrens", new Json("_id", true)
-						.put("lng", true).put("title", true).put("url", new Json("$arrayElemAt", Arrays.asList("$childrens.url", 0))))
-		));
-		pipeline.add(Aggregates.group("$_id", grouper.getGrouper(
-				Accumulators.push("childrens", "$childrens")
-		)));
-
-		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("childrens",
-						new Json("$filter", new Json("input", "$childrens").put("as", "childrens").put("cond", new Json("$ne", Arrays.asList("$$childrens._id", new BsonUndefined()))))
-				)
-				.put("breadcrumb", new Json("$filter", new Json("input", "$breadcrumb").put("as", "breadcrumb").put("cond", new Json("$ne", Arrays.asList("$$breadcrumb._id", "$_id")))))
-				.put("url", new Json("$concat", Arrays.asList(Settings.getFullHttp(),
-						new Json("$reduce", new Json("input", "$urls").put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this")))))
-
-				))));
-
-		pipeline.add(Aggregates.graphLookup("Forums", "$_id", "_id", "parents", "branche", new GraphLookupOptions().maxDepth(1000)));
-
-		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("branche", new Json("$concatArrays", Arrays.asList("$branche", Arrays.asList(new Json("_id", "$_id")))))
-		));
-
-		pipeline.add(Aggregates.unwind("$branche", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-
-		pipeline.add(Aggregates.group("$_id", grouper.getGrouper(
-				Accumulators.push("branche", "$branche._id")
-		)));
-
-		pipeline.add(Aggregates.project(grouper.getProjection()
-						.remove("urls")
-						.put("childrens", new Json("_id", true)
-								.put("lng", true).put("title", true).put("url", true))
-						.put("branche", "$branche")
-				)
-		);
+		pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
 
 		return new Json("result", Db.aggregate("Forums", pipeline).into(new ArrayList<>()));
 	}
