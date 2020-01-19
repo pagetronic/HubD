@@ -553,16 +553,17 @@ public class ForumsAggregator {
 
 	public static Json getAllForumRoot(String lng) {
 
-		Aggregator grouper = new Aggregator("id", "title", "meta_title", "text", "url", "domain", "lng", "childrens");
+		Aggregator grouper = new Aggregator("id", "title", "meta_title", "text", "url", "domain", "lng", "childrens", "position");
 
 		Bson filter = Filters.and(Filters.eq("lng", lng), Filters.or(Filters.eq("parents", null), Filters.size("parents", 0)));
 
 		List<Bson> pipeline = new ArrayList<>();
 
 		pipeline.addAll(getForumsPipeline(grouper, filter, false, false));
-		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.ascending("position"), Sorts.descending("date"), Sorts.ascending("_id"))));
 
 		pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
+
+		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.ascending("position"), Sorts.ascending("_id"))));
 
 		return new Json("result", Db.aggregate("Forums", pipeline).into(new ArrayList<>()));
 	}
