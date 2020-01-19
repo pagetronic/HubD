@@ -10,6 +10,7 @@ import live.page.web.content.posts.utils.ThreadsAggregator;
 import live.page.web.content.posts.utils.ThreadsUtils;
 import live.page.web.system.Language;
 import live.page.web.system.Settings;
+import live.page.web.system.cosmetic.tmpl.parsers.PostParser;
 import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.utils.Api;
@@ -133,6 +134,11 @@ public class ThreadsServlet extends HttpServlet {
 			resp.sendError(404, "Not found");
 			return;
 		}
+
+		postdata.getJson("posts").getListJson("result").forEach(json -> {
+			json.put("html", PostParser.parse(json.getText("text"), json.getListJson("docs"), json.getListJson("links")));
+		});
+		postdata.put("html", PostParser.parse(postdata.getText("text"), postdata.getListJson("docs"), postdata.getListJson("links")));
 
 		resp.sendResponse(postdata);
 
