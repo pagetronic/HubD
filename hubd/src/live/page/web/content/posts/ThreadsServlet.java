@@ -134,12 +134,12 @@ public class ThreadsServlet extends HttpServlet {
 			resp.sendError(404, "Not found");
 			return;
 		}
-
+/*
 		postdata.getJson("posts").getListJson("result").forEach(json -> {
 			json.put("html", PostParser.parse(json.getText("text"), json.getListJson("docs"), json.getListJson("links")));
 		});
 		postdata.put("html", PostParser.parse(postdata.getText("text"), postdata.getListJson("docs"), postdata.getListJson("links")));
-
+*/
 		resp.sendResponse(postdata);
 
 	}
