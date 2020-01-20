@@ -96,7 +96,7 @@ public class ForumsAdmin {
 
 	public static Json search(Json data) {
 
-		String lng = Settings.getLang(data.getString("domain", null));
+		String lng = data.getString("lng", Settings.getLang(data.getString("domain", null)));
 
 		Paginer paginer = new Paginer(data.getString("paging"), "title", 30);
 		Bson next = paginer.getFilters();
