@@ -24,6 +24,7 @@ import live.page.web.utils.Fx;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -167,9 +168,15 @@ public class ApiServlet extends FullServlet {
 				}
 
 				if (contentType.matches("application/json;?.*")) {
+					ServletInputStream payload = req.getInputStream();
 					try {
-						data = new Json(IOUtils.toString(req.getInputStream()));
+						data = new Json(IOUtils.toString(payload));
 					} catch (Exception ignore) {
+					} finally {
+						try {
+							payload.close();
+						} catch (Exception ignore) {
+						}
 					}
 					if (data == null) {
 						resp.setStatus(500);
