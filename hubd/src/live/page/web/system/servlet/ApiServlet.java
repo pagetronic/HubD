@@ -156,18 +156,26 @@ public class ApiServlet extends FullServlet {
 
 			if (req.getMethod().equalsIgnoreCase("POST")) {
 
-				Json data;
+				Json data = null;
 				String contentType = req.getHeader("Content-Type");
 
 
 				if (contentType == null) {
 					resp.setStatus(500);
-					resp.sendResponse(new Json("error", "NO_CONTENT-TYPE"));
+					resp.sendResponse(new Json("error", "NO_CONTENT_TYPE"));
 					return;
 				}
 
 				if (contentType.matches("application/json;?.*")) {
-					data = new Json(IOUtils.toString(req.getInputStream()));
+					try {
+						data = new Json(IOUtils.toString(req.getInputStream()));
+					} catch (Exception ignore) {
+					}
+					if (data == null) {
+						resp.setStatus(500);
+						resp.sendResponse(new Json("error", "INVALID_PAYLOAD"));
+						return;
+					}
 				} else if (contentType.equalsIgnoreCase("application/x-www-form-urlencoded")) {
 					data = new Json(req.getParameter("data"));
 				} else {
