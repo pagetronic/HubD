@@ -15,7 +15,7 @@
 
 	#foreach($acces in $access.result)
 	<div class="bx accs" id="$acces.id">
-		<h3>$acces.app_name <small class="selectable">#$acces.app_id</small></h3>
+		<h3>$acces.app_name #<small class="selectable">$acces.app_id</small></h3>
 
 		<div class="datas">
 			#if($acces.date)
