@@ -8,9 +8,12 @@
 	</div>
 	#foreach($app in $apps.result)
 	<div class="bx apps" id="$app.id">
-		<p class="pined">#date($app.date)</p>
-		<h3>$app.name <small class="selectable">#$app.app_id</small></h3>
+		<h3>$app.name <small class="selectable">#$app.id</small></h3>
 		<div class="datas">
+			<div>
+				<div>#lang('DATE')</div>
+				<div>#date($app.date), #since($app.date).</div>
+			</div>
 			<div>
 				<div>client_id</div>
 				<div class="selectable"><strong>$app.client_id</strong></div>
