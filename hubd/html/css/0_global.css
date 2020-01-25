@@ -198,6 +198,10 @@ iframe.video {
     color: #b50000 !important;
 }
 
+.grey {
+    color: #999;
+}
+
 .cmd_top {
     float: right;
 }
