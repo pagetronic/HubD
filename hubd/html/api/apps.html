@@ -1,5 +1,5 @@
 #parse("/inc/top.html")
-<div class="api_apps" id="middle">
+<div class="api_apps" id="middle" xmlns="http://www.w3.org/1999/html">
 	<h1>$title</h1>
 	<div class="pagination">
 		<button id="add_apps">$svg.mi_apps#lang('ADD_APPS')</button>
@@ -9,7 +9,7 @@
 	#foreach($app in $apps.result)
 	<div class="bx apps" id="$app.id">
 		<p class="pined">#date($app.date)</p>
-		<h3>$app.name</h3>
+		<h3>$app.name <small class="selectable">#$app.app_id</small></h3>
 		<div class="datas">
 			<div>
 				<div>client_id</div>
