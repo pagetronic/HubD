@@ -136,8 +136,7 @@ public class ApiUtils {
 		access.put("expire", expire);
 		access.put("date", date);
 		access.put("user", user.getId());
-		access.put("client_id", app.getString("client_id"));
-		access.put("client_secret", app.getString("client_secret"));
+		access.put("app_id", app.getId());
 		access.put("force", true);
 		access.put("scopes", app.getList("scopes"));
 		Db.save("ApiAccess", access);
@@ -278,7 +277,7 @@ public class ApiUtils {
 		pipeline.add(Aggregates.match(Filters.eq("user", user.getId())));
 
 		pipeline.add(Aggregates.sort(Sorts.descending("date")));
-		pipeline.add(Aggregates.lookup("ApiApps", "client_id", "client_id", "app"));
+		pipeline.add(Aggregates.lookup("ApiApps", "app_id", "_id", "app"));
 		pipeline.add(Aggregates.unwind("$app"));
 
 		return Db.aggregate("ApiAccess", pipeline);
