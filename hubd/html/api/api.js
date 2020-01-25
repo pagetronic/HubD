@@ -81,6 +81,13 @@ sys.api = {
             var add = $('<icon/>').append('$svg.mi_add');
             var add_li = $('<li class="add" />').append(add).append(lang.get('ADD'));
             list.prepend(add_li);
+            var isEmpty = function () {
+                if (list.find('li.selectable').length === 0) {
+                    empty.removeClass('none');
+                } else {
+                    empty.addClass('none');
+                }
+            };
             var removable = function (li) {
                 li.prepend($('<icon />').html('$svg.mi_clear').on('click', function () {
                     li.fadeOut(300);
@@ -92,9 +99,7 @@ sys.api = {
                     }, function (rez) {
                         if (rez.ok) {
                             li.stop(true).slowRemove(300, function () {
-                                if (list.find('li:not(.empty):not(.add)').length === 0) {
-                                    empty.removeClass('none');
-                                }
+                                isEmpty();
                             });
                         } else {
                             li.stop(true).fadeIn(0);
@@ -116,9 +121,7 @@ sys.api = {
                 input.on('blur', function () {
                     input.remove();
                     add_li.show();
-                    if (list.find('li:not(.none)').length === 0) {
-                        empty.show();
-                    }
+                    isEmpty();
                 });
                 input.on('keypress', function (e) {
                     if (e.which === 13) {
