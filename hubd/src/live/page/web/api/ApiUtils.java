@@ -309,7 +309,7 @@ public class ApiUtils {
 	 */
 	public static Json getAccesses(Users user, String paging_str) {
 
-		Aggregator aggregator = new Aggregator("_id", "date", "count", "scopes", "access_token", "refresh_token", "expire", "app_name", "app_id");
+		Aggregator aggregator = new Aggregator("_id", "date", "count", "scopes", "access_token", "refresh_token", "access", "expire", "app_name", "app_id");
 
 		Paginer paginer = new Paginer(paging_str, "-date", 20);
 

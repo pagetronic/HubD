@@ -16,7 +16,7 @@
 	#foreach($acces in $access.result)
 	<div class="bx accs" id="$acces.id">
 		<h3>$acces.app_name</h3>
-		<em>$acces.app_id</em>
+		<small class="selectable">$acces.app_id</small>
 		<div class="datas">
 			#if($acces.date)
 			<div>
@@ -31,13 +31,13 @@
 			#if($acces.access_token)
 			<div>
 				<div>access_token</div>
-				<div><strong>$acces.access_token</strong></div>
+				<div class="selectable"><strong>$acces.access_token</strong></div>
 			</div>
 			#end
 			#if($acces.refresh_token)
 			<div>
 				<div>refresh_token</div>
-				<div><strong>$acces.refresh_token</strong></div>
+				<div class="selectable"><strong>$acces.refresh_token</strong></div>
 			</div>
 			#end
 			#if($acces.expire)
