@@ -2,10 +2,11 @@
 <div class="api_apps" id="middle">
 	<h1>$title</h1>
 	<div class="pagination">
+		#pagination($access.paging)
 		<button id="add_apps">$svg.mi_apps#lang('ADD_APPS')</button>
         <a href="/api/access" class="button">$svg.mi_games #lang('API_ACCESS')</a>
 	</div>
-	#foreach($app in $apps)
+	#foreach($app in $apps.result)
 	<div class="bx apps" id="$app.id">
 		<p class="pined">#date($app.date)</p>
 		<h3>$app.name</h3>

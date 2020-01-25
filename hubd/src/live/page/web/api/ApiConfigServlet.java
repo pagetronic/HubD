@@ -3,10 +3,7 @@
  */
 package live.page.web.api;
 
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Sorts;
 import live.page.web.system.Language;
-import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.wrapper.ApiServletRequest;
@@ -65,7 +62,7 @@ public class ApiConfigServlet extends HttpServlet {
 
 			req.setAttribute("api_active", "apps");
 			req.setTitle(Fx.ucfirst(Language.get("API_APPS", req.getLng())));
-			req.setAttribute("apps", Db.find("ApiApps", Filters.and(Filters.eq("user", user.getId()), Filters.ne("client_id", null))).sort(Sorts.descending("date")));
+			req.setAttribute("apps", ApiUtils.getApps(user, req.getString("paging", null)));
 			req.setAttribute("scopes", Scopes.scopes);
 			resp.sendTemplate(req, "/api/apps.html");
 
@@ -74,7 +71,7 @@ public class ApiConfigServlet extends HttpServlet {
 			req.setAttribute("api_active", "access");
 			req.setTitle(Fx.ucfirst(Language.get("API_ACCESS", req.getLng())));
 
-			req.setAttribute("access", ApiUtils.getAccesses(user));
+			req.setAttribute("access", ApiUtils.getAccesses(user, req.getString("paging", null)));
 			resp.sendTemplate(req, "/api/access.html");
 
 		}

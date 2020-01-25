@@ -4,6 +4,7 @@
 	<h1>$title</h1>
 
 	<div class="pagination">
+		#pagination($access.paging)
 		<a href="/api/apps" class="button">$svg.mi_apps #lang('API_APPS')</a>
 	</div>
 	#if($access.size()==0)
@@ -12,42 +13,43 @@
 	</div>
 	#end
 
-	#foreach($acc in $access)
-	<div class="bx accs" id="$acc.id">
-		<h3>$acc.app.name</h3>
+	#foreach($acces in $access.result)
+	<div class="bx accs" id="$acces.id">
+		<h3>$acces.app_name</h3>
+		<em>$acces.app_id</em>
 		<div class="datas">
-			#if($acc.date)
+			#if($acces.date)
 			<div>
 				<div>#lang('GRANTED_DATE')</div>
-				<div>#date($acc.date,'full'), #since($acc.date)</div>
+				<div>#date($acces.date,'full'), #since($acces.date)</div>
 			</div>
 			#end
 			<div>
 				<div>#lang('ACCESS','ucfirst')</div>
-				<div>#if($acc.count)#number($acc.count) #lang('ACCESS'), #lang('LAST_ACCESS') #since($acc.access) (#date($acc.access))#else#lang('NEVER')#end</div>
+				<div>#if($acces.count)#number($acces.count) #lang('ACCESS'), #lang('LAST_ACCESS') #since($acces.access) (#date($acces.access))#else#lang('NEVER')#end</div>
 			</div>
-			#if($acc.access_token)
+			#if($acces.access_token)
 			<div>
 				<div>access_token</div>
-				<div><strong>$acc.access_token</strong></div>
+				<div><strong>$acces.access_token</strong></div>
 			</div>
 			#end
-			#if($acc.refresh_token)
+			#if($acces.refresh_token)
 			<div>
 				<div>refresh_token</div>
-				<div><strong>$acc.refresh_token</strong></div>
+				<div><strong>$acces.refresh_token</strong></div>
 			</div>
 			#end
-			#if($acc.expire)
+			#if($acces.expire)
 			<div>
 				<div>expire</div>
-				<div><strong>#since($acc.expire, 2)</strong></div>
+				<div><strong>#since($acces.expire, 2)</strong></div>
 			</div>
 			#end
-			#if($acc.scopes)
+			#if($acces.scopes)
 			<div>
 				<div>#lang('AUTHORIZATIONS')</div>
-				<div>#foreach($scope in $acc.scopes)#modulo('')#lang("SCOPE_${scope}_EXPLAIN")#end.</div>
+				<div>#foreach($scope in $acces.scopes)#modulo('')#lang("SCOPE_${scope}_EXPLAIN")#end.</div>
 			</div>
 			#end
 		</div>

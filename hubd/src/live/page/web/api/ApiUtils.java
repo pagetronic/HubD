@@ -3,10 +3,14 @@
  */
 package live.page.web.api;
 
-import com.mongodb.client.AggregateIterable;
-import com.mongodb.client.model.*;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.UpdateResult;
+import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
+import live.page.web.system.db.paginer.Paginer;
 import live.page.web.system.json.Json;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
@@ -264,23 +268,74 @@ public class ApiUtils {
 	}
 
 	/**
-	 * Get OAuth access authorized by user
+	 * Get OAuth apps from user
 	 *
-	 * @param user user need his accesses
+	 * @param user       user need his accesses
+	 * @param paging_str pagination string
 	 * @return Iterable DB
 	 */
-	//TODO pagination
-	public static AggregateIterable<Json> getAccesses(Users user) {
+	public static Json getApps(Users user, String paging_str) {
+
+		Aggregator aggregator = new Aggregator("_id", "date", "name", "client_id", "client_secret", "redirect_uri", "scopes");
+
+		Paginer paginer = new Paginer(paging_str, "-date", 20);
 
 		List<Bson> pipeline = new ArrayList<>();
+		List<Bson> filters = new ArrayList<>();
 
-		pipeline.add(Aggregates.match(Filters.eq("user", user.getId())));
 
-		pipeline.add(Aggregates.sort(Sorts.descending("date")));
+		filters.add(Filters.eq("user", user.getId()));
+		filters.add(Filters.ne("client_id", null));
+		if (paginer.getFilters() != null) {
+			filters.add(paginer.getFilters());
+		}
+
+		pipeline.add(Aggregates.match(Filters.and(filters)));
+		pipeline.add(paginer.getFirstSort());
+		pipeline.add(paginer.getLimit());
+		pipeline.add(paginer.getLastSort());
+
+		pipeline.add(Aggregates.project(aggregator.getProjectionOrder()));
+
+		return paginer.getResult("ApiApps", pipeline);
+	}
+
+	/**
+	 * Get OAuth access authorized by user
+	 *
+	 * @param user       user need his accesses
+	 * @param paging_str pagination string
+	 * @return Iterable DB
+	 */
+	public static Json getAccesses(Users user, String paging_str) {
+
+		Aggregator aggregator = new Aggregator("_id", "date", "count", "scopes", "access_token", "refresh_token", "expire", "app_name", "app_id");
+
+		Paginer paginer = new Paginer(paging_str, "-date", 20);
+
+		List<Bson> pipeline = new ArrayList<>();
+		List<Bson> filters = new ArrayList<>();
+
+		filters.add(Filters.eq("user", user.getId()));
+		if (paginer.getFilters() != null) {
+			filters.add(paginer.getFilters());
+		}
+		pipeline.add(Aggregates.match(Filters.and(filters)));
+
+		pipeline.add(paginer.getFirstSort());
+		pipeline.add(paginer.getLimit());
+
 		pipeline.add(Aggregates.lookup("ApiApps", "app_id", "_id", "app"));
 		pipeline.add(Aggregates.unwind("$app"));
 
-		return Db.aggregate("ApiAccess", pipeline);
+		pipeline.add(Aggregates.project(aggregator.getProjection().put("app_name", "$app.name").put("app_id", "$app._id")));
+
+		pipeline.add(Aggregates.project(aggregator.getProjectionOrder()));
+
+		pipeline.add(paginer.getLastSort());
+
+		return paginer.getResult("ApiAccess", pipeline);
+
 
 	}
 
@@ -327,5 +382,5 @@ public class ApiUtils {
 		}
 		return rez;
 	}
-
 }
+
