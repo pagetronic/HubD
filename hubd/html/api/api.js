@@ -242,7 +242,7 @@ sys.api = {
         });
     },
     change_name: function () {
-        $('.apps h3').attr('title', lang.get('DBCLICK_EDIT')).off('dblclick').on('dblclick', function () {
+        $('.apps h3 span').attr('title', lang.get('DBCLICK_EDIT')).off('dblclick').on('dblclick', function () {
             var ele = $(this);
             ele.off('dblclick');
             var initial = ele.html();
