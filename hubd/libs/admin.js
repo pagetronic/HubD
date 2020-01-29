@@ -4,10 +4,8 @@ sys.admin = {
             var report = $('#' + id_report).css({opacity: 0.3});
             ajax.reload();
         });
-
     },
     switcher: function () {
-
         $('#switch .list').css({cursor: 'pointer'}).selectable({
             url: '/switch',
             select: function (id, name) {

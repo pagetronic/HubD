@@ -301,6 +301,7 @@ blockquote:before {
     color: #980000 !important;
     border-color: #980000 !important;
 }
+
 .error_input::placeholder, .error_input .placeholder {
     color: rgba(152, 0, 0, 0.50) !important;
 }
