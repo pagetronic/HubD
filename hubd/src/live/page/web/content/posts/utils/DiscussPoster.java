@@ -353,7 +353,7 @@ public class DiscussPoster {
 		}
 		Db.updateOne("Posts", Filters.eq("_id", previous.getString("thread")), new Json("$set", update_thread));
 
-		return new Json("ok", true);
+		return new Json("ok", true).put("post", ThreadsAggregator.getSimplePost(data.getId()));
 	}
 
 
