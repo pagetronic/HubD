@@ -1,10 +1,12 @@
 sys.pages = {
     init: function () {
         sys.nocopy();
-
+        sys.pages.qrBox();
+    },
+    qrBox: function () {
         var question = $('#qrbox');
 
-        if (question.length === 0 || Cookies.get('qrbox') === 'yes') {
+        if (sys.user.id !== null || question.length === 0 || Cookies.get('qrbox') === 'yes') {
             return;
         }
 
@@ -27,74 +29,60 @@ sys.pages = {
                 webpush.enable('Posts(' + msg.thread.id + ')', ready, ready);
             });
         });
-        if (sys.user.id === null) {
-            var timer = -1;
-            var stopQr = function () {
-                clearTimeout(timer);
-                scroller.off('scroll.qr');
-            };
-            var showQr = function () {
-                if (sys.pub && Cookies.get('consent') === null) {
-                    return;
-                }
-                stopQr();
-                var close = $('<span class="close"/>').html('$svg.mi_close');
-                var mask = $('<div class="mask" />').css({zIndex: 20000}).on('click', function () {
-                    question.removeAttr('style');
-                    close.remove();
-                    $(this).remove();
-                });
-                close.on('click', function () {
-                    question.removeAttr('style');
-                    close.remove();
-                    mask.remove();
-                    Cookies.set('qrbox', 'yes', {
-                        expires: new Date(new Date().getTime() + 3600000)
-                    });
-                });
-                $('body').append(mask);
-                question.prepend(close);
-                question.css({
-                    width: question.width(),
-                    padding: 15,
-                    position: 'fixed',
-                    boxShadow: 'rgba(51, 51, 51, 0.78) 0px 0px 9px 8px'
-                });
-                var top = (window.innerHeight - question.outerHeight()) / 3;
-                question.animate({
-                    top: top,
-                    border: '1px solid #666',
-                    borderRadius: 8
-                }, 400);
-                sys.svg();
-            };
-            if (question.length === 0 || Cookies.get('qrbox') === 'yes') {
+
+        var timer = -1;
+        var stopQr = function () {
+            clearTimeout(timer);
+            scroller.off('scroll.qr');
+        };
+        var showQr = function () {
+            if (sys.pub && Cookies.get('consent') === null) {
                 return;
             }
-            var scroller = $('#middle');
-            if (!scroller.isScrollable()) {
-                scroller = $(window);
-            }
-            scroller.on('scroll.qr', function () {
-                if ($('#consentbox').length === 0 && question.is(':in-viewport') && scroller.scrollTop() > window.innerHeight) {
-                    showQr();
-                }
+            stopQr();
+            var close = $('<span class="close"/>').html('$svg.mi_close');
+            var mask = $('<div class="mask" />').css({zIndex: 20000}).on('click', function () {
+                question.removeAttr('style');
+                close.remove();
+                $(this).remove();
             });
-            timer = setTimeout(showQr, 30000);
-            question.on('click', stopQr);
-            $('#ancrage a:not([href=\\#question])').on('click', function () {
-                scroller.off('scroll.qr');
-                setTimeout(function () {
-                    scroller.on('scroll.qr', function () {
-                        if ($('#consentbox').length === 0 && question.is(':in-viewport') && scroller.scrollTop() > window.innerHeight && Cookies.get('content') !== null) {
-                            showQr();
-                        }
-                    });
-                }, 4000);
+            close.on('click', function () {
+                question.removeAttr('style');
+                close.remove();
+                mask.remove();
+                Cookies.set('qrbox', 'yes', {
+                    expires: new Date(new Date().getTime() + 3600000)
+                });
             });
+            $('body').append(mask);
+            question.prepend(close);
+            question.css({
+                width: question.width(),
+                padding: 15,
+                position: 'fixed',
+                boxShadow: 'rgba(51, 51, 51, 0.78) 0px 0px 9px 8px'
+            });
+            var top = (window.innerHeight - question.outerHeight()) / 3;
+            question.animate({
+                top: top,
+                border: '1px solid #666',
+                borderRadius: 8
+            }, 400);
+            sys.svg();
+        };
 
-            $('a[href=\\#question]').on('click', stopQr);
+        var scroller = $('#middle');
+        if (!scroller.isScrollable()) {
+            scroller = $(window);
         }
+        scroller.on('scroll.qr', function () {
+            if ($('#consentbox').length === 0 && question.is(':in-viewport') && scroller.scrollTop() > window.innerHeight) {
+                showQr();
+            }
+        });
+        timer = setTimeout(showQr, 50000);
+        question.on('click', stopQr);
+        $('#ancrage a').on('click', stopQr);
     },
     edit: {
         init: function (id, docs) {
