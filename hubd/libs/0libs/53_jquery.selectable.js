@@ -284,7 +284,6 @@
 
                     seclss.search.show().focus();
 
-
                     var timer = -1;
                     seclss.search.on('keydown', function (e) {
                         return seclss.keyboardlist(seclss.list, e);
@@ -296,10 +295,9 @@
                         search_term = seclss.search.val();
                         seclss.list.html(seclss.wait);
                         timer = setTimeout(function () {
-
                             seclss.loadData(seclss.options.select, seclss.options.url, search_term, null, seclss.list, null, false);
                         }, 700);
-                    });
+                    }).trigger('input');
 
                     seclss.search.one(blur, function () {
                         var timerhide = setTimeout(function () {
@@ -341,7 +339,7 @@
 
 
                 seclss.element.data('selector', seclss.selector);
-                seclss.element.css({position: 'absolute', position: 'fixed', top: -1300, left: -1300});
+                seclss.element.css({position: 'fixed', top: -1300, left: -1300});
 
                 var text = $('<span class="text" />');
                 seclss.selector.append(text);
