@@ -257,7 +257,7 @@ public class DiscussPoster {
 
 		}
 		response.put("html", BaseTemplate.processToString(isReply ? "/threads/post_item.html" : "/threads/thread_item.html", response.clone().put("tz", data.getInteger("tz", 0)).put("user", user).put("lng", data.getString("lng"))));
-
+		response.put("ok", true);
 		return response;
 	}
 
