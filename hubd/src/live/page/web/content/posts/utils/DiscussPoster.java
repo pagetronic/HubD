@@ -256,8 +256,7 @@ public class DiscussPoster {
 			Notifier.notify(post.getList("roots"), excludes, title, message, url, lng);
 
 		}
-
-		response.put("html", BaseTemplate.processToString(isReply ? "/threads/post_item.html" : "/threads/thread_item.html", response.clone().put("tz", data.getInteger("tz")).put("user", user).put("lng", data.getString("lng"))));
+		response.put("html", BaseTemplate.processToString(isReply ? "/threads/post_item.html" : "/threads/thread_item.html", response.clone().put("tz", data.getInteger("tz", 0)).put("user", user).put("lng", data.getString("lng"))));
 
 		return response;
 	}
@@ -416,7 +415,7 @@ public class DiscussPoster {
 			}
 			if (!response.containsKey("errors") && !response.containsKey("error")) {
 
-				response.put("html", BaseTemplate.processToString("/threads/post_item_tips.html", response.clone().put("tz", data.getInteger("tz")).put("user", user).put("lng", lng)));
+				response.put("html", BaseTemplate.processToString("/threads/post_item_tips.html", response.clone().put("tz", data.getInteger("tz", 0)).put("user", user).put("lng", lng)));
 			}
 
 			return response;
