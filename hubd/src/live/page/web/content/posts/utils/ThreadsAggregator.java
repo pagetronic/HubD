@@ -38,7 +38,7 @@ public class ThreadsAggregator {
 
 		Aggregator grouper = new Aggregator("index", "user", "sysid", "date", "last", "title", "review", "coins", "url", "domain", "lng",
 				"breadcrumb", "text", "comments", "changes", "docs", "link", "links", "remove", "replies",
-				"parents", "menu", "forums", "pages", "branche", "posts");
+				"parents", "menu", "forums", "pages", "branch", "posts");
 
 		Bson filter = remove ? Filters.and(Filters.eq("_id", _id), Filters.exists("remove", false)) : Filters.eq("_id", _id);
 		pipeline.add(Aggregates.match(filter));
@@ -96,10 +96,10 @@ public class ThreadsAggregator {
 		));
 
 /*
-		pipeline.add(new live.page.web.utils.json.Json("$lookup", new live.page.web.utils.json.Json("from", "Posts").put("as", "branche").put("let", new live.page.web.utils.json.Json("branche", "$branche"))
+		pipeline.add(new live.page.web.utils.json.Json("$lookup", new live.page.web.utils.json.Json("from", "Posts").put("as", "branch").put("let", new live.page.web.utils.json.Json("branch", "$branch"))
 				.put("pipeline", ThreadsAggregator.getThreadsPipeline(
 						Filters.expr(
-								new live.page.web.utils.json.Json("$in", Arrays.asList(new live.page.web.utils.json.Json("$arrayElemAt", Arrays.asList("$parents", 0)), "$$branche"))
+								new live.page.web.utils.json.Json("$in", Arrays.asList(new live.page.web.utils.json.Json("$arrayElemAt", Arrays.asList("$parents", 0)), "$$branch"))
 						)
 						, grouper, new Paginer(null, "-date", 50), remove))
 		));
@@ -122,8 +122,8 @@ public class ThreadsAggregator {
 
 
 		// component index... ?
-		if (thread.getList("branche").size() > 0) {
-			thread.put("branche", ThreadsAggregator.getThreads(
+		if (thread.getList("branch").size() > 0) {
+			thread.put("branch", ThreadsAggregator.getThreads(
 					Filters.and(
 							Filters.or(
 									Filters.eq("index", true),
@@ -132,7 +132,7 @@ public class ThreadsAggregator {
 							Filters.exists("remove", false),
 							Filters.and(
 									Filters.ne("_id", _id),
-									Filters.in("parents", thread.getList("branche")))
+									Filters.in("parents", thread.getList("branch")))
 					), new Paginer(paging_str, "-date", 50), remove).getListJson("result")
 			);
 		}
@@ -144,19 +144,19 @@ public class ThreadsAggregator {
 
 		List<Bson> pipeline = new ArrayList<>();
 
-		pipeline.add(Aggregates.graphLookup("Forums", "$forums", "_id", "parents", "branche", new GraphLookupOptions().maxDepth(1000)));
+		pipeline.add(Aggregates.graphLookup("Forums", "$forums", "_id", "parents", "branch", new GraphLookupOptions().maxDepth(1000)));
 
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("branche", new Json("$concatArrays", Arrays.asList("$branche", new Json("$map", new Json("input", "$forums").put("as", "ele").put("in", new Json("_id", "$$ele"))))))
+				.put("branch", new Json("$concatArrays", Arrays.asList("$branch", new Json("$map", new Json("input", "$forums").put("as", "ele").put("in", new Json("_id", "$$ele"))))))
 		));
-		pipeline.add(Aggregates.unwind("$branche", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		pipeline.add(Aggregates.unwind("$branch", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("branche", new Json("$concat", Arrays.asList("Forums(", "$branche._id", ")")))
+				.put("branch", new Json("$concat", Arrays.asList("Forums(", "$branch._id", ")")))
 		));
 
 		pipeline.add(Aggregates.group("$_id", grouper.getGrouper(
-				Accumulators.push("branche", "$branche")
+				Accumulators.push("branch", "$branch")
 		)));
 		return pipeline;
 

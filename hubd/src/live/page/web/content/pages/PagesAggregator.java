@@ -76,7 +76,7 @@ public class PagesAggregator {
 		Aggregator grouper = new Aggregator(
 				"id", "users", "title", "top_title", "intro", "text",
 				"docs", "logo", "date", "update", "lng", "domain", "url", "breadcrumb", "parents", "forums",
-				"childrens", "sisters", "links", "depth", "position", "urls", "temp_doc", "review", "branche"
+				"childrens", "sisters", "links", "depth", "position", "urls", "temp_doc", "review", "branch"
 		);
 
 		List<Bson> pipeline = new ArrayList<>();
@@ -402,7 +402,7 @@ public class PagesAggregator {
 		pipeline.add(Aggregates.unwind("$forums", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
 		pipeline.add(Aggregates.graphLookup("Forums", "$forums._id", "parents.0", "_id", "forums.parents", new GraphLookupOptions().depthField("depth").maxDepth(50)));
-		pipeline.add(Aggregates.graphLookup("Forums", "$forums._id", "_id", "parents", "forums.branche", new GraphLookupOptions().maxDepth(5000)));
+		pipeline.add(Aggregates.graphLookup("Forums", "$forums._id", "_id", "parents", "forums.branch", new GraphLookupOptions().maxDepth(5000)));
 
 		pipeline.add(Aggregates.unwind("$forums.parents", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 
@@ -420,17 +420,17 @@ public class PagesAggregator {
 						.put("url", new Json("$reduce", new Json("input", "$urlsforum").put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this")))))
 						.put("lng", "$forums.lng")
 						.put("domain", getDomainFilter("$forums.lng"))
-						.put("branche",
+						.put("branch",
 								new Json("$concatArrays", Arrays.asList(
 										Arrays.asList(new Json("_id", "$forums._id")),
-										new Json("$filter", new Json("input", "$forums.branche").put("as", "branche").put("cond", new Json("$ne", Arrays.asList("$$branche._id", new BsonUndefined()))))
+										new Json("$filter", new Json("input", "$forums.branch").put("as", "branch").put("cond", new Json("$ne", Arrays.asList("$$branch._id", new BsonUndefined()))))
 								))
 						)
 				)
 				.put("pos", new Json("$indexOfArray", Arrays.asList("$forums_", "$forums._id")))
 		));
 
-		pipeline.add(Aggregates.unwind("$forums.branche", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		pipeline.add(Aggregates.unwind("$forums.branch", new UnwindOptions().preserveNullAndEmptyArrays(true)));
 		pipeline.add(Aggregates.project(grouper.getProjection().put("pos", true)
 				.put("forums", new Json()
 						.put("id", true)
@@ -438,15 +438,15 @@ public class PagesAggregator {
 						.put("lng", true)
 						.put("domain", true)
 						.put("url", true)
-						.put("branche",
-								new Json("$concat", Arrays.asList("Forums(", "$forums.branche._id", ")"))
+						.put("branch",
+								new Json("$concat", Arrays.asList("Forums(", "$forums.branch._id", ")"))
 
 						)
 				)
 		));
 		pipeline.add(Aggregates.group(new Json("forums_id", "$forums.id").put("_id", "$_id._id"), grouper.getGrouper(
 				Accumulators.first("pos", "$pos"),
-				Accumulators.push("branche", "$forums.branche")
+				Accumulators.push("branch", "$forums.branch")
 		)));
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
@@ -470,21 +470,21 @@ public class PagesAggregator {
 
 		pipeline.add(Aggregates.group("$_id._id", grouper.getGrouper(
 				Accumulators.push("forums", "$forums"),
-				Accumulators.push("branche", "$branche")
+				Accumulators.push("branch", "$branch")
 				))
 		);
-		pipeline.add(Aggregates.project(grouper.getProjection().put("branche",
-				new Json("$reduce", new Json("input", "$branche").put("initialValue", Arrays.asList(new Json("$concat", Arrays.asList("Pages(", "$_id", ")")))).put("in", new Json("$setUnion", Arrays.asList("$$value", "$$this")))))));
+		pipeline.add(Aggregates.project(grouper.getProjection().put("branch",
+				new Json("$reduce", new Json("input", "$branch").put("initialValue", Arrays.asList(new Json("$concat", Arrays.asList("Pages(", "$_id", ")")))).put("in", new Json("$setUnion", Arrays.asList("$$value", "$$this")))))));
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
 				.put("forums",
 						new Json("$filter", new Json("input", "$forums").put("as", "forums").put("cond", new Json("$ne", Arrays.asList("$$forums.id", new BsonUndefined()))))
 				)
-				.put("branche",
-						new Json("$filter", new Json("input", "$branche").put("as", "branche").put("cond",
+				.put("branch",
+						new Json("$filter", new Json("input", "$branch").put("as", "branch").put("cond",
 								new Json("$and", Arrays.asList(
-										new Json("$ne", Arrays.asList("$$branche", new BsonUndefined())),
-										new Json("$ne", Arrays.asList("$$branche", null))
+										new Json("$ne", Arrays.asList("$$branch", new BsonUndefined())),
+										new Json("$ne", Arrays.asList("$$branch", null))
 								))
 						))
 				)
@@ -526,7 +526,7 @@ public class PagesAggregator {
 		}
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
-				.put("branche", new Json("$concatArrays", Arrays.asList(Arrays.asList(new Json("$concat", Arrays.asList("Pages(", "$_id", ")"))), "$branche"))))
+				.put("branch", new Json("$concatArrays", Arrays.asList(Arrays.asList(new Json("$concat", Arrays.asList("Pages(", "$_id", ")"))), "$branch"))))
 		);
 
 		pipeline.add(Aggregates.project(new Json()
@@ -550,15 +550,15 @@ public class PagesAggregator {
 				.put("sisters", "$sisters")
 				.put("links", "$links")
 				.put("forums", "$forums")
-				.put("branche", "$branche")
+				.put("branch", "$branch")
 		));
 
 		Json page = Db.aggregate("Pages", pipeline).first();
 		if (page == null) {
 			return null;
 		}
-		page.put("threads", ThreadsAggregator.getThreads(Filters.in("parents", page.getList("branche")), paging_str, false));
-		page.remove("branche");
+		page.put("threads", ThreadsAggregator.getThreads(Filters.in("parents", page.getList("branch")), paging_str, false));
+		page.remove("branch");
 
 		return page;
 
