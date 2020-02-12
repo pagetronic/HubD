@@ -8,10 +8,14 @@ import live.page.web.content.pages.PagesAggregator;
 import live.page.web.content.posts.utils.ThreadsAggregator;
 import live.page.web.system.Language;
 import live.page.web.system.Settings;
+import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
+import live.page.web.system.servlet.wrapper.ApiServletRequest;
+import live.page.web.system.servlet.wrapper.ApiServletResponse;
 import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -51,4 +55,8 @@ public class IndexServlet extends HttpServlet {
 
 	}
 
+	@Override
+	public void doGetApiPublic(ApiServletRequest req, ApiServletResponse resp) throws IOException, ServletException {
+		resp.sendResponse(new Json("say", "hello"));
+	}
 }
