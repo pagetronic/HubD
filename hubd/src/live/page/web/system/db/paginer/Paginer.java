@@ -228,10 +228,10 @@ public class Paginer {
 			last = results.get(size - 2);
 
 		} else if (size - 1 == limit) {
-			start = 0;
-			stop = size - 1;
+			start = 1;
+			stop = size;
 			first = results.get(0);
-			last = results.get(size - 1);
+			last = null;
 		} else {
 			start = 0;
 			stop = size;
