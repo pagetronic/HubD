@@ -195,7 +195,11 @@ sys = $.extend({}, sys, {
                     }
                 };
             }
-            sys.scroller().scrollTo(ele, delay, after);
+            sys.scroller().scrollTo(ele, delay, function () {
+                after();
+                ele.trigger('scroll');
+            });
+            ele.trigger('scroll');
         }
     }
 );
