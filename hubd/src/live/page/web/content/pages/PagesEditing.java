@@ -16,7 +16,7 @@ import live.page.web.system.sessions.Users;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
-@Api(scope = "pages")
+@Api
 @WebServlet(urlPatterns = {"/edit", "/edit/*", "/draft", "/draft/*"})
 public class PagesEditing extends HttpServlet {
 
