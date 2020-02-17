@@ -172,7 +172,7 @@ public class DiscussPoster {
 					)
 			).sort(Sorts.descending("date")).first();
 
-			if (previous != null &&
+			if (!Fx.IS_DEBUG && previous != null &&
 					previous.getString("user") != null &&
 					previous.getString("user").equals(user.getId())) {
 

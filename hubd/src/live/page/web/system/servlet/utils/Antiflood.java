@@ -4,6 +4,7 @@
 package live.page.web.system.servlet.utils;
 
 import live.page.web.system.Settings;
+import live.page.web.utils.Fx;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,6 +14,9 @@ public class Antiflood {
 	private final static Map<String, Long> antiflood = new ConcurrentHashMap<>();
 
 	public static boolean isFlood(String user_id) {
+		if (Fx.IS_DEBUG) {
+			return false;
+		}
 		try {
 			antiflood.forEach((user, date) -> {
 				if (date < System.currentTimeMillis() - Settings.FLOOD_DELAY) {
