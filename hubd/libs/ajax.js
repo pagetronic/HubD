@@ -13,7 +13,8 @@ var ajax = {
                     return true;
                 }
 
-                history.replaceState({scroll: sys.scroller()[0].scrollTop}, document.title);
+                history.replaceState({scroll: sys.scroller()[0].scrollTop}, document.title, document.location.href);
+
 
                 var after = function () {
                     ajax.previous = document.location.pathname;
