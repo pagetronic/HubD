@@ -4,7 +4,7 @@ var ajax = {
          */
         init: function () {
 
-            ajax.previous = document.location.pathname;
+            ajax.previous = document.location.pathname + document.location.search;
             if (!settings.get('noajax')) {
                 history.replaceState({}, document.title);
             }
@@ -13,11 +13,10 @@ var ajax = {
                     return true;
                 }
 
-                history.replaceState({scroll: sys.scroller()[0].scrollTop}, document.title, document.location.href);
-
+                history.replaceState({scroll: sys.scroller()[0].scrollTop}, document.title);
 
                 var after = function () {
-                    ajax.previous = document.location.pathname;
+                    ajax.previous = document.location.pathname + document.location.search;
                     sys.wait(false);
                     var hash = document.location.hash !== '' ? document.location.hash.substr(1) : null;
                     if (hash !== null) {
@@ -26,7 +25,7 @@ var ajax = {
                         sys.scrollto(e.originalEvent.state.scroll === undefined ? 0 : e.originalEvent.state.scroll, 500);
                     }
                 };
-                if (ajax.previous !== document.location.pathname) {
+                if (ajax.previous !== document.location.pathname + document.location.search) {
                     sys.wait(true);
                     ajax.load(sys.uri(), true, undefined, after);
                 } else {
