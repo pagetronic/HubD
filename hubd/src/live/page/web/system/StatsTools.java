@@ -156,7 +156,7 @@ public class StatsTools implements ServletContextListener {
 		//Last year
 		pipeline.addAll(getPipelineStats("LAST_YEAR", null, null));
 
-		return Db.aggregate("Stats", pipeline).first();
+		return Db.aggregate("Stats", pipeline).allowDiskUse(true).first();
 	}
 
 
