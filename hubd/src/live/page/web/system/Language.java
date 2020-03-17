@@ -89,13 +89,11 @@ public class Language {
 
 		try {
 			langs.putAll(new Json(FileUtils.readFileToString(new File(Settings.HUB_REPO + "/res/langs.json"))));
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ignore) {
 		}
 		try {
 			langs.putAll(new Json(FileUtils.readFileToString(new File(Settings.REPO + "/res/langs.json"))));
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ignore) {
 		}
 
 		return langs;
