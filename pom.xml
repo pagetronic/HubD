@@ -31,8 +31,8 @@
     <repositories>
         <!-- Test original repo before others -->
         <repository>
-            <id>maven2-bis</id>
-            <url>https://repo.maven.apache.org/maven2/</url>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
         </repository>
         <!-- local repo -->
         <repository>
@@ -42,7 +42,7 @@
         <repository>
             <id>bintray-nitram509-jbrotli</id>
             <name>bintray</name>
-            <url>http://dl.bintray.com/nitram509/jbrotli</url>
+            <url>https://dl.bintray.com/nitram509/jbrotli</url>
         </repository>
         <repository>
             <id>yuicompressor-repo</id>
