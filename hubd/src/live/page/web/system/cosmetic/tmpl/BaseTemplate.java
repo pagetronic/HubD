@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class BaseTemplate implements BaseTemplateImpl {
+public abstract class BaseTemplate {
 
 	private static BaseTemplate template;
 	private static final VelocityEngine engine = new VelocityEngine();
@@ -102,7 +102,7 @@ public abstract class BaseTemplate implements BaseTemplateImpl {
 		userdirective.add(ModuloTag.class.getCanonicalName());
 
 		Class[] userdirectiveadd = getUserDirective();
-		if (userdirectiveadd != null) {
+		if (userdirectiveadd != null && userdirectiveadd.length>0) {
 			for (Class uda : userdirectiveadd) {
 				userdirective.add(uda.getCanonicalName());
 			}
@@ -140,5 +140,8 @@ public abstract class BaseTemplate implements BaseTemplateImpl {
 
 	}
 
+	public abstract Class[] getUserDirective();
+
+	public abstract Class getUserFx();
 }
 
