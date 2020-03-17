@@ -145,11 +145,7 @@
 	</div>
 	#end
 
-	<div class="publisher" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
-		#lang('PUBLICATION_DIRECTOR'):
-		<span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://laurent.page.live/logo.png" /></span>
-		<span itemprop="name">Laurent PAGE</span>, #lang('EMAIL'): <span itemprop="email">laurent@page.live</span>, #lang('PHONE'): <span itemprop="telephone">+262 262 92 66 38</span>, site:<span itemprop="url">https://page.live/</span>
-	</div>
+	#parse("/inc/publisher.html")
 
 </div>
 <script type="text/javascript">

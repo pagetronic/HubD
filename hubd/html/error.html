@@ -13,9 +13,7 @@
     <p>$error</p>
     #end
     #end
-    <div class="publisher" style="text-align: left">
-        #lang('PUBLICATION_DIRECTOR'):
-        <span itemprop="name">Laurent PAGE</span>, #lang('EMAIL'): <span itemprop="email">laurent@page.live</span>, #lang('PHONE'): <span itemprop="telephone">+262 262 92 66 38</span>, <span itemprop="url">https://page.live/</span>
-    </div>
+
+    #parse("/inc/publisher.html")
 </div>
 #parse("/inc/bottom.html")
