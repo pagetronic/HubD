@@ -8,10 +8,7 @@
         sys.push(function () {
             var where = $('#stats');
             stats.getLive();
-            var load = sys.loading(70, 'div');
-            where.append(load);
             ajax.get("/admin/stats", function (html) {
-                load.remove();
                 where.append($(html));
             });
             sys.adminWebPush = function () {

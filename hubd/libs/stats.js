@@ -54,10 +54,11 @@ var stats = {
         var goto = function (to) {
             clearInterval(interval);
             var from = parseInt(now.text());
-            if (to === now) {
+            if (to === from) {
                 now.fadeTo(100, 1);
                 return;
             }
+            var delay = Math.min(1000 / Math.abs(from - to), 250);
             now.fadeTo(100, 0.7);
             interval = setInterval(function () {
                 now.text(from);
@@ -69,7 +70,7 @@ var stats = {
                     now.fadeTo(100, 1);
                     clearInterval(interval);
                 }
-            }, 200);
+            }, delay);
         };
         var act = socket.send({action: "live"}, function (msg) {
             goto(msg.live);
