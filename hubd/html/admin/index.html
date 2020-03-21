@@ -1,15 +1,15 @@
 #parse("/inc/top.html")
 <div id="middle">
     <script type="text/javascript">
-        var middle = $('#middle');
-        var load = sys.loading(70, 'div');
-        middle.html(load);
-        ajax.get("/admin/stats", function (html) {
-            load.remove();
-            middle.html(html);
-            stats.getLive();
-        });
         sys.push(function () {
+            var middle = $('#middle');
+            var load = sys.loading(70, 'div');
+            middle.html(load);
+            ajax.get("/admin/stats", function (html) {
+                load.remove();
+                middle.html(html);
+                stats.getLive();
+            });
             sys.adminWebPush = function () {
                 var popin = pop(false);
                 popin.header('$svg.mi_notifications_none Web Push All');
