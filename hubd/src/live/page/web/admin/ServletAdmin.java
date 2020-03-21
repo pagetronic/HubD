@@ -44,7 +44,7 @@ public class ServletAdmin extends HttpServlet {
 			case "/admin/stats":
 				req.setAttribute("stats", StatsTools.getSimplesStats(req.getTz()));
 				resp.sendTemplate(req, "/admin/stats.html");
-
+				break;
 			case "/admin/pages":
 				resp.sendTemplate(req, "/admin/pages.html");
 				break;

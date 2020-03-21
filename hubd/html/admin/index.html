@@ -1,7 +1,14 @@
 #parse("/inc/top.html")
 <div id="middle">
-    #parse("/admin/stats.html")
     <script type="text/javascript">
+        var middle = $('#middle');
+        var load = sys.loading(70, 'div');
+        middle.html(load);
+        ajax.get("/admin/stats", function (html) {
+            load.remove();
+            middle.html(html);
+            stats.getLive();
+        });
         sys.push(function () {
             sys.adminWebPush = function () {
                 var popin = pop(false);
