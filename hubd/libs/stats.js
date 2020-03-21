@@ -69,7 +69,7 @@ var stats = {
                     now.fadeTo(100, 1);
                     clearInterval(interval);
                 }
-            }, 100);
+            }, 200);
         };
         var act = socket.send({action: "live"}, function (msg) {
             goto(msg.live);
