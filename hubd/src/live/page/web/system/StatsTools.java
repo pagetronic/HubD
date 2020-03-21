@@ -3,15 +3,13 @@
  */
 package live.page.web.system;
 
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UnwindOptions;
+import com.mongodb.client.model.*;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.system.socket.SessionData;
 import live.page.web.system.socket.SocketMessage;
 import live.page.web.utils.Fx;
+import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
 import javax.servlet.ServletContextEvent;
@@ -188,14 +186,28 @@ public class StatsTools implements ServletContextListener {
 				Accumulators.sum("unique", 1),
 				Accumulators.sum("view", "$view")
 		));
+
+
 		pipeline.add(Aggregates.project(new Json("_id", false)
-				.put("unique", "$unique").put("view", "$view")
-				.put("start", start_date).put("stop", stop_date))
+				.put("unique", "$unique")
+				.put("view", "$view")
+				.put("start", start_date)
+				.put("stop", stop_date))
 		);
 
 		return Arrays.asList(
 				Aggregates.lookup("Stats", pipeline, key),
-				Aggregates.unwind("$" + key, new UnwindOptions().preserveNullAndEmptyArrays(true))
+				Aggregates.unwind("$" + key, new UnwindOptions().preserveNullAndEmptyArrays(true)),
+				Aggregates.addFields(
+						new Field<>(key,
+								new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$" + key, new BsonUndefined())),
+										new Json()
+												.put("unique", 0)
+												.put("view", 0)
+												.put("start", start_date)
+												.put("stop", stop_date)
+										, "$" + key))
+						))
 		);
 	}
 
