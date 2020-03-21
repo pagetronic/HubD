@@ -1,12 +1,5 @@
 <div>
-    <div class="bx" id="stats">
-        <h1>#lang('ANALYTICS','ucfirst')</h1>
-        #foreach($stat in $stats)
-        #if($velocityCount==0)
-        <h1 style="font-size:70px" id="now">#number($stat.value.unique)</h1>
-        #else
-        <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques &#8211; #number($stat.value.view) Views</strong></p>
-        #end
-        #end
-    </div>
+    #foreach($stat in $stats)
+    <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques &#8211; #number($stat.value.view) Views</strong></p>
+    #end
 </div>

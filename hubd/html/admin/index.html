@@ -1,14 +1,18 @@
 #parse("/inc/top.html")
 <div id="middle">
+    <div class="bx" id="stats">
+        <h1>#lang('ANALYTICS','ucfirst')</h1>
+        <h1 style="font-size:80px" id="now">0</h1>
+    </div>
     <script type="text/javascript">
         sys.push(function () {
-            var middle = $('#middle');
+            var stats = $('#stats');
+            stats.getLive();
             var load = sys.loading(70, 'div');
-            middle.html(load);
+            stats.append(load);
             ajax.get("/admin/stats", function (html) {
                 load.remove();
-                middle.html(html);
-                stats.getLive();
+                stats.append($(html));
             });
             sys.adminWebPush = function () {
                 var popin = pop(false);

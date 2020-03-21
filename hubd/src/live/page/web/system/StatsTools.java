@@ -100,8 +100,6 @@ public class StatsTools implements ServletContextListener {
 				new Json("_id", false)
 		));
 
-		pipeline.add(Aggregates.addFields(new Field<>("NOW", new Json("unique", getLive()))));
-		pipeline.add(Aggregates.project(new Json("_id", false).put("NOW", true)));
 		Calendar cl = Calendar.getInstance(tz);
 
 		//Today
