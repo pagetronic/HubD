@@ -3,7 +3,10 @@
  */
 package live.page.web.system;
 
-import com.mongodb.client.model.*;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UnwindOptions;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.system.socket.SessionData;
@@ -96,10 +99,6 @@ public class StatsTools implements ServletContextListener {
 		List<Bson> pipeline = new ArrayList<>();
 
 		pipeline.add(Aggregates.limit(1));
-		pipeline.add(Aggregates.project(
-				new Json("_id", false)
-		));
-
 		Calendar cl = Calendar.getInstance(tz);
 
 		//Today
@@ -110,8 +109,10 @@ public class StatsTools implements ServletContextListener {
 		Date stop_date = cl.getTime();
 		pipeline.addAll(getPipelineStats("TODAY", start_date, stop_date));
 
+		pipeline.add(Aggregates.project(new Json("_id", false).put("TODAY", true)));
 
 		cl = Calendar.getInstance(tz);
+
 		cl.set(Calendar.HOUR_OF_DAY, 0);
 		cl.set(Calendar.MINUTE, 0);
 		cl.set(Calendar.SECOND, 0);
