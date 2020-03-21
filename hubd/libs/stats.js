@@ -50,15 +50,29 @@ var stats = {
     },
     getLive: function () {
         var now = $('#stats #now');
-        var act = socket.send({action: "live"}, function (msg) {
-            if (now.text() !== msg.live) {
-                now.text(msg.live).pulse();
-                ajax.get('/admin/stats', function (html) {
-                    html = $(html);
-                    $('#stats').html(html.find('#stats').html());
-                    now = $('#stats #now');
-                });
+        var interval = -1;
+        var goto = function (to) {
+            clearInterval(interval);
+            var from = parseInt(now.text());
+            if (to === now) {
+                now.fadeTo(100, 1);
+                return;
             }
+            now.fadeTo(100, 0.7);
+            interval = setInterval(function () {
+                now.text(from);
+                if (from > to) {
+                    from--;
+                } else if (from < to) {
+                    from++;
+                } else {
+                    now.fadeTo(100, 1);
+                    clearInterval(interval);
+                }
+            }, 100);
+        };
+        var act = socket.send({action: "live"}, function (msg) {
+            goto(msg.live);
             return true;
         });
         ajax.unload(function () {
