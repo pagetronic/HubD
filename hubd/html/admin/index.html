@@ -6,13 +6,13 @@
     </div>
     <script type="text/javascript">
         sys.push(function () {
-            var stats = $('#stats');
+            var where = $('#stats');
             stats.getLive();
             var load = sys.loading(70, 'div');
-            stats.append(load);
+            where.append(load);
             ajax.get("/admin/stats", function (html) {
                 load.remove();
-                stats.append($(html));
+                where.append($(html));
             });
             sys.adminWebPush = function () {
                 var popin = pop(false);
