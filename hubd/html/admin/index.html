@@ -2,12 +2,10 @@
 <div id="middle">
     <div class="bx" id="stats">
         <h1>#lang('ANALYTICS','ucfirst')</h1>
-        <h1 style="font-size:80px" id="now">0</h1>
     </div>
     <script type="text/javascript">
         sys.push(function () {
             var where = $('#stats');
-            stats.getLive($('#now'));
             ajax.get("/admin/stats", function (html) {
                 where.append($(html));
             });
