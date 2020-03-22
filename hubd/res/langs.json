@@ -1629,6 +1629,14 @@
     "js": true,
     "pt": "Comentário rápido"
   },
+  "REAL_TIME_VISITORS": {
+    "fr": "visiteurs en temps réel",
+    "en": "visitors in real time",
+    "de": "Besucher in Echtzeit",
+    "es": "visitantes en tiempo real",
+    "it": "visitatori in tempo reale",
+    "pt": "visitantes em tempo real"
+  },
   "RECOVER": {
     "de": "genesen",
     "en": "recover",
