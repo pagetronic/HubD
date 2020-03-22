@@ -145,14 +145,19 @@ var socket = {
      *
      * @param channel to follow
      * @param func function to execute on event transmit by webSocket
+     * @param submit function to execute on submit to webSocket
      */
-    follow: function (channel, func) {
+    follow: function (channel, func, submit) {
+        var data = {
+            action: "follow",
+            channel: channel
+        };
+        if (submit !== undefined) {
+            data.act = sys.uniqueId();
+            socket.events[data.act] = submit;
+        }
         if (socket.fevents[channel] === undefined) {
             socket.fevents[channel] = func;
-            var data = {
-                action: "follow",
-                channel: channel
-            };
             socket.send(data);
         } else {
             socket.fevents[channel] = func;

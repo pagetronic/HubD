@@ -184,3 +184,8 @@
 #comodo .opener {
     display: none;
 }
+
+#livestats span {
+    margin-right: 3px;
+    margin-left: 3px;
+}

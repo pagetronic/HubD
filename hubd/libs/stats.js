@@ -48,36 +48,38 @@ var stats = {
 
         });
     },
-    getLive: function () {
-        var now = $('#stats #now');
+    getLive: function (where) {
+
+
         var interval = -1;
-        var goto = function (to) {
+        var incrementer = function (to) {
             clearInterval(interval);
-            var from = parseInt(now.text());
+            var from = parseInt(where.text());
             if (to === from) {
-                now.fadeTo(100, 1);
+                where.fadeTo(100, 1);
                 return;
             }
             var delay = Math.min(1000 / Math.abs(from - to), 250);
-            now.fadeTo(100, 0.7);
+            where.fadeTo(100, 0.7);
             interval = setInterval(function () {
-                now.text(from);
+                where.text(from);
                 if (from > to) {
                     from--;
                 } else if (from < to) {
                     from++;
                 } else {
-                    now.fadeTo(100, 1);
+                    where.fadeTo(100, 1);
                     clearInterval(interval);
                 }
             }, delay);
         };
-        var act = socket.send({action: "live"}, function (msg) {
-            goto(msg.live);
-            return true;
+
+
+        socket.follow('stats', function (msg) {
+            incrementer(msg.live);
+        }, function (msg) {
+            incrementer(msg.live);
         });
-        ajax.unload(function () {
-            socket.abort(act);
-        });
+
     }
 };

@@ -22,6 +22,8 @@ sys.init = function (xspeed) {
     }
     sys.load(xspeed);
 
+    stats.getLive($('#livestats span'));
+
 };
 sys.debuggable = function (set) {
     if (set) {

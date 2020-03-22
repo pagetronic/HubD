@@ -8,9 +8,9 @@ import live.page.web.content.messages.MessagesUtils;
 import live.page.web.content.notices.NoticesUtils;
 import live.page.web.content.profile.ProfileUtils;
 import live.page.web.system.Settings;
+import live.page.web.system.StatsTools;
 import live.page.web.system.json.Json;
 import live.page.web.utils.Fx;
-import live.page.web.system.StatsTools;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -22,8 +22,6 @@ public class BaseWebSocket {
 
 	public SocketMessage onMessageAuthSys(Json msg, SessionData sessiondata) {
 		switch (msg.getString("action")) {
-			case "live":
-				return StatsTools.getLiveSocket(msg, sessiondata);
 			case "scrap":
 				return ScrapAdminUtils.scrapPreview(msg, sessiondata);
 			case "receive_notices":
@@ -53,6 +51,9 @@ public class BaseWebSocket {
 					String user_id = sessiondata.getUserId();
 					SocketPusher.sendNoticesCount(user_id);
 					MessagesUtils.pushCount(user_id);
+				}
+				if (msg.getString("channel").equals("stats")) {
+					data.setMessage(new Json("live", StatsTools.getLive()));
 				}
 				return data;
 			case "abort":

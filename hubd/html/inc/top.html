@@ -35,6 +35,7 @@
 			#end
 			<a id="user" #if($user.original) href="/switch"#{else} onclick="data.set('autologin', false, true); return true" href="/logout"#end><img width="20" height="20" style="background-image: url('#if( $user.avatar )${user.avatar}#{else}$ui_logo#{end}@20x20')" /><span class="info">$user.name</span> $svg.mi_exit_to_app</a>
 		#end
+		<div id="livestats"><span>0</span> $svg.fa_icon_bar_chart</div>
 	</div>
 	<div class="opener lat" to="lateral">$svg.fa_icon_indent</div>
 </div>

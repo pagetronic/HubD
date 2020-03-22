@@ -7,7 +7,7 @@
     <script type="text/javascript">
         sys.push(function () {
             var where = $('#stats');
-            stats.getLive();
+            stats.getLive($('#now'));
             ajax.get("/admin/stats", function (html) {
                 where.append($(html));
             });

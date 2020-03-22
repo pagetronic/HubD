@@ -6,8 +6,8 @@ package live.page.web.system;
 import com.mongodb.client.model.*;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
-import live.page.web.system.socket.SessionData;
 import live.page.web.system.socket.SocketMessage;
+import live.page.web.system.socket.SocketPusher;
 import live.page.web.utils.Fx;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
@@ -18,8 +18,6 @@ import javax.servlet.annotation.WebListener;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 
 @WebListener
@@ -28,38 +26,11 @@ public class StatsTools implements ServletContextListener {
 	private final static ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
 
 	/**
-	 * Get users on stats and send into socket request
-	 *
-	 * @return socket message
-	 */
-	public static SocketMessage getLiveSocket(Json msg, SessionData sessiondata) {
-		String act = msg.getString("act");
-		SocketMessage socketMessage = new SocketMessage(act);
-		final int[] live = {getLive()};
-		socketMessage.putKeyMessage("live", live[0]);
-		ScheduledFuture<?>[] task = new ScheduledFuture<?>[1];
-		task[0] = executor.scheduleAtFixedRate(() -> {
-			if (executor.isShutdown() || sessiondata.isAbort(act) || !sessiondata.isOpen()) {
-				task[0].cancel(true);
-				return;
-			}
-			int live_new = getLive();
-			if (live[0] != live_new) {
-				live[0] = live_new;
-				socketMessage.putKeyMessage("live", live_new);
-				sessiondata.send(socketMessage);
-			}
-		}, 3, 3, TimeUnit.SECONDS);
-
-		return socketMessage;
-	}
-
-	/**
 	 * Get users on stats
 	 *
 	 * @return count of users
 	 */
-	private static int getLive() {
+	public static int getLive() {
 		List<Bson> pipeline = new ArrayList<>();
 
 		Calendar cl = Calendar.getInstance();
@@ -214,10 +185,12 @@ public class StatsTools implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
+
 	}
 
 
 	public static SocketMessage pushStats(String act, String ip, Json data) {
+
 		if (data.containsKey("gone")) {
 			Db.updateOne("Stats", Filters.eq("_id", data.getId()), new Json("$set", new Json(data.getBoolean("gone", false) ? "gone" : "alive", new Date())));
 			return new SocketMessage();
@@ -238,7 +211,9 @@ public class StatsTools implements ServletContextListener {
 		}
 		stat.put("date", new Date());
 		Db.save("Stats", stat);
+		SocketPusher.send("stats", new Json("live", getLive()));
 		return new SocketMessage(act).putKeyMessage("_id", stat.getId());
+
 	}
 
 	@Override
