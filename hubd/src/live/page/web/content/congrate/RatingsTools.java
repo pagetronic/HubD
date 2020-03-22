@@ -59,10 +59,9 @@ public class RatingsTools extends HttpServlet {
 								Filters.eq("type", obj_arr[0]),
 								Filters.eq("ip", ip)
 						),
-						new Json("$set",
-								new Json("src", obj_arr[1]).put("type", obj_arr[0]).put("ip", ip).put("rate", rate).put("date", new Date())
+						new Json("$set", new Json("rate", rate).put("date", new Date())
 						).put("$setOnInsert",
-								new Json("_id", Db.getKey())
+								new Json("_id", Db.getKey()).put("src", obj_arr[1]).put("type", obj_arr[0]).put("ip", ip)
 						),
 						new UpdateOptions().upsert(true)
 				);

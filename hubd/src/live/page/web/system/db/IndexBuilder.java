@@ -29,7 +29,8 @@ public class IndexBuilder {
 		IndexesStore indexes = new IndexesStore();
 		indexes.addIndex("Ratings",
 				IndexData.get(new Json("src", 1), "src"),
-				IndexData.get(new Json("src", 1).put("ip", 1), "src_ip"),
+				IndexData.get(new Json("src", 1).put("type", 1), "src_type"),
+				IndexData.get(new Json("src", 1).put("type", 1).put("ip", 1), "src_ip_type"),
 				IndexData.get(new Json("date", -1), "date")
 		);
 
