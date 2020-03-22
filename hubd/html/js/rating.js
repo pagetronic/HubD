@@ -32,7 +32,7 @@ sys.rating = {
             rating.on('mouseleave', function (e) {
                 setStar(values[obj]);
             });
-            rating.find('span').on('click', function (e) {
+            var click = function (e) {
                 rating.removeAttr('title');
                 var star = $(this);
                 star.css({opacity: 0.6});
@@ -50,8 +50,10 @@ sys.rating = {
                     } else {
                         setStar(values[obj]);
                     }
-                })
-            });
+                    rating.find('span').one('click', click);
+                });
+            };
+            rating.find('span').one('click', click);
 
             rating.on('rating', function () {
                 setStar(values[obj]);
