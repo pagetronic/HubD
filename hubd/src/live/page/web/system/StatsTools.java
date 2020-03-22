@@ -210,6 +210,8 @@ public class StatsTools implements ServletContextListener {
 			stat.put("user", data.getString("user"));
 		}
 		stat.put("date", new Date());
+		stat.put("alive", new Date());
+
 		Db.save("Stats", stat);
 		SocketPusher.send("stats", new Json("live", getLive()));
 		return new SocketMessage(act).putKeyMessage("_id", stat.getId());
