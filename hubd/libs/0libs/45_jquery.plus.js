@@ -12,6 +12,7 @@ $.fn.pulse = function (delay, after) {
 		delay = delay / 2;
 	}
 	var ele = this;
+	ele.stop(true);
 	ele.fadeTo(delay, 0.3, function () {
 		ele.fadeTo(delay, 1, function () {
 			ele.css({
