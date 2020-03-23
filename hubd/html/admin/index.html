@@ -2,12 +2,12 @@
 <div id="middle">
     <div class="bx" id="stats">
         <h1>#lang('ANALYTICS','ucfirst')</h1>
-        <div id="statsdata"><p>#lang('LOADING')</p></div>
+        <div id="statsdata"><h4 class="blink">#lang('LOADING')…</h4></div>
     </div>
     <script type="text/javascript">
         sys.push(function () {
             ajax.get("/admin/stats", function (html) {
-                $('#statsdata').append($(html).pulse());
+                $('#statsdata').html($(html).pulse());
             });
             sys.adminWebPush = function () {
                 var popin = pop(false);
