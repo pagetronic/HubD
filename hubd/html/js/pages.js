@@ -81,7 +81,7 @@ sys.pages = {
                 showQr();
             }
         });
-        timer = setTimeout(showQr, 50000);
+        timer = setTimeout(showQr, 30000);
         question.on('click', stopQr);
         $('#ancrage a').on('click', stopQr);
 
