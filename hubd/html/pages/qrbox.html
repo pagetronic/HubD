@@ -10,6 +10,11 @@
     #end
     #end
     #if($page.id)<input type="hidden" name="parents[]" value="Pages($page.id)"/>#end
-    <textarea id="area" name="text" rows="6" cols="20" placeholder="#lang('T_TEXT_OF_THE_QUESTION')" autosize saver="question_text"></textarea>
+    <textarea id="area" name="text" rows="6" cols="20" placeholder="#lang('T_TEXT_OF_THE_QUESTION')" autosize saver="question_text_$page.id"></textarea>
     <button class="submit" id="post_question">#lang('SUBMIT')</button>
 </div>
+<script type="text/javascript">
+    sys.push(function () {
+        sys.pages.qrBox();
+    });
+</script>

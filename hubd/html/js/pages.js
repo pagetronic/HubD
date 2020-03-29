@@ -1,7 +1,6 @@
 sys.pages = {
     init: function () {
         sys.nocopy();
-        sys.pages.qrBox();
     },
     qrBox: function () {
         var question = $('#qrbox');
@@ -35,26 +34,28 @@ sys.pages = {
             clearTimeout(timer);
             scroller.off('scroll.qr');
         };
+
+
         var showQr = function () {
-            if (sys.pub && Cookies.get('consent') === null) {
+            if ($('#consentbox').length > 0 || (sys.pub && Cookies.get('consent') === null)) {
                 return;
             }
             stopQr();
             var close = $('<span class="close"/>').html('$svg.mi_close');
             var mask = $('<div class="mask" />').css({zIndex: 20000}).on('click', function () {
                 question.removeAttr('style');
-                close.remove();
-                $(this).remove();
+                close.detach();
+                mask.detach();
             });
             close.on('click', function () {
                 question.removeAttr('style');
-                close.remove();
-                mask.remove();
+                close.detach();
+                mask.detach();
                 Cookies.set('qrbox', 'yes', {
                     expires: new Date(new Date().getTime() + 3600000)
                 });
             });
-            $('body').append(mask);
+            $(document.body).append(mask);
             question.prepend(close);
             question.css({
                 width: question.width(),
@@ -76,13 +77,15 @@ sys.pages = {
             scroller = $(window);
         }
         scroller.on('scroll.qr', function () {
-            if ($('#consentbox').length === 0 && question.is(':in-viewport') && scroller.scrollTop() > window.innerHeight) {
+            if (question.is(':in-viewport') && scroller.scrollTop() > window.innerHeight) {
                 showQr();
             }
         });
         timer = setTimeout(showQr, 50000);
         question.on('click', stopQr);
         $('#ancrage a').on('click', stopQr);
+
+        ajax.unload(stopQr);
     },
     edit: {
         init: function (id, docs) {
