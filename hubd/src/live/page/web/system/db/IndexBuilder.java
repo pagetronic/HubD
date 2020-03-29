@@ -261,7 +261,6 @@ public class IndexBuilder {
 	 * Build standard indexes
 	 */
 	public static void buildIndexes() {
-		Db.getDb("Ratings").drop();
 		buildIndexes(indexes);
 	}
 
