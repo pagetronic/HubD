@@ -53,18 +53,13 @@ public class RatingsTools extends HttpServlet {
 						)
 				);
 			} else {
-				Db.updateOne("Ratings",
+				Db.deleteOne("Ratings",
 						Filters.and(
 								Filters.eq("src", obj_arr[1]),
 								Filters.eq("type", obj_arr[0]),
 								Filters.eq("ip", ip)
-						),
-						new Json("$set", new Json("rate", rate).put("date", new Date())
-						).put("$setOnInsert",
-								new Json("_id", Db.getKey()).put("src", obj_arr[1]).put("type", obj_arr[0]).put("ip", ip)
-						),
-						new UpdateOptions().upsert(true)
-				);
+						));
+				Db.save("Ratings", new Json("rate", rate).put("date", new Date()).put("src", obj_arr[1]).put("type", obj_arr[0]).put("ip", ip));
 			}
 			Aggregator grouper = new Aggregator("value", "count");
 			Json rates = Db.aggregate("Ratings", Arrays.asList(

@@ -30,7 +30,7 @@ public class IndexBuilder {
 		indexes.addIndex("Ratings",
 				IndexData.get(new Json("src", 1), "src"),
 				IndexData.get(new Json("src", 1).put("type", 1), "src_type"),
-				IndexData.get(new Json("src", 1).put("type", 1).put("ip", 1), "src_ip_type"),
+				IndexData.getUnique(new Json("src", 1).put("type", 1).put("ip", 1), "src_ip_type"),
 				IndexData.get(new Json("date", -1), "date")
 		);
 
@@ -261,6 +261,7 @@ public class IndexBuilder {
 	 * Build standard indexes
 	 */
 	public static void buildIndexes() {
+		Db.getDb("Ratings").drop();
 		buildIndexes(indexes);
 	}
 
