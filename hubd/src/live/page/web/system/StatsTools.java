@@ -135,7 +135,6 @@ public class StatsTools implements ServletContextListener {
 	 * @param stop_date  to date
 	 * @return pipeline for aggregate lookup
 	 */
-	//TODO view url / domain etc...
 	private static List<Bson> getPipelineStats(String key, Date start_date, Date stop_date) {
 
 		List<Bson> pipeline = new ArrayList<>();
@@ -180,6 +179,63 @@ public class StatsTools implements ServletContextListener {
 										, "$" + key))
 						))
 		);
+	}
+
+	public static Json getStatsUrl(TimeZone tz) {
+		Json stats = new Json();
+		Calendar cl = Calendar.getInstance(tz);
+
+		//Today
+		cl.add(Calendar.HOUR_OF_DAY, -24);
+		Date start_date = cl.getTime();
+
+		cl.add(Calendar.HOUR_OF_DAY, 24);
+		Date stop_date = cl.getTime();
+		stats.put("TODAY", getStatsUrl(start_date, stop_date));
+
+
+		//This month
+		cl = Calendar.getInstance(tz);
+		stop_date = cl.getTime();
+		cl.add(Calendar.MONTH, -1);
+		start_date = cl.getTime();
+		stats.put("THIS_MONTH", getStatsUrl(start_date, stop_date));
+
+		return stats;
+	}
+
+	private static List<Json> getStatsUrl(Date start_date, Date stop_date) {
+
+		List<Bson> pipeline = new ArrayList<>();
+		if (start_date != null && stop_date != null) {
+			pipeline.add(Aggregates.match(
+					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
+			));
+		}
+
+
+		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua").put("url", "$url"),
+				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
+				Accumulators.sum("view", 1)
+
+		));
+
+		pipeline.add(Aggregates.group("$_id.url",
+				Accumulators.sum("unique", 1),
+				Accumulators.sum("view", "$view")
+		));
+
+		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("unique"), Sorts.descending("view"))));
+		pipeline.add(Aggregates.limit(50));
+
+		pipeline.add(Aggregates.project(new Json("_id", false)
+						.put("url", "$_id")
+						.put("view", "$view")
+						.put("unique", "$unique")
+				)
+		);
+
+		return Db.aggregate("Stats", pipeline).allowDiskUse(true).into(new ArrayList<>());
 	}
 
 	@Override

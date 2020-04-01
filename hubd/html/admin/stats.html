@@ -2,4 +2,17 @@
     #foreach($stat in $stats)
     <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques &#8211; #number($stat.value.view) Views</strong></p>
     #end
+
+    #foreach($stat in $urls)
+    <h3><em>#lang($stat.key)</em></h3>
+        <ol>
+        #foreach($url in $stat.value)
+            <li>
+                <strong>#number($url.unique) Uniques &#8211; #number($url.view) Views</strong><br />
+                <small class="selectable">$url.url</small>
+            </li>
+        #end
+        </ol>
+    #end
+
 </div>
