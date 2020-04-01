@@ -1,4 +1,4 @@
-<div>
+<div class="stats">
     #foreach($stat in $stats)
     <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques &#8211; #number($stat.value.view) Views</strong></p>
     #end
@@ -9,10 +9,16 @@
         #foreach($url in $stat.value)
             <li>
                 <strong>#number($url.unique) Uniques &#8211; #number($url.view) Views</strong><br />
-                <small class="selectable">$url.url</small>
+                <small class="selectable"><a href="$url.url" target="_blank">$svg.fa_icon_external_link</a>$url.url</small>
             </li>
         #end
         </ol>
     #end
-
+<style type="text/css">
+    .stats ol li a svg {
+        width: 12px;
+        height: 12px;
+        margin: 0px 3px -2px 0px;
+    }
+</style>
 </div>
