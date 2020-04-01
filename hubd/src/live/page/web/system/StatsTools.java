@@ -226,7 +226,7 @@ public class StatsTools implements ServletContextListener {
 		));
 
 		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("unique"), Sorts.descending("view"))));
-		pipeline.add(Aggregates.limit(50));
+		pipeline.add(Aggregates.limit(100));
 
 		pipeline.add(Aggregates.project(new Json("_id", false)
 						.put("url", "$_id")
