@@ -169,7 +169,11 @@ var ajax = {
                     header.find('h1').html(body.find('header h1').html());
                     header.attr('style', body.find('header').attr('style'));
                 }
-                sys.load(xhr.getResponseHeader('X-Speed').replace('ms', ''));
+                if (xhr.getResponseHeader('X-Speed')) {
+                    sys.load(xhr.getResponseHeader('X-Speed').replace('ms', ''));
+                } else {
+                    sys.load(-1);
+                }
 
                 if (!silent) {
                     if (url.indexOf('#') >= 0) {
