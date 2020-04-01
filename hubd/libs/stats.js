@@ -20,7 +20,6 @@ var stats = {
             }
         }, function (msg) {
 
-            /*
             var goneInterval = setInterval(function () {
                 socket.send({
                     action: 'stats',
@@ -30,9 +29,9 @@ var stats = {
                     }
                 });
             }, 3000);
-*/
+
             var gone = function (after) {
-               // clearInterval(goneInterval);
+                clearInterval(goneInterval);
                 socket.send({
                     action: 'stats',
                     data: {
