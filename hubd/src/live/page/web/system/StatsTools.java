@@ -149,14 +149,14 @@ public class StatsTools implements ServletContextListener {
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua"),
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
 				Accumulators.sum("view", 1),
-				Accumulators.first("boundrate", new Json("$subtract", Arrays.asList("$gone", "$date")))
+				Accumulators.first("bouncerate", new Json("$subtract", Arrays.asList("$gone", "$date")))
 
 		));
 
 		pipeline.add(Aggregates.group(null,
 				Accumulators.sum("unique", 1),
 				Accumulators.sum("view", "$view"),
-				Accumulators.avg("boundrate", "$boundrate")
+				Accumulators.avg("bouncerate", "$bouncerate")
 		));
 
 
@@ -165,7 +165,7 @@ public class StatsTools implements ServletContextListener {
 						.put("view", "$view")
 						.put("start", start_date)
 						.put("stop", stop_date)
-						.put("boundrate", new Json("$floor", new Json("$divide", Arrays.asList("$boundrate", 1000))))
+						.put("bouncerate", new Json("$floor", new Json("$divide", Arrays.asList("$bouncerate", 1000))))
 				)
 		);
 
@@ -222,7 +222,7 @@ public class StatsTools implements ServletContextListener {
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
 				Accumulators.sum("view", 1),
 				Accumulators.first("title", "$title"),
-				Accumulators.first("boundrate", new Json("$subtract", Arrays.asList("$gone", "$date")))
+				Accumulators.first("bouncerate", new Json("$subtract", Arrays.asList("$gone", "$date")))
 
 		));
 
@@ -230,7 +230,7 @@ public class StatsTools implements ServletContextListener {
 				Accumulators.sum("unique", 1),
 				Accumulators.sum("view", "$view"),
 				Accumulators.first("title", "$title"),
-				Accumulators.avg("boundrate", "$boundrate")
+				Accumulators.avg("bouncerate", "$bouncerate")
 		));
 
 		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("unique"), Sorts.descending("view"))));
@@ -241,7 +241,7 @@ public class StatsTools implements ServletContextListener {
 						.put("title", "$title")
 						.put("view", "$view")
 						.put("unique", "$unique")
-						.put("boundrate", new Json("$floor", new Json("$divide", Arrays.asList("$boundrate", 1000))))
+						.put("bouncerate", new Json("$floor", new Json("$divide", Arrays.asList("$bouncerate", 1000))))
 				)
 		);
 
