@@ -141,28 +141,32 @@ public class StatsTools implements ServletContextListener {
 
 		if (start_date != null) {
 			pipeline.add(Aggregates.match(
-					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
+					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date), Filters.ne("gone", null))
 			));
 		}
 
 
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua"),
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
-				Accumulators.sum("view", 1)
+				Accumulators.sum("view", 1),
+				Accumulators.first("boundrate", new Json("$subtract", Arrays.asList("$gone", "$date")))
 
 		));
 
 		pipeline.add(Aggregates.group(null,
 				Accumulators.sum("unique", 1),
-				Accumulators.sum("view", "$view")
+				Accumulators.sum("view", "$view"),
+				Accumulators.avg("boundrate", "$boundrate")
 		));
 
 
 		pipeline.add(Aggregates.project(new Json("_id", false)
-				.put("unique", "$unique")
-				.put("view", "$view")
-				.put("start", start_date)
-				.put("stop", stop_date))
+						.put("unique", "$unique")
+						.put("view", "$view")
+						.put("start", start_date)
+						.put("stop", stop_date)
+						.put("boundrate", new Json("$floor", new Json("$divide", Arrays.asList("$boundrate", 1000))))
+				)
 		);
 
 		return Arrays.asList(
@@ -209,7 +213,7 @@ public class StatsTools implements ServletContextListener {
 		List<Bson> pipeline = new ArrayList<>();
 		if (start_date != null && stop_date != null) {
 			pipeline.add(Aggregates.match(
-					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date))
+					Filters.and(Filters.gte("date", start_date), Filters.lt("date", stop_date), Filters.ne("gone", null))
 			));
 		}
 
@@ -217,14 +221,16 @@ public class StatsTools implements ServletContextListener {
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua").put("url", "$url"),
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
 				Accumulators.sum("view", 1),
-				Accumulators.first("title", "$title")
+				Accumulators.first("title", "$title"),
+				Accumulators.first("boundrate", new Json("$subtract", Arrays.asList("$gone", "$date")))
 
 		));
 
 		pipeline.add(Aggregates.group("$_id.url",
 				Accumulators.sum("unique", 1),
 				Accumulators.sum("view", "$view"),
-				Accumulators.first("title", "$title")
+				Accumulators.first("title", "$title"),
+				Accumulators.avg("boundrate", "$boundrate")
 		));
 
 		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("unique"), Sorts.descending("view"))));
@@ -235,6 +241,7 @@ public class StatsTools implements ServletContextListener {
 						.put("title", "$title")
 						.put("view", "$view")
 						.put("unique", "$unique")
+						.put("boundrate", new Json("$floor", new Json("$divide", Arrays.asList("$boundrate", 1000))))
 				)
 		);
 

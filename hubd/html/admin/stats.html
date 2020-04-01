@@ -1,6 +1,6 @@
 <div class="statsbox">
     #foreach($stat in $stats)
-    <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques &#8211; #number($stat.value.view) Views</strong></p>
+    <p><em>#lang($stat.key)</em>: <strong>#number($stat.value.unique) Uniques &#8211; #number($stat.value.view) Views#if($stat.value.boundrate) &#8211; #number($stat.value.boundrate) secondes#end</strong></p>
     #end
 
     #foreach($stat in $urls)
@@ -8,7 +8,7 @@
         <ol style="padding-left: 38px">
         #foreach($url in $stat.value)
             <li>
-                <strong>#number($url.unique) Uniques &#8211; #number($url.view) Views</strong>
+                <strong>#number($url.unique) Uniques &#8211; #number($url.view) Views &#8211; #number($url.boundrate) secondes </strong>
                 <small class="selectable" style="display: block">
                     <a href="$url.url" target="_blank">$svg.fa_icon_external_link</a>
                     #if($url.title)$url.title &gt; #end$url.url</small>
