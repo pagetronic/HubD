@@ -15,7 +15,8 @@ var stats = {
                 os: device.os,
                 ua: navigator.userAgent,
                 user: sys.user.id,
-                referer: ajax.referer === undefined ? document.referrer : ajax.referer
+                referer: ajax.referer === undefined ? document.referrer : ajax.referer,
+                title: document.title
             }
         }, function (msg) {
 

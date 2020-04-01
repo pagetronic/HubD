@@ -216,13 +216,15 @@ public class StatsTools implements ServletContextListener {
 
 		pipeline.add(Aggregates.group(new Json("ip", "$ip").put("ua", "$ua").put("url", "$url"),
 				Accumulators.first("unique", new Json("ip", "$ip").put("ua", "$ua")),
-				Accumulators.sum("view", 1)
+				Accumulators.sum("view", 1),
+				Accumulators.first("title", "$title")
 
 		));
 
 		pipeline.add(Aggregates.group("$_id.url",
 				Accumulators.sum("unique", 1),
-				Accumulators.sum("view", "$view")
+				Accumulators.sum("view", "$view"),
+				Accumulators.first("title", "$title")
 		));
 
 		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("unique"), Sorts.descending("view"))));
@@ -230,6 +232,7 @@ public class StatsTools implements ServletContextListener {
 
 		pipeline.add(Aggregates.project(new Json("_id", false)
 						.put("url", "$_id")
+						.put("title", "$title")
 						.put("view", "$view")
 						.put("unique", "$unique")
 				)
@@ -268,6 +271,7 @@ public class StatsTools implements ServletContextListener {
 		stat.put("date", new Date());
 		stat.put("alive", new Date());
 		stat.put("referer", data.getString("referer"));
+		stat.put("title", data.getString("title"));
 
 		Db.save("Stats", stat);
 		SocketPusher.send("stats", new Json("live", getLive()));

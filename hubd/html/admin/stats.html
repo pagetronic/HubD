@@ -5,11 +5,13 @@
 
     #foreach($stat in $urls)
     <h3><em>#lang($stat.key)</em></h3>
-        <ol>
+        <ol style="padding-left: 38px">
         #foreach($url in $stat.value)
             <li>
-                <strong>#number($url.unique) Uniques &#8211; #number($url.view) Views</strong><br />
-                <small class="selectable"><a href="$url.url" target="_blank">$svg.fa_icon_external_link</a>$url.url</small>
+                <strong>#number($url.unique) Uniques &#8211; #number($url.view) Views</strong>
+                <small class="selectable" style="display: block">
+                    <a href="$url.url" target="_blank">$svg.fa_icon_external_link</a>
+                    #if($url.title)$url.title &gt; #end$url.url</small>
             </li>
         #end
         </ol>
