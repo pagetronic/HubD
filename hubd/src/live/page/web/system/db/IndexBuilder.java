@@ -306,9 +306,11 @@ public class IndexBuilder {
 							col.dropIndex(index_name);
 						} else {
 							IndexModel index = indexes_store.getIndex(index_collection, index_name);
+							IndexOptions options = index.getOptions();
 
 							if (!compare(colindex.getJson("key"), index.getKeys(), colindex.getJson("weights"), colindex.getString("default_language", ""), index.getOptions()) ||
-									colindex.getBoolean("unique", false) != index.getOptions().isUnique()) {
+									colindex.getBoolean("unique", false) != options.isUnique() ||
+									!compareExpire(options.getExpireAfter(TimeUnit.SECONDS), (Long) colindex.get("expireAfterSeconds"))) {
 								col.dropIndex(index_name);
 								Fx.log("create index " + index_collection + "@" + index_name);
 								try {
@@ -341,6 +343,7 @@ public class IndexBuilder {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Seeding special think in a Collection
@@ -586,5 +589,21 @@ public class IndexBuilder {
 		}
 	}
 
+	/**
+	 * Compare expiration delay
+	 *
+	 * @param one   to compare
+	 * @param other to compare
+	 * @return true or false if not the same value
+	 */
+	private static boolean compareExpire(Long one, Long other) {
+		if (one == null) {
+			one = -1L;
+		}
+		if (other == null) {
+			other = -1L;
+		}
+		return one.equals(other);
+	}
 
 }
