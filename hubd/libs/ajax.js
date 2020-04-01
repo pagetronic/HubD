@@ -132,6 +132,7 @@ var ajax = {
      * @param after function to execute on finish
      */
     load: function (url, silent, success, after) {
+        ajax.referer = url;
         silent = silent === undefined ? false : silent;
         if (!silent) {
             ajax.previous = url;
