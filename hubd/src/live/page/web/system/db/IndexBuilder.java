@@ -185,6 +185,7 @@ public class IndexBuilder {
 		indexes.addIndex("Stats",
 				IndexData.get(new Json("date", 1).put("alive", 1).put("gone", 1).put("ip", 1).put("ua", 1), "live"),
 				IndexData.get(new Json("ip", 1).put("ua", 1), "ipua"),
+				IndexData.get(new Json("referer", 1), "referer"),
 				// RGPD - GDPR friendly, remove stats after one year
 				IndexData.getExpire(new Json("date", 1), "date", 365, TimeUnit.DAYS)
 		);

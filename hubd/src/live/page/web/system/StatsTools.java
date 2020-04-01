@@ -191,7 +191,7 @@ public class StatsTools implements ServletContextListener {
 
 		cl.add(Calendar.HOUR_OF_DAY, 24);
 		Date stop_date = cl.getTime();
-		stats.put("TODAY", getStatsUrl(start_date, stop_date));
+		stats.put("TODAY", getStatsUrl(start_date, stop_date, 5));
 
 
 		//This month
@@ -199,12 +199,12 @@ public class StatsTools implements ServletContextListener {
 		stop_date = cl.getTime();
 		cl.add(Calendar.MONTH, -1);
 		start_date = cl.getTime();
-		stats.put("THIS_MONTH", getStatsUrl(start_date, stop_date));
+		stats.put("THIS_MONTH", getStatsUrl(start_date, stop_date, 150));
 
 		return stats;
 	}
 
-	private static List<Json> getStatsUrl(Date start_date, Date stop_date) {
+	private static List<Json> getStatsUrl(Date start_date, Date stop_date, int limit) {
 
 		List<Bson> pipeline = new ArrayList<>();
 		if (start_date != null && stop_date != null) {
@@ -226,7 +226,7 @@ public class StatsTools implements ServletContextListener {
 		));
 
 		pipeline.add(Aggregates.sort(Sorts.orderBy(Sorts.descending("unique"), Sorts.descending("view"))));
-		pipeline.add(Aggregates.limit(100));
+		pipeline.add(Aggregates.limit(limit));
 
 		pipeline.add(Aggregates.project(new Json("_id", false)
 						.put("url", "$_id")
