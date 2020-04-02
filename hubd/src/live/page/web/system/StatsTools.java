@@ -24,6 +24,11 @@ import java.util.concurrent.ScheduledExecutorService;
 public class StatsTools implements ServletContextListener {
 
 	private final static ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
+	/*
+	Mobiles devices
+	100*db.getCollection('Stats').count({ua:/(Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone)/i})/db.getCollection('Stats').count()
+ 	*/
+
 
 	/**
 	 * Get users on stats
