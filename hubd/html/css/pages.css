@@ -112,24 +112,25 @@ nav.ancrage li a {
 }
 
 nav.ancrage li ul {
-    float:right;
+    float: right;
     list-style: none;
     padding-left: 5px;
-    margin:5px 0px 0px 5px;
+    margin: 5px 0px 0px 5px;
     padding: 0px;
 }
 
 nav.ancrage li li {
-    display:inline-block;
-    border:none;
-    background:none;
+    display: inline-block;
+    border: none;
+    background: none;
 }
+
 nav.ancrage li li a {
-    border:none;
+    border: none;
     font-size: 0.5em;
     padding: 5px 8px 5px 8px;
-    margin:0px 3px 0px 0px;
-    box-shadow:none;
+    margin: 0px 3px 0px 0px;
+    box-shadow: none;
 
 }
 
@@ -302,6 +303,10 @@ ul.sp_result li:last-child {
     text-align: center;
 }
 
+.publisher a {
+    border-bottom: 1px dotted #999;
+    color: #999;
+}
 
 @media all and (max-width: 550px) {
 
