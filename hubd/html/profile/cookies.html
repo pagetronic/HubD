@@ -20,6 +20,7 @@
             #lang('COOKIES_ADS_PERSO')</p>
     </div>
 #end
+#if($analytics)
 <div class="option" id="cookies_stats">
     <strong>#lang('COOKIES_STATS_TITLE')</strong>
     <p>
@@ -30,6 +31,7 @@
         #lang('COOKIES_STATS')
     </p>
 </div>
+#end
 <script type="text/javascript">
     sys.push(function () {
         sys.consent.choose();
