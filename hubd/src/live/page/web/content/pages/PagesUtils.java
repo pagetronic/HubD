@@ -603,10 +603,9 @@ public class PagesUtils {
 		Json paging = new Json();
 
 		if (!data.getString("search", "").equals("")) {
-
 			filters.add(Filters.text(data.getString("search")));
 		}
-		if (data.containsKey("filter")) {
+		if (data.containsKey("filter") && data.get("filter") != null) {
 			filters.add(Filters.nin("_id", data.getList("filter")));
 		}
 
@@ -623,12 +622,12 @@ public class PagesUtils {
 		}
 		pipeline.add(Aggregates.limit(limit + 1));
 
-		List<Json> forums = Db.aggregate("Pages", pipeline).into(new ArrayList<>());
+		List<Json> pages = Db.aggregate("Pages", pipeline).into(new ArrayList<>());
 
-		if (forums.size() > limit) {
-			forums = forums.subList(0, forums.size() - 2);
+		if (pages.size() > limit) {
+			pages = pages.subList(0, pages.size() - 2);
 		}
-		return new Json("result", forums).put("paging", paging);
+		return new Json("result", pages).put("paging", paging);
 	}
 
 	public static Json addParents(String id, String parent_id, Users user) {
