@@ -85,7 +85,7 @@ public class Settings {
 	public static final String REFERRER_POLICY = settings.getProperty("REFERRER_POLICY", "origin-when-cross-origin");
 
 	// All host by language
-	public static final Json LANGS_DOMAINS = getLangsDomains();
+	public static final Json LANGS_DOMAINS = getLangsDomains("LANGS_DOMAINS");
 
 	// MongoDb username
 	public static final String DB_USER = settings.getProperty("DB_USER");
@@ -101,6 +101,8 @@ public class Settings {
 	// MongoDb database used for migration
 	public static final String MIGRATOR_DB_NAME = settings.getProperty("MIGRATOR_DB_NAME");
 
+	// All host by language for migration
+	public static final Json MIGRATOR_LANGS_DOMAINS = getLangsDomains("MIGRATOR_LANGS_DOMAINS");
 
 	// Calculation and include special breadcrumb menu
 	public static final boolean MENU_FORUM = Boolean.parseBoolean(settings.getProperty("MENU_FORUM", "false"));
@@ -289,9 +291,9 @@ public class Settings {
 	/**
 	 * Find languages and domains associations from settings file
 	 */
-	private static Json getLangsDomains() {
+	private static Json getLangsDomains(String key) {
 		Json LANGS_DOMAINS = new Json();
-		for (String langs_domains : settings.getProperty("LANGS_DOMAINS", "").split("[ ]+")) {
+		for (String langs_domains : settings.getProperty(key, "").split("[ ]+")) {
 			String[] langs_domains_ = langs_domains.split("[ ]?+:[ ]?+");
 			if (langs_domains_.length == 2) {
 				LANGS_DOMAINS.put(langs_domains_[0], langs_domains_[1]);
