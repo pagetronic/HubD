@@ -15,7 +15,7 @@
                 page.selectable();
                 var form = $('#form');
                 $('#migrate').on('click', function () {
-                    var loading = sys.loading();
+                    var loading = sys.loading(50, 'div');
                     form.after(loading);
                     form.hide(0);
                     api.post('/admin/migrator', {
@@ -24,8 +24,21 @@
                         destination: destination.val()
                     }, function (rez) {
                         if (rez.ok) {
-
+                            page.trigger('clear');
+                            $('.redirects').remove();
+                            var redirects = $('<ol class="redirects"/>');
+                            $(rez.redirects).each(function () {
+                                redirects.append($('<li style="margin-top: 15px" />')
+                                    .append($('<a />').text(this.origin).attr('href', "/pages/" + this.origin))
+                                    .append(' > ')
+                                    .append($('<a />').text(this.destination).attr('href', this.destination))
+                                );
+                            });
+                            form.after(redirects);
+                        } else {
+                            alert(rez.error);
                         }
+                        loading.remove();
                         form.show(0);
                     });
                 });
