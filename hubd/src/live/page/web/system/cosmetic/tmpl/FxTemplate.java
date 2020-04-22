@@ -152,16 +152,23 @@ public class FxTemplate {
 	}
 
 	public static String author(List<Json> users, String and) {
-		String output = "";
+		StringBuilder output = new StringBuilder();
+		List<Json> clean_users = new ArrayList<>();
+		for (Json user : users) {
+			if (user.getId() != null) {
+				clean_users.add(user);
+			}
+		}
+
 		String vir = "";
-		for (int i = 0; i < users.size(); i++) {
-			Json user = users.get(i);
-			output += (users.size() > 1 && i == users.size() - 1) ? and : vir;
-			output += "<span itemprop=\"author\" itemscope itemtype=\"https://schema.org/Person\"><a itemprop=\"url\" href=\"/users/" + user.getId() + "\"><span itemprop=\"name\">" + user.getString("name") + "</span></a></span>";
+		for (int i = 0; i < clean_users.size(); i++) {
+			Json user = clean_users.get(i);
+			output.append((clean_users.size() > 1 && i == clean_users.size() - 1) ? and : vir);
+			output.append("<span itemprop=\"author\" itemscope itemtype=\"https://schema.org/Person\"><a itemprop=\"url\" href=\"/users/").append(user.getId()).append("\"><span itemprop=\"name\">").append(user.getString("name")).append("</span></a></span>");
 			vir = ", ";
 
 		}
-		return output;
+		return output.toString();
 
 	}
 
