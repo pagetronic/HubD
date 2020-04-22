@@ -11,6 +11,7 @@ import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
 import live.page.web.system.db.PipelinerStore;
 import live.page.web.system.json.Json;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
@@ -114,7 +115,7 @@ public class DbTagsLinker {
 		}
 
 		for (Json link : links) {
-			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + "[ ]?+([^]]+)?]", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + " ?([^]]+)]", Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(text);
 
 			while (matcher.find()) {
@@ -131,7 +132,12 @@ public class DbTagsLinker {
 				text = text.replace(matcher.group(), replacement + ">" + title + "</a>");
 
 			}
+			text = pattern.matcher(text).replaceAll("$1");
 		}
+
+		text = Pattern.compile("\\[(" + StringUtils.join(Settings.VALID_PARENTS, "|") + ")\\([a-zA-Z0-9]+\\) ?([^]]+)]")
+				.matcher(text).replaceAll("$2");
+
 		return text;
 
 	}
