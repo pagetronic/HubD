@@ -603,7 +603,7 @@ public class PagesUtils {
 		Json paging = new Json();
 
 		if (!data.getString("search", "").equals("")) {
-			filters.add(Filters.text(data.getString("search")));
+			filters.add(Filters.or(Filters.regex("title", Pattern.compile(data.getString("search"), Pattern.CASE_INSENSITIVE)), Filters.text(data.getString("search"))));
 		}
 		if (data.containsKey("filter") && data.get("filter") != null) {
 			filters.add(Filters.nin("_id", data.getList("filter")));
