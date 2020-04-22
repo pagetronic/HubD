@@ -36,6 +36,14 @@ public class PagesServlet extends HttpServlet {
 
 		Json page = PagesAggregator.getPage(uri, Settings.getLang(req.getServerName()), req.getString("paging", null), user != null && user.getEditor());
 
+		if (page == null) {
+			String redirect = PagesUtils.getPossibleRedirect(uri);
+			if (redirect != null) {
+				resp.sendRedirect(redirect, 301);
+				return;
+			}
+		}
+
 		if (page == null || page.getString("url") == null) {
 			resp.sendError(404, "Not found");
 			return;

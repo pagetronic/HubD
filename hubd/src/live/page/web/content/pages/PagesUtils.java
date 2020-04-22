@@ -764,4 +764,13 @@ public class PagesUtils {
 	public static int getDraftsCount() {
 		return (int) Db.count("Revisions", Filters.eq("origine", "draft"));
 	}
+
+	public static String getPossibleRedirect(String uri) {
+		String clean = uri.replaceAll(".*/([^/.]+)(/|\\.json|\\.xml|\\.xhtml|\\.html|\\.mob)?$", "$1");
+		Json revision = Db.find("Revisions", Filters.and(Filters.eq("url", clean))).sort(Sorts.descending("edit")).first();
+		if (revision != null && !revision.getString("301", "").equals("")) {
+			return revision.getString("301");
+		}
+		return null;
+	}
 }
