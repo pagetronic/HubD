@@ -110,26 +110,28 @@ public class DbTagsLinker {
 	 * @return parsed string
 	 */
 	public static String parse(String text, List<Json> links) {
+		if (links != null) {
 
-		for (Json link : links) {
-			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + " ?([^]]+)]", Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(text);
+			for (Json link : links) {
+				Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + " ?([^]]+)]", Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(text);
 
-			while (matcher.find()) {
-				String title = matcher.group(1);
-				if (matcher.group(1) == null || title.equals("")) {
-					title = link.getString("title");
+				while (matcher.find()) {
+					String title = matcher.group(1);
+					if (matcher.group(1) == null || title.equals("")) {
+						title = link.getString("title");
+					}
+					String replacement = "<a href=\"" + link.getString("url") + "\"";
+					if (link.containsKey("top_title")) {
+						replacement += " title=\"" + link.getString("top_title").replace("\"", "\\\"") + "\"";
+					} else if (!link.getString("title", "").equals(title)) {
+						replacement += " title=\"" + link.getString("title").replace("\"", "\\\"") + "\"";
+					}
+					text = text.replace(matcher.group(), replacement + ">" + title + "</a>");
+
 				}
-				String replacement = "<a href=\"" + link.getString("url") + "\"";
-				if (link.containsKey("top_title")) {
-					replacement += " title=\"" + link.getString("top_title").replace("\"", "\\\"") + "\"";
-				} else if (!link.getString("title", "").equals(title)) {
-					replacement += " title=\"" + link.getString("title").replace("\"", "\\\"") + "\"";
-				}
-				text = text.replace(matcher.group(), replacement + ">" + title + "</a>");
-
+				text = pattern.matcher(text).replaceAll("$1");
 			}
-			text = pattern.matcher(text).replaceAll("$1");
 		}
 
 		text = Pattern.compile("\\[(" + StringUtils.join(Settings.VALID_PARENTS, "|") + ")\\([a-zA-Z0-9]+\\) ?([^]]+)]")
