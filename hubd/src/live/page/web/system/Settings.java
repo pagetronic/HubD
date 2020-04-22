@@ -94,6 +94,13 @@ public class Settings {
 	// MongoDb database
 	public static final String DB_NAME = settings.getProperty("DB_NAME");
 
+	// MongoDb username used for migration
+	public static final String MIGRATOR_DB_USER = settings.getProperty("MIGRATOR_DB_USER");
+	// MongoDb password used for migration
+	public static final char[] MIGRATOR_DB_PASS = settings.getProperty("MIGRATOR_DB_PASS", "").toCharArray();
+	// MongoDb database used for migration
+	public static final String MIGRATOR_DB_NAME = settings.getProperty("MIGRATOR_DB_NAME");
+
 
 	// Calculation and include special breadcrumb menu
 	public static final boolean MENU_FORUM = Boolean.parseBoolean(settings.getProperty("MENU_FORUM", "false"));

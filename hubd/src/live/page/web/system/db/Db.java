@@ -23,7 +23,7 @@ import org.bson.conversions.Bson;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -49,14 +49,7 @@ public class Db implements ServletContextListener {
 	/**
 	 * Permanently connect to DB
 	 */
-	private static final MongoClient client = MongoClients.create(MongoClientSettings.builder()
-			.applicationName(Settings.SITE_TITLE)
-			.retryReads(true).retryWrites(true)
-			.applyToConnectionPoolSettings(builder -> builder.maxSize(100).minSize(0).maxConnectionIdleTime(60000, TimeUnit.MILLISECONDS))
-			.applyToSocketSettings(builder -> builder.connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS))
-			.applyToClusterSettings(builder -> builder.hosts(Arrays.asList(new ServerAddress("localhost"))))
-			.credential(MongoCredential.createCredential(Settings.DB_USER, Settings.DB_NAME, Settings.DB_PASS))
-			.writeConcern(WriteConcern.JOURNALED).codecRegistry(codecRegistry).build());
+	private static final MongoClient client = getClient(Settings.DB_USER, Settings.DB_NAME, Settings.DB_PASS);
 
 	/**
 	 * Open Project Database
@@ -77,6 +70,23 @@ public class Db implements ServletContextListener {
 		keyDiff = (keyDiff + 1 >= Character.MAX_RADIX) ? 0 : keyDiff + 1;
 		// perfect key isn't ? No id server for now, perhaps in futures db system
 		return key;
+	}
+
+	/**
+	 * Get MongoClient with settings
+	 *
+	 * @return MongoClient  with settings
+	 */
+	public static MongoClient getClient(String db_user, String db_name, char[] db_password) {
+
+		return MongoClients.create(MongoClientSettings.builder()
+				.applicationName(Settings.SITE_TITLE)
+				.retryReads(true).retryWrites(true)
+				.applyToConnectionPoolSettings(builder -> builder.maxSize(100).minSize(0).maxConnectionIdleTime(60000, TimeUnit.MILLISECONDS))
+				.applyToSocketSettings(builder -> builder.connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS))
+				.applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(new ServerAddress("localhost"))))
+				.credential(MongoCredential.createCredential(db_user, db_name, db_password))
+				.writeConcern(WriteConcern.JOURNALED).codecRegistry(codecRegistry).build());
 	}
 
 	/**
