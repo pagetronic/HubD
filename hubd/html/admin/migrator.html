@@ -1,18 +1,18 @@
 #parse("/inc/top.html")
 <div id="middle" class="admin_migrator">
-    <div style="max-width: 800px; margin: auto">
+    <div style="max-width: 800px; min-height: 400px; margin: auto">
         <h2>Migrate page to other website</h2>
-        <div class="flexible" id="form" style="margin-top: 20px; min-height: 400px;">
-            <select class="flexable" name="page" placeholder="page" url="/edit"></select>
-            <select class="flexable" name="destination" placeholder="destination" url="/admin/migrator"></select>
+        <div id="form" style="margin-top: 20px;">
+            <select name="pages" placeholder="pages" url="/edit" multiple="multiple"></select>
+            <select name="destination" placeholder="destination" url="/admin/migrator"></select>
             <button id="migrate">migrate</button>
         </div>
         <script type="text/javascript">
             sys.push(function () {
                 var destination = $('[name=destination]');
                 destination.selectable();
-                var page = $('[name=page]');
-                page.selectable();
+                var pages = $('[name=pages]');
+                pages.selectable();
                 var form = $('#form');
                 $('#migrate').on('click', function () {
                     var loading = sys.loading(50, 'div');
@@ -20,11 +20,11 @@
                     form.hide(0);
                     api.post('/admin/migrator', {
                         action: 'migrate',
-                        id: page.val(),
+                        ids: pages.val(),
                         destination: destination.val()
                     }, function (rez) {
                         if (rez.ok) {
-                            page.trigger('clear');
+                            pages.trigger('clear');
                             $('.redirects').remove();
                             var redirects = $('<ol class="redirects"/>');
                             $(rez.redirects).each(function () {
