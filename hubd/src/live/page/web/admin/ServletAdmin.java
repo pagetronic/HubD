@@ -45,9 +45,6 @@ public class ServletAdmin extends HttpServlet {
 				req.setAttribute("urls", StatsTools.getStatsUrl(req.getTz()));
 				resp.sendTemplate(req, "/admin/stats.html");
 				break;
-			case "/admin/pages":
-				resp.sendTemplate(req, "/admin/pages.html");
-				break;
 			case "/admin/301":
 				resp.sendTemplate(req, "/admin/301.html");
 				break;
@@ -84,18 +81,6 @@ public class ServletAdmin extends HttpServlet {
 		switch (data.getString("action")) {
 			case "webpush":
 				rez = WebPushAdmin.push(data);
-				break;
-			case "top_title":
-				String top_title = data.getString("top_title", null);
-				if (top_title == null) {
-					break;
-				}
-
-				top_title = Fx.normalizePost(top_title);
-				Date date = new Date();
-				Json revision = new Json("edit", date).put("top_title", top_title).put("editor", user.getId()).put("origine", data.getId());
-				Db.save("Revisions", revision);
-				rez = new Json("ok", Db.updateOne("Pages", Filters.eq("_id", data.getId()), new Json("$set", new Json("top_title", top_title).put("update", date))).getModifiedCount() > 0);
 				break;
 
 			case "redirect":
