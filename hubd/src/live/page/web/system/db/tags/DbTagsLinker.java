@@ -110,9 +110,6 @@ public class DbTagsLinker {
 	 * @return parsed string
 	 */
 	public static String parse(String text, List<Json> links) {
-		if (links == null || links.size() == 0) {
-			return text;
-		}
 
 		for (Json link : links) {
 			Pattern pattern = Pattern.compile("\\[" + Pattern.quote(link.getString("tag")) + " ?([^]]+)]", Pattern.CASE_INSENSITIVE);
