@@ -230,7 +230,7 @@ public class MigratorUtils {
 				if (keyword.equals("")) {
 					continue;
 				}
-				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ]|^)(" + keyword + ")([.,!?; ])", Pattern.CASE_INSENSITIVE);
+				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ(]|^)(" + keyword + ")([.,!?;) ])", Pattern.CASE_INSENSITIVE);
 				Matcher matcher = pattern.matcher(text);
 				if (matcher.find()) {
 					String start = matcher.group(1);
