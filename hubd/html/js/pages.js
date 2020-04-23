@@ -442,6 +442,7 @@ sys.pages = {
                 }, function (rez) {
                     $('.autolinks').remove();
                     if (rez.ok) {
+                        sys.toast(rez.links.length + " pages linked", 700);
                         if (rez.links.length > 0) {
                             var autolinks = $('<ol class="autolinks"/>');
                             $(rez.links).each(function () {
@@ -450,7 +451,6 @@ sys.pages = {
                                 );
                             });
                             form.append(autolinks);
-                            popper.height(popper.pop.height() + Math.min(100, autolinks.height()));
                             popper.pulse();
                         }
                     } else {
