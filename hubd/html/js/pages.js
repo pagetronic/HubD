@@ -440,15 +440,19 @@ sys.pages = {
                     id: id,
                     keywords: keywords.val().split(/[ ]?,[ ]?/)
                 }, function (rez) {
-                    $('.redirects').remove();
+                    $('.autolinks').remove();
                     if (rez.ok) {
-                        var redirects = $('<ol class="redirects"/>');
-                        $(rez.links).each(function () {
-                            redirects.append($('<li style="margin-top: 15px" />')
-                                .append($('<a />').text(this).attr('href', this))
-                            );
-                        });
-                        form.append(redirects);
+                        if (rez.links.length > 0) {
+                            var autolinks = $('<ol class="autolinks"/>');
+                            $(rez.links).each(function () {
+                                autolinks.append($('<li style="margin-top: 15px" />')
+                                    .append($('<a />').text(this).attr('href', this))
+                                );
+                            });
+                            form.append(autolinks);
+                            popper.height(popper.pop.height() + Math.min(100, autolinks.height()));
+                            popper.pulse();
+                        }
                     } else {
                         alert(rez.error);
                     }
