@@ -5,7 +5,11 @@
         <div id="form" style="margin-top: 20px;">
             <select name="pages" placeholder="pages" url="/edit" multiple="multiple"></select>
             <select name="destination" placeholder="destination" url="/admin/migrator"></select>
-            <button id="migrate">migrate</button>
+            <div class="flexible">
+                <button class="flexable short" id="migrate">$svg.mi_merge_type migrate</button>
+                <div class="space expand"></div>
+                <button class="flexable short" id="update">$svg.mi_update update</button>
+            </div>
         </div>
         <script type="text/javascript">
             sys.push(function () {
@@ -14,6 +18,17 @@
                 var pages = $('[name=pages]');
                 pages.selectable();
                 var form = $('#form');
+                $('#update').on('click', function () {
+                    var loading = sys.loading(50, 'div');
+                    form.after(loading);
+                    form.hide(0);
+                    api.post('/admin/migrator', {
+                        action: 'update'
+                    }, function () {
+                        loading.remove();
+                        form.show(0);
+                    });
+                });
                 $('#migrate').on('click', function () {
                     var loading = sys.loading(50, 'div');
                     form.after(loading);

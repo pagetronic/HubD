@@ -45,6 +45,10 @@ public class MigratorAdmin extends HttpServlet {
 			case "migrate":
 				rez = MigratorUtils.migrate(user, data.getList("ids"), data.getString("destination"));
 				break;
+			case "update":
+				MigratorUtils.updateRemainingTags();
+				rez.put("ok", true);
+				break;
 		}
 		resp.sendResponse(rez);
 	}
