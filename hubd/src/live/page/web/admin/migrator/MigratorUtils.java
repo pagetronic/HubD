@@ -239,6 +239,7 @@ public class MigratorUtils {
 		MongoCursor<Json> pages = destination_pages.find(Filters.regex("text", Pattern.compile("(" + StringUtils.join(keywords, "|") + ")", Pattern.CASE_INSENSITIVE))).iterator();
 
 
+		pageloop:
 		while (pages.hasNext()) {
 			Json page = pages.next();
 			String text = page.getText("text", "");
@@ -280,7 +281,7 @@ public class MigratorUtils {
 					destination_revisions.insertOne(new Json().put("_id", Db.getKey()).put("origine", page.getId()).put("editor", user.getId()).put("text", text).put("edit", new Date()));
 					destination_pages.updateOne(Filters.eq("_id", page.getId()), new Json().put("$set", new Json().put("text", text).put("update", new Date())));
 					rez.add("links", Settings.HTTP_PROTO + Settings.MIGRATOR_LANGS_DOMAINS.getString(page.getString("lng")) + "/" + page.getString("url"));
-					break;
+					continue pageloop;
 				}
 			}
 
