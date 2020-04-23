@@ -343,8 +343,25 @@ var pop = function (doOverlay, width, height) {
             size.left = popin.position().left - (popin.width() / 4);
             delete size.maxWidth;
             popin.width(init).animate(size, 150, function () {
-                doAfter();
+                if(doAfter!==undefined) {
+                    doAfter();
+                }
                 popin.css({maxWidth: ''});
+            });
+        },
+        height: function (height, doAfter) { var init = popin.height();
+            var size = {
+                height: height,
+                maxHeight: '90%'
+            };
+            popin.css(size);
+            size.top = popin.position().top - (popin.height() / 4);
+            delete size.maxHeight;
+            popin.width(init).animate(size, 150, function () {
+                if(doAfter!==undefined) {
+                    doAfter();
+                }
+                popin.css({maxHeight: ''});
             });
         },
         close: close,
