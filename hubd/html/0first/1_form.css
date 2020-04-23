@@ -126,6 +126,7 @@ select {
     -webkit-outline: none;
     -o-outline: none;
     outline: none;
+    height: 28px;
 }
 
 label input[type=checkbox] {
