@@ -464,6 +464,7 @@ sys.pages = {
             popper.content(form);
             popper.header("Autolink " + $('#breadcrumb .title').first().text());
             popper.height(popper.pop.height());
+            keywords.focus();
         }
     }
 };
