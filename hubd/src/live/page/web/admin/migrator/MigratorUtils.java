@@ -286,6 +286,7 @@ public class MigratorUtils {
 
 		}
 		pages.close();
+		destination_client.close();
 
 		//rez.add("links
 		return rez;
