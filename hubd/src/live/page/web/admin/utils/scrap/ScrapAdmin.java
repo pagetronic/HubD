@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Laurent PAGE, Apache Licence 2.0
  */
-package live.page.web.admin.scrap;
+package live.page.web.admin.utils.scrap;
 
 import live.page.web.system.json.Json;
 import live.page.web.system.servlet.wrapper.WebServletRequest;

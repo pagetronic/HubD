@@ -3,7 +3,7 @@
  */
 package live.page.web.admin;
 
-import live.page.web.admin.migrator.MigratorUtils;
+import live.page.web.admin.utils.MigratorUtils;
 import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;

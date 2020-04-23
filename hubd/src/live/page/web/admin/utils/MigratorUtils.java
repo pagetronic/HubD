@@ -1,4 +1,4 @@
-package live.page.web.admin.migrator;
+package live.page.web.admin.utils;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -187,37 +187,6 @@ public class MigratorUtils {
 	}
 
 	/**
-	 * Compose complete url of a Page
-	 *
-	 * @param destination_pages MongoDb collection that contain Page
-	 * @param id                of the Page
-	 * @param domain            of the website hosting Page
-	 * @return the url
-	 */
-	private static String getUrl(MongoCollection<Json> destination_pages, String id, String domain) {
-
-
-		List<Bson> pipeline = new ArrayList<>();
-
-		pipeline.add(Aggregates.match(Filters.eq("_id", id)));
-		pipeline.add(Aggregates.limit(1));
-		pipeline.add(Aggregates.graphLookup("Pages", "$_id", "parents.0", "_id", "urls", new GraphLookupOptions().depthField("depth").maxDepth(50)));
-		pipeline.add(Aggregates.unwind("$urls", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-		pipeline.add(Aggregates.sort(new Json("urls.depth", -1)));
-
-		pipeline.add(Aggregates.group("$_id",
-				Arrays.asList(
-						Accumulators.first("lng", "$lng"),
-						Accumulators.push("urls", "$urls.url")
-				)));
-
-		pipeline.add(Aggregates.project(new Json()
-				.put("url", new Json("$reduce", new Json("input", "$urls").put("initialValue", Settings.HTTP_PROTO + domain).put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this"))))))
-		);
-		return destination_pages.aggregate(pipeline).first().getString("url");
-	}
-
-	/**
 	 * Link pages in local site to other website with keywords
 	 *
 	 * @param id       of the local Page to link
@@ -293,5 +262,36 @@ public class MigratorUtils {
 
 		//rez.add("links
 		return rez;
+	}
+
+	/**
+	 * Compose complete url of a Page
+	 *
+	 * @param destination_pages MongoDb collection that contain Page
+	 * @param id                of the Page
+	 * @param domain            of the website hosting Page
+	 * @return the url
+	 */
+	static String getUrl(MongoCollection<Json> destination_pages, String id, String domain) {
+
+
+		List<Bson> pipeline = new ArrayList<>();
+
+		pipeline.add(Aggregates.match(Filters.eq("_id", id)));
+		pipeline.add(Aggregates.limit(1));
+		pipeline.add(Aggregates.graphLookup("Pages", "$_id", "parents.0", "_id", "urls", new GraphLookupOptions().depthField("depth").maxDepth(50)));
+		pipeline.add(Aggregates.unwind("$urls", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+		pipeline.add(Aggregates.sort(new Json("urls.depth", -1)));
+
+		pipeline.add(Aggregates.group("$_id",
+				Arrays.asList(
+						Accumulators.first("lng", "$lng"),
+						Accumulators.push("urls", "$urls.url")
+				)));
+
+		pipeline.add(Aggregates.project(new Json()
+				.put("url", new Json("$reduce", new Json("input", "$urls").put("initialValue", Settings.HTTP_PROTO + domain).put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this"))))))
+		);
+		return destination_pages.aggregate(pipeline).first().getString("url");
 	}
 }

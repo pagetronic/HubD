@@ -3,7 +3,7 @@
  */
 package live.page.web.system.socket;
 
-import live.page.web.admin.scrap.ScrapAdminUtils;
+import live.page.web.admin.utils.scrap.ScrapAdminUtils;
 import live.page.web.content.messages.MessagesUtils;
 import live.page.web.content.notices.NoticesUtils;
 import live.page.web.content.profile.ProfileUtils;
