@@ -458,7 +458,8 @@ sys.pages = {
             form.append(keywords).append(submit);
 
             popper.content(form);
-            popper.header("Autolink "+ $('#breadcrumb .title').first().text());
+            popper.header("Autolink " + $('#breadcrumb .title').first().text());
+            popper.height(popper.pop.height());
         }
     }
 };
