@@ -425,6 +425,40 @@ sys.pages = {
 
                 }
             });
+        },
+        autolink: function (id) {
+            var form = $('<div class="split" />');
+            var keywords = $('<input autocomplete="off" name="keywords" />').attr('placeholder', "keywords,key,words,ect");
+
+            var submit = $('<button />').html('$svg.mi_insert_link').append('autolink');
+
+            var popper = pop(false, 500);
+            submit.on('click', function () {
+                popper.loading(true);
+                api.post('/admin', {
+                    action: 'autolink',
+                    id: id,
+                    keywords: keywords.val().split(/[ ]?,[ ]?/)
+                }, function (rez) {
+                    $('.redirects').remove();
+                    if (rez.ok) {
+                        var redirects = $('<ol class="redirects"/>');
+                        $(rez.links).each(function () {
+                            redirects.append($('<li style="margin-top: 15px" />')
+                                .append($('<a />').text(this).attr('href', this))
+                            );
+                        });
+                        form.append(redirects);
+                    } else {
+                        alert(rez.error);
+                    }
+                    popper.loading(false);
+                });
+            });
+            form.append(keywords).append(submit);
+
+            popper.content(form);
+            popper.header("Autolink "+ $('#breadcrumb .title').first().text());
         }
     }
 };

@@ -4,7 +4,8 @@
 package live.page.web.admin;
 
 import com.mongodb.client.model.Filters;
-import live.page.web.admin.scrap.ScrapAdmin;
+import live.page.web.admin.utils.AutoLink;
+import live.page.web.admin.utils.scrap.ScrapAdmin;
 import live.page.web.content.congrate.RatingsTools;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
@@ -102,6 +103,10 @@ public class ServletAdmin extends HttpServlet {
 
 			case "scrap":
 				rez = ScrapAdmin.doPostApiEditor(data);
+				break;
+
+			case "autolink":
+				rez = AutoLink.autolink(data.getId(), data.getList("keywords"), user);
 				break;
 
 		}
