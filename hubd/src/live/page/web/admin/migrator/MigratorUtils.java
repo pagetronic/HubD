@@ -251,7 +251,7 @@ public class MigratorUtils {
 					continue;
 				}
 				List<String> groups = new ArrayList<>();
-				for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>", "=([^=]+)="}) {
+				for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>", "=([^\n]+)=([ ]+)?\n"}) {
 					Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
 					Matcher matcher = pattern.matcher(text);
 					while (matcher.find()) {
@@ -259,7 +259,6 @@ public class MigratorUtils {
 						groups.add(matcher.group());
 					}
 				}
-
 				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ]|^)(" + keyword + ")([.,!?; ])", Pattern.CASE_INSENSITIVE);
 				Matcher matcher = pattern.matcher(text);
 				if (matcher.find()) {
@@ -274,7 +273,7 @@ public class MigratorUtils {
 						replacement += " title=\"" + original.getString("title").replace("\"", "\\\"") + "\"";
 					}
 					text = matcher.replaceFirst(replacement + ">" + title + "</a>" + punct);
-					for (int i = 0; i < groups.size(); i++) {
+					for (int i = groups.size()-1; i >= 0; i--) {
 						text = text.replace("@@@###" + i + "###@@@", groups.get(i));
 					}
 
