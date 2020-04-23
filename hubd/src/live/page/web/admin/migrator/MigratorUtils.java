@@ -246,18 +246,20 @@ public class MigratorUtils {
 			if (text.contains(id)) {
 				continue;
 			}
+
+			List<String> groups = new ArrayList<>();
+			for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>", "=([^\n]+)=([ ]+)?\n"}) {
+				Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(text);
+				while (matcher.find()) {
+					text = text.replace(matcher.group(), "@@@###" + groups.size() + "###@@@");
+					groups.add(matcher.group());
+				}
+			}
+
 			for (String keyword : keywords) {
 				if (keyword.equals("")) {
 					continue;
-				}
-				List<String> groups = new ArrayList<>();
-				for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>", "=([^\n]+)=([ ]+)?\n"}) {
-					Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
-					Matcher matcher = pattern.matcher(text);
-					while (matcher.find()) {
-						text = text.replace(matcher.group(), "@@@###" + groups.size() + "###@@@");
-						groups.add(matcher.group());
-					}
 				}
 				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ]|^)(" + keyword + ")([.,!?; ])", Pattern.CASE_INSENSITIVE);
 				Matcher matcher = pattern.matcher(text);
@@ -273,7 +275,8 @@ public class MigratorUtils {
 						replacement += " title=\"" + original.getString("title").replace("\"", "\\\"") + "\"";
 					}
 					text = matcher.replaceFirst(replacement + ">" + title + "</a>" + punct);
-					for (int i = groups.size()-1; i >= 0; i--) {
+
+					for (int i = groups.size() - 1; i >= 0; i--) {
 						text = text.replace("@@@###" + i + "###@@@", groups.get(i));
 					}
 
