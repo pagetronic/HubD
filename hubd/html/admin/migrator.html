@@ -35,7 +35,7 @@
                     api.post('/admin/migrator', {
                         action: 'link',
                         id: tolink.val(),
-                        keywords: keywords.val().split('[ ]+?,[ ]+?')
+                        keywords: keywords.val().split(/[ ]?,[ ]?/)
                     }, function (rez) {
                         $('.redirects').remove();
                         if (rez.ok) {
