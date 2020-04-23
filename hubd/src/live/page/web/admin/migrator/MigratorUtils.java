@@ -251,7 +251,7 @@ public class MigratorUtils {
 					continue;
 				}
 				List<String> groups = new ArrayList<>();
-				for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>"}) {
+				for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>", "=([^=]+)="}) {
 					Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
 					Matcher matcher = pattern.matcher(text);
 					while (matcher.find()) {
@@ -260,7 +260,7 @@ public class MigratorUtils {
 					}
 				}
 
-				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ]|^)(" + keyword + ")([\\p{Punct} ])", Pattern.CASE_INSENSITIVE);
+				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ]|^)(" + keyword + ")([.,!?; ])", Pattern.CASE_INSENSITIVE);
 				Matcher matcher = pattern.matcher(text);
 				if (matcher.find()) {
 					String start = matcher.group(1);
