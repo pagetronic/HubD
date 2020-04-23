@@ -4,6 +4,7 @@
 package live.page.web.admin;
 
 import live.page.web.admin.migrator.MigratorUtils;
+import live.page.web.system.Settings;
 import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
 import live.page.web.system.servlet.wrapper.ApiServletRequest;
@@ -22,6 +23,11 @@ public class MigratorAdmin extends HttpServlet {
 
 	@Override
 	public void doGetEditor(WebServletRequest req, WebServletResponse resp, Users user) throws IOException, ServletException {
+
+		if (Settings.MIGRATOR_LANGS_DOMAINS.size() == 0) {
+			resp.sendError(404, "No migration configured");
+			return;
+		}
 
 		req.setAttribute("active", "admin");
 
