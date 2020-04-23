@@ -10,15 +10,58 @@
                 <div class="space expand"></div>
                 <button class="flexable short" id="update">$svg.mi_update update</button>
             </div>
+
+            <div style="margin-top: 20px;">
+                <select name="tolink" placeholder="page to link" url="/edit"></select>
+                <input autocomplete="off" type="text" name="keywords" placeholder="keywords,key,words,ect">
+            </div>
+            <div class="flexible">
+                <button class="flexable short" id="link">$svg.mi_insert_link link in other site</button>
+                <div class="space expand"></div>
+            </div>
         </div>
         <script type="text/javascript">
             sys.push(function () {
+
+
+                var tolink = $('[name=tolink]');
+                var keywords = $('[name=keywords]');
+                tolink.selectable();
+
+                $('#link').on('click', function () {
+                    var loading = sys.loading(50, 'div');
+                    form.after(loading);
+                    form.hide(0);
+                    api.post('/admin/migrator', {
+                        action: 'link',
+                        id: tolink.val(),
+                        keywords: keywords.val().split('[ ]+?,[ ]+?')
+                    }, function (rez) {
+                        $('.redirects').remove();
+                        if (rez.ok) {
+                            var redirects = $('<ol class="redirects"/>');
+                            $(rez.links).each(function () {
+                                redirects.append($('<li style="margin-top: 15px" />')
+                                    .append($('<a />').text(this).attr('href', this))
+                                );
+                            });
+                            form.append(redirects);
+                        } else {
+                            alert(rez.error);
+                        }
+                        loading.remove();
+                        form.show(0);
+                    });
+                });
+
+
                 var destination = $('[name=destination]');
                 destination.selectable();
                 var pages = $('[name=pages]');
                 pages.selectable();
                 var form = $('#form');
                 $('#update').on('click', function () {
+                    $('.redirects').remove();
                     var loading = sys.loading(50, 'div');
                     form.after(loading);
                     form.hide(0);
@@ -49,7 +92,7 @@
                                     .append($('<a />').text(this.destination).attr('href', this.destination))
                                 );
                             });
-                            form.after(redirects);
+                            form.append(redirects);
                         } else {
                             alert(rez.error);
                         }

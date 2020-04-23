@@ -9,6 +9,7 @@ import live.page.web.system.Settings;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.system.sessions.Users;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
@@ -214,5 +215,79 @@ public class MigratorUtils {
 				.put("url", new Json("$reduce", new Json("input", "$urls").put("initialValue", Settings.HTTP_PROTO + domain).put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this"))))))
 		);
 		return destination_pages.aggregate(pipeline).first().getString("url");
+	}
+
+	/**
+	 * Link pages in local site to other website with keywords
+	 *
+	 * @param id       of the local Page to link
+	 * @param keywords to link in other website
+	 * @return urls of the pages linked
+	 */
+	public static Json link(String id, List<String> keywords, Users user) {
+		Json rez = new Json("ok", true).put("links", new ArrayList<>());
+		Json original = Db.findById("Pages", id);
+		if (original == null) {
+			return new Json("ok", false);
+		}
+		String url = getUrl(Db.getDb("Pages"), id, Settings.LANGS_DOMAINS.getString(original.getString("lng")));
+
+		MongoClient destination_client = Db.getClient(Settings.MIGRATOR_DB_USER, Settings.MIGRATOR_DB_NAME, Settings.MIGRATOR_DB_PASS);
+		MongoDatabase destination_base = destination_client.getDatabase(Settings.MIGRATOR_DB_NAME);
+		MongoCollection<Json> destination_pages = destination_base.getCollection("Pages", Json.class);
+		MongoCollection<Json> destination_revisions = destination_base.getCollection("Revisions", Json.class);
+		MongoCursor<Json> pages = destination_pages.find(Filters.regex("text", Pattern.compile("(" + StringUtils.join(keywords, "|") + ")", Pattern.CASE_INSENSITIVE))).iterator();
+
+
+		while (pages.hasNext()) {
+			Json page = pages.next();
+			String text = page.getText("text", "");
+			if (text.contains(id)) {
+				continue;
+			}
+			for (String keyword : keywords) {
+				if (keyword.equals("")) {
+					continue;
+				}
+				List<String> groups = new ArrayList<>();
+				for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>"}) {
+					Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
+					Matcher matcher = pattern.matcher(text);
+					while (matcher.find()) {
+						text = text.replace(matcher.group(), "@@@###" + groups.size() + "###@@@");
+						groups.add(matcher.group());
+					}
+				}
+
+				Pattern pattern = Pattern.compile("([\\r\\n\\t ,’'ʼ]|^)(" + keyword + ")([\\p{Punct} ])", Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(text);
+				if (matcher.find()) {
+					String start = matcher.group(1);
+					String title = matcher.group(2);
+					String punct = matcher.group(3);
+
+					String replacement = start + "<a original=\"" + id + "\" href=\"" + url + "\"";
+					if (original.containsKey("top_title")) {
+						replacement += " title=\"" + original.getString("top_title").replace("\"", "\\\"") + "\"";
+					} else if (!original.getString("title", "").equals(title)) {
+						replacement += " title=\"" + original.getString("title").replace("\"", "\\\"") + "\"";
+					}
+					text = matcher.replaceFirst(replacement + ">" + title + "</a>" + punct);
+					for (int i = 0; i < groups.size(); i++) {
+						text = text.replace("@@@###" + i + "###@@@", groups.get(i));
+					}
+
+					destination_revisions.insertOne(new Json().put("_id", Db.getKey()).put("origine", page.getId()).put("editor", user.getId()).put("text", text).put("edit", new Date()));
+					destination_pages.updateOne(Filters.eq("_id", page.getId()), new Json().put("$set", new Json().put("text", text).put("update", new Date())));
+					rez.add("links", Settings.HTTP_PROTO + Settings.MIGRATOR_LANGS_DOMAINS.getString(page.getString("lng")) + "/" + page.getString("url"));
+					break;
+				}
+			}
+
+		}
+		pages.close();
+
+		//rez.add("links
+		return rez;
 	}
 }

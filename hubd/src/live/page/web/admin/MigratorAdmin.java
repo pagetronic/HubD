@@ -49,6 +49,9 @@ public class MigratorAdmin extends HttpServlet {
 				MigratorUtils.updateRemainingTags();
 				rez.put("ok", true);
 				break;
+			case "link":
+				rez = MigratorUtils.link(data.getId(), data.getList("keywords"), user);
+				break;
 		}
 		resp.sendResponse(rez);
 	}
