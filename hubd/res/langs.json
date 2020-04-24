@@ -1025,6 +1025,24 @@
     "js": true,
     "pt": "agora mesmo"
   },
+  "KEYWORDS": {
+    "en": "Keywords",
+    "fr": "Mots clés",
+    "de": "Schlüsselwörter",
+    "es": "Palabras clave",
+    "it": "parole",
+    "pt": "Palavras-chave",
+    "US": "Keywords"
+  },
+  "KEYWORDS_EXPLAINS": {
+    "fr": "Mots clés séparés par des virgules",
+    "en": "Comma separated keywords",
+    "es": "Palabras clave separadas por comas",
+    "it": "Parole chiave separate da virgola",
+    "de": "Durch Kommas getrennte Schlüsselwörter",
+    "pt": "Palavras-chave separadas por vírgula",
+    "US": "Comma separated keywords"
+  },
   "LANG": {
     "US": "en_US",
     "de": "de",

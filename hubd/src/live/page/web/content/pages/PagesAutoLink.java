@@ -1,4 +1,4 @@
-package live.page.web.admin.utils;
+package live.page.web.content.pages;
 
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
@@ -13,13 +13,25 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AutoLink {
-	public static Json autolink(String id, List<String> keywords, Users user) {
+public class PagesAutoLink {
 
-		Json rez = new Json("ok", true).put("links", new ArrayList<>());
+	/**
+	 * AutoLink all Pages
+	 *
+	 * @param id       of the Page
+	 * @param keywords to set to the Page
+	 * @param user     do the update
+	 * @return Pages liked
+	 */
+	public static List<String> keywords(String id, List<String> keywords, Users user) {
+
+		List<String> linkeds = new ArrayList<>();
+		if (keywords == null) {
+			return linkeds;
+		}
 		MongoCursor<Json> pages = Db.find("Pages",
 				Filters.and(Filters.ne("_id", id),
-						Filters.regex("text", Pattern.compile("(" + StringUtils.join(keywords, "|") + ")", Pattern.CASE_INSENSITIVE))
+						Filters.regex("text", Pattern.compile("(" + id + "|" + StringUtils.join(keywords, "|") + ")", Pattern.CASE_INSENSITIVE))
 				)
 		).iterator();
 
@@ -27,9 +39,10 @@ public class AutoLink {
 		while (pages.hasNext()) {
 			Json page = pages.next();
 			String text = page.getText("text", "");
-			if (text.contains(id)) {
-				continue;
-			}
+
+			text = cleanLink(text, id);
+
+
 			List<String> groups = new ArrayList<>();
 			for (String pat : new String[]{"\\[([^]]+)]", "<a[^>]+>([^<]+)</a>", "=([^\n]+)=([ ]+)?\n"}) {
 				Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
@@ -57,9 +70,13 @@ public class AutoLink {
 						text = text.replace("@@@###" + i + "###@@@", groups.get(i));
 					}
 
-					Db.save("Revisions", new Json().put("origine", page.getId()).put("editor", user.getId()).put("text", text).put("edit", new Date()));
+					Json revision = new Json().put("origine", page.getId()).put("text", text).put("edit", new Date());
+					if (user != null) {
+						revision.put("editor", user.getId());
+					}
+					Db.save("Revisions", revision);
 					Db.updateOne("Pages", Filters.eq("_id", page.getId()), new Json().put("$set", new Json().put("text", text).put("update", new Date())));
-					rez.add("links", "/" + page.getString("url"));
+					linkeds.add("/" + page.getString("url"));
 					continue pageloop;
 				}
 			}
@@ -68,6 +85,24 @@ public class AutoLink {
 		pages.close();
 
 
-		return rez;
+		return linkeds;
 	}
+
+	/**
+	 * Clean all links
+	 *
+	 * @param text to clean
+	 * @param id   of the link to clean
+	 * @return text cleaned
+	 */
+	private static String cleanLink(String text, String id) {
+		for (String pat : new String[]{"\\[Pages\\(" + id + "\\) ?([^]]+)]", "<a original=\"" + id + "\"[^>]+>([^<]+)</a>"}) {
+			Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(text);
+			text = matcher.replaceAll("$1");
+		}
+		return text;
+	}
+
+
 }

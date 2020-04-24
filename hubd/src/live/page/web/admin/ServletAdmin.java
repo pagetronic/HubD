@@ -4,9 +4,9 @@
 package live.page.web.admin;
 
 import com.mongodb.client.model.Filters;
-import live.page.web.admin.utils.AutoLink;
 import live.page.web.admin.utils.scrap.ScrapAdmin;
 import live.page.web.content.congrate.RatingsTools;
+import live.page.web.system.StatsTools;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.system.servlet.HttpServlet;
@@ -16,7 +16,6 @@ import live.page.web.system.servlet.wrapper.WebServletRequest;
 import live.page.web.system.servlet.wrapper.WebServletResponse;
 import live.page.web.system.sessions.Users;
 import live.page.web.utils.Fx;
-import live.page.web.system.StatsTools;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -103,10 +102,6 @@ public class ServletAdmin extends HttpServlet {
 
 			case "scrap":
 				rez = ScrapAdmin.doPostApiEditor(data);
-				break;
-
-			case "autolink":
-				rez = AutoLink.autolink(data.getId(), data.getList("keywords"), user);
 				break;
 
 		}

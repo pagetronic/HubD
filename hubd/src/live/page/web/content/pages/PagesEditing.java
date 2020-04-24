@@ -116,6 +116,13 @@ public class PagesEditing extends HttpServlet {
 			case "childrens_pages":
 				rez = PagesUtils.childrensPage(data.getString("parent"));
 				break;
+
+			case "getKeywords":
+				rez = PagesUtils.getKeywords(data.getId());
+				break;
+			case "keywords":
+				rez = PagesUtils.keywords(data.getId(), data.getList("keywords"), user);
+				break;
 		}
 		resp.sendResponse(rez);
 	}

@@ -426,7 +426,7 @@ sys.pages = {
                 }
             });
         },
-        autolink: function (id) {
+        keywords: function (id) {
             var form = $('<div class="split" />');
             var keywords = $('<input autocomplete="off" name="keywords" />').attr('placeholder', "keywords,key,words,ect");
 
@@ -435,8 +435,8 @@ sys.pages = {
             var popper = pop(false, 500);
             submit.on('click', function () {
                 popper.loading(true);
-                api.post('/admin', {
-                    action: 'autolink',
+                api.post('/edit', {
+                    action: 'keywords',
                     id: id,
                     keywords: keywords.val().split(/[ ]?,[ ]?/)
                 }, function (rez) {
@@ -463,8 +463,13 @@ sys.pages = {
 
             popper.content(form);
             popper.header("Autolink " + $('#breadcrumb .title').first().text());
-            popper.height(popper.pop.height());
-            keywords.focus();
+            popper.loading(true);
+            api.post("/edit", {action: "getKeywords", id: id}, function (rez) {
+                keywords.val(rez.keywords.join(', '));
+                popper.loading(false);
+                popper.height(popper.pop.height());
+                keywords.focus();
+            });
         }
     }
 };

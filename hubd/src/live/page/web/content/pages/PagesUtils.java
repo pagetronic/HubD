@@ -26,7 +26,7 @@ public class PagesUtils {
 		Json projection = new Json().put("title", true).put("top_title", true)
 				.put("intro", true).put("text", true).put("user", true).put("editor", true)
 				.put("url", true).put("remove", true).put("origine", true)
-				.put("edit", true).put("date", true).put("update", true)
+				.put("edit", true).put("date", true).put("update", true).put("keywords", true)
 				.put("docs", true).put("parents", true).put("parents_", true).put("childrens", true).put("users", true);
 
 		Json revision = Db.aggregate("Revisions",
@@ -52,6 +52,7 @@ public class PagesUtils {
 								Accumulators.first("url", "$url"),
 								Accumulators.first("childrens", "$childrens"),
 								Accumulators.first("parents", "$parents"),
+								Accumulators.first("keywords", "$keywords"),
 								Accumulators.push("docs", "$docs")
 						)),
 
@@ -78,6 +79,7 @@ public class PagesUtils {
 								Accumulators.first("url", "$url"),
 								Accumulators.first("childrens", "$childrens"),
 								Accumulators.first("parents_", "$parents"),
+								Accumulators.first("keywords", "$keywords"),
 								Accumulators.push("parents", "$parents")
 						)),
 
@@ -99,6 +101,7 @@ public class PagesUtils {
 								Accumulators.first("url", "$url"),
 								Accumulators.first("childrens", "$childrens"),
 								Accumulators.first("parents", "$parents"),
+								Accumulators.first("keywords", "$keywords"),
 								Accumulators.first("parents_", "$parents_")
 						)),
 
@@ -118,7 +121,8 @@ public class PagesUtils {
 								.put("parents",
 										new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$parents_", null)), null, "$parents"))
 								)
-						)
+								.put("keywords", new Json("$reduce", new Json("input", "$keywords").put("in", new Json("$concat", Arrays.asList("$$value", ", ", "$$this"))))))
+
 				)
 		).first();
 		return revision;
@@ -165,7 +169,7 @@ public class PagesUtils {
 		Json projection = new Json().put("title", true).put("top_title", true)
 				.put("intro", true).put("text", true).put("user", true).put("editor", true)
 				.put("url", true).put("remove", true)
-				.put("edit", true).put("date", true).put("update", true)
+				.put("edit", true).put("date", true).put("update", true).put("keywords", true)
 				.put("docs", true).put("parents", true).put("parents_", true).put("childrens", true).put("users", true);
 
 		List<Json> revisions = Db.aggregate("Revisions",
@@ -188,6 +192,7 @@ public class PagesUtils {
 								Accumulators.first("edit", "$edit"),
 								Accumulators.first("remove", "$remove"),
 								Accumulators.first("url", "$url"),
+								Accumulators.first("keywords", "$keywords"),
 
 								Accumulators.first("childrens", "$childrens"),
 								Accumulators.first("parents", "$parents"),
@@ -213,6 +218,7 @@ public class PagesUtils {
 								Accumulators.first("remove", "$remove"),
 								Accumulators.first("docs", "$docs"),
 								Accumulators.first("url", "$url"),
+								Accumulators.first("keywords", "$keywords"),
 								Accumulators.first("childrens", "$childrens"),
 								Accumulators.first("parents_", "$parents"),
 								Accumulators.push("parents", "$parents")
@@ -233,6 +239,7 @@ public class PagesUtils {
 								Accumulators.first("remove", "$remove"),
 								Accumulators.first("docs", "$docs"),
 								Accumulators.first("url", "$url"),
+								Accumulators.first("keywords", "$keywords"),
 								Accumulators.first("childrens", "$childrens"),
 								Accumulators.first("parents", "$parents"),
 								Accumulators.first("parents_", "$parents_")
@@ -244,6 +251,8 @@ public class PagesUtils {
 								.put("parents", new Json("$filter", new Json("input", "$parents").put("as", "parents_").put("cond", new Json("$ne", Arrays.asList("$$parents_._id", null)))))
 								.put("editor", new Json("name", true).put("_id", true).put("avatar", true))
 								.put("docs", new Json("_id", true).put("type", true).put("size", true).put("text", true))
+								.put("keywords", new Json("$reduce", new Json("input", "$keywords").put("in", new Json("$concat", Arrays.asList("$$value", ", ", "$$this")))))
+
 						),
 						Aggregates.project(projection.clone()
 								.remove("parents_")
@@ -254,7 +263,7 @@ public class PagesUtils {
 				)
 		).into(new ArrayList<>());
 
-		List<String> keys = Arrays.asList("date", "top_title", "title", "intro", "text", "url", "parents", "childrens", "docs", "users");
+		List<String> keys = Arrays.asList("date", "top_title", "title", "intro", "text", "url", "parents", "keywords", "childrens", "docs", "users");
 		revisions.add(page);
 		for (Json modification : revisions) {
 			for (String key : keys) {
@@ -351,6 +360,7 @@ public class PagesUtils {
 		revision.put("text", data.getText("text", ""));
 		revision.put("childrens", data.getList("childrens"));
 		revision.put("parents", data.getList("parents"));
+		revision.put("keywords", data.getList("keywords"));
 		revision.put("users", data.getList("users"));
 		revision.put("editor", user.getId());
 		revision.put("edit", new Date());
@@ -396,6 +406,7 @@ public class PagesUtils {
 				page.put("title", revision.get("title"));
 				page.put("intro", revision.get("intro"));
 				page.put("text", revision.get("text"));
+				page.put("keywords", revision.get("keywords"));
 				page.put("parents", revision.get("parents"));
 				page.put("childrens", revision.get("childrens"));
 				page.put("docs", revision.get("docs"));
@@ -527,6 +538,14 @@ public class PagesUtils {
 			revision.put("intro", data.getText("intro"));
 			page.put("intro", data.getText("intro"));
 		}
+		boolean doKeywords = false;
+		List<String> page_keywords = page.getList("keywords");
+		List<String> data_keywords = Arrays.asList(data.getText("keywords", "").split(" ?, ?"));
+		if (restore || !data_keywords.equals(page_keywords)) {
+			revision.put("keywords", data_keywords);
+			page.put("keywords", data_keywords);
+			doKeywords = true;
+		}
 
 		if (restore || !page.getString("lng", "").equals(data.getString("lng"))) {
 			revision.put("lng", Settings.getLang(data.getString("domain")));
@@ -570,6 +589,10 @@ public class PagesUtils {
 					Db.save("Revisions", new Json().put("edit", date).put("user", user.getId()).put("parents", children.getList("parents")).put("origine", children_id));
 				}
 			}
+		}
+
+		if (doKeywords) {
+			PagesAutoLink.keywords(page.getId(), page.getList("keywords"), user);
 		}
 		return new Json("ok", true).put("url", page.getString("url"));
 	}
@@ -772,5 +795,39 @@ public class PagesUtils {
 			return revision.getString("301");
 		}
 		return null;
+	}
+
+	/**
+	 * Get the keywords of a Page
+	 *
+	 * @param id of the Page
+	 * @return the keywords
+	 */
+	public static Json getKeywords(String id) {
+		Json page = Db.findById("Pages", id);
+		if (page == null || page.getList("keywords") == null) {
+
+			return new Json("keywords", new ArrayList<>());
+		}
+		return new Json("keywords", page.getList("keywords"));
+	}
+
+	/**
+	 * Set keywords to a Pages and update all Pages
+	 *
+	 * @param id       of the Page
+	 * @param keywords to set to the Page
+	 * @param user     do the update
+	 * @return Pages liked
+	 */
+	public static Json keywords(String id, List<String> keywords, Users user) {
+		if (id == null || keywords == null || user == null) {
+			return new Json("ok", false);
+		}
+		Db.updateOne("Pages", Filters.eq("_id", id), new Json("$set", new Json("keywords", keywords)));
+		Db.save("Revisions", new Json().put("origine", id).put("editor", user.getId()).put("keywords", keywords).put("edit", new Date()));
+
+		return new Json("ok", true).put("links", PagesAutoLink.keywords(id, keywords, user));
+
 	}
 }

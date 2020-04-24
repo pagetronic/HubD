@@ -2,7 +2,7 @@
 <div id="middle" class="page">
 	#if($user.editor)
 	<a style="float: right" href="$page.url?edit" title="#lang('EDIT')">$svg.fa_icon_pencil</a>
-	<a style="float: right; margin-right: 10px" onclick="sys.pages.admin.autolink('$page.id')">$svg.mi_insert_link</a>
+	<a style="float: right; margin-right: 10px" onclick="sys.pages.admin.keywords('$page.id')">$svg.mi_insert_link</a>
 	#end
 	#parse("/inc/breadcrumb.html")
 	<article itemprop="articleBody" id="article" class="cooltxt">
