@@ -465,7 +465,9 @@ sys.pages = {
             popper.header("Autolink " + $('#breadcrumb .title').first().text());
             popper.loading(true);
             api.post("/edit", {action: "getKeywords", id: id}, function (rez) {
-                keywords.val(rez.keywords.join(', '));
+                if (rez.keywords) {
+                    keywords.val(rez.keywords.join(', '));
+                }
                 popper.loading(false);
                 popper.height(popper.pop.height());
                 keywords.focus();

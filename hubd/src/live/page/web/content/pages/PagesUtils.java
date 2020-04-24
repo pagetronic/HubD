@@ -814,7 +814,6 @@ public class PagesUtils {
 	public static Json getKeywords(String id) {
 		Json page = Db.findById("Pages", id);
 		if (page == null || page.getList("keywords") == null) {
-
 			return new Json("keywords", new ArrayList<>());
 		}
 		return new Json("keywords", page.getList("keywords"));
