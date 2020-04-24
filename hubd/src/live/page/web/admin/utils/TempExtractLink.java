@@ -2,25 +2,27 @@ package live.page.web.admin.utils;
 
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import live.page.web.content.pages.PagesAutoLink;
 import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.utils.Fx;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.*;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 @WebListener
-public class TempExtractLink implements ServletContextListener {
+public class TempExtractLink {
+	public TempExtractLink() {
+		Executors.newSingleThreadExecutor().submit(this::update);
 
-	@Override
-	public void contextInitialized(ServletContextEvent sce) {
+	}
 
+	private void update() {
 		Fx.log("> autolink update start");
 		Map<String, List<String>> store = new HashMap<>();
 		MongoCursor<Json> pages = Db.find("Pages").iterator();
@@ -64,8 +66,23 @@ public class TempExtractLink implements ServletContextListener {
 		Fx.log("> autolink update done");
 	}
 
-	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
 
+	private void restore() {
+
+		Db.deleteMany("Revisions", Filters.regex("text", Pattern.compile("@@@###")));
+		MongoCursor<Json> pages = Db.find("Pages", Filters.regex("text", Pattern.compile("@@@###"))).iterator();
+
+		while (pages.hasNext()) {
+			Json page = pages.next();
+			Json last = Db.find("Revisions", Filters.and(
+					Filters.eq("origine", page.getId()),
+					Filters.ne("text", null)
+			)).sort(Sorts.descending("edit")).first();
+			if (last != null) {
+				Db.save("Revisions", new Json().put("origine", page.getId()).put("text", last.getText("text")).put("edit", new Date()));
+				Db.updateOne("Pages", Filters.eq("_id", page.getId()), new Json("$set", new Json("text", last.getText("text"))));
+			}
+		}
+		pages.close();
 	}
 }

@@ -26,7 +26,7 @@ public class PagesAutoLink {
 	public static List<String> keywords(String id, List<String> keywords, Users user) {
 
 		List<String> linkeds = new ArrayList<>();
-		if (keywords == null) {
+		if (keywords == null || keywords.size() == 0) {
 			return linkeds;
 		}
 		MongoCursor<Json> pages = Db.find("Pages",
@@ -35,9 +35,10 @@ public class PagesAutoLink {
 				)
 		).iterator();
 
-		pageloop:
 		while (pages.hasNext()) {
 			Json page = pages.next();
+
+			String original = page.getText("text", "");
 			String text = page.getText("text", "");
 
 			text = cleanLink(text, id);
@@ -66,19 +67,22 @@ public class PagesAutoLink {
 
 					text = matcher.replaceFirst(start + "[Pages(" + id + ") " + title + "]" + punct);
 
-					for (int i = groups.size() - 1; i >= 0; i--) {
-						text = text.replace("@@@###" + i + "###@@@", groups.get(i));
-					}
-
-					Json revision = new Json().put("origine", page.getId()).put("text", text).put("edit", new Date());
-					if (user != null) {
-						revision.put("editor", user.getId());
-					}
-					Db.save("Revisions", revision);
-					Db.updateOne("Pages", Filters.eq("_id", page.getId()), new Json().put("$set", new Json().put("text", text).put("update", new Date())));
-					linkeds.add("/" + page.getString("url"));
-					continue pageloop;
+					break ;
 				}
+			}
+
+			for (int i = groups.size() - 1; i >= 0; i--) {
+				text = text.replace("@@@###" + i + "###@@@", groups.get(i));
+			}
+
+			if (!original.equals(text)) {
+				Json revision = new Json().put("origine", page.getId()).put("text", text).put("edit", new Date());
+				if (user != null) {
+					revision.put("editor", user.getId());
+				}
+				Db.save("Revisions", revision);
+				Db.updateOne("Pages", Filters.eq("_id", page.getId()), new Json().put("$set", new Json().put("text", text).put("update", new Date())));
+				linkeds.add("/" + page.getString("url"));
 			}
 		}
 
@@ -99,7 +103,7 @@ public class PagesAutoLink {
 		for (String pat : new String[]{"\\[Pages\\(" + id + "\\) ?([^]]+)]", "<a original=\"" + id + "\"[^>]+>([^<]+)</a>"}) {
 			Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(text);
-			if (matcher.matches()) {
+			while (matcher.find()) {
 				text = matcher.replaceAll("$1");
 			}
 		}

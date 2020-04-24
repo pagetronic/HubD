@@ -112,6 +112,8 @@ public class PagesUtils {
 								.put("childrens", new Json("$filter", new Json("input", "$childrens").put("as", "childrens").put("cond", new Json("$ne", Arrays.asList("$childrens._id", null)))))
 								.put("editor", new Json("name", true).put("_id", true).put("avatar", true))
 								.put("docs", new Json("_id", true).put("type", true).put("size", true).put("text", true))
+								.put("keywords", new Json("$reduce", new Json("input", "$keywords").put("initialValue", "")
+										.put("in", new Json("$concat", Arrays.asList("$$value", ", ", "$$this")))))
 						),
 						Aggregates.project(projection.clone()
 								.remove("parents_")
@@ -121,7 +123,10 @@ public class PagesUtils {
 								.put("parents",
 										new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$parents_", null)), null, "$parents"))
 								)
-								.put("keywords", new Json("$reduce", new Json("input", "$keywords").put("in", new Json("$concat", Arrays.asList("$$value", ", ", "$$this"))))))
+								.put("keywords",
+										new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList(new Json("$substr", Arrays.asList("$keywords", 0, 2)), ", ")), new Json("$substr", Arrays.asList("$keywords", 2, -1)), "$keywords"))
+								)
+						)
 
 				)
 		).first();
@@ -251,11 +256,14 @@ public class PagesUtils {
 								.put("parents", new Json("$filter", new Json("input", "$parents").put("as", "parents_").put("cond", new Json("$ne", Arrays.asList("$$parents_._id", null)))))
 								.put("editor", new Json("name", true).put("_id", true).put("avatar", true))
 								.put("docs", new Json("_id", true).put("type", true).put("size", true).put("text", true))
-								.put("keywords", new Json("$reduce", new Json("input", "$keywords").put("in", new Json("$concat", Arrays.asList("$$value", ", ", "$$this")))))
+								.put("keywords", new Json("$reduce", new Json("input", "$keywords").put("initialValue","").put("in", new Json("$concat", Arrays.asList("$$value", ", ", "$$this")))))
 
 						),
 						Aggregates.project(projection.clone()
 								.remove("parents_")
+								.put("keywords",
+										new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList(new Json("$substr", Arrays.asList("$keywords", 0, 2)), ", ")), new Json("$substr", Arrays.asList("$keywords", 2, -1)), "$keywords"))
+								)
 								.put("parents",
 										new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$parents_", null)), null, "$parents"))
 								)
