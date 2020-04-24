@@ -451,6 +451,7 @@ sys.pages = {
                                 );
                             });
                             form.append(autolinks);
+                            ajax.it(autolinks);
                             popper.pulse();
                         }
                     } else {
