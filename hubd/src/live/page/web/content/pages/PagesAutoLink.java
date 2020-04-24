@@ -99,7 +99,9 @@ public class PagesAutoLink {
 		for (String pat : new String[]{"\\[Pages\\(" + id + "\\) ?([^]]+)]", "<a original=\"" + id + "\"[^>]+>([^<]+)</a>"}) {
 			Pattern pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(text);
-			text = matcher.replaceAll("$1");
+			if (matcher.matches()) {
+				text = matcher.replaceAll("$1");
+			}
 		}
 		return text;
 	}
