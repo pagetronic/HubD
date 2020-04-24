@@ -19,8 +19,6 @@ import live.page.web.utils.Fx;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -122,12 +120,13 @@ public class PagesAggregator {
 						.put("urls", true)
 				)
 		);
+		pipeline.addAll(DbTagsLinker.getPipeline("text", grouper));
 
 		pipeline.add(Aggregates.project(grouper.getProjection()
 				.put("logo", new Json("$concat", Arrays.asList(Settings.getCDNHttp() + "/files/", "$logo._id")))
+				.put("parents_", "$parents")
 		));
 
-		pipeline.addAll(DbTagsLinker.getPipeline("text", grouper));
 		//parents
 
 		pipeline.add(Aggregates.lookup("Pages", "parents", "_id", "parents"));
@@ -151,7 +150,6 @@ public class PagesAggregator {
 		pipeline.add(Aggregates.group(new Json("parents_id", "$parents._id").put("_id", "$_id._id"),
 				grouper.getGrouper(
 						Accumulators.first("parents_", "$parents_"),
-						Accumulators.first("pos", "$pos"),
 						Accumulators.first("parents_url", "$parents.url"),
 						Accumulators.push("urls_", "$parents.parents.url")
 				)
