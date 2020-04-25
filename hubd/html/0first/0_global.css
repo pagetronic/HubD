@@ -337,12 +337,10 @@ blockquote:before {
 
 
 .toast {
-    position: fixed;
-    z-index: 99999;
+    display: inline-block;
+    margin: auto;
     opacity: 0;
     transform: scale(0.01);
-    bottom: 10%;
-    left: 30%;
     text-align: center;
     background: rgba(0, 0, 0, 0.78);
     color: #fff;

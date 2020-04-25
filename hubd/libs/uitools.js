@@ -144,28 +144,34 @@ sys = $.extend({}, sys, {
                 delay = 1200;
             }
             var body = $(document.body);
+            var box = $('<div />').css({
+                position: 'fixed',
+                zIndex: 999999,
+                left: 0,
+                right: 0,
+                textAlign: 'center'
+            })
             var toast = $('<div class="toast"/>').html(msg);
-            body.append(toast);
-            toast.css({
-                left: (body.innerWidth() - toast.outerWidth()) / 2,
-                bottom: (body.innerHeight() - toast.outerHeight()) / 4
+            body.append(box.append(toast));
+            box.css({
+                bottom: ($(window).outerHeight() - toast.outerHeight()) / 6
             });
             toast.css({
-                transition: 'transform ' + parseInt(delay / 8) + 'ms linear'
-            });
-            toast.css({transform: 'scale(1)'}).animate({
+                transition: 'transform ' + Math.round(delay / 8) + 'ms linear',
+                transform: 'scale(1)'
+            }).animate({
                 opacity: 1
-            }, parseInt(delay / 8), function () {
+            }, Math.round(delay / 8), function () {
                 setTimeout(function () {
                     toast.css({
-                        transition: 'transform ' + parseInt(delay / 4) + 'ms linear'
+                        transition: 'transform ' + Math.round(delay / 4) + 'ms linear'
                     });
                     toast.css({transform: 'scale(3)'}).animate({
                         opacity: 0
-                    }, parseInt(delay / 4), function () {
+                    }, Math.round(delay / 4), function () {
                         toast.remove();
                     });
-                }, parseInt(delay * 5 / 8));
+                }, Math.round(delay * 5 / 8));
             });
         },
         /**
