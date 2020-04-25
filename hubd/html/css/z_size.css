@@ -27,6 +27,9 @@
 }
 
 @media all and (max-width: 1023px) {
+    #comodo .opener.lat.showable {
+        display: block;
+    }
 
     #lateral {
         position: fixed;
@@ -45,9 +48,6 @@
         right: 0px;
     }
 
-    #comodo .opener.lat {
-        display: block;
-    }
 }
 
 @media all and (max-width: 679px) {
@@ -91,7 +91,7 @@
 
     }
 
-    #comodo .opener {
+    #comodo .opener.men {
         display: block;
     }
 

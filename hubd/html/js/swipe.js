@@ -158,9 +158,9 @@ sys.swipe = {
             });
 
         if (lateral.length === 0) {
-            lateral_btn.hide();
+            lateral_btn.removeClass('showable');
         } else {
-            lateral_btn.show();
+            lateral_btn.addClass('showable');
             var timer_lateral = -1;
             lateral_btn.on('click', function () {
                 clearTimeout(timer_lateral);
