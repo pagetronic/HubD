@@ -158,8 +158,9 @@ sys.swipe = {
             });
 
         if (lateral.length === 0) {
-            lateral_btn.remove();
+            lateral_btn.hide();
         } else {
+            lateral_btn.show();
             var timer_lateral = -1;
             lateral_btn.on('click', function () {
                 clearTimeout(timer_lateral);
