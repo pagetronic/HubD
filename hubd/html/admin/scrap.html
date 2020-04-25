@@ -430,7 +430,7 @@
                     $.each(rez.scraps, function (i) {
                         form.scraps[i].zone.val(this.zone);
                         form.scraps[i].include.val(this.include);
-                        form.scraps[i].forums.trigger('live.page.web.search', [this.forums]);
+                        form.scraps[i].forums.trigger('search', [this.forums]);
                     });
                     form.popin.loading(false);
                     form.exclude.trigger('change');
