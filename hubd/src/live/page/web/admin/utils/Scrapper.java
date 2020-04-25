@@ -22,30 +22,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Scrapper {
-	private final static ExecutorService services = Executors.newSingleThreadExecutor();
-
-	static {
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> Fx.shutdownService(services)));
-	}
-
-	public static void scrap() {
-		services.submit(() -> {
-			while (true) {
-				List<Json> scraps = Db.find("Scraps").sort(Sorts.ascending("last")).limit(100).into(new ArrayList<>());
-				for (Json scrap : scraps) {
-					if (services.isTerminated() || services.isShutdown()) {
-						throw new InterruptedException("");
-					}
-					Fx.log("Scrap " + scrap.getString("url"));
-					scrapAndPost(scrap);
-				}
-				Fx.log("Scrap sleep " + new Date().toString());
-
-				Thread.sleep(10L * 60L * 1000L);
-
-			}
-		});
-	}
 
 	public static void scrapAndPost(Json scrapper) {
 		try {
@@ -70,7 +46,6 @@ public class Scrapper {
 		}
 	}
 
-
 	private static void postAutoLink(Json data, List<String> forums) {
 		try {
 			if (!Db.exists("Forums", Filters.in("_id", forums))) {
@@ -91,8 +66,7 @@ public class Scrapper {
 					try {
 						image = BlobsUtils.downloadToDb(logo, 500);
 						link.put("image", image);
-					} catch (Exception e) {
-
+					} catch (Exception ignore) {
 					}
 					if (image != null) {
 						break;
