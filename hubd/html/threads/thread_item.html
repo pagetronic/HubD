@@ -36,7 +36,7 @@
 			#end
 			<span class="breadcrumb">
 				#if($thread.link.url)
-					<a href="$thread.link.url"><img src="$http_cdn/files/$Fx.baseSite($thread.link.url)/favicon.ico@12x12.png"/>$Fx.ucfirst($Fx.domain($thread.link.url))</a> ›
+					<a href="$thread.link.url"><img src="$http_cdn/files/$Fx.baseSite($thread.link.url)/favicon.ico@12x12.png"/>$Fx.domain($thread.link.url)</a> ›
 				#end
 				#foreach( $bread in $thread.breadcrumb )#if ($thread.breadcrumb.size()==1 || $bread.url!='/questions')
 					<a href="$bread.url#if($thread.remove)?remove#end">$bread.title</a>#if(!$velocityLast) › #end
