@@ -4,6 +4,7 @@
 package live.page.web.admin.utils.scrap;
 
 import com.mongodb.client.model.*;
+import live.page.web.admin.utils.Scrapper;
 import live.page.web.system.db.Aggregator;
 import live.page.web.system.db.Db;
 import live.page.web.system.db.paginer.Paginer;
@@ -89,7 +90,7 @@ public class ScrapAdminUtils {
 	}
 
 	public static boolean refresh(String id) {
-
+		Scrapper.scrapAndPost(Db.findById("Scraps", id));
 		return true;
 	}
 
