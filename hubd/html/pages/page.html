@@ -127,7 +127,7 @@
 			#end
 			<a name="questions"></a>
 			<h2>#lang('QUESTIONS')</h2>
-			<ul class="threads">
+			<ul class="threads" id="posts_list">
 				#foreach( $thread in $page.threads.result)
 					#parse('/threads/thread_item.html')
 				#end
@@ -154,6 +154,7 @@
 <script type="text/javascript">
 	sys.push(function () {
 		sys.pages.init();
+		sys.admin_forums.threads();
 	});
 </script>
 #set($pubdisplay=false)
