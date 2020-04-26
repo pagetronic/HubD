@@ -26,7 +26,7 @@
 				<meta itemprop="image" content="$ui_logo@192x192"/>
 			#end
 		#if(${page.intro} && ${page.intro}!='')
-			<header class="intro">
+			<header class="intro" itemprop="mainEntityOfPage">
 				<p>${page.intro}
 					#if($page.parents.size()>0 && $page.text && $page.text!='')
 					<span class="rating" rating="Pages($page.id)"#if($page.review && $page.review.count>0) itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"#end>

@@ -54,7 +54,7 @@
 
 		#if($post.link)
 		<div class="links">
-			<h2><a href="$post.link.url">$post.link.title</a></h2>
+			<h2><a href="$post.link.url" itemprop="mainEntityOfPage">$post.link.title</a></h2>
 			#if($post.link.image)
 			<div class="thumb"><img itemprop="image" src="$post.link.image@290x180.jpg" width="290" height="180"/></div>
 			#end
