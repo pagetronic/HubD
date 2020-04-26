@@ -134,7 +134,7 @@
         <li class="hr">#lang('PAGES')</li>
         #foreach( $page in $thread.pages)
         #if($pagesids.add($page.id))#end
-        <li id="$page.id"><a itemprop="mainEntityOfPage" href="$page.url">
+        <li id="$page.id"><a href="$page.url">
             #if($page.logo)<img src="$page.logo@40x25" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end
             #if($page.top_title && $page.top_title.length()>0)$page.top_title#else$page.title#end</a></li>
         #end
@@ -147,7 +147,7 @@
         #foreach($forum in $thread.forums)
         #foreach( $page in $forum.pages)
         #if($user.editor || !$pagesids.contains($page.id))
-        <li id="$page.id"><a itemprop="mainEntityOfPage" href="$page.url">
+        <li id="$page.id"><a href="$page.url">
             #if($page.logo)<img src="$page.logo@40x25" width="40" height="25"/>#else$svg.fa_icon_newspaper_o#end
             #if($page.top_title && $page.top_title.length()>0)$page.top_title#else$page.title#end</a></li>
         #end
