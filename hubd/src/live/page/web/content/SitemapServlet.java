@@ -33,10 +33,12 @@ import java.util.regex.Pattern;
 @WebServlet(urlPatterns = {"/sitemap.xml", "/sitemap/*"}, displayName = "sitemap")
 public class SitemapServlet extends BaseServlet {
 	private final int maximumUrls = 5000;
+	private static final DateFormat indexDate = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat urlDate = new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss-SSS");
 	private static final DateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
 	static {
+		indexDate.setTimeZone(TimeZone.getTimeZone("UTC"));
 		urlDate.setTimeZone(TimeZone.getTimeZone("UTC"));
 		isoDate.setTimeZone(TimeZone.getTimeZone("UTC"));
 	}
@@ -152,7 +154,7 @@ public class SitemapServlet extends BaseServlet {
 			String id = skip == 0 ? "" : urlDate.format(pages.getDate("date"));
 			writer.write("<sitemap>");
 			writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/pages" + id + ".xml</loc>");
-			writer.write("<lastmod>" + isoDate.format(pages.getDate("update")) + "</lastmod>");
+			writer.write("<lastmod>" + indexDate.format(pages.getDate("update")) + "</lastmod>");
 			writer.write("</sitemap>");
 			writer.flush();
 			skip = skip + maximumUrls;
@@ -199,7 +201,7 @@ public class SitemapServlet extends BaseServlet {
 			String id = skip == 0 ? "" : urlDate.format(threads.getDate("date"));
 			writer.write("<sitemap>");
 			writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/threads" + id + ".xml</loc>");
-			writer.write("<lastmod>" + isoDate.format(threads.getDate("update")) + "</lastmod>");
+			writer.write("<lastmod>" + indexDate.format(threads.getDate("update")) + "</lastmod>");
 			writer.write("</sitemap>");
 			writer.flush();
 			skip = skip + maximumUrls;
