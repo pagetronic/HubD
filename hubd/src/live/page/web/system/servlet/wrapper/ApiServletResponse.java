@@ -25,8 +25,7 @@ public class ApiServletResponse extends BaseServletResponse {
 		setContentType(xml ? "application/xml; charset=utf-8" : "application/json; charset=utf-8");
 
 		setHeader("Vary", "Authorization,Cookie,Origin");
-		setHeader("Cache-Control", "no-cache");
-		setDateHeader("Expires", Settings.START_COUNT);
+		setHeaderNoCache();
 		setHeader("X-Robots-Tag", "noindex");
 
 	}

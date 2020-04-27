@@ -59,7 +59,7 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
 
 	public static void setHeaderNoCache(HttpServletResponse resp) {
 		resp.setHeader("Cache-Control", "no-cache");
-		resp.setDateHeader("Expires", System.currentTimeMillis() - 1000);
+		resp.setDateHeader("Expires", Settings.START_COUNT);
 
 	}
 
