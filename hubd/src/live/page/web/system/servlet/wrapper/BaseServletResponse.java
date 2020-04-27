@@ -14,16 +14,6 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
 
 	public BaseServletResponse(ServletResponse response) throws IOException {
 		super((HttpServletResponse) response);
-		setHeaderNoCache();
-	}
-
-	@Override
-	public void setContentType(String type) {
-		if (type.matches("^(font|image|audio|application).*")) {
-			super.setHeader("Cache-Control", "public, max-age=" + Settings.MAX_AGE);
-			super.setDateHeader("Expires", Settings.getHttpExpires());
-		}
-		super.setContentType(type);
 	}
 
 	@Override

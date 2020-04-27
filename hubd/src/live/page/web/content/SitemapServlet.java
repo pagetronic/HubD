@@ -44,10 +44,10 @@ public class SitemapServlet extends BaseServlet {
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException {
 
 		long start = System.currentTimeMillis();
-		resp.setHeaderNoCache();
 
 		if (req.getRequestURI().equals("/sitemap.xml")) {
 			resp.setContentType("application/xml; charset=utf-8");
+			resp.setHeaderNoCache();
 			PrintWriter writer = resp.getWriter();
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			writer.write("<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">");
@@ -75,6 +75,7 @@ public class SitemapServlet extends BaseServlet {
 			}
 
 			resp.setContentType("application/xml; charset=utf-8");
+			resp.setHeaderNoCache();
 
 			PrintWriter writer = resp.getWriter();
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
