@@ -17,7 +17,7 @@ public class ErrorServlet extends HttpServlet {
 
 	@Override
 	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
-		resp.setNoHeaderCache();
+		resp.setHeaderNoCache();
 		req.setCanonical(null);
 
 

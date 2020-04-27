@@ -21,7 +21,7 @@ public class RobotsTxt extends BaseServlet {
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException {
 
 		resp.setContentType("text/plain");
-		WebServletResponse.setMaxHeaderCache(resp);
+		WebServletResponse.setHeaderMaxCache(resp);
 
 		if (req.getServerName().equals(Settings.HOST_CDN) || req.getServerName().equals(Settings.HOST_API)) {
 

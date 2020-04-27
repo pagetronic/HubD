@@ -32,19 +32,19 @@ public class PushJsServlet extends BaseServlet {
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("X-Robots-Tag", "noindex");
 		resp.setDateHeader("Last-Modified", pushDate.getTime());
-		WebServletResponse.setMaxHeaderCache(resp);
+		WebServletResponse.setHeaderMaxCache(resp);
 
 		String accept = req.getHeader("accept-encoding");
 
 		if (Fx.IS_DEBUG) {
-			resp.setNoHeaderCache();
+			resp.setHeaderNoCache();
 			InputStream sr = PushJsServlet.class.getResourceAsStream("/res/push.js");
 			resp.getWriter().write(Streams.asString(sr, StandardCharsets.UTF_8.displayName()));
 			sr.close();
 			return;
 		}
 
-		resp.setMaxHeaderCache();
+		resp.setHeaderMaxCache();
 
 		if (pushBRZip != null && accept != null && accept.contains("br")) {
 			resp.setContentLength(pushBRZip.length);

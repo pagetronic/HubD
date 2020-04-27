@@ -16,7 +16,6 @@ import live.page.web.system.servlet.BaseServlet;
 import live.page.web.system.servlet.utils.ServletUtils;
 import live.page.web.system.servlet.wrapper.BaseServletRequest;
 import live.page.web.system.servlet.wrapper.BaseServletResponse;
-import live.page.web.system.servlet.wrapper.WebServletResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +44,7 @@ public class SitemapServlet extends BaseServlet {
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException {
 
 		long start = System.currentTimeMillis();
-		WebServletResponse.setNoHeaderCache(resp);
+		resp.setHeaderNoCache();
 
 		if (req.getRequestURI().equals("/sitemap.xml")) {
 			resp.setContentType("application/xml; charset=utf-8");

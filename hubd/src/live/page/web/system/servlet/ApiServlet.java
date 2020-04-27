@@ -63,7 +63,7 @@ public class ApiServlet extends FullServlet {
 				}
 
 				if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
-					resp.setMaxHeaderCache();
+					resp.setHeaderMaxCache();
 					resp.getWriter().write("");
 					return;
 				}

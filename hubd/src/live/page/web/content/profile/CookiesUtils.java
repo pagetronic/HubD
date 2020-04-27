@@ -45,7 +45,7 @@ public class CookiesUtils {
 	 */
 	public static boolean purge(WebServletRequest req, WebServletResponse resp) throws IOException {
 		if (req.contains("purge")) {
-			WebServletResponse.setNoHeaderCache(resp);
+			WebServletResponse.setHeaderNoCache(resp);
 			Cookie[] cookies = req.getCookies();
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {

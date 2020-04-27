@@ -90,7 +90,7 @@ public class WebServletResponse extends BaseServletResponse {
 	public void sendJson(Object obj) {
 		try {
 			setHeader("Content-Type", "application/json; charset=utf-8");
-			setNoHeaderCache();
+			setHeaderNoCache();
 			setHeader("X-Robots-Tag", "noindex");
 			setHeader("X-Speed", (System.currentTimeMillis() - start) + "ms");
 			getWriter().write(XMLJsonParser.toJSON(obj));

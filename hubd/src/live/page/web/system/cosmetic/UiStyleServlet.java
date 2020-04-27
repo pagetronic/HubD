@@ -149,7 +149,7 @@ public class UiStyleServlet extends BaseServlet {
 
 		if (!Fx.IS_DEBUG && req.getRequestURI().equals(nameCss)) {
 			resp.setContentType("text/css; charset=utf-8");
-			WebServletResponse.setMaxHeaderCache(resp);
+			WebServletResponse.setHeaderMaxCache(resp);
 			send(resp, accept, date_css, uiCssGZip, uiCssBRZip, uiCss);
 			return;
 
@@ -157,7 +157,7 @@ public class UiStyleServlet extends BaseServlet {
 
 		if (req.getRequestURI().equals(nameFonts)) {
 			resp.setContentType("text/css; charset=utf-8");
-			WebServletResponse.setMaxHeaderCache(resp);
+			WebServletResponse.setHeaderMaxCache(resp);
 			send(resp, accept, date_fonts, uiFontsGZip, uiFontsBRZip, uiFonts);
 			return;
 		}
@@ -166,7 +166,7 @@ public class UiStyleServlet extends BaseServlet {
 		if (Fx.IS_DEBUG && req.getRequestURI().endsWith(".js")) {
 			try {
 				resp.setContentType("application/javascript; charset=utf-8");
-				WebServletResponse.setNoHeaderCache(resp);
+				WebServletResponse.setHeaderNoCache(resp);
 				resp.getWriter().write(getJs());
 				return;
 			} catch (Exception e) {
@@ -175,7 +175,7 @@ public class UiStyleServlet extends BaseServlet {
 
 		if (req.getRequestURI().equals(nameJs)) {
 			resp.setContentType("application/javascript; charset=utf-8");
-			WebServletResponse.setMaxHeaderCache(resp);
+			WebServletResponse.setHeaderMaxCache(resp);
 			send(resp, accept, date_js, uiJsGZip, uiJsBRZip, uiJs);
 
 			return;
@@ -184,7 +184,7 @@ public class UiStyleServlet extends BaseServlet {
 
 		if (Fx.IS_DEBUG && req.getRequestURI().matches("^/ui/hub/(.*).css$")) {
 			resp.setContentType("text/css; charset=utf-8");
-			WebServletResponse.setNoHeaderCache(resp);
+			WebServletResponse.setHeaderNoCache(resp);
 
 
 			Matcher mat = Pattern.compile("^/ui/hub/(.*)").matcher(req.getRequestURI());

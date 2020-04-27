@@ -14,7 +14,7 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
 
 	public BaseServletResponse(ServletResponse response) throws IOException {
 		super((HttpServletResponse) response);
-		setNoHeaderCache();
+		setHeaderNoCache();
 	}
 
 	@Override
@@ -35,13 +35,13 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
 
 	@Override
 	public void sendError(int sc, String msg) throws IOException {
-		setNoHeaderCache();
+		setHeaderNoCache();
 		super.sendError(sc, msg);
 	}
 
 	@Override
 	public void sendError(int sc) throws IOException {
-		setNoHeaderCache();
+		setHeaderNoCache();
 		super.sendError(sc);
 	}
 
@@ -51,34 +51,34 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
 	}
 
 	public void sendRedirect(String location, int code) throws IOException {
-		setNoHeaderCache();
+		setHeaderNoCache();
 		setStatus(code);
 		setHeader("Connection", "close");
 		setHeader("Location", location);
 	}
 
-	public static void setNoHeaderCache(HttpServletResponse resp) {
+	public static void setHeaderNoCache(HttpServletResponse resp) {
 		resp.setHeader("Cache-Control", "no-cache");
 		resp.setDateHeader("Expires", System.currentTimeMillis() - 1000);
 
 	}
 
-	public void setNoHeaderCache() {
-		setNoHeaderCache(this);
+	public void setHeaderNoCache() {
+		setHeaderNoCache(this);
 	}
 
 
-	public static void setMaxHeaderCache(HttpServletResponse resp) {
+	public static void setHeaderMaxCache(HttpServletResponse resp) {
 		resp.setHeader("Cache-Control", "public, max-age=" + Settings.MAX_AGE);
 		resp.setDateHeader("Expires", Settings.getHttpExpires());
 	}
 
-	public void setMaxHeaderCache() {
-		setMaxHeaderCache(this);
+	public void setHeaderMaxCache() {
+		setHeaderMaxCache(this);
 	}
 
 	public void sendTextError(int sc, String msg) {
-		setNoHeaderCache();
+		setHeaderNoCache();
 		try {
 			super.setStatus(sc);
 			getWriter().write(msg);

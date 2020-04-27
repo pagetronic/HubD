@@ -25,7 +25,7 @@ public class ManifestServlet extends HttpServlet {
 	@Override
 	public void doGetPublic(WebServletRequest req, WebServletResponse resp) throws IOException, ServletException {
 
-		resp.setMaxHeaderCache();
+		resp.setHeaderMaxCache();
 		List<Json> icons = new ArrayList<>();
 
 		for (int size : new int[]{16, 22, 24, 32, 33, 36, 48, 64, 72, 96, 144, 160, 192, 240, 320, 480, 640}) {

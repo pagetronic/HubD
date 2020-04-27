@@ -15,7 +15,7 @@ import java.io.IOException;
 public class NoAds extends BaseServlet {
 	@Override
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException {
-		WebServletResponse.setMaxHeaderCache(resp);
+		WebServletResponse.setHeaderMaxCache(resp);
 		resp.getWriter().write("<!DOCTYPE html>\n" +
 				"<html>\n" +
 				"<head>\n" +

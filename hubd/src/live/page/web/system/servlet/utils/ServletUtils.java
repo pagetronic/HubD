@@ -42,9 +42,9 @@ public class ServletUtils {
 		HttpServletResponse resp_ = (HttpServletResponse) resp;
 		resp_.setStatus(301);
 		if (!Fx.IS_DEBUG) {
-			WebServletResponse.setMaxHeaderCache(resp_);
+			WebServletResponse.setHeaderMaxCache(resp_);
 		} else {
-			WebServletResponse.setNoHeaderCache(resp_);
+			WebServletResponse.setHeaderNoCache(resp_);
 		}
 		resp_.setHeader("Connection", "close");
 		resp_.setHeader("Location", location);

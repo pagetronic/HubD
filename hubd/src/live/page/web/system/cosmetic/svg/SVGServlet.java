@@ -55,7 +55,7 @@ public class SVGServlet extends BaseServlet {
 
 		ServletOutputStream out = resp.getOutputStream();
 
-		WebServletResponse.setMaxHeaderCache(resp);
+		WebServletResponse.setHeaderMaxCache(resp);
 		resp.setHeader("Vary", "Accept-Encoding");
 		resp.setContentType("image/svg+xml;charset=utf-8");
 

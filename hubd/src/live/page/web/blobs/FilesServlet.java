@@ -21,7 +21,7 @@ public class FilesServlet extends BaseServlet {
 	public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException {
 
 		try {
-			resp.setMaxHeaderCache();
+			resp.setHeaderMaxCache();
 			if (!req.getRequestURI().matches("^/files/(.*)@?([0-9]{1,4})?(x[0-9]{1,4})?(\\.jpg|\\.png)?$")) {
 				resp.sendTextError(404, "Not found");
 				return;
