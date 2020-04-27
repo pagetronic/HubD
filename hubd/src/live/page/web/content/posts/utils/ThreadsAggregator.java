@@ -24,7 +24,9 @@ import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ThreadsAggregator {
 
@@ -698,6 +700,61 @@ public class ThreadsAggregator {
 		pipeline.add(Aggregates.project(grouper.getProjectionOrder().remove("forums")));
 
 		return Db.aggregate("Posts", pipeline).first();
+	}
+
+
+	public static List<Json> getSitemapThreads(Date date, String lng, int limit) {
+
+		Aggregator grouper = new Aggregator("date", "update", "forums", "url", "lng", "domain", "replies", "index");
+		List<Bson> pipeline = new ArrayList<>();
+
+		pipeline.add(Aggregates.match(
+				Filters.and(
+						Filters.or(Filters.eq("index", true), Filters.gt("replies", 0)),
+						Filters.regex("parents", Pattern.compile("^Forums\\([0-9a-z]+\\)", Pattern.CASE_INSENSITIVE)),
+						Filters.eq("lng", lng),
+						Filters.gte("date", date))));
+		pipeline.add(Aggregates.sort(Sorts.ascending("date")));
+
+		pipeline.add(Aggregates.limit(limit));
+
+		pipeline.add(Aggregates.project(grouper.getProjection()
+				.put("forums", new Json("$map", new Json("input",
+						new Json("$filter", new Json("input", "$parents").put("as", "ele").put("cond", new Json("$eq", Arrays.asList(new Json("$substrCP", Arrays.asList("$$ele", 0, "Forums(".length())), "Forums("))))
+				).put("as", "ele").put("in", new Json("$arrayElemAt", Arrays.asList(new Json("$split", Arrays.asList(new Json("$arrayElemAt", Arrays.asList(new Json("$split", Arrays.asList("$$ele", "(")), 1)), ")")), 0)))))
+		));
+
+		pipeline.add(Aggregates.graphLookup("Forums", new Json("$arrayElemAt", Arrays.asList("$forums", 0)), "parents.0", "_id", "urls", new GraphLookupOptions().depthField("depth").maxDepth(50)));
+
+		pipeline.add(Aggregates.unwind("$urls", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+
+		pipeline.add(Aggregates.sort(new Json("urls.depth", -1)));
+
+		pipeline.add(Aggregates.group("$_id", grouper.getGrouper(
+				Accumulators.push("urls", new Json("$arrayElemAt", Arrays.asList("$urls.url", 0))))));
+
+
+		pipeline.add(Aggregates.project(grouper.getProjection()
+						.put("domain",
+								new Json("$arrayElemAt", Arrays.asList(
+										new Json("$filter", new Json("input", domains).put("as", "domains").put("cond", new Json("$eq", Arrays.asList("$lng", "$$domains.key"))))
+										, 0))
+						)
+						.put("urls", true)
+				)
+
+		);
+
+		pipeline.add(Aggregates.project(grouper.getProjection()
+				.put("domain", "$domain.value")
+				.put("url", new Json("$concat", Arrays.asList(
+						new Json("$reduce", new Json("input", "$urls").put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this"))))
+						, "/", "$_id")
+				))
+		));
+
+		pipeline.add(Aggregates.sort(Sorts.descending("update")));
+		return Db.aggregate("Posts", pipeline).into(new ArrayList<>());
 	}
 
 	public static class PostsPipeliner extends PipelinerStore.Pipeliner {

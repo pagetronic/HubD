@@ -21,6 +21,7 @@ import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class PagesAggregator {
@@ -770,6 +771,49 @@ public class PagesAggregator {
 				)
 		));
 		return pipeline;
+	}
+
+	public static List<Json> getSitemapPages(Date date, String lng, int limit) {
+
+		Aggregator grouper = new Aggregator("id", "date", "update", "lng", "domain", "url");
+
+		List<Bson> pipeline = new ArrayList<>();
+
+		pipeline.add(Aggregates.match(Filters.and(Filters.eq("lng", lng),
+				Filters.gte("date", date))));
+
+		pipeline.add(Aggregates.sort(Sorts.ascending("date")));
+		pipeline.add(Aggregates.limit(limit));
+
+		pipeline.add(Aggregates.graphLookup("Pages", new Json("$arrayElemAt", Arrays.asList("$parents", 0)), "parents.0", "_id", "breadcrumb", new GraphLookupOptions().depthField("depth").maxDepth(50)));
+
+		pipeline.add(Aggregates.unwind("$breadcrumb", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+
+		pipeline.add(Aggregates.sort(new Json("breadcrumb.depth", -1)));
+
+		pipeline.add(Aggregates.group("$_id",
+				grouper.getGrouper(
+						Accumulators.push("urls", "$breadcrumb.url")
+				))
+		);
+
+		pipeline.add(Aggregates.project(grouper.getProjection()
+				.put("url", new Json("$concat", Arrays.asList(new Json("$reduce", new Json("input", "$urls").put("initialValue", "").put("in", new Json("$concat", Arrays.asList("$$value", "/", "$$this")))), "/", "$url")))
+				.put("update", new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$update", new BsonUndefined())), "$date", "$update")))
+				.put("domain",
+						new Json("$arrayElemAt", Arrays.asList(
+								new Json("$filter", new Json("input", domains).put("as", "domains").put("cond", new Json("$eq", Arrays.asList("$lng", "$$domains.key"))))
+								, 0))
+				)
+		));
+
+		pipeline.add(Aggregates.project(grouper.getProjection().put("domain", "$domain.value")));
+		pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
+
+		pipeline.add(Aggregates.sort(Sorts.descending("update")));
+		return Db.aggregate("Pages", pipeline).into(new ArrayList<>());
+
+
 	}
 
 	public static class PagesPipelines extends PipelinerStore.Pipeliner {
