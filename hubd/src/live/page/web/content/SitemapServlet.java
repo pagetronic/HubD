@@ -96,22 +96,22 @@ public class SitemapServlet extends BaseServlet {
 
 	private void writeThreads(Date date, String lng, PrintWriter writer) {
 		for (Json thread : ThreadsAggregator.getSitemapThreads(date, lng, maximumUrls)) {
-			writer.write(" <url>");
+			writer.write("<url>");
 			writer.write("<loc>" + Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url") + "</loc>");
 			//writer.write(" <date>" + isoDate.format(thread.getDate("date")) + "</date>");
-			writer.write(" <lastmod>" + isoDate.format(thread.getDate("update")) + "</lastmod>");
-			writer.write(" </url>");
+			writer.write("<lastmod>" + isoDate.format(thread.getDate("update")) + "</lastmod>");
+			writer.write("</url>");
 			writer.flush();
 		}
 	}
 
 	private void writePages(Date date, String lng, PrintWriter writer) {
 		for (Json page : PagesAggregator.getSitemapPages(date, lng, maximumUrls)) {
-			writer.write(" <url>");
+			writer.write("<url>");
 			writer.write("<loc>" + Settings.HTTP_PROTO + page.getString("domain") + page.getString("url") + "</loc>");
 			//writer.write(" <date>" + isoDate.format(page.getDate("date")) + "</date>");
-			writer.write(" <lastmod>" + isoDate.format(page.getDate("update")) + "</lastmod>");
-			writer.write(" </url>");
+			writer.write("<lastmod>" + isoDate.format(page.getDate("update")) + "</lastmod>");
+			writer.write("</url>");
 			writer.flush();
 		}
 	}
@@ -151,7 +151,7 @@ public class SitemapServlet extends BaseServlet {
 			}
 			String id = skip == 0 ? "" : urlDate.format(pages.getDate("date"));
 			writer.write("<sitemap>");
-			writer.write(" <loc>" + Settings.getFullHttp(lng) + "/sitemap/pages" + id + ".xml</loc>");
+			writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/pages" + id + ".xml</loc>");
 			writer.write("<lastmod>" + isoDate.format(pages.getDate("update")) + "</lastmod>");
 			writer.write("</sitemap>");
 			writer.flush();
@@ -198,7 +198,7 @@ public class SitemapServlet extends BaseServlet {
 			}
 			String id = skip == 0 ? "" : urlDate.format(threads.getDate("date"));
 			writer.write("<sitemap>");
-			writer.write(" <loc>" + Settings.getFullHttp(lng) + "/sitemap/threads" + id + ".xml</loc>");
+			writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/threads" + id + ".xml</loc>");
 			writer.write("<lastmod>" + isoDate.format(threads.getDate("update")) + "</lastmod>");
 			writer.write("</sitemap>");
 			writer.flush();
