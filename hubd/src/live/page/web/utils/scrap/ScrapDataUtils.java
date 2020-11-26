@@ -85,7 +85,10 @@ public class ScrapDataUtils {
 		}
 		Element firstlang = page.select("[lang]").first();
 		if (firstlang != null) {
-			rez.put("lng", firstlang.attr("lang").substring(0, 2));
+			String lang = firstlang.attr("lang");
+			if (lang != null && lang.length() >= 2) {
+				rez.put("lng", firstlang.attr("lang").substring(0, 2));
+			}
 		}
 
 		page.select("iframe, object, script, ol, ul, svg, h1, menu, .menu, #menu, .copyright, footer, .footer, .sidebar, .pagination, form, button, time, date, .date, .time, [datetime], .users, .breadcrumb, #breadcrumb, .partner, .partners").remove();
