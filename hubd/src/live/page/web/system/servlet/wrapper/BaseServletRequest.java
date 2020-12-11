@@ -31,8 +31,12 @@ public class BaseServletRequest extends HttpServletRequestWrapper {
 		}
 
 		String tz = BaseCookie.get(this, "tz");
-		setAttribute("tz", tz != null ? Integer.valueOf(tz) : 0);
-		setAttribute("pub", Settings.PUBS);
+		try {
+			setAttribute("tz", tz != null ? Integer.valueOf(tz) : 0);
+			setAttribute("pub", Settings.PUBS);
+		} catch (Exception ignore) {
+
+		}
 	}
 
 	/**
