@@ -125,7 +125,7 @@ public class ScrapLinksUtils {
 					if (Fx.IS_DEBUG) {
 						Fx.log("get data scrap: " + sub_url);
 					}
-					Json data = getPageData(sub_url);
+					Json data = getPageData(sub_url, cleaner);
 					if (data != null) {
 						data.put("forums", scrap.getList("forums"));
 						if (tooShort(data)) {
@@ -179,7 +179,7 @@ public class ScrapLinksUtils {
 							if (Fx.IS_DEBUG) {
 								Fx.log("get subpage scrap: " + agg_link);
 							}
-							Json data = getPageData(agg_link);
+							Json data = getPageData(agg_link, cleaner);
 							if (data != null) {
 								data.put("forums", scrap.getList("forums"));
 								if (tooShort(data)) {
@@ -328,7 +328,7 @@ public class ScrapLinksUtils {
 	 * @param url of the page
 	 * @return Json contains snippets: title, abstract, url
 	 */
-	private static Json getPageData(String url) {
+	private static Json getPageData(String url, String cleaner) {
 		String urlhtml = get(url);
 		if (urlhtml == null) {
 			Fx.log("error scrap get data: " + url);
@@ -336,7 +336,7 @@ public class ScrapLinksUtils {
 		}
 		try {
 			Document doc = Jsoup.parse(urlhtml, url);
-			return ScrapDataUtils.parseData(doc);
+			return ScrapDataUtils.parseData(doc, cleaner);
 		} catch (Exception e) {
 			return null;
 		}

@@ -73,12 +73,25 @@ public class ScrapDataUtils {
 	 * @return data of the page
 	 */
 	public static Json parseData(Document page) {
+		return parseData(page, null);
+	}
+
+	/**
+	 * Get snippet and abstract from a Jsoup document
+	 *
+	 * @param page        Jsoup document
+	 * @param cleaner_str clean the title
+	 * @return data of the page
+	 */
+	public static Json parseData(Document page, String cleaner_str) {
+		Pattern cleaner = Pattern.compile(cleaner_str);
 
 		Json rez = new Json();
 
 		Element title = page.select("title").first();
-		if (title == null) {
-			title = page.select("h1").first();
+
+		if (title == null || title.text().replaceAll(cleaner.pattern(), "").length() < 10) {
+			title = page.select("h1, h2").first();
 		}
 		if (title != null) {
 			rez.put("title", Jsoup.clean(title.text(), "/", new Whitelist()));
