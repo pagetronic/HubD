@@ -90,8 +90,13 @@ public class ScrapDataUtils {
 
 		Element title = page.select("title").first();
 
-		if (title == null || title.text().replaceAll(cleaner.pattern(), "").length() < 10) {
-			title = page.select("h1, h2").first();
+		if (title == null || title.text().replaceAll(cleaner.pattern(), "").length() < 20) {
+			for (Element h1 : page.select("h1, h2")) {
+				if (h1.text().replaceAll(cleaner.pattern(), "").length() > 20) {
+					title = h1;
+					break;
+				}
+			}
 		}
 		if (title != null) {
 			rez.put("title", Jsoup.clean(title.text(), "/", new Whitelist()));
