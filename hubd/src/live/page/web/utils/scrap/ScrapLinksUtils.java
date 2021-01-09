@@ -401,7 +401,7 @@ public class ScrapLinksUtils {
 	 * @param url to search
 	 * @return true if url is already scanned
 	 */
-	private static boolean isDejaVu(String url) {
+	public static boolean isDejaVu(String url) {
 		String url_id = url.substring(0, Math.min(url.length(), 1024));
 		return (Db.updateOne("DejaVu", Filters.eq("_id", url_id), new Json()
 						.put("$inc", new Json("count", 1))
