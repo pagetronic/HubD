@@ -84,7 +84,7 @@ public class Db implements ServletContextListener {
 				.retryReads(true).retryWrites(true)
 				.applyToConnectionPoolSettings(builder -> builder.maxSize(100).minSize(0).maxConnectionIdleTime(60000, TimeUnit.MILLISECONDS))
 				.applyToSocketSettings(builder -> builder.connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS))
-				.applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(new ServerAddress("page.live"))))
+				.applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(new ServerAddress("localhost"))))
 				.credential(MongoCredential.createCredential(db_user, db_name, db_password))
 				.writeConcern(WriteConcern.JOURNALED).codecRegistry(codecRegistry).build());
 	}
