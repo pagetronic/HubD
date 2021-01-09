@@ -415,7 +415,7 @@ public class ScrapLinksUtils {
 	 *
 	 * @param url to remove
 	 */
-	private static void unDejaVu(String url) {
+	public static void unDejaVu(String url) {
 		Db.deleteOne("DejaVu", Filters.eq("_id", url));
 	}
 

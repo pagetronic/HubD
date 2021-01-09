@@ -70,13 +70,14 @@ public class Notices {
 				pipeline.add(Aggregates.sort(Sorts.descending("date")));
 				MongoCursor<Json> notices = Db.aggregate("Notices", pipeline).iterator();
 				while (notices.hasNext()) {
+					Json notice = notices.next();
 					try {
-						Json notice = notices.next();
 						webPush(notice);
-						Db.updateMany("Notices", Filters.in("_id", notice.getList("ids")), new Json("$unset", new Json("delay", "")));
 					} catch (Exception e) {
 						Fx.log("WebPush error " + e.getMessage());
 					}
+					Db.updateMany("Notices", Filters.in("_id", notice.getList("ids")), new Json("$unset", new Json("delay", "")));
+
 				}
 				notices.close();
 
