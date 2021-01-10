@@ -59,8 +59,11 @@ var webpush = {
         webpush.worker(function () {
             Notification.requestPermission().then(function (result) {
                 if (result !== 'granted') {
-                    alert(lang.get('SUBSCRIPTION_LOCKED'));
-                    onerror();
+                    sys.confirm(lang.get('SUBSCRIPTION_LOCKED'), 10, function () {
+                        webpush.enable(obj, onsuccess, onerror);
+                    }, function () {
+                        onerror();
+                    });
                     return;
                 }
 
