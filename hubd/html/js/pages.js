@@ -5,9 +5,6 @@ sys.pages = {
     qrBox: function () {
         var question = $('#qrbox');
 
-        if (sys.user.id !== null || question.length === 0 || Cookies.get('qrbox') === 'yes') {
-            return;
-        }
 
         question.locker = false;
         $('#post_question').on('click', function () {
@@ -28,6 +25,10 @@ sys.pages = {
                 webpush.enable('Posts(' + msg.thread.id + ')', ready, ready);
             });
         });
+
+        if (sys.user.id !== null || question.length === 0 || Cookies.get('qrbox') === 'yes') {
+            return;
+        }
 
         var timer = -1;
         var stopQr = function () {
