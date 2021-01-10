@@ -59,7 +59,7 @@ var webpush = {
         webpush.worker(function () {
             Notification.requestPermission().then(function (result) {
                 if (result !== 'granted') {
-                    sys.confirm(lang.get('SUBSCRIPTION_LOCKED'), 10, function () {
+                    sys.confirm(lang.get('CONFIRMATION', 'ucfirst'), lang.get('SUBSCRIPTION_LOCKED'), 10, function () {
                         webpush.enable(obj, onsuccess, onerror);
                     }, function () {
                         onerror();
