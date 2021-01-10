@@ -403,11 +403,10 @@ public class ScrapLinksUtils {
 	 */
 	public static boolean isDejaVu(String url) {
 		String url_id = url.substring(0, Math.min(url.length(), 1024));
-		return (Db.updateOne("DejaVu", Filters.eq("_id", url_id), new Json()
+		return Db.updateOne("DejaVu", Filters.eq("_id", url_id), new Json()
 						.put("$inc", new Json("count", 1))
 						.put("$setOnInsert", new Json("_id", url_id).put("date", new Date()))
-				, new UpdateOptions().upsert(true)).getMatchedCount() > 0L
-				|| linkExist(url));
+				, new UpdateOptions().upsert(true)).getMatchedCount() > 0L;
 	}
 
 	/**
@@ -436,13 +435,4 @@ public class ScrapLinksUtils {
 		boolean run(Json data);
 	}
 
-	/**
-	 * Is url exist in posts ?
-	 *
-	 * @param url to search
-	 * @return true if url already posted
-	 */
-	public static boolean linkExist(String url) {
-		return Db.exists("Posts", Filters.eq("link.url", url));
-	}
 }

@@ -4,7 +4,6 @@
 package live.page.web.admin.utils;
 
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Sorts;
 import live.page.web.blobs.BlobsUtils;
 import live.page.web.content.notices.Notifier;
 import live.page.web.content.posts.utils.ThreadsAggregator;
@@ -18,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Scrapper {
 
@@ -55,7 +52,10 @@ public class Scrapper {
 			thread.put("docs", new ArrayList<>());
 			thread.put("comments", new ArrayList<>());
 
-			Json link = new Json().put("title", data.getString("title")).put("url", data.getString("url")).put("description", data.getText("description"));
+			Json link = new Json()
+					.put("title", data.getString("title"))
+					.put("url", data.getString("url"))
+					.put("description", data.getText("description"));
 			if (data.containsKey("video")) {
 				link.put("video", data.getString("video"));
 			}
@@ -82,6 +82,9 @@ public class Scrapper {
 			}
 			Date date = new Date();
 			thread.put("date", date);
+			if (!data.getText("text", "").equals("")) {
+				thread.put("text", data.getText("text", ""));
+			}
 			thread.put("last", new Json("date", date));
 			thread.put("update", date);
 			thread.put("replies", 0);
