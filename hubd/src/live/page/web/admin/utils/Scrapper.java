@@ -45,6 +45,10 @@ public class Scrapper {
 
 	public static void postAutoLink(Json data, List<String> forums) {
 		try {
+			if (Db.exists("Posts", Filters.eq("title", data.getString("title", "")))) {
+				//ignore duplicates
+				return;
+			}
 			if (!Db.exists("Forums", Filters.in("_id", forums))) {
 				forums = Arrays.asList("ROOT");
 			}

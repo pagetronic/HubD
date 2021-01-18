@@ -116,7 +116,7 @@ public class ScrapLinksUtils {
 					try {
 						URL tmp = new URL(url);
 						base_url = tmp.getProtocol() + "://" + tmp.getHost();
-					} catch (MalformedURLException e) {
+					} catch (MalformedURLException ignore) {
 					}
 					if (sub_url == null || sub_url.equals("") || !sub_url.startsWith(base_url)) {
 						continue;
