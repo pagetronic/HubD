@@ -142,7 +142,11 @@ public class IndexBuilder {
 				IndexData.get(new Json("date", 1).put("_id", -1), "date"),
 				IndexData.get(new Json("date", -1).put("_id", 1), "-date"),
 				IndexData.get(new Json("lng", 1), "lng"),
-				IndexData.get(new Json("link.url", 1), "link_url"),
+
+
+				IndexData.get(new Json("title", 1), "title"),
+
+
 
 				IndexData.getText(new Json("text", 2).put("title", 3).put("link.title", 1).put("link.description", 1), "search", def_lang)
 		);
