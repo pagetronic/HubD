@@ -4,6 +4,7 @@
 package live.page.web.admin.utils;
 
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.UpdateResult;
 import live.page.web.blobs.BlobsUtils;
 import live.page.web.content.notices.Notifier;
 import live.page.web.content.posts.utils.ThreadsAggregator;
@@ -12,6 +13,7 @@ import live.page.web.system.db.Db;
 import live.page.web.system.json.Json;
 import live.page.web.utils.Fx;
 import live.page.web.utils.scrap.ScrapLinksUtils;
+import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,13 +47,23 @@ public class Scrapper {
 
 	public static void postAutoLink(Json data, List<String> forums) {
 		try {
-			if (Db.exists("Posts", Filters.eq("title", data.getString("title", "")))) {
-				//TODO update ? ignore duplicates
-				return;
-			}
+
 			if (!Db.exists("Forums", Filters.in("_id", forums))) {
 				forums = Arrays.asList("ROOT");
 			}
+			List<String> parents = new ArrayList<>();
+			List<Bson> parentsFilter = new ArrayList<>();
+			for (String forum : forums) {
+				parents.add("Forums(" + forum + ")");
+				parentsFilter.add(Filters.eq("parents", "Forums(" + forum + ")"));
+			}
+			Json exist = Db.find("Posts",
+					Filters.and(
+							Filters.eq("title", data.getString("title", "")),
+							Filters.or(parentsFilter)
+					)
+			).first();
+
 			Json thread = new Json();
 			thread.put("docs", new ArrayList<>());
 			thread.put("comments", new ArrayList<>());
@@ -81,9 +93,7 @@ public class Scrapper {
 			thread.put("link", link);
 			thread.put("ip", "127.0.0.1");
 			thread.put("title", data.getString("title"));
-			for (String forum : forums) {
-				thread.add("parents", "Forums(" + forum + ")");
-			}
+			thread.put("parents", parents);
 			Date date = new Date();
 			thread.put("date", date);
 			if (!data.getText("text", "").equals("")) {
@@ -100,17 +110,17 @@ public class Scrapper {
 
 			thread.put("lng", lng);
 			thread.put("index", true);
-			Db.save("Posts", thread);
-
-			thread = ThreadsAggregator.getSimplePost(thread.getId());
-
-			String title = link.getString("title");
-			String message = link.getText("description");
-
-			String url = Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url");
-
-			Notifier.notify(thread.getList("roots"), Arrays.asList(), title, message, url, lng);
-
+			if (exist != null) {
+				UpdateResult rez = Db.updateOne("Posts", Filters.eq("_id", exist.getId()), new Json("$set", thread.remove("date")));
+				Fx.log("Modified " + rez.getModifiedCount() + "/" + thread.getId());
+			} else {
+				Db.save("Posts", thread);
+				thread = ThreadsAggregator.getSimplePost(thread.getId());
+				String title = link.getString("title");
+				String message = link.getText("description");
+				String url = Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url");
+				Notifier.notify(thread.getList("roots"), Arrays.asList(), title, message, url, lng);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
