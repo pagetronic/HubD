@@ -1,4 +1,4 @@
-package live.page.hubd.ai;
+package live.page.hubd.utils.ai;
 
 
 import com.mongodb.client.model.Aggregates;

@@ -5,7 +5,7 @@ package live.page.hubd.system.socket;
 
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
-import live.page.hubd.ai.IAUtils;
+import live.page.hubd.utils.ai.IAUtils;
 import live.page.hubd.content.notices.NoticesUtils;
 import live.page.hubd.content.profile.ProfileUtils;
 import live.page.hubd.system.Settings;
