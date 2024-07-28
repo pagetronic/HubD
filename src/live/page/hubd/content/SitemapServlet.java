@@ -40,7 +40,7 @@ public class SitemapServlet extends LightServlet {
         isoDate.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private final int maximumUrls = 1000;
+    private final int maximumUrls = 2000;
 
 
     @Override
@@ -221,7 +221,7 @@ public class SitemapServlet extends LightServlet {
         Pipeline pipeline = new Pipeline();
 
         pipeline.add(Aggregates.match(Filters.and(Filters.eq("lng", lng),
-                Filters.gte("date", date))));
+                Filters.gt("date", date))));
 
         pipeline.add(Aggregates.sort(Sorts.ascending("date")));
         pipeline.add(Aggregates.limit(maximumUrls));
@@ -251,7 +251,7 @@ public class SitemapServlet extends LightServlet {
                 Filters.and(
                         Filters.ne("replies", 0),
                         Filters.eq("lng", lng),
-                        Filters.gte("date", date))));
+                        Filters.gt("date", date))));
         pipeline.add(Aggregates.sort(Sorts.ascending("date")));
 
         pipeline.add(Aggregates.limit(maximumUrls));
