@@ -40,7 +40,7 @@ public class SitemapServlet extends LightServlet {
         isoDate.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private final int maximumUrls = 2000;
+    private final int maximumUrls = 10000;
 
 
     @Override
