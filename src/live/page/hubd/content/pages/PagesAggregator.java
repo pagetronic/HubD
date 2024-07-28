@@ -3,7 +3,10 @@
  */
 package live.page.hubd.content.pages;
 
-import com.mongodb.client.model.*;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UnwindOptions;
 import live.page.hubd.content.threads.ThreadsAggregator;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.db.Db;
@@ -18,11 +21,9 @@ import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class PagesAggregator {
-
 
     public static Json getPageDomainLng(String url, String lngOrDomain, String paging_str, Users user) {
         String lng;
@@ -216,34 +217,6 @@ public class PagesAggregator {
 
     }
 
-
-    public static List<Json> getSitemapPages(Date date, String lng, int limit) {
-
-        Aggregator grouper = new Aggregator("id", "date", "breadcrumb", "update", "lng", "domain", "url");
-
-        Pipeline pipeline = new Pipeline();
-
-        pipeline.add(Aggregates.match(Filters.and(Filters.eq("lng", lng),
-                Filters.gte("date", date))));
-
-        pipeline.add(Aggregates.sort(Sorts.ascending("date")));
-        pipeline.add(Aggregates.limit(limit));
-
-        pipeline.makeBreadcrumb();
-        pipeline.add(makeUrl());
-
-        pipeline.add(Aggregates.project(grouper.getProjection()
-                .put("update", new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$update", new BsonUndefined())), "$date", "$update")))
-                .put("domain", Pipeline.getDomainExpose("$lng"))
-        ));
-
-        pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
-
-        pipeline.add(Aggregates.sort(Sorts.descending("update")));
-        return Db.aggregate("Pages", pipeline).into(new ArrayList<>());
-
-
-    }
 
     public static Json getBase(String lng) {
         return PagesAggregator.getPages(Filters.and(Filters.ne("url", "copyright"), Filters.eq("lng", lng), Filters.eq("parents", new ArrayList<>())), 1000, null);

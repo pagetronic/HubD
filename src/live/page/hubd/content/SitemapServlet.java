@@ -3,6 +3,8 @@
  */
 package live.page.hubd.content;
 
+import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,16 +18,19 @@ import live.page.hubd.system.servlet.LightServlet;
 import live.page.hubd.system.servlet.utils.ServletUtils;
 import live.page.hubd.system.servlet.wrapper.BaseServletRequest;
 import live.page.hubd.system.servlet.wrapper.BaseServletResponse;
+import org.bson.BsonUndefined;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(asyncSupported = true, urlPatterns = {"/sitemap.xml", "/sitemap/*"}, displayName = "sitemap")
+@WebServlet(urlPatterns = {"/sitemap.xml", "/sitemap/*"}, displayName = "sitemap")
 public class SitemapServlet extends LightServlet {
     private static final DateFormat urlDate = new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss-SSS");
     private static final DateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+00:00");
@@ -35,34 +40,8 @@ public class SitemapServlet extends LightServlet {
         isoDate.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private final int maximumUrls = 5000;
+    private final int maximumUrls = 1000;
 
-    private static List<Json> getSitemapThreads(Date date, String lng, int limit) {
-
-        Aggregator grouper = new Aggregator("date", "update", "forums", "url", "lng", "domain", "replies", "index", "breadcrumb");
-        Pipeline pipeline = new Pipeline();
-
-        pipeline.add(Aggregates.match(
-                Filters.and(
-                        Filters.gt("replies", 0),
-                        Filters.eq("lng", lng),
-                        Filters.gte("date", date))));
-        pipeline.add(Aggregates.sort(Sorts.ascending("date")));
-
-        pipeline.add(Aggregates.limit(limit));
-
-        pipeline.makeBreadcrumb();
-        pipeline.add(Aggregates.addFields(new Field<>("url", new Json("$concat", Arrays.asList("/threads/", "$_id")))));
-
-        pipeline.add(Aggregates.project(grouper.getProjection()
-                        .put("domain", Pipeline.getDomainExpose("$lng"))
-                )
-
-        );
-
-        pipeline.add(Aggregates.sort(Sorts.descending("update")));
-        return Db.aggregate("Posts", pipeline).into(new ArrayList<>());
-    }
 
     @Override
     public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException {
@@ -119,24 +98,30 @@ public class SitemapServlet extends LightServlet {
     }
 
     private void writeThreads(Date date, String lng, PrintWriter writer) {
-        for (Json thread : getSitemapThreads(date, lng, maximumUrls)) {
-            writer.write("<url>");
-            writer.write("<loc>" + Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url") + "</loc>");
-            //writer.write(" <date>" + isoDate.format(thread.getDate("date")) + "</date>");
-            writer.write("<lastmod>" + isoDate.format(thread.getDate("update")) + "</lastmod>");
-            writer.write("</url>");
-            writer.flush();
+        try (MongoCursor<Json> threads = getSitemapThreads(date, lng).iterator()) {
+            while (threads.hasNext()) {
+                Json thread = threads.next();
+                writer.write("<url>");
+                writer.write("<loc>" + Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url") + "</loc>");
+                //writer.write(" <date>" + isoDate.format(thread.getDate("date")) + "</date>");
+                writer.write("<lastmod>" + isoDate.format(thread.getDate("update")) + "</lastmod>");
+                writer.write("</url>");
+                writer.flush();
+            }
         }
     }
 
     private void writePages(Date date, String lng, PrintWriter writer) {
-        for (Json page : PagesAggregator.getSitemapPages(date, lng, maximumUrls)) {
-            writer.write("<url>");
-            writer.write("<loc>" + Settings.HTTP_PROTO + page.getString("domain") + page.getString("url") + "</loc>");
-            //writer.write(" <date>" + isoDate.format(page.getDate("date")) + "</date>");
-            writer.write("<lastmod>" + isoDate.format(page.getDate("update")) + "</lastmod>");
-            writer.write("</url>");
-            writer.flush();
+        try (MongoCursor<Json> pages = getSitemapPages(date, lng).iterator()) {
+            while (pages.hasNext()) {
+                Json page = pages.next();
+                writer.write("<url>");
+                writer.write("<loc>" + Settings.HTTP_PROTO + page.getString("domain") + page.getString("url") + "</loc>");
+                //writer.write(" <date>" + isoDate.format(page.getDate("date")) + "</date>");
+                writer.write("<lastmod>" + isoDate.format(page.getDate("update")) + "</lastmod>");
+                writer.write("</url>");
+                writer.flush();
+            }
         }
     }
 
@@ -146,6 +131,7 @@ public class SitemapServlet extends LightServlet {
             Json pages = Db.aggregate("Pages", Arrays.asList(
                     Aggregates.match(Filters.eq("lng", lng)),
                     Aggregates.sort(Sorts.descending("date")),
+                    Aggregates.skip(skip),
                     Aggregates.limit(maximumUrls),
                     Aggregates.project(new Json("date", true)),
                     Aggregates.group(null, Arrays.asList(
@@ -191,6 +177,7 @@ public class SitemapServlet extends LightServlet {
                             Filters.gt("replies", 0)
                     )),
                     Aggregates.sort(Sorts.descending("date")),
+                    Aggregates.skip(skip),
                     Aggregates.limit(maximumUrls),
                     Aggregates.project(new Json("date", true)),
                     Aggregates.group(null, Arrays.asList(
@@ -225,5 +212,60 @@ public class SitemapServlet extends LightServlet {
             writer.flush();
             skip = skip + maximumUrls;
         }
+    }
+
+    public AggregateIterable<Json> getSitemapPages(Date date, String lng) {
+
+        Aggregator grouper = new Aggregator("id", "date", "breadcrumb", "update", "lng", "domain", "url");
+
+        Pipeline pipeline = new Pipeline();
+
+        pipeline.add(Aggregates.match(Filters.and(Filters.eq("lng", lng),
+                Filters.gte("date", date))));
+
+        pipeline.add(Aggregates.sort(Sorts.ascending("date")));
+        pipeline.add(Aggregates.limit(maximumUrls));
+
+        pipeline.makeBreadcrumb();
+        pipeline.add(PagesAggregator.makeUrl());
+
+        pipeline.add(Aggregates.project(grouper.getProjection()
+                .put("update", new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$update", new BsonUndefined())), "$date", "$update")))
+                .put("domain", Pipeline.getDomainExpose("$lng"))
+        ));
+
+        pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
+
+        pipeline.add(Aggregates.sort(Sorts.descending("update")));
+        return Db.aggregate("Pages", pipeline);
+
+
+    }
+
+    private AggregateIterable<Json> getSitemapThreads(Date date, String lng) {
+
+        Aggregator grouper = new Aggregator("date", "update", "url", "lng", "domain", "replies", "index", "breadcrumb");
+        Pipeline pipeline = new Pipeline();
+
+        pipeline.add(Aggregates.match(
+                Filters.and(
+                        Filters.ne("replies", 0),
+                        Filters.eq("lng", lng),
+                        Filters.gte("date", date))));
+        pipeline.add(Aggregates.sort(Sorts.ascending("date")));
+
+        pipeline.add(Aggregates.limit(maximumUrls));
+
+        pipeline.makeBreadcrumb();
+        pipeline.add(Aggregates.addFields(new Field<>("url", new Json("$concat", Arrays.asList("/threads/", "$_id")))));
+
+        pipeline.add(Aggregates.project(grouper.getProjection()
+                        .put("domain", Pipeline.getDomainExpose("$lng"))
+                )
+
+        );
+
+        pipeline.add(Aggregates.sort(Sorts.descending("update")));
+        return Db.aggregate("Posts", pipeline);
     }
 }
