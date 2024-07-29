@@ -5,6 +5,7 @@ package live.page.hubd.content.threads;
 
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import live.page.hubd.system.db.Db;
 import live.page.hubd.system.db.utils.Pipeline;
 import live.page.hubd.system.db.utils.paginer.Paginer;
 import live.page.hubd.system.json.Json;
@@ -64,5 +65,13 @@ public class ThreadsUtils {
 
         return post;
 
+    }
+
+    public static String getPossibleRedirect(String uri) {
+        String[] segments = uri.split("/");
+        if (Db.exists("Posts", Filters.and(Filters.eq("_id", segments[segments.length - 1])))) {
+            return "/threads/" + segments[segments.length - 1];
+        }
+        return null;
     }
 }

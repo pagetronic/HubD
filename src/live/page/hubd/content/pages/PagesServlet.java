@@ -5,6 +5,7 @@ package live.page.hubd.content.pages;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import live.page.hubd.content.threads.ThreadsUtils;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.HttpServlet;
@@ -44,10 +45,15 @@ public class PagesServlet extends HttpServlet {
 
         if (page == null) {
             String redirect = PagesUtils.getPossibleRedirect(uri);
+            if (redirect == null) {
+                redirect = ThreadsUtils.getPossibleRedirect(uri);
+            }
             if (redirect != null) {
                 resp.sendRedirect(redirect, 301);
                 return;
             }
+
+
             resp.sendError(404, req);
             return;
 
