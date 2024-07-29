@@ -42,7 +42,6 @@ public class SitemapServlet extends LightServlet {
 
     private final int maximumUrls = 10000;
 
-
     @Override
     public void doService(BaseServletRequest req, BaseServletResponse resp) throws IOException, ServletException {
 
@@ -127,8 +126,9 @@ public class SitemapServlet extends LightServlet {
 
     private void writePagesIndex(String lng, PrintWriter writer) {
         int skip = 0;
-        while (true) {
-            Json pages = Db.aggregate("Pages", Arrays.asList(
+        Json pages;
+        do {
+            pages = Db.aggregate("Pages", Arrays.asList(
                     Aggregates.match(Filters.eq("lng", lng)),
                     Aggregates.sort(Sorts.descending("date")),
                     Aggregates.skip(skip),
@@ -155,23 +155,23 @@ public class SitemapServlet extends LightServlet {
                     Aggregates.unwind("$pages"),
                     Aggregates.project(new Json().put("date", true).put("update", "$pages.update"))
             )).first();
-            if (pages == null) {
-                break;
+            if (pages != null) {
+                String id = skip == 0 ? "" : urlDate.format(pages.getDate("date"));
+                writer.write("<sitemap>");
+                writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/pages" + id + ".xml</loc>");
+                writer.write("<lastmod>" + isoDate.format(pages.getDate("update")) + "</lastmod>");
+                writer.write("</sitemap>");
+                writer.flush();
+                skip = skip + maximumUrls;
             }
-            String id = skip == 0 ? "" : urlDate.format(pages.getDate("date"));
-            writer.write("<sitemap>");
-            writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/pages" + id + ".xml</loc>");
-            writer.write("<lastmod>" + isoDate.format(pages.getDate("update")) + "</lastmod>");
-            writer.write("</sitemap>");
-            writer.flush();
-            skip = skip + maximumUrls;
-        }
+        } while (pages != null);
     }
 
     private void writeThreadsIndex(String lng, PrintWriter writer) {
         int skip = 0;
-        while (true) {
-            Json threads = Db.aggregate("Posts", Arrays.asList(
+        Json threads;
+        do {
+            threads = Db.aggregate("Posts", Arrays.asList(
                     Aggregates.match(Filters.and(
                             Filters.eq("lng", lng),
                             Filters.gt("replies", 0)
@@ -201,20 +201,20 @@ public class SitemapServlet extends LightServlet {
                     Aggregates.unwind("$threads"),
                     Aggregates.project(new Json().put("date", true).put("update", "$threads.last.date"))
             )).first();
-            if (threads == null) {
-                break;
+
+            if (threads != null) {
+                String id = skip == 0 ? "" : urlDate.format(threads.getDate("date"));
+                writer.write("<sitemap>");
+                writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/threads" + id + ".xml</loc>");
+                writer.write("<lastmod>" + isoDate.format(threads.getDate("update")) + "</lastmod>");
+                writer.write("</sitemap>");
+                writer.flush();
+                skip = skip + maximumUrls;
             }
-            String id = skip == 0 ? "" : urlDate.format(threads.getDate("date"));
-            writer.write("<sitemap>");
-            writer.write("<loc>" + Settings.getFullHttp(lng) + "/sitemap/threads" + id + ".xml</loc>");
-            writer.write("<lastmod>" + isoDate.format(threads.getDate("update")) + "</lastmod>");
-            writer.write("</sitemap>");
-            writer.flush();
-            skip = skip + maximumUrls;
-        }
+        } while (threads != null);
     }
 
-    public AggregateIterable<Json> getSitemapPages(Date date, String lng) {
+    private AggregateIterable<Json> getSitemapPages(Date date, String lng) {
 
         Aggregator grouper = new Aggregator("id", "date", "breadcrumb", "update", "lng", "domain", "url");
 
