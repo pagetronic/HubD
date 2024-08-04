@@ -23,6 +23,7 @@ public class StatsServlet extends HttpServlet {
 
         if (!user.getAdmin()) {
             resp.sendResponse(new Json("error", "UNKNOWN_METHOD"));
+            return;
         }
         resp.sendResponse(new Json()
                 .put("stats", StatsTools.getSimplesStats(req.getTz()))
