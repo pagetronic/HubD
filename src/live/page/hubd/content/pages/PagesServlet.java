@@ -124,7 +124,7 @@ public class PagesServlet extends HttpServlet {
             if (page != null) {
                 resp.sendResponse(page);
             } else {
-                req.getRequestDispatcher("/threads").forward(req, resp);
+                resp.sendError(404, "NOT_FOUND");
             }
         }
     }
