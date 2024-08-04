@@ -77,12 +77,12 @@ public class IAUtils {
                 Aggregates.match(
                         Filters.and(
                                 Filters.eq("user", user_id),
-                                Filters.regex("parents.0", Pattern.compile("^Posts"))
+                                Filters.eq("parents.type", "Posts")
                         )
                 ),
                 Aggregates.sort(Sorts.descending("date")),
                 Aggregates.limit(8),
-                Aggregates.addFields(new Field<>("thread", new Json("$arrayElemAt", Arrays.asList(new Json("$split", Arrays.asList(new Json("$arrayElemAt", Arrays.asList("$parents", 0)), "/")), 1)))),
+                Aggregates.addFields(new Field<>("thread", new Json("$arrayElemAt", Arrays.asList("$parents.id", 0)))),
                 Aggregates.lookup("Posts", "thread", "_id", "thread"),
                 Aggregates.unwind("$thread"),
                 Aggregates.project(new Json("reply", "$text").put("question", "$thread.title"))

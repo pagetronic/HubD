@@ -25,6 +25,7 @@ public class PagesEditing extends HttpServlet {
 
         if (!user.getAdmin()) {
             resp.sendError(404, "NOT_FOUND");
+            return;
         }
 
         String uri = req.getRequestURI();
