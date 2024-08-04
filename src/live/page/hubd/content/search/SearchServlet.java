@@ -6,6 +6,7 @@ package live.page.hubd.content.search;
 import jakarta.servlet.annotation.WebServlet;
 import live.page.hubd.system.Language;
 import live.page.hubd.system.servlet.HttpServlet;
+import live.page.hubd.system.servlet.utils.Api;
 import live.page.hubd.system.servlet.wrapper.ApiServletRequest;
 import live.page.hubd.system.servlet.wrapper.ApiServletResponse;
 import live.page.hubd.system.servlet.wrapper.WebServletRequest;
@@ -18,6 +19,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+@Api
 @WebServlet(asyncSupported = true, urlPatterns = {"/search", "/hashtag/*"})
 public class SearchServlet extends HttpServlet {
 
