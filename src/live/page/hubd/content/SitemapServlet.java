@@ -83,9 +83,35 @@ public class SitemapServlet extends LightServlet {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             writer.write("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">");
             if (matcher.group(1).equals("pages")) {
-                writePages(date, req.getLng(), writer);
+                try (MongoCursor<Json> pages = getSitemapPages(date, req.getLng()).iterator()) {
+                    if (!pages.hasNext()) {
+                        resp.setStatus(404);
+                    }
+                    while (pages.hasNext()) {
+                        Json page = pages.next();
+                        writer.write("<url>");
+                        writer.write("<loc>" + Settings.HTTP_PROTO + page.getString("domain") + page.getString("url") + "</loc>");
+                        //writer.write(" <date>" + isoDate.format(page.getDate("date")) + "</date>");
+                        writer.write("<lastmod>" + isoDate.format(page.getDate("update")) + "</lastmod>");
+                        writer.write("</url>");
+                        writer.flush();
+                    }
+                }
             } else if (matcher.group(1).equals("threads")) {
-                writeThreads(date, req.getLng(), writer);
+                try (MongoCursor<Json> threads = getSitemapThreads(date, req.getLng()).iterator()) {
+                    if (!threads.hasNext()) {
+                        resp.setStatus(404);
+                    }
+                    while (threads.hasNext()) {
+                        Json thread = threads.next();
+                        writer.write("<url>");
+                        writer.write("<loc>" + Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url") + "</loc>");
+                        //writer.write(" <date>" + isoDate.format(thread.getDate("date")) + "</date>");
+                        writer.write("<lastmod>" + isoDate.format(thread.getDate("update")) + "</lastmod>");
+                        writer.write("</url>");
+                        writer.flush();
+                    }
+                }
             }
             writer.write("</urlset>");
             writer.write("<!-- " + (System.currentTimeMillis() - start) + "ms -->");
@@ -96,33 +122,6 @@ public class SitemapServlet extends LightServlet {
         resp.sendError(404, "NOT_FOUND");
     }
 
-    private void writeThreads(Date date, String lng, PrintWriter writer) {
-        try (MongoCursor<Json> threads = getSitemapThreads(date, lng).iterator()) {
-            while (threads.hasNext()) {
-                Json thread = threads.next();
-                writer.write("<url>");
-                writer.write("<loc>" + Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url") + "</loc>");
-                //writer.write(" <date>" + isoDate.format(thread.getDate("date")) + "</date>");
-                writer.write("<lastmod>" + isoDate.format(thread.getDate("update")) + "</lastmod>");
-                writer.write("</url>");
-                writer.flush();
-            }
-        }
-    }
-
-    private void writePages(Date date, String lng, PrintWriter writer) {
-        try (MongoCursor<Json> pages = getSitemapPages(date, lng).iterator()) {
-            while (pages.hasNext()) {
-                Json page = pages.next();
-                writer.write("<url>");
-                writer.write("<loc>" + Settings.HTTP_PROTO + page.getString("domain") + page.getString("url") + "</loc>");
-                //writer.write(" <date>" + isoDate.format(page.getDate("date")) + "</date>");
-                writer.write("<lastmod>" + isoDate.format(page.getDate("update")) + "</lastmod>");
-                writer.write("</url>");
-                writer.flush();
-            }
-        }
-    }
 
     private void writePagesIndex(String lng, PrintWriter writer) {
         int skip = 0;
