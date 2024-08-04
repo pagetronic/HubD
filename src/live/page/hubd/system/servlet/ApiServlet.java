@@ -102,11 +102,21 @@ public class ApiServlet extends FullServlet {
                 String[] auth = new String(Base64.getDecoder().decode(req.getHeader("Authorization").replaceFirst(Pattern.compile("^Basic ", Pattern.CASE_INSENSITIVE).pattern(), "")), StandardCharsets.UTF_8).split(":");
                 user = BaseSession.getUser(req, auth[0], auth[1]);
                 req.setAuthType(AuthType.Basic);
+                if (user == null) {
+                    resp.setStatus(401);
+                    resp.getWriter().write(new Json("error", "INVALID_AUTHORIZATION").toString());
+                    return;
+                }
 
             } else if (req.getHeader("Authorization") != null) {
                 //User use a cookie header procedure
                 user = BaseSession.getUser(req, req.getHeader("Authorization"));
                 req.setAuthType(AuthType.Session);
+                if (user == null) {
+                    resp.setStatus(401);
+                    resp.getWriter().write(new Json("error", "INVALID_AUTHORIZATION").toString());
+                    return;
+                }
 
             } else {
                 //User use a cookie http procedure
