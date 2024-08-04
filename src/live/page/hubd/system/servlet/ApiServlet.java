@@ -3,12 +3,10 @@
  */
 package live.page.hubd.system.servlet;
 
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UnwindOptions;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
+import live.page.hubd.api.ApiUtils;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.utils.Api;
@@ -26,7 +24,10 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ApiServlet extends FullServlet {
@@ -50,26 +51,7 @@ public class ApiServlet extends FullServlet {
 
                 String access_token = req.getHeader("Authorization").replaceFirst(Pattern.compile("^Bearer ", Pattern.CASE_INSENSITIVE).pattern(), "");
 
-                Json userDb = Db.aggregate("ApiAccess",
-                        Arrays.asList(
-                                Aggregates.match(Filters.eq("access_token", access_token)),
-                                Aggregates.limit(1),
-                                Aggregates.lookup("ApiApps", "app_id", "_id", "app"),
-                                Aggregates.unwind("$app", new UnwindOptions().preserveNullAndEmptyArrays(true)),
-                                Aggregates.lookup("Users", "user", "_id", "user"),
-                                Aggregates.unwind("$user"),
-                                Aggregates.addFields(
-                                        new Field<>("user.expire", "$expire"),
-                                        new Field<>("user.scopes", "$scopes"),
-                                        new Field<>("user.app_scopes", "$app.scopes"),
-                                        new Field<>("user.app_id", "$app._id"),
-                                        new Field<>("user.access", "$_id")
-                                ),
-                                Aggregates.replaceRoot("$user"),
-                                Aggregates.lookup("Groups", "groups", "_id", "groups")
-                        )
-
-                ).first();
+                Json userDb = ApiUtils.getUser(access_token);
 
                 if (userDb != null && userDb.get("app_id") != null &&
                         (userDb.getDate("expire").after(new Date()) || userDb.getDate("expire").equals(new Date()))
@@ -115,15 +97,17 @@ public class ApiServlet extends FullServlet {
                 }
                 req.setAuthType(AuthType.Bearer);
 
-            } else if (api != null && req.getHeader("Authorization") != null && req.getHeader("Authorization").startsWith("Basic")) {
+            } else if (req.getHeader("Authorization") != null && req.getHeader("Authorization").startsWith("Basic")) {
                 //User use a plain procedure
-                String[] basic = new String(Base64.getDecoder().decode(req.getHeader("Authorization").replaceFirst(Pattern.compile("^Basic ", Pattern.CASE_INSENSITIVE).pattern(), "")), StandardCharsets.UTF_8).split(":");
-                user = BaseSession.getUser(req, basic[0], basic[1]);
+                String[] auth = new String(Base64.getDecoder().decode(req.getHeader("Authorization").replaceFirst(Pattern.compile("^Basic ", Pattern.CASE_INSENSITIVE).pattern(), "")), StandardCharsets.UTF_8).split(":");
+                user = BaseSession.getUser(req, auth[0], auth[1]);
                 req.setAuthType(AuthType.Basic);
-            } else if (api != null && req.getHeader("Authorization") != null) {
+
+            } else if (req.getHeader("Authorization") != null) {
                 //User use a cookie header procedure
                 user = BaseSession.getUser(req, req.getHeader("Authorization"));
                 req.setAuthType(AuthType.Session);
+
             } else {
                 //User use a cookie http procedure
                 user = BaseSession.getOrCreateUser(req, resp);
@@ -136,7 +120,8 @@ public class ApiServlet extends FullServlet {
                     return;
                 }
             }
-            if (resp.getHeader("X-User") == null && user != null) {
+
+            if (user != null) {
                 resp.setHeader("X-User", user.getId());
             }
 

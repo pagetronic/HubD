@@ -21,7 +21,6 @@ import java.io.IOException;
 /**
  * Profile servelt used to login users
  */
-@Api
 @WebServlet(asyncSupported = true, urlPatterns = {"/profile"})
 public class ProfileServlet extends HttpServlet {
 

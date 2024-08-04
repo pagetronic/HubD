@@ -3,10 +3,7 @@
  */
 package live.page.hubd.api;
 
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.FindOneAndUpdateOptions;
-import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.UpdateResult;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.db.utils.Aggregator;
@@ -20,6 +17,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -382,6 +380,29 @@ public class ApiUtils {
             rez.put("error", "UNKNOWN_APP");
         }
         return rez;
+    }
+
+    public static Json getUser(String accessToken) {
+        return Db.aggregate("ApiAccess",
+                Arrays.asList(
+                        Aggregates.match(Filters.eq("access_token", accessToken)),
+                        Aggregates.limit(1),
+                        Aggregates.lookup("ApiApps", "app_id", "_id", "app"),
+                        Aggregates.unwind("$app", new UnwindOptions().preserveNullAndEmptyArrays(true)),
+                        Aggregates.lookup("Users", "user", "_id", "user"),
+                        Aggregates.unwind("$user"),
+                        Aggregates.addFields(
+                                new Field<>("user.expire", "$expire"),
+                                new Field<>("user.scopes", "$scopes"),
+                                new Field<>("user.app_scopes", "$app.scopes"),
+                                new Field<>("user.app_id", "$app._id"),
+                                new Field<>("user.access", "$_id")
+                        ),
+                        Aggregates.replaceRoot("$user"),
+                        Aggregates.lookup("Groups", "groups", "_id", "groups")
+                )
+
+        ).first();
     }
 }
 

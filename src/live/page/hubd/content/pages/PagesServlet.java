@@ -19,7 +19,6 @@ import live.page.hubd.utils.Fx;
 
 import java.io.IOException;
 
-@Api
 @WebServlet(asyncSupported = true, name = "Pages Servlet", urlPatterns = {"/"})
 public class PagesServlet extends HttpServlet {
 

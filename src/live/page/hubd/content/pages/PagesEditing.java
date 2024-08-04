@@ -16,7 +16,6 @@ import live.page.hubd.system.sessions.Users;
 
 import java.io.IOException;
 
-@Api
 @WebServlet(asyncSupported = true, urlPatterns = {"/edit", "/edit/*", "/draft", "/draft/*"})
 public class PagesEditing extends HttpServlet {
 

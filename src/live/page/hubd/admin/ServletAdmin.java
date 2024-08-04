@@ -19,7 +19,6 @@ import live.page.hubd.utils.Fx;
 import java.io.IOException;
 import java.util.Date;
 
-@Api
 @WebServlet(asyncSupported = true, urlPatterns = {"/admin", "/admin/*"})
 public class ServletAdmin extends HttpServlet {
 

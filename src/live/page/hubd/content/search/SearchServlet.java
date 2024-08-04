@@ -19,7 +19,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@Api
 @WebServlet(asyncSupported = true, urlPatterns = {"/search", "/hashtag/*"})
 public class SearchServlet extends HttpServlet {
 

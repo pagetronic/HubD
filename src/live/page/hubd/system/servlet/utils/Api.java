@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Api {
-    String scope() default "";
+    String scope();
 
     String value() default "";
 
