@@ -11,7 +11,7 @@ import live.page.hubd.system.servlet.utils.LogsUtils;
 import live.page.hubd.system.servlet.utils.ServletUtils;
 import live.page.hubd.system.servlet.wrapper.BaseServletResponse;
 import live.page.hubd.system.servlet.wrapper.WebServletResponse;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 
 import java.io.IOException;
 import java.net.URI;

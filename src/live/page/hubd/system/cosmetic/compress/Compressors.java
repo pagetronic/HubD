@@ -1,7 +1,7 @@
 package live.page.hubd.system.cosmetic.compress;
 
 import live.page.hubd.blobs.Thumbnailer;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipParameters;
 import org.apache.commons.io.FileUtils;

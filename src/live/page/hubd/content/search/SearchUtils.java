@@ -10,7 +10,7 @@ import live.page.hubd.system.db.utils.PipelinerStore;
 import live.page.hubd.system.db.utils.paginer.Paginer;
 import live.page.hubd.system.db.utils.paginer.PolyPaginer;
 import live.page.hubd.system.json.Json;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package live.page.hubd.system.cosmetic.tmpl.plugs;
 
 import live.page.hubd.system.json.Json;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;

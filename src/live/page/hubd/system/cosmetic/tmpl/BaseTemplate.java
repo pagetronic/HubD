@@ -8,7 +8,7 @@ import live.page.hubd.system.cosmetic.tmpl.parsers.Cleaner;
 import live.page.hubd.system.cosmetic.tmpl.parsers.PageParser;
 import live.page.hubd.system.cosmetic.tmpl.parsers.PostParser;
 import live.page.hubd.system.cosmetic.tmpl.plugs.*;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

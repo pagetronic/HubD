@@ -13,7 +13,7 @@ import live.page.hubd.system.servlet.HttpServlet;
 import live.page.hubd.system.servlet.wrapper.*;
 import live.page.hubd.system.sessions.oauth.OauthUtils;
 import live.page.hubd.system.socket.SocketPusher;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.http.HttpHeaders;
 
 import java.io.IOException;

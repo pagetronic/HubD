@@ -44,13 +44,13 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
     @Override
     public void sendError(int sc, String msg) throws IOException {
         setHeaderNoCache();
-        super.sendError(sc, msg);
+        sendTextError(sc, msg);
     }
 
     @Override
     public void sendError(int sc) throws IOException {
         setHeaderNoCache();
-        super.sendError(sc);
+        sendTextError(sc, "Internal Server Error");
     }
 
     @Override
@@ -78,12 +78,8 @@ public class BaseServletResponse extends HttpServletResponseWrapper {
         try {
             super.setStatus(sc);
             getWriter().write(msg);
-        } catch (Exception e) {
-            try {
-                super.sendError(sc, msg);
-            } catch (Exception ex) {
+        } catch (Exception ignore) {
 
-            }
         }
     }
 }

@@ -4,7 +4,7 @@
 package live.page.hubd.system.servlet.utils;
 
 import live.page.hubd.system.Settings;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

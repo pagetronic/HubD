@@ -6,13 +6,12 @@ package live.page.hubd.content.search;
 import jakarta.servlet.annotation.WebServlet;
 import live.page.hubd.system.Language;
 import live.page.hubd.system.servlet.HttpServlet;
-import live.page.hubd.system.servlet.utils.Api;
 import live.page.hubd.system.servlet.wrapper.ApiServletRequest;
 import live.page.hubd.system.servlet.wrapper.ApiServletResponse;
 import live.page.hubd.system.servlet.wrapper.WebServletRequest;
 import live.page.hubd.system.servlet.wrapper.WebServletResponse;
 import live.page.hubd.system.sessions.Users;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 
 import java.io.IOException;
 import java.net.URLDecoder;

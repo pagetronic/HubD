@@ -17,7 +17,7 @@ import live.page.hubd.system.servlet.utils.BruteLocker;
 import live.page.hubd.system.servlet.utils.ServletUtils;
 import live.page.hubd.system.servlet.wrapper.BaseServletRequest;
 import live.page.hubd.system.servlet.wrapper.BaseServletResponse;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.commons.io.FileUtils;
 import org.bson.conversions.Bson;
 import org.bson.types.Binary;

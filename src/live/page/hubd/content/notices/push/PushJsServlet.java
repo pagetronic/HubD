@@ -10,7 +10,7 @@ import live.page.hubd.system.servlet.LightServlet;
 import live.page.hubd.system.servlet.wrapper.BaseServletRequest;
 import live.page.hubd.system.servlet.wrapper.BaseServletResponse;
 import live.page.hubd.system.servlet.wrapper.WebServletResponse;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;

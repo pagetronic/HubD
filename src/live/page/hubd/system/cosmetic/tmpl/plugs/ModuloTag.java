@@ -4,7 +4,7 @@
 package live.page.hubd.system.cosmetic.tmpl.plugs;
 
 import live.page.hubd.system.Language;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;

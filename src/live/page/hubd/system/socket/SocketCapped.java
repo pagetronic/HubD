@@ -19,7 +19,7 @@ import jakarta.websocket.Session;
 import live.page.hubd.system.Language;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.bson.Document;
 
 import java.util.Date;

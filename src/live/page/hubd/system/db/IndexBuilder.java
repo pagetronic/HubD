@@ -8,7 +8,7 @@ import com.mongodb.client.model.IndexModel;
 import com.mongodb.client.model.IndexOptions;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.json.Json;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.bson.conversions.Bson;
 
 import java.util.*;

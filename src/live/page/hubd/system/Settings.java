@@ -4,7 +4,7 @@
 package live.page.hubd.system;
 
 import live.page.hubd.system.json.Json;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;

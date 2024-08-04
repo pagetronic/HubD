@@ -11,7 +11,7 @@ import live.page.hubd.system.servlet.wrapper.WebServletResponse;
 import live.page.hubd.system.sessions.BaseCookie;
 import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 
 import java.io.IOException;
 

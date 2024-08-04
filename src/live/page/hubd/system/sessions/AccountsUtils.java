@@ -13,7 +13,7 @@ import live.page.hubd.system.db.Db;
 import live.page.hubd.system.db.utils.Pipeline;
 import live.page.hubd.system.db.utils.paginer.Paginer;
 import live.page.hubd.system.json.Json;
-import live.page.hubd.utils.Fx;
+import live.page.hubd.system.utils.Fx;
 
 import java.util.Date;
 
