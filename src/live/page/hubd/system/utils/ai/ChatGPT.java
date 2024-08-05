@@ -85,5 +85,13 @@ public class ChatGPT {
             put("role", role.name());
             put("content", content);
         }
+
+        Role getRole() {
+            return Role.valueOf(getString("role"));
+        }
+
+        String getContent() {
+            return getText("content");
+        }
     }
 }

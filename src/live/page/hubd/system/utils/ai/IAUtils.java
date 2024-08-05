@@ -5,8 +5,10 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+import live.page.hubd.content.threads.ThreadsAggregator;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
+import live.page.hubd.system.sessions.Users;
 import live.page.hubd.system.socket.SocketMessage;
 
 import java.util.ArrayList;
@@ -62,22 +64,23 @@ public class IAUtils {
         return new SocketMessage(data.getString("act")).put("questions", questions);
     }
 
-    public static SocketMessage replyQuestion(Json data, String user_id) {
-        String question = data.getText("question", "");
+    public static SocketMessage replyQuestion(Json data, Users user) {
+        String thread_id = data.getString("thread");
         String suggest = data.getText("suggest", "");
         List<ChatGPT.Message> messages = new ArrayList<>();
         messages.add(new ChatGPT.Message(ChatGPT.Role.system,
-                "Tu es une personne qui répond à des questions et qui utilise un language soutenu et le vouvoiement.\n" +
+                "Tu t'appelles \"" + user.getString("name") + "\", " +
+                        "tu es une personne qui répond à des questions et qui utilise un language soutenu et le vouvoiement.\n" +
                         "Ne fais pas la description de l'objet de la question, réponds directement à la question sans introduction ni conclusion.\n" +
                         "Ta réponse ne doit pas contenir de listes. Découpe ton texte en paragraphes.\n" +
                         "Tu ne renvois pas vers un professionnel ou un spécialiste.\n" +
                         "N'utilise PAS de mots de liaisons (linking words), de connecteurs ou de liens logiques."));
 
-        List<Json> threads = Db.aggregate("Posts", List.of(
+        List<Json> otherThreads = Db.aggregate("Posts", List.of(
                 Aggregates.match(
                         Filters.and(
-                                Filters.ne("parents.id", data.getString("thread")),
-                                Filters.eq("user", user_id),
+                                Filters.ne("parents.id", thread_id),
+                                Filters.eq("user", user.getId()),
                                 Filters.eq("parents.type", "Posts")
                         )
                 ),
@@ -89,25 +92,36 @@ public class IAUtils {
                 Aggregates.project(new Json("reply", "$text").put("question", "$thread.title"))
         )).into(new ArrayList<>());
 
-        for (Json thread : threads) {
-            if (!thread.getText("reply", "").isEmpty()) {
-                messages.add(new ChatGPT.Message(ChatGPT.Role.user, thread.getText("question")));
-                messages.add(new ChatGPT.Message(ChatGPT.Role.assistant, thread.getText("reply")));
+        Json thread = ThreadsAggregator.getThread(thread_id, null, null);
+
+
+        for (Json otherThread : otherThreads) {
+            if (!otherThread.getText("reply", "").isEmpty()) {
+                messages.add(new ChatGPT.Message(ChatGPT.Role.user, otherThread.getText("question")));
+                messages.add(new ChatGPT.Message(ChatGPT.Role.assistant, otherThread.getText("reply")));
             }
         }
-
+        String question = thread.getString("title", thread.getString("text"));
         if (!suggest.trim().isEmpty()) {
             messages.add(new ChatGPT.Message(ChatGPT.Role.user,
                     "Utilise uniquement ces informations pour répondre à la question \"" + question + "\" : \n" + suggest.replace("\n", " ")));
         } else {
             messages.add(new ChatGPT.Message(ChatGPT.Role.user, question));
         }
-        List<String> otherMessages = data.getList("messages");
-        if (otherMessages != null) {
-            for (String message : otherMessages) {
-                messages.add(new ChatGPT.Message(ChatGPT.Role.user, "J'ai déjà eu cette réponse : "+message));
+        for (Json post : thread.getJson("posts").getListJson("result")) {
+            Json userPost = post.getJson("user");
+            if (userPost != null && userPost.getId().equals(user.getId())) {
+                messages.add(new ChatGPT.Message(ChatGPT.Role.assistant, post.getText("text")));
+            } else {
+                messages.add(new ChatGPT.Message(ChatGPT.Role.user,
+                        (userPost == null ? "Un utilisateur anonyme" : userPost.getString("name"))
+                                + " a répondu : " + post.getText("text")));
             }
         }
+        if (messages.get(messages.size() - 1).getRole().equals(ChatGPT.Role.assistant)) {
+            messages.add(new ChatGPT.Message(ChatGPT.Role.user, "Dis moi en plus"));
+        }
+
         String reply = ChatGPT.chatGPT(ChatGPT.Model.gpt4, messages);
 
         return new SocketMessage(data.getString("act")).put("text", reply);
@@ -128,12 +142,12 @@ public class IAUtils {
         return new SocketMessage(data.getString("act")).put("text", reply);
     }
 
-    public static SocketMessage socket(Json data, String user_id) {
+    public static SocketMessage socket(Json data, Users user) {
         if (data.getString("type").equals("question")) {
             return rewriteQuestion(data);
         }
         if (data.getString("type").equals("reply")) {
-            return replyQuestion(data, user_id);
+            return replyQuestion(data, user);
         }
         if (data.getString("type").equals("rewrite")) {
             return rewriteText(data);

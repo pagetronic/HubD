@@ -32,7 +32,7 @@ public class BaseWebSocket {
             case "ai" -> {
                 Users user = sessiondata.getUser();
                 if (user.getAdmin()) {
-                    return IAUtils.socket(msg, user.getId());
+                    return IAUtils.socket(msg, user);
                 }
             }
         }
