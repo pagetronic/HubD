@@ -76,12 +76,13 @@ public class IAUtils {
         List<Json> threads = Db.aggregate("Posts", List.of(
                 Aggregates.match(
                         Filters.and(
+                                Filters.ne("parents.id", data.getString("thread")),
                                 Filters.eq("user", user_id),
                                 Filters.eq("parents.type", "Posts")
                         )
                 ),
                 Aggregates.sort(Sorts.descending("date")),
-                Aggregates.limit(8),
+                Aggregates.limit(5),
                 Aggregates.addFields(new Field<>("thread", new Json("$arrayElemAt", Arrays.asList("$parents.id", 0)))),
                 Aggregates.lookup("Posts", "thread", "_id", "thread"),
                 Aggregates.unwind("$thread"),
@@ -104,7 +105,7 @@ public class IAUtils {
         List<String> otherMessages = data.getList("messages");
         if (otherMessages != null) {
             for (String message : otherMessages) {
-                messages.add(new ChatGPT.Message(ChatGPT.Role.assistant, message));
+                messages.add(new ChatGPT.Message(ChatGPT.Role.user, "J'ai déjà eu cette réponse : "+message));
             }
         }
         String reply = ChatGPT.chatGPT(ChatGPT.Model.gpt4, messages);
