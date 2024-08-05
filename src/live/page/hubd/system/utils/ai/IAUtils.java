@@ -66,11 +66,9 @@ public class IAUtils {
 
     public static SocketMessage replyQuestion(Json data, Users user) {
         String thread_id = data.getString("thread");
-        String suggest = data.getText("suggest", "");
         List<ChatGPT.Message> messages = new ArrayList<>();
         messages.add(new ChatGPT.Message(ChatGPT.Role.system,
-                "Tu t'appelles \"" + user.getString("name") + "\", " +
-                        "tu es une personne qui répond à des questions et qui utilise un language soutenu et le vouvoiement.\n" +
+                "Tu es une personne qui répond à des questions d'utilisateurs.\n" +
                         "Ne fais pas la description de l'objet de la question, réponds directement à la question sans introduction ni conclusion.\n" +
                         "Ta réponse ne doit pas contenir de listes. Découpe ton texte en paragraphes.\n" +
                         "Tu ne renvois pas vers un professionnel ou un spécialiste.\n" +
@@ -97,18 +95,16 @@ public class IAUtils {
 
         for (Json otherThread : otherThreads) {
             if (!otherThread.getText("reply", "").isEmpty()) {
-                messages.add(new ChatGPT.Message(ChatGPT.Role.user, otherThread.getText("question")));
+                messages.add(new ChatGPT.Message(ChatGPT.Role.user, "Question: " + otherThread.getText("question")));
                 messages.add(new ChatGPT.Message(ChatGPT.Role.assistant, otherThread.getText("reply")));
             }
         }
         String question = thread.getString("title", thread.getString("text"));
-        if (!suggest.trim().isEmpty()) {
-            messages.add(new ChatGPT.Message(ChatGPT.Role.user,
-                    "Utilise uniquement ces informations pour répondre à la question \"" + question + "\" : \n" + suggest.replace("\n", " ")));
-        } else {
-            messages.add(new ChatGPT.Message(ChatGPT.Role.user, question));
-        }
-        for (Json post : thread.getJson("posts").getListJson("result")) {
+
+        messages.add(new ChatGPT.Message(ChatGPT.Role.user, "Question: " + question));
+
+        List<Json> posts = thread.getJson("posts").getListJson("result");
+        for (Json post : posts) {
             Json userPost = post.getJson("user");
             if (userPost != null && userPost.getId().equals(user.getId())) {
                 messages.add(new ChatGPT.Message(ChatGPT.Role.assistant, post.getText("text")));
@@ -120,7 +116,10 @@ public class IAUtils {
         }
         if (messages.get(messages.size() - 1).getRole().equals(ChatGPT.Role.assistant)) {
             messages.add(new ChatGPT.Message(ChatGPT.Role.user, "Dis moi en plus"));
+        } else if (!posts.isEmpty()) {
+            messages.add(new ChatGPT.Message(ChatGPT.Role.user, posts.size() > 1 ? "Complète les réponses à la dernière question" : "Complète la réponse à la dernière question"));
         }
+
 
         String reply = ChatGPT.chatGPT(ChatGPT.Model.gpt4, messages);
 
