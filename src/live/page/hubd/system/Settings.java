@@ -216,7 +216,7 @@ public class Settings {
      */
     @SuppressWarnings("unchecked")
     private static Json load() {
-        return new Json((Map<String, Object>) new Yaml().load(Fx.getResource("/res/settings.yml")));
+        return new Json((Map<String, Object>) new Yaml().load(Fx.getResource("res/settings.yml")));
     }
 
 }
