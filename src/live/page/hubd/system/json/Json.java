@@ -386,7 +386,11 @@ public class Json implements Map<String, Object>, Serializable, Bson {
      */
     @SuppressWarnings("unchecked")
     public <T> List<T> getList(String key) {
-        return (List<T>) datas.get(key);
+        try {
+            return (List<T>) datas.get(key);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
