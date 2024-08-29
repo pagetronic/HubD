@@ -10,7 +10,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.safety.Safelist;
 
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -64,11 +63,9 @@ public class Fx {
      */
     public static String getResource(String location) {
         try {
-            InputStream sr = Thread.currentThread().getContextClassLoader().getResourceAsStream(location);
-            String str = IOUtils.toString(sr, StandardCharsets.UTF_8.displayName());
-            sr.close();
-            return str;
+            return IOUtils.resourceToString(location, StandardCharsets.UTF_8);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
