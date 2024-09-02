@@ -37,7 +37,10 @@ public class NoticesServlet extends HttpServlet {
 
     @Override
     public void doGetApi(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException {
-
+        if (user == null) {
+            resp.sendError(401, "PLEASE_LOGIN");
+            return;
+        }
         resp.sendResponse(NoticesUtils.getNotices(user, req.getString("paging", null)));
     }
 
