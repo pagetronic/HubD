@@ -11,6 +11,7 @@ import live.page.hubd.system.db.utils.Aggregator;
 import live.page.hubd.system.db.utils.Pipeline;
 import live.page.hubd.system.db.utils.paginer.Paginer;
 import live.page.hubd.system.json.Json;
+import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
 import live.page.hubd.system.socket.SocketMessage;
 import live.page.hubd.system.socket.SocketPusher;
@@ -106,7 +107,7 @@ public class NoticesUtils {
                             .put("$unset", new Json("delay", ""))
             ));
         }
-        json.put("unread", SocketPusher.countUnreads(user_id));
+        json.put("unread", BaseSession.countNotices(user_id));
         return json;
     }
 

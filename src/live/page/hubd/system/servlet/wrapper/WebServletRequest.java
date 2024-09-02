@@ -13,7 +13,6 @@ import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.utils.ServletUtils;
 import live.page.hubd.system.sessions.Users;
-import live.page.hubd.system.socket.SocketPusher;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
 
@@ -176,9 +175,6 @@ public class WebServletRequest extends BaseServletRequest {
 
         if (user != null && user.getAdmin()) {
             setAttribute("draft_count", PagesUtils.getDraftsCount());
-        }
-        if (user != null) {
-            user.put("notices", SocketPusher.countUnreads(user.getId()));
         }
         AddToServletRequest.seed(user, this);
 

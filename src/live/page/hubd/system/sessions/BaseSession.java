@@ -500,8 +500,9 @@ public class BaseSession implements ServletContextListener {
             data.put("email", user.getString("email"));
         }
         data.put("join", user.getDate("join"));
-        data.put("unreads", user.getInteger("unreads", 0));
-        data.put("notices", user.getInteger("notices", 0));
+
+        data.put("notices", countNotices(user.getId()));
+
         data.put("cash", user.getJson("cash"));
         data.put("coins", user.getInteger("coins", 0));
 
@@ -550,6 +551,11 @@ public class BaseSession implements ServletContextListener {
             Db.updateOne("Users", Filters.eq("_id", user.getId()), new Json("$unset", new Json("tos", "")));
         }
         return new Json("ok", true);
+    }
+
+    public static String countNotices(String user_id) {
+        int counts = (int) Db.countLimit("Notices", Filters.and(Filters.eq("user", user_id), Filters.exists("read", false)), 100);
+        return counts >= 100 ? counts + "+" : counts + "";
     }
 
 

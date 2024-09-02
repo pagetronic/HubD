@@ -3,9 +3,9 @@
  */
 package live.page.hubd.system.socket;
 
-import com.mongodb.client.model.Filters;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
+import live.page.hubd.system.sessions.BaseSession;
 
 import java.util.Date;
 import java.util.List;
@@ -37,12 +37,7 @@ public class SocketPusher {
 
     public static void sendNoticesCount(String user_id) {
 
-        send("user", user_id, new Json("action", "notices").put("notices", countUnreads(user_id)));
+        send("user", user_id, new Json("action", "notices").put("notices", BaseSession.countNotices(user_id)));
     }
 
-    public static String countUnreads(String user_id) {
-
-        int counts = (int) Db.countLimit("Notices", Filters.and(Filters.eq("user", user_id), Filters.exists("read", false)), 100);
-        return counts >= 100 ? counts + "+" : counts + "";
-    }
 }
