@@ -275,6 +275,9 @@ public class UiStyleServlet extends LightServlet {
 
     @Override
     public void init(ServletConfig config) {
+        if (Fx.IS_DEBUG) {
+            return;
+        }
         buildApp();
         buildJs();
         buildCss();
