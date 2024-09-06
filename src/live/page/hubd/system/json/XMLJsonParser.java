@@ -98,9 +98,7 @@ public class XMLJsonParser {
             static class DateAdapter extends TypeAdapter<Date> {
                 @Override
                 public void write(JsonWriter out, Date date) throws IOException {
-                    DateFormat df = new SimpleDateFormat(Fx.ISO_DATE);
-                    df.setTimeZone(TimeZone.getTimeZone("UTC"));
-                    out.jsonValue("\"" + df.format(date) + "\"");
+                    out.jsonValue("\"" + Fx.ISO_DATE.format(date) + "\"");
                 }
 
                 @Override
@@ -184,9 +182,7 @@ public class XMLJsonParser {
             }
 
         } else if (object instanceof Date date) {
-            DateFormat dateFormat = new SimpleDateFormat(Fx.ISO_DATE);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-            sb.append(dateFormat.format(date));
+            sb.append(Fx.ISO_DATE.format(date));
 
         } else {
             sb.append(StringEscapeUtils.escapeXml11("" + object));

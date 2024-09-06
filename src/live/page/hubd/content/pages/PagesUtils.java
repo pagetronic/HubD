@@ -291,12 +291,12 @@ public class PagesUtils {
             }
         }
         Collections.reverse(revisions);
-        if (_id == null && revisions.size() > 0) {
+        if (_id == null && !revisions.isEmpty()) {
             revisions.get(0).put("selected", true);
         }
 
         if (revision.containsKey("date")) {
-            revision.put("date", new SimpleDateFormat(Fx.ISO_DATE).format(revision.getDate("date")));
+            revision.put("date", Fx.ISO_DATE.format(revision.getDate("date")));
         }
         if (revision.containsKey("url")) {
             String[] urls_rev = revision.getString("url").split("/");

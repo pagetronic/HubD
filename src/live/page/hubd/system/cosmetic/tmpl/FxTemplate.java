@@ -22,9 +22,7 @@ public class FxTemplate {
         if (date == null) {
             return null;
         }
-        DateFormat dfx = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-        dfx.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return dfx.format(date);
+        return Fx.ISO_DATE.format(date);
     }
 
     public static int textWidth(String str) {

@@ -43,9 +43,7 @@ public class Json implements Map<String, Object>, Serializable, Bson {
         }
         try {
             ObjectMapper objMapper = new ObjectMapper();
-            DateFormat df = new SimpleDateFormat(Fx.ISO_DATE);
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
-            objMapper.setDateFormat(df);
+            objMapper.setDateFormat(Fx.ISO_DATE);
 
             putAll(objMapper.readValue(json_string, Json.class));
         } catch (Exception e) {
@@ -292,9 +290,7 @@ public class Json implements Map<String, Object>, Serializable, Bson {
             return null;
         }
         try {
-            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-            fm.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return fm.parse(getString(key));
+            return Fx.ISO_DATE.parse(getString(key));
         } catch (Exception e) {
             return null;
         }

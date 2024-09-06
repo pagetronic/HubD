@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.Normalizer;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -31,7 +32,11 @@ public class Fx {
     /**
      * Date format for JSON
      */
-    public static final String ISO_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; // Warning.. Z necessary for next
+    public static final SimpleDateFormat ISO_DATE = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"); // Warning.. Z necessary for next
+
+    static {
+        ISO_DATE.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
 
     private static final SecureRandom random = new SecureRandom(Fx.getUnique().getBytes());
 
