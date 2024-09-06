@@ -3,7 +3,6 @@
  */
 package live.page.hubd.content.notices;
 
-import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import live.page.hubd.system.db.Db;
@@ -15,12 +14,10 @@ import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
 import live.page.hubd.system.socket.SocketPusher;
 import live.page.hubd.system.utils.Fx;
-import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +42,7 @@ public class NoticesUtils {
     public static Json getNotices(Users user, String start, String type, String next_str) {
 
 
-        Aggregator grouper = new Aggregator("title", "message", "icon", "tag", "url", "date", "read");
+        Aggregator grouper = new Aggregator("title", "message", "icon", "type", "channel", "url", "date", "read", "read", "received");
         Paginer paginer = new Paginer(next_str, "-date", type != null ? 40 : 10);
 
         Pipeline pipeline = new Pipeline();
@@ -62,6 +59,7 @@ public class NoticesUtils {
         }
         if ("os".equals(type)) {
             filters.add(Filters.eq("type", type));
+            filters.add(Filters.ne("received", true));
         }
 
         if (type != null) {
@@ -74,15 +72,10 @@ public class NoticesUtils {
         }
 
         pipeline.add(Aggregates.match(Filters.and(filters)));
-
-        pipeline.add(Aggregates.group(new Json("$cond", Arrays.asList(new Json("$eq", Arrays.asList("$grouper", new BsonUndefined())), "$_id", "$grouper")), grouper.getGrouper(
-                Accumulators.first("id", "$_id")
-        )));
-
         pipeline.add(paginer.getFirstSort());
+
         pipeline.add(paginer.getLimit());
 
-        pipeline.add(Aggregates.project(grouper.getProjection().put("_id", "$id").put("url", new Json("$concat", Arrays.asList("/notices/", "$id")))));
         pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
 
         pipeline.add(paginer.getLastSort());
@@ -119,12 +112,6 @@ public class NoticesUtils {
         return json;
     }
 
-    public static void setRead(String tag, String user_id) {
-        if (Db.updateOne("Notices", Filters.and(Filters.eq("tag", tag), Filters.eq("user", user_id)), new Json("$set", new Json("read", new Date()))).getModifiedCount() > 0) {
-            SocketPusher.sendNoticesCount(user_id);
-        }
-    }
-
     public static Json remove(String user_id, Json data) {
         Json rez = new Json("ok", false);
         if (data.getId() != null) {
@@ -137,9 +124,9 @@ public class NoticesUtils {
     }
 
 
-    public static Json received(String user_id, Date last) {
+    public static Json received(String user_id, List<String> ids) {
         Db.updateMany("Notices",
-                Filters.and(Filters.eq("user", user_id), Filters.lte("date", last), Filters.ne("received", true)),
+                Filters.and(Filters.eq("user", user_id), Filters.in("_id", ids), Filters.ne("received", true)),
                 new Json("$set", new Json("received", true)));
         SocketPusher.sendNoticesCount(user_id);
         return new Json("ok", true);
