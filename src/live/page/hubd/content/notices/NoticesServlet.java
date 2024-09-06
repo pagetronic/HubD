@@ -4,7 +4,6 @@
 package live.page.hubd.content.notices;
 
 import jakarta.servlet.annotation.WebServlet;
-import live.page.hubd.content.notices.push.PushSubscriptions;
 import live.page.hubd.system.Language;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.HttpServlet;
@@ -21,7 +20,6 @@ import java.io.IOException;
 @WebServlet(asyncSupported = true, name = "Notices", urlPatterns = {"/notices", "/notices/*"})
 public class NoticesServlet extends HttpServlet {
 
-
     @Override
     public void doGetHttp(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
 
@@ -31,7 +29,6 @@ public class NoticesServlet extends HttpServlet {
             return;
         }
         resp.sendRedirect(notice.getString("url"), 301);
-
 
     }
 
@@ -47,24 +44,18 @@ public class NoticesServlet extends HttpServlet {
 
     @Override
     public void doPostApi(ApiServletRequest req, ApiServletResponse resp, Json data, Users user) throws IOException {
+
         if (user == null) {
-            resp.sendResponse(switch (data.getString("action", "")) {
-                case "get" -> PushSubscriptions.listConfigFollows(data.getJson("config"), data.getString("paging", null));
-                case "subscribe" -> PushSubscriptions.subscribe(null, data.getString("lng"), data.getJson("device"), data.getJson("config"), data.getString("obj"));
-                case "unsubscribe" -> PushSubscriptions.unsubscribe(data.getJson("config"), data.getString("obj"));
-                case "control" -> PushSubscriptions.control(data.getJson("config"), data.getString("obj"));
-                case "unpush" -> PushSubscriptions.remove(data.getId(), data.getJson("config"), null);
-                case "test" -> PushSubscriptions.test(data.getJson("config"), data.getString("lng"));
-                default -> new Json("error", "INVALID_DATA");
-            });
+            resp.sendError(401, "PLEASE_LOGIN");
             return;
         }
 
         resp.sendResponse(switch (data.getString("action", "")) {
+            case "all" -> Subscriptions.listSubscriptions(user, data.getString("paging", null));
+            case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type"));
+            case "control" -> Subscriptions.control(user, data.getString("channel"));
             case "read" -> NoticesUtils.read(user.getId(), data);
             case "remove" -> NoticesUtils.remove(user.getId(), data);
-            case "subscribe" -> PushSubscriptions.subscribe(user.getId(), data.getString("lng"), data.getJson("device"), data.getJson("config"), data.getString("obj"));
-            case "unpush" -> PushSubscriptions.remove(data.getId(), data.getJson("config"), user);
             default -> new Json("error", "INVALID_DATA");
         });
 

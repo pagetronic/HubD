@@ -55,12 +55,10 @@ public class IndexBuilder {
                 IndexData.getExpire(new Json("date", 1), "expire", 90L, TimeUnit.DAYS),
                 IndexData.get(new Json("received", 1), "received")
         );
-        indexes.addIndex("Follows",
-                IndexData.get(new Json("lng", 1), "lng"),
-                IndexData.get(new Json("user", 1), "user"),
-                IndexData.get(new Json("objuser", 1), "obj@user"),
-                IndexData.get(new Json("obj", 1).put("user", -1), "obj_user"),
-                IndexData.get(new Json("obj", 1).put("config", 1), "obj_config")
+
+        indexes.addIndex("Subscriptions",
+                IndexData.getUnique(new Json("channel", 1).put("user", 1).put("type", 1), "channel"),
+                IndexData.get(new Json("date", -1), "date")
         );
 
 
