@@ -46,14 +46,8 @@ public class IndexBuilder {
         );
 
         indexes.addIndex("Notices",
-                IndexData.get(new Json("config", 1).put("delay", 1).put("received", 1).put("read", 1).put("date", 1), "control"),
-                IndexData.get(new Json("user", 1), "user"),
-                IndexData.get(new Json("date", -1), "date"),
-                IndexData.get(new Json("user", 1).put("read", 1), "user_read"),
-                IndexData.get(new Json("grouper", 1), "grouper"),
-                IndexData.getExpire(new Json("read", 1), "expire_read", 15L, TimeUnit.DAYS),
-                IndexData.getExpire(new Json("date", 1), "expire", 90L, TimeUnit.DAYS),
-                IndexData.get(new Json("received", 1), "received")
+                IndexData.getExpire(new Json("date", -1), "expire", 90, TimeUnit.DAYS),
+                IndexData.get(new Json("user", 1).put("type", 1).put("read", 1).put("date", -1), "user")
         );
 
         indexes.addIndex("Subscriptions",

@@ -172,7 +172,6 @@ public class ThreadsServlet extends HttpServlet {
             case "post" -> DiscussPoster.post(data, user, ServletUtils.realIp(req));
             case "search" -> ThreadsUtils.search(data);
             case "get" -> ThreadsUtils.edit(data.getId(), user);
-            case "comment" -> DiscussPoster.comment(data, user, req.getLng(), ServletUtils.realIp(req));
             case "remove" -> DiscussPoster.remove(data, user);
             case "history" -> DiscussPoster.history(data.getString("post_id"), data.getInteger("comment", -1));
             default -> new Json("error", "INVALID_DATA");

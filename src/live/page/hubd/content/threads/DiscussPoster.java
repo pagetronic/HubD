@@ -5,19 +5,19 @@ package live.page.hubd.content.threads;
 
 import com.mongodb.client.model.*;
 import live.page.hubd.content.notices.Notifier;
-import live.page.hubd.content.users.UsersAggregator;
 import live.page.hubd.system.Settings;
-import live.page.hubd.system.cosmetic.tmpl.BaseTemplate;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.db.utils.Pipeline;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.utils.Antiflood;
 import live.page.hubd.system.sessions.Users;
-import live.page.hubd.system.socket.SocketPusher;
 import live.page.hubd.system.utils.Fx;
 import org.bson.conversions.Bson;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 public class DiscussPoster {
 
@@ -161,8 +161,12 @@ public class DiscussPoster {
         } else {
             return new Json("error", "INVALID_DATA");
         }
-
-        return ThreadsAggregator.getThread(post.getId(), user, null);
+        Json thread = ThreadsAggregator.getThread(post.getId(), user, null);
+        Notifier.notify("post/" + thread.getId(), user.getId(),
+                thread.getString("title", Fx.truncate(thread.getString("text", ""), 80)),
+                post.getString("text"),
+                post.getString("url"));
+        return thread;
 
     }
 
@@ -242,78 +246,6 @@ public class DiscussPoster {
         return new Json("ok", true).put("post", ThreadsAggregator.getThread(data.getId(), user, null));
     }
 
-
-    public static Json comment(Json data, Users user, String lng, String ip) {
-        if (user == null) {
-            return new Json("error", "PLEASE_LOGIN");
-        }
-        if (data.get("text") != null) {
-            data.put("text", Fx.normalizePost(data.getText("text")));
-        }
-
-        Json response = new Json();
-
-        try {
-            if (data.get("text") == null || data.getText("text").length() < 3) {
-                response.add("errors", new Json("element", "text").put("message", "TOO_SHORT"));
-            } else if (data.getText("text").length() > 185) {
-                response.add("errors", new Json("element", "text").put("message", "TOO_LONG"));
-            } else if (Antiflood.isFlood(user.getId())) {
-                return new Json("error", "FLOOD_ERROR").put("delay", Settings.FLOOD_DELAY / 1000);
-            }
-            if (!response.containsKey("errors") && !response.containsKey("error")) {
-
-                Json comment = new Json();
-                comment.put("user", user.getId());
-                comment.put("text", data.getText("text"));
-                comment.put("date", new Date());
-                comment.put("ip", ip);
-
-                Json post = Db.findOneAndUpdate("Posts",
-                        Filters.eq("_id", data.getString("post_id")),
-                        new Json("$push", new Json("comments", comment))
-                );
-
-                if (post == null) {
-                    return new Json("error", "POST_NOT_EXIST");
-                }
-
-                comment.put("user", UsersAggregator.simpleUser(user));
-
-                comment.put("index", post.getListJson("comments").size() - 1).remove("ip");
-                comment.put("id", post.getId() + "_" + comment.getInteger("index"));
-                response.put("comment", comment);
-                response.put("post", new Json("id", data.getString("post_id")));
-                SocketPusher.send("posts/" + post.getString("thread"), new Json("comments", comment));
-
-
-                for (Json parent : post.getListJson("parents")) {
-                    if (parent.getString("type").equals("Posts")) {
-                        Json thread = ThreadsAggregator.getThread(parent.getId(), user, null);
-                        if (thread != null) {
-                            String url = Settings.HTTP_PROTO + thread.getString("domain") + thread.getString("url") + "?post=" + post.getId() + "#" + comment.getId();
-                            Notifier.notify(Collections.singletonList(parent.toString()), Collections.singletonList(user.getId()), thread.getString("title"), comment.getString("text"), url, lng);
-                            break;
-                        }
-                    }
-                }
-
-
-            }
-            if (!response.containsKey("errors") && !response.containsKey("error")) {
-
-                response.put("html", BaseTemplate.processToString("/threads/post_item_tips.html", response.clone().put("tz", data.getInteger("tz", 0)).put("user", user).put("lng", lng)));
-            }
-
-            return response;
-        } catch (Exception e) {
-            if (Fx.IS_DEBUG) {
-                e.printStackTrace();
-            }
-            response.add("errors", "CRASH");
-            return response;
-        }
-    }
 
     public static Json remove(Json data, Users user) {
 

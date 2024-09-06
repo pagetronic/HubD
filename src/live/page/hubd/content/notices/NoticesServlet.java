@@ -39,7 +39,7 @@ public class NoticesServlet extends HttpServlet {
             return;
         }
 
-        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("start", null), req.getString("paging", null)));
+        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("start", null), req.getString("type", null), req.getString("paging", null)));
     }
 
 

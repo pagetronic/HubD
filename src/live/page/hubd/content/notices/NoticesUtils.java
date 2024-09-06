@@ -43,11 +43,11 @@ public class NoticesUtils {
         return notice;
     }
 
-    public static Json getNotices(Users user, String start, String next_str) {
+    public static Json getNotices(Users user, String start, String type, String next_str) {
 
 
-        Aggregator grouper = new Aggregator("tag", "title", "message", "elements", "tag", "url", "date", "read", "icon");
-        Paginer paginer = new Paginer(next_str, "-date", 10);
+        Aggregator grouper = new Aggregator("title", "message", "icon", "tag", "url", "date", "read");
+        Paginer paginer = new Paginer(next_str, "-date", type != null ? 40 : 10);
 
         Pipeline pipeline = new Pipeline();
         List<Bson> filters = new ArrayList<>();
@@ -61,6 +61,14 @@ public class NoticesUtils {
                 Fx.log("Date parse error");
             }
         }
+        if ("os".equals(type)) {
+            filters.add(Filters.eq("type", type));
+        }
+
+        if (type != null) {
+            filters.add(Filters.ne("read", true));
+        }
+
         Bson paging = paginer.getFilters();
         if (paging != null) {
             filters.add(paging);
@@ -80,16 +88,7 @@ public class NoticesUtils {
 
         pipeline.add(paginer.getLastSort());
 
-        Json notices = paginer.getResult("Notices", pipeline);
-        List<String> ids = new ArrayList<>();
-        notices.getListJson("result").forEach((Json result) -> {
-            if (!result.getBoolean("received", false)) {
-                ids.add(result.getId());
-            }
-        });
-
-        Db.updateMany("Notices", Filters.in("_id", ids), new Json("$set", new Json("received", true)));
-        return notices;
+        return paginer.getResult("Notices", pipeline);
 
     }
 

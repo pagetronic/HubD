@@ -32,11 +32,11 @@ public class Subscriptions {
                         new Json()
                                 .put("$set",
                                         new Json()
-                                                .put("channel", channel)
-                                                .put("user", user.getId())
                                                 .put("type", type)
                                 )
                                 .put("$setOnInsert", new Json()
+                                        .put("channel", channel)
+                                        .put("user", user.getId())
                                         .put("date", new Date())
                                         .put("_id", Db.getKey())
                                 ),
