@@ -126,7 +126,7 @@ public class Hidder {
         }
         for (String key : Arrays.asList("date", "update", "archived", "join", "last", "remove", "last.date")) {
             if (dec.containsKey(key)) {
-                dec.set(key, dec.parseDate(key));
+                dec.set(key, dec.getDate(key));
             }
         }
 

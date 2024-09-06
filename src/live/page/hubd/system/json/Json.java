@@ -13,8 +13,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.Binary;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -260,6 +259,13 @@ public class Json implements Map<String, Object>, Serializable, Bson {
      * @return null or a Date object
      */
     public Date getDate(String key) {
+        if (get(key) instanceof String) {
+            try {
+                return Fx.ISO_DATE.parse(getString(key));
+            } catch (ParseException e) {
+                return null;
+            }
+        }
         return get(key, Date.class);
     }
 
@@ -272,29 +278,13 @@ public class Json implements Map<String, Object>, Serializable, Bson {
      * @return null or a Date object
      */
     public Date getDate(String key, Date def) {
-        if (get(key) == null) {
+        Date date = getDate(key);
+        if (date == null) {
             return def;
         }
-        return get(key, Date.class);
+        return date;
     }
 
-    /**
-     * Parse a string value as a Date object
-     * Needed to parse when Json is created from a string
-     *
-     * @param key where find the value
-     * @return null or a Date object
-     */
-    public Date parseDate(String key) {
-        if (getString(key) == null) {
-            return null;
-        }
-        try {
-            return Fx.ISO_DATE.parse(getString(key));
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     /**
      * Get a Integer at key

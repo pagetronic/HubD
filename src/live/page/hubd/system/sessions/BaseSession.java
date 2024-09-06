@@ -554,7 +554,7 @@ public class BaseSession implements ServletContextListener {
     }
 
     public static String countNotices(String user_id) {
-        int counts = (int) Db.countLimit("Notices", Filters.and(Filters.eq("user", user_id), Filters.exists("read", false)), 100);
+        int counts = (int) Db.countLimit("Notices", Filters.and(Filters.eq("user", user_id), Filters.ne("received", true)), 100);
         return counts >= 100 ? counts + "+" : counts + "";
     }
 

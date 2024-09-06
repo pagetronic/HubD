@@ -4,7 +4,7 @@
 package live.page.hubd.content.threads;
 
 import com.mongodb.client.model.*;
-import live.page.hubd.content.notices.Notifier;
+import live.page.hubd.content.notices.Notifications;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.db.utils.Pipeline;
@@ -162,7 +162,7 @@ public class DiscussPoster {
             return new Json("error", "INVALID_DATA");
         }
         Json thread = ThreadsAggregator.getThread(post.getId(), user, null);
-        Notifier.notify("post/" + thread.getId(), user.getId(),
+        Notifications.notify("post/" + thread.getId(), user.getId(),
                 thread.getString("title", Fx.truncate(thread.getString("text", ""), 80)),
                 post.getString("text"),
                 post.getString("url"));

@@ -24,7 +24,6 @@ public class BaseWebSocket {
     public SocketMessage onMessageAuthSys(Json msg, SessionData sessiondata) {
 
         switch (msg.getString("action")) {
-            case "receive_notices" -> NoticesUtils.noticeReceived(sessiondata.getUser().getId());
             case "settings" -> {
                 SocketPusher.send("user", sessiondata.getUser().getId(), new Json("action", "settings").put("settings", ProfileUtils.setSettings(sessiondata.getUser().getId(), msg.getJson("data"))));
                 return new SocketMessage(msg.getString("act")).put("ok", true);

@@ -55,6 +55,7 @@ public class NoticesServlet extends HttpServlet {
             case "all" -> Subscriptions.listSubscriptions(user, data.getString("paging", null));
             case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type"));
             case "control" -> Subscriptions.control(user, data.getString("channel"));
+            case "received" -> NoticesUtils.received(user.getId(), data.getDate("last"));
             case "read" -> NoticesUtils.read(user.getId(), data);
             case "remove" -> NoticesUtils.remove(user.getId(), data);
             default -> new Json("error", "INVALID_DATA");

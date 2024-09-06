@@ -13,7 +13,6 @@ import live.page.hubd.system.db.utils.paginer.Paginer;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
-import live.page.hubd.system.socket.SocketMessage;
 import live.page.hubd.system.socket.SocketPusher;
 import live.page.hubd.system.utils.Fx;
 import org.bson.BsonUndefined;
@@ -127,21 +126,22 @@ public class NoticesUtils {
     }
 
     public static Json remove(String user_id, Json data) {
-        Json json = new Json("ok", false);
+        Json rez = new Json("ok", false);
         if (data.getId() != null) {
-            json.put("ok", Db.deleteOne("Notices", Filters.and(Filters.eq("user", user_id), Filters.eq("_id", data.getId()))));
+            rez.put("ok", Db.deleteOne("Notices", Filters.and(Filters.eq("user", user_id), Filters.eq("_id", data.getId()))));
         } else if (data.getList("ids") != null) {
-            json.put("ok", true);
-            json.put("count", Db.deleteMany("Notices", Filters.and(Filters.eq("user", user_id), Filters.in("_id", data.getList("ids")))).getDeletedCount());
+            rez.put("ok", true);
+            rez.put("count", Db.deleteMany("Notices", Filters.and(Filters.eq("user", user_id), Filters.in("_id", data.getList("ids")))).getDeletedCount());
         }
-        return json;
-    }
-
-    public static SocketMessage noticeReceived(String user_id) {
-        // todo Webpush read, mettre l'id du webpush  (1)
-        Db.updateMany("Notices", Filters.and(Filters.eq("user", user_id), Filters.ne("received", true)), new Json("$set", new Json("received", true)));
-        return new SocketMessage();
+        return rez;
     }
 
 
+    public static Json received(String user_id, Date last) {
+        Db.updateMany("Notices",
+                Filters.and(Filters.eq("user", user_id), Filters.lte("date", last), Filters.ne("received", true)),
+                new Json("$set", new Json("received", true)));
+        SocketPusher.sendNoticesCount(user_id);
+        return new Json("ok", true);
+    }
 }

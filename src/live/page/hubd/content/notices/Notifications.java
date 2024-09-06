@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @WebListener
-public class Notifier implements ServletContextListener {
+public class Notifications implements ServletContextListener {
 
     private static final ExecutorService service = Executors.newFixedThreadPool(5);
 
