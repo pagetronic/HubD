@@ -38,7 +38,8 @@ public class NoticesServlet extends HttpServlet {
             resp.sendError(401, "PLEASE_LOGIN");
             return;
         }
-        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("paging", null)));
+
+        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("start", null), req.getString("paging", null)));
     }
 
 

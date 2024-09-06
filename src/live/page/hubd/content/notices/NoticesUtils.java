@@ -15,9 +15,11 @@ import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
 import live.page.hubd.system.socket.SocketMessage;
 import live.page.hubd.system.socket.SocketPusher;
+import live.page.hubd.system.utils.Fx;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -41,7 +43,7 @@ public class NoticesUtils {
         return notice;
     }
 
-    public static Json getNotices(Users user, String next_str) {
+    public static Json getNotices(Users user, String start, String next_str) {
 
 
         Aggregator grouper = new Aggregator("tag", "title", "message", "elements", "tag", "url", "date", "read", "icon");
@@ -51,6 +53,14 @@ public class NoticesUtils {
         List<Bson> filters = new ArrayList<>();
 
         filters.add(Filters.eq("user", user.getId()));
+        if (start != null) {
+            try {
+                Date date = Fx.ISO_DATE.parse(start);
+                filters.add(Filters.gt("date", date));
+            } catch (ParseException e) {
+                Fx.log("Date parse error");
+            }
+        }
         Bson paging = paginer.getFilters();
         if (paging != null) {
             filters.add(paging);
