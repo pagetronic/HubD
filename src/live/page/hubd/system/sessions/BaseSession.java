@@ -29,6 +29,7 @@ import live.page.hubd.system.utils.Mailer;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -554,8 +555,14 @@ public class BaseSession implements ServletContextListener {
     }
 
     public static String countNotices(String user_id) {
-        int counts = (int) Db.countLimit("Notices", Filters.and(Filters.eq("user", user_id), Filters.ne("received", true)), 100);
-        return counts >= 100 ? counts + "+" : counts + "";
+        List<Json> notices = Db.aggregate("Notices", List.of(
+                Aggregates.match(Filters.eq("user", user_id)),
+                Aggregates.project(new Json().put("grouper", true)),
+                Aggregates.group("$grouper"),
+                Aggregates.limit(100)
+        )).into(new ArrayList<>());
+        int counts = notices.size();
+        return counts >= 100 ? "99+" : counts + "";
     }
 
 

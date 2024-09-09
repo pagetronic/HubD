@@ -15,7 +15,6 @@ import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
 import java.text.Normalizer;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

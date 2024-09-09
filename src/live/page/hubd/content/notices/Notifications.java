@@ -28,7 +28,7 @@ public class Notifications implements ServletContextListener {
 
     public static void notifyUser(String user_id, String title, String message, String url, String icon) {
         Db.find("Devices", Filters.eq("user", user_id))
-                .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId()));
+                .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId(), "test"));
 
     }
 
@@ -46,19 +46,20 @@ public class Notifications implements ServletContextListener {
             if (excludes != null && !excludes.isEmpty()) {
                 filters.add(Filters.nin("user", excludes));
             }
-            filters.add(Filters.in("channel", channel));
-
+            filters.add(Filters.eq("channel", channel));
+            String grouper = Db.getKey();
             MongoCursor<Json> subscriptions = Db.find("Subscriptions", Filters.and(filters)).sort(Sorts.ascending("date")).iterator();
             while (subscriptions.hasNext()) {
                 Json subscription = subscriptions.next();
-                save(subscription.getString("user"), title, message, url, icon, subscription.getString("channel"), subscription.getString("device"));
+                save(subscription.getString("user"), title, message, url, icon,
+                        subscription.getString("channel"), subscription.getString("device"), grouper);
             }
             subscriptions.close();
         });
     }
 
 
-    private static void save(String user_id, String title, String message, String url, String icon, String channel, String device) {
+    private static void save(String user_id, String title, String message, String url, String icon, String channel, String device, String grouper) {
 
         if (channel == null) {
             channel = Fx.getUnique();
@@ -77,6 +78,7 @@ public class Notifications implements ServletContextListener {
         notice.put("channel", channel);
         notice.put("date", new Date());
         notice.put("icon", icon);
+        notice.put("grouper", grouper);
 
         Db.save("Notices", notice);
 

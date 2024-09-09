@@ -3,6 +3,7 @@
  */
 package live.page.hubd.content.notices;
 
+import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import live.page.hubd.system.db.Db;
@@ -71,7 +72,12 @@ public class NoticesUtils {
 
         pipeline.add(paginer.getLimit());
 
-        pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
+        pipeline.add(Aggregates.group("$grouper", grouper.getGrouper(
+                Accumulators.first("id", "$_id")
+        )));
+
+
+        pipeline.add(Aggregates.project(grouper.getProjectionOrder().prepend("_id", "$_id")));
 
         pipeline.add(paginer.getLastSort());
 
@@ -119,11 +125,14 @@ public class NoticesUtils {
     }
 
 
-    public static Json received(String user_id, List<String> ids, String device) {
-        Bson filter = Filters.and(Filters.eq("user", user_id), Filters.in("_id", ids), Filters.ne("received", true));
-        if (device != null) {
-            filter = Filters.and(filter, Filters.eq("device", device));
-        }
+    public static Json received(String user_id, Date min, Date max) {
+        Bson filter = Filters.and(
+                Filters.eq("user", user_id),
+                Filters.gte("date", min),
+                Filters.lte("date", max),
+                Filters.ne("received", true)
+        );
+
         Db.updateMany("Notices", filter,
                 new Json("$set", new Json("received", true)));
         SocketPusher.sendNoticesCount(user_id);

@@ -33,12 +33,11 @@ public class Fx {
      * Date format for JSON
      */
     public static final SimpleDateFormat ISO_DATE = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"); // Warning.. Z necessary for next
+    private static final SecureRandom random = new SecureRandom(Fx.getUnique().getBytes());
 
     static {
         ISO_DATE.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
-
-    private static final SecureRandom random = new SecureRandom(Fx.getUnique().getBytes());
 
     /**
      * Generate a Secure key

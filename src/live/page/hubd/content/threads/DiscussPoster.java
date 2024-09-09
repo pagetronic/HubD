@@ -161,12 +161,17 @@ public class DiscussPoster {
         } else {
             return new Json("error", "INVALID_DATA");
         }
-        Json thread = ThreadsAggregator.getThread(post.getId(), user, null);
-        Notifications.notify("post/" + thread.getId(), user.getId(),
-                thread.getString("title", Fx.truncate(thread.getString("text", ""), 80)),
-                post.getString("text"),
-                post.getString("url"));
-        return thread;
+        for (Json parent : parents) {
+            if (parent.getString("type").equals("Posts")) {
+                Json threadParent = ThreadsAggregator.getThread(parent.getId(), user, null);
+                Notifications.notify("posts/" + threadParent.getId(), user.getId(),
+                        threadParent.getString("title", Fx.truncate(threadParent.getString("text", ""), 80)),
+                        post.getString("text"),
+                        threadParent.getString("url"));
+            }
+        }
+
+        return ThreadsAggregator.getThread(post.getId(), user, null);
 
     }
 

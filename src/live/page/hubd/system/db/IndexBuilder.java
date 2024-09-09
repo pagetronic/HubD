@@ -47,7 +47,8 @@ public class IndexBuilder {
 
         indexes.addIndex("Notices",
                 IndexData.getExpire(new Json("date", -1), "expire", 90, TimeUnit.DAYS),
-                IndexData.get(new Json("user", 1).put("device", 1).put("read", 1).put("received", 1).put("date", -1), "user")
+                IndexData.get(new Json("user", 1).put("device", 1).put("read", 1).put("received", 1).put("date", -1), "user"),
+                IndexData.get(new Json("grouper", -1), "grouper")
         );
 
         indexes.addIndex("Subscriptions",
