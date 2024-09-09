@@ -6,7 +6,6 @@ package live.page.hubd.content.profile;
 import jakarta.servlet.annotation.WebServlet;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.HttpServlet;
-import live.page.hubd.system.servlet.utils.Api;
 import live.page.hubd.system.servlet.utils.ServletUtils;
 import live.page.hubd.system.servlet.wrapper.ApiServletRequest;
 import live.page.hubd.system.servlet.wrapper.ApiServletResponse;
@@ -64,7 +63,7 @@ public class ProfileServlet extends HttpServlet {
                     data.getString("newPassword", ""), user);
             case "avatar" -> BaseSession.avatar(user, data.getString("avatar"));
             case "tos" -> BaseSession.tos(user, data.getBoolean("accept", false));
-            case "uuid" -> DevicesUtils.uuid(user, data.getJson("device"));
+            case "device" -> DevicesUtils.deviceId(user, data.getJson("device"));
 
             default -> new Json("error", "NOT_FOUND");
         });

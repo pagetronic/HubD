@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class DevicesUtils {
 
-    public static Json uuid(Users user, Json device) {
+    public static Json deviceId(Users user, Json device) {
         if (user == null || device == null) {
             return null;
         }
