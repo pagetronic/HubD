@@ -69,7 +69,7 @@ public class Notifications implements ServletContextListener {
         }
         notice.put("title", title);
         notice.put("message", message);
-        notice.put("type", type == null ? "os" : type);
+        notice.put("type", type);
 
         notice.put("url", url);
         notice.put("channel", channel);

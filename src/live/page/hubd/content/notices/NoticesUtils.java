@@ -57,13 +57,9 @@ public class NoticesUtils {
                 Fx.log("Date parse error");
             }
         }
-        if ("os".equals(type)) {
+        if (!"app".equals(type) && type != null) {
             filters.add(Filters.eq("type", type));
             filters.add(Filters.ne("received", true));
-        }
-
-        if (type != null) {
-            filters.add(Filters.ne("read", true));
         }
 
         Bson paging = paginer.getFilters();

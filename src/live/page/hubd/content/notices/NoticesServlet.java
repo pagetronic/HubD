@@ -53,7 +53,7 @@ public class NoticesServlet extends HttpServlet {
 
         resp.sendResponse(switch (data.getString("action", "")) {
             case "all" -> Subscriptions.listSubscriptions(user, data.getString("paging", null));
-            case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type"));
+            case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type",""));
             case "control" -> Subscriptions.control(user, data.getString("channel"));
             case "received" -> NoticesUtils.received(user.getId(), data.getList("ids"));
             case "read" -> NoticesUtils.read(user.getId(), data);

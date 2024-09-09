@@ -26,7 +26,12 @@ public class Subscriptions {
         }
         Bson filter = Filters.and(Filters.eq("channel", channel), Filters.eq("user", user.getId()));
         return switch (type) {
-            case "os", "app" -> {
+            case "off" -> {
+                Db.deleteOne("Subscriptions", filter);
+                yield new Json("ok", true);
+            }
+            case "" -> new Json("error", "INVALID_DATA");
+            default -> {
                 Db.updateOne("Subscriptions",
                         filter,
                         new Json()
@@ -44,11 +49,6 @@ public class Subscriptions {
                 );
                 yield new Json("ok", true);
             }
-            case "off" -> {
-                Db.deleteOne("Subscriptions", filter);
-                yield new Json("ok", true);
-            }
-            default -> new Json("error", "INVALID_DATA");
         };
     }
 
