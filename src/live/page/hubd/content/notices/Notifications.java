@@ -27,7 +27,9 @@ public class Notifications implements ServletContextListener {
     private static final ExecutorService service = Executors.newFixedThreadPool(5);
 
     public static void notifyUser(String user_id, String title, String message, String url, String icon) {
-        save(user_id, title, message, url, icon, "user", null);
+        Db.find("Devices", Filters.eq("user", user_id))
+                .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId()));
+
     }
 
     public static void notify(String channel, String exclude, String title, String message, String url, String icon) {
