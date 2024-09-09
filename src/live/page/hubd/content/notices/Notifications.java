@@ -30,6 +30,8 @@ public class Notifications implements ServletContextListener {
         Db.find("Devices", Filters.eq("user", user_id))
                 .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId(), "test"));
 
+        SocketPusher.sendNoticesCount(user_id);
+
     }
 
     public static void notify(String channel, String exclude, String title, String message, String url, String icon) {

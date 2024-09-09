@@ -81,7 +81,22 @@ public class NoticesUtils {
 
         pipeline.add(paginer.getLastSort());
 
-        return paginer.getResult("Notices", pipeline);
+        Json notices = paginer.getResult("Notices", pipeline);
+
+        List<Json> result = notices.getListJson("result");
+        if (device == null && !result.isEmpty()) {
+            Bson filter = Filters.and(
+                    Filters.eq("user", user.getId()),
+                    Filters.gte("date", result.get(result.size() - 1).getDate("date")),
+                    Filters.lte("date", result.get(0).getDate("date")),
+                    Filters.ne("received", true)
+            );
+            Db.updateMany("Notices", Filters.and(filter),
+                    new Json("$set", new Json("received", true)));
+        }
+        SocketPusher.sendNoticesCount(user.getId());
+
+        return notices;
 
     }
 
@@ -125,17 +140,4 @@ public class NoticesUtils {
     }
 
 
-    public static Json received(String user_id, Date min, Date max) {
-        Bson filter = Filters.and(
-                Filters.eq("user", user_id),
-                Filters.gte("date", min),
-                Filters.lte("date", max),
-                Filters.ne("received", true)
-        );
-
-        Db.updateMany("Notices", filter,
-                new Json("$set", new Json("received", true)));
-        SocketPusher.sendNoticesCount(user_id);
-        return new Json("ok", true);
-    }
 }
