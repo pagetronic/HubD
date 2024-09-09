@@ -69,7 +69,6 @@ public class IndexBuilder {
         );
 
         indexes.addIndex("Devices",
-                IndexData.getExpire(new Json("update", -1), "expire", 365, TimeUnit.DAYS),
                 IndexData.get(new Json("user", 1).put("device", "hashed").put("update", -1), "select")
         );
 

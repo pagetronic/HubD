@@ -53,7 +53,7 @@ public class NoticesUtils {
             try {
                 Date date = Fx.ISO_DATE.parse(start);
                 filters.add(Filters.gt("date", date));
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 Fx.log("Date parse error");
             }
         }

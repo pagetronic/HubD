@@ -12,11 +12,20 @@ import java.util.Date;
 
 public class DevicesUtils {
 
-    public static Json deviceId(Users user, Json device) {
+    public static Json deviceId(Users user, Json device, String update) {
         if (user == null || device == null) {
             return null;
         }
+
         device.sort();
+
+        if (update != null) {
+            return new Json("ok", Db.updateOne("Devices", Filters.and(
+                    Filters.eq("_id", update),
+                    Filters.eq("user", user.getId())
+            ), new Json("$set", new Json("device", device))).getMatchedCount() > 0);
+        }
+
         Json rez = Db.findOneAndUpdate("Devices",
                 Filters.and(
                         Filters.eq("user", user.getId()),

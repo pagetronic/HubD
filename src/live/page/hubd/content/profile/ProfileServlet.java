@@ -63,7 +63,7 @@ public class ProfileServlet extends HttpServlet {
                     data.getString("newPassword", ""), user);
             case "avatar" -> BaseSession.avatar(user, data.getString("avatar"));
             case "tos" -> BaseSession.tos(user, data.getBoolean("accept", false));
-            case "device" -> DevicesUtils.deviceId(user, data.getJson("device"));
+            case "device" -> DevicesUtils.deviceId(user, data.getJson("device"), data.getString("update"));
 
             default -> new Json("error", "NOT_FOUND");
         });
