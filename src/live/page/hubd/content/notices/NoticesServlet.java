@@ -39,7 +39,8 @@ public class NoticesServlet extends HttpServlet {
             return;
         }
 
-        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("start", null), req.getString("type", null), req.getString("paging", null)));
+        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("start", null),
+                req.getString("device", null), req.getString("paging", null)));
     }
 
 
@@ -52,10 +53,10 @@ public class NoticesServlet extends HttpServlet {
         }
 
         resp.sendResponse(switch (data.getString("action", "")) {
-            case "all" -> Subscriptions.listSubscriptions(user, data.getString("paging", null));
-            case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type",""));
-            case "control" -> Subscriptions.control(user, data.getString("channel"));
-            case "received" -> NoticesUtils.received(user.getId(), data.getList("ids"));
+            case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type", ""),
+                    data.getString("device"));
+            case "control" -> Subscriptions.control(user, data.getString("channel"), data.getString("device", ""));
+            case "received" -> NoticesUtils.received(user.getId(), data.getList("ids"), data.getString("device"));
             case "read" -> NoticesUtils.read(user.getId(), data);
             case "remove" -> NoticesUtils.remove(user.getId(), data);
             default -> new Json("error", "INVALID_DATA");

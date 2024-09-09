@@ -3,13 +3,9 @@
  */
 package live.page.hubd.content.notices;
 
-import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import live.page.hubd.system.db.Db;
-import live.page.hubd.system.db.utils.Aggregator;
-import live.page.hubd.system.db.utils.Pipeline;
-import live.page.hubd.system.db.utils.paginer.Paginer;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.sessions.Users;
 import org.bson.conversions.Bson;
@@ -20,70 +16,61 @@ import java.util.List;
 
 public class Subscriptions {
 
-    public static Json subscribe(Users user, String channel, String type) {
+    public static Json subscribe(Users user, String channel, String type, String device) {
         if (channel == null) {
             return new Json("error", "INVALID_DATA");
         }
         Bson filter = Filters.and(Filters.eq("channel", channel), Filters.eq("user", user.getId()));
-        return switch (type) {
-            case "off" -> {
-                Db.deleteOne("Subscriptions", filter);
-                yield new Json("ok", true);
-            }
-            case "" -> new Json("error", "INVALID_DATA");
-            default -> {
-                Db.updateOne("Subscriptions",
-                        filter,
-                        new Json()
-                                .put("$set",
-                                        new Json()
-                                                .put("type", type)
-                                )
-                                .put("$setOnInsert", new Json()
-                                        .put("channel", channel)
-                                        .put("user", user.getId())
-                                        .put("date", new Date())
-                                        .put("_id", Db.getKey())
-                                ),
-                        new UpdateOptions().upsert(true)
-                );
-                yield new Json("ok", true);
-            }
-        };
+        if (type.isEmpty()) {
+            return new Json("error", "INVALID_DATA");
+        } else if (type.equals("off") || type.equals("app")) {
+            Db.deleteMany("Subscriptions", filter);
+        }
+        if (type.equals("os") || type.equals("app")) {
+            Db.updateOne("Subscriptions",
+                    device != null ? Filters.and(Filters.eq("device", device)) : filter,
+                    new Json()
+                            .put("$set",
+                                    new Json()
+                                            .put("type", type)
+                            )
+                            .put("$setOnInsert", new Json()
+                                    .put("channel", channel)
+                                    .put("device", device)
+                                    .put("user", user.getId())
+                                    .put("date", new Date())
+                                    .put("_id", Db.getKey())
+                            ),
+                    new UpdateOptions().upsert(true)
+            );
+            return new Json("ok", true);
+        }
+
+        return new Json("ok", false);
     }
 
 
-    public static Json control(Users user, String channel) {
+    public static Json control(Users user, String channel, String device) {
         if (channel == null) {
             return new Json("error", "INVALID_DATA");
         }
-        Json subscription = Db.find("Subscriptions", Filters.and(Filters.eq("channel", channel), Filters.eq("user", user.getId()))).first();
-        return new Json("type", subscription != null ? subscription.getString("type", "off") : "off");
-    }
 
+        List<Json> subscriptions = Db.find("Subscriptions", Filters.and(
+                Filters.eq("channel", channel),
+                Filters.eq("user", user.getId())
+        )).into(new ArrayList<>());
 
-    public static Json listSubscriptions(Users user, String paging) {
-
-        Aggregator grouper = new Aggregator("date", "channel");
-
-        Paginer paginer = new Paginer(paging, "-date", 100);
-        Pipeline pipeline = new Pipeline();
-
-        List<Bson> filters = new ArrayList<>();
-        filters.add(Filters.eq("user", user.getId()));
-        if (paginer.getFilters() != null) {
-            filters.add(paginer.getFilters());
+        if (subscriptions.isEmpty()) {
+            return new Json("type", "off");
         }
-        pipeline.add(Aggregates.match(Filters.and(filters)));
-
-        pipeline.add(paginer.getFirstSort());
-        pipeline.add(paginer.getLimit());
-
-        pipeline.add(Aggregates.project(grouper.getProjection().put("_id", false)));
-
-        pipeline.add(paginer.getLastSort());
-
-        return paginer.getResult("Subscriptions", pipeline);
+        for (Json subscription : subscriptions) {
+            if (subscription.getString("type", "").equals("os") &&
+                    subscription.getString("device", "").equals(device)) {
+                return new Json("type", "os");
+            }
+        }
+        return new Json("type", "app");
     }
+
 
 }

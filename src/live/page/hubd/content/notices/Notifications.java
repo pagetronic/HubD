@@ -51,14 +51,14 @@ public class Notifications implements ServletContextListener {
             MongoCursor<Json> subscriptions = Db.find("Subscriptions", Filters.and(filters)).sort(Sorts.ascending("date")).iterator();
             while (subscriptions.hasNext()) {
                 Json subscription = subscriptions.next();
-                save(subscription.getString("user"), title, message, url, icon, subscription.getString("channel"), subscription.getString("type"));
+                save(subscription.getString("user"), title, message, url, icon, subscription.getString("channel"), subscription.getString("device"));
             }
             subscriptions.close();
         });
     }
 
 
-    private static void save(String user_id, String title, String message, String url, String icon, String channel, String type) {
+    private static void save(String user_id, String title, String message, String url, String icon, String channel, String device) {
 
         if (channel == null) {
             channel = Fx.getUnique();
@@ -71,7 +71,7 @@ public class Notifications implements ServletContextListener {
         }
         notice.put("title", title);
         notice.put("message", message);
-        notice.put("type", type);
+        notice.put("device", device);
 
         notice.put("url", url);
         notice.put("channel", channel);

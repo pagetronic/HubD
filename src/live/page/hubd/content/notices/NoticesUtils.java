@@ -16,7 +16,6 @@ import live.page.hubd.system.socket.SocketPusher;
 import live.page.hubd.system.utils.Fx;
 import org.bson.conversions.Bson;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,11 +38,11 @@ public class NoticesUtils {
         return notice;
     }
 
-    public static Json getNotices(Users user, String start, String type, String next_str) {
+    public static Json getNotices(Users user, String start, String device, String next_str) {
 
 
         Aggregator grouper = new Aggregator("title", "message", "icon", "type", "channel", "url", "date", "read", "read", "received");
-        Paginer paginer = new Paginer(next_str, "-date", type != null ? 40 : 10);
+        Paginer paginer = new Paginer(next_str, "-date", device != null ? 40 : 10);
 
         Pipeline pipeline = new Pipeline();
         List<Bson> filters = new ArrayList<>();
@@ -57,8 +56,8 @@ public class NoticesUtils {
                 Fx.log("Date parse error");
             }
         }
-        if (!"app".equals(type) && type != null) {
-            filters.add(Filters.eq("type", type));
+        if (device != null) {
+            filters.add(Filters.eq("device", device));
             filters.add(Filters.ne("received", true));
         }
 
@@ -120,9 +119,12 @@ public class NoticesUtils {
     }
 
 
-    public static Json received(String user_id, List<String> ids) {
-        Db.updateMany("Notices",
-                Filters.and(Filters.eq("user", user_id), Filters.in("_id", ids), Filters.ne("received", true)),
+    public static Json received(String user_id, List<String> ids, String device) {
+        Bson filter = Filters.and(Filters.eq("user", user_id), Filters.in("_id", ids), Filters.ne("received", true));
+        if (device != null) {
+            filter = Filters.and(filter, Filters.eq("device", device));
+        }
+        Db.updateMany("Notices", filter,
                 new Json("$set", new Json("received", true)));
         SocketPusher.sendNoticesCount(user_id);
         return new Json("ok", true);

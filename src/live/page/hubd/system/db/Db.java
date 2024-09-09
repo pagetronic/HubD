@@ -219,9 +219,9 @@ public class Db implements ServletContextListener {
      */
     public static FindIterable<Json> find(String collection, Bson filter) {
         if (filter == null) {
-            return getDb(collection).find();
+            return getDb(collection).find().limit(1000);
         }
-        return getDb(collection).find(filter);
+        return getDb(collection).find(filter).limit(1000);
     }
 
     /**
