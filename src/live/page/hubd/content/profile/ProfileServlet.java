@@ -15,6 +15,7 @@ import live.page.hubd.system.servlet.wrapper.WebServletResponse;
 import live.page.hubd.system.sessions.AuthType;
 import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
+import live.page.hubd.system.utils.DevicesUtils;
 
 import java.io.IOException;
 
@@ -63,6 +64,7 @@ public class ProfileServlet extends HttpServlet {
                     data.getString("newPassword", ""), user);
             case "avatar" -> BaseSession.avatar(user, data.getString("avatar"));
             case "tos" -> BaseSession.tos(user, data.getBoolean("accept", false));
+            case "uuid" -> DevicesUtils.uuid(user, data.getJson("device"));
 
             default -> new Json("error", "NOT_FOUND");
         });

@@ -68,6 +68,11 @@ public class IndexBuilder {
                 IndexData.get(new Json("parent", 1), "parent")
         );
 
+        indexes.addIndex("Devices",
+                IndexData.get(new Json("user", 1).put("device", "hashed").put("date", -1), "select")
+        );
+
+
         indexes.addIndex("Groups",
                 IndexData.get(new Json("date", -1), "date")
         );
