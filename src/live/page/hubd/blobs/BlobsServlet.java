@@ -19,6 +19,11 @@ public class BlobsServlet extends HttpServlet {
 
     @Override
     public void doGetApi(ApiServletRequest req, ApiServletResponse resp, Users user) throws IOException {
+        if (user == null) {
+            resp.sendError(401, "PLEASE_LOGIN");
+            return;
+        }
+
         if (req.getRequestURI().equals("/blobs")) {
             resp.sendResponse(BlobsDb.getUserFiles(user.getId(), req.getString("paging", null)));
         } else {
