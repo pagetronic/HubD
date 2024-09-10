@@ -49,7 +49,27 @@ public class Aggregator extends ArrayList<BsonField> {
      * @param groups accumulators to add or replace
      * @return a list of accumulators
      */
+    public List<BsonField> getGrouperLast(BsonField... groups) {
+        return getGrouper(true, groups);
+    }
+
+    /**
+     * Get the base Accumulator and all other provided or have to be replaced
+     *
+     * @param groups accumulators to add or replace
+     * @return a list of accumulators
+     */
     public List<BsonField> getGrouper(BsonField... groups) {
+        return getGrouper(false, groups);
+    }
+
+    /**
+     * Get the base Accumulator and all other provided or have to be replaced
+     *
+     * @param groups accumulators to add or replace
+     * @return a list of accumulators
+     */
+    private List<BsonField> getGrouper(boolean last, BsonField... groups) {
         List<BsonField> grouper = new ArrayList<>();
         List<String> keyChanges = new ArrayList<>();
         for (BsonField group : groups) {
@@ -58,7 +78,7 @@ public class Aggregator extends ArrayList<BsonField> {
         }
         for (String key : keys) {
             if (!keyChanges.contains(key)) {
-                grouper.add(Accumulators.first(key, "$" + key));
+                grouper.add(last ? Accumulators.last(key, "$" + key) : Accumulators.first(key, "$" + key));
             }
         }
 

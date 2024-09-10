@@ -15,9 +15,11 @@ import live.page.hubd.system.sessions.BaseSession;
 import live.page.hubd.system.sessions.Users;
 import live.page.hubd.system.socket.SocketPusher;
 import live.page.hubd.system.utils.Fx;
+import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class NoticesUtils {
     public static Json getNotices(Users user, String start, String device, String next_str) {
 
 
-        Aggregator grouper = new Aggregator("title", "message", "icon", "type", "channel", "url", "date", "read", "read", "received");
+        Aggregator grouper = new Aggregator("count", "follow", "title", "message", "icon", "type", "channel", "grouper", "url", "date", "read", "read", "received");
         Paginer paginer = new Paginer(next_str, "-date", device != null ? 40 : 10);
 
         Pipeline pipeline = new Pipeline();
@@ -68,18 +70,43 @@ public class NoticesUtils {
         }
 
         pipeline.add(Aggregates.match(Filters.and(filters)));
+        pipeline.add(paginer.getLastSort());
+        pipeline.add(Aggregates.group(
+                new Json("$cond", new Json()
+                        .put("if", new Json("$eq", Arrays.asList("$grouper", new BsonUndefined())))
+                        .put("then", "$_id")
+                        .put("else", "$grouper")
+                ),
+                grouper.getGrouper(
+                        Accumulators.first("id", "$_id")
+                )));
+
         pipeline.add(paginer.getFirstSort());
 
         pipeline.add(paginer.getLimit());
 
-        pipeline.add(Aggregates.group("$grouper", grouper.getGrouper(
-                Accumulators.first("id", "$_id")
-        )));
-
-
-        pipeline.add(Aggregates.project(grouper.getProjectionOrder().prepend("_id", "$_id")));
+        pipeline.add(Aggregates.group(
+                "$channel",
+                grouper.getGrouper(
+                        Accumulators.first("id", "$id"),
+                        Accumulators.sum("count", 1)
+                )));
 
         pipeline.add(paginer.getLastSort());
+
+        pipeline.add(Aggregates.lookup("Subscriptions", "channel", "channel", "follow"));
+
+        pipeline.add(Aggregates.project(grouper.getProjection()
+                .put("_id", "$id")
+                .put("follow",
+                        new Json("$cond", new Json()
+                                .put("if", new Json("$gt", Arrays.asList(new Json("$size", "$follow"), 0)))
+                                .put("then", true)
+                                .put("else", false)
+                        )
+                )));
+        pipeline.add(Aggregates.project(grouper.getProjectionOrder().prepend("_id", "$_id")));
+
 
         Json notices = paginer.getResult("Notices", pipeline);
 
@@ -130,7 +157,10 @@ public class NoticesUtils {
 
     public static Json remove(String user_id, Json data) {
         Json rez = new Json("ok", false);
-        if (data.getId() != null) {
+        if (data.containsKey("grouper")) {
+            rez.put("ok", Db.deleteMany("Notices", Filters.and(Filters.eq("user", user_id), Filters.eq("grouper", data.getString("grouper")))));
+
+        } else if (data.getId() != null) {
             rez.put("ok", Db.deleteOne("Notices", Filters.and(Filters.eq("user", user_id), Filters.eq("_id", data.getId()))));
         } else if (data.getList("ids") != null) {
             rez.put("ok", true);

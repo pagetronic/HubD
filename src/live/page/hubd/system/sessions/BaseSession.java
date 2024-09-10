@@ -558,7 +558,11 @@ public class BaseSession implements ServletContextListener {
         List<Json> notices = Db.aggregate("Notices", List.of(
                 Aggregates.match(Filters.and(Filters.eq("user", user_id), Filters.ne("received", true))),
                 Aggregates.project(new Json().put("grouper", true)),
-                Aggregates.group("$grouper"),
+                Aggregates.group(new Json()
+                        .put("if", new Json("$eq", Arrays.asList("$grouper", new BsonUndefined())))
+                        .put("then", "$_id")
+                        .put("else", "$grouper")
+                ),
                 Aggregates.limit(100)
         )).into(new ArrayList<>());
         int counts = notices.size();

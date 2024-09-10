@@ -80,8 +80,9 @@ public class Notifications implements ServletContextListener {
         notice.put("channel", channel);
         notice.put("date", new Date());
         notice.put("icon", icon);
-        notice.put("grouper", grouper);
-
+        if (grouper != null) {
+            notice.put("grouper", grouper);
+        }
         Db.save("Notices", notice);
 
         if (user_id != null) {
