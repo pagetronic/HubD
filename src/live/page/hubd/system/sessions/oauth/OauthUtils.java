@@ -325,7 +325,7 @@ public class OauthUtils {
         Json session = BaseSession.buildSession(req, null);
         session.put("code", Fx.getSecureKey());
         session.put("provider", provider);
-        if (redirect != null && !redirect.equals("")) {
+        if (redirect != null && !redirect.isEmpty()) {
             session.put("referer", redirect);
         } else if ("google".equals(provider)) {
             session.put("referer", "https://account.google.com");
