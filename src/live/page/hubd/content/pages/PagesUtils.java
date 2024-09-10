@@ -295,7 +295,7 @@ public class PagesUtils {
         }
 
         if (revision.containsKey("date")) {
-            revision.put("date", Fx.ISO_DATE.format(revision.getDate("date")));
+            revision.put("date", Fx.dateFormater.format(revision.getDate("date")));
         }
         if (revision.containsKey("url")) {
             String[] urls_rev = revision.getString("url").split("/");

@@ -20,7 +20,7 @@ public class FxTemplate {
         if (date == null) {
             return null;
         }
-        return Fx.ISO_DATE.format(date);
+        return Fx.dateFormater.format(date);
     }
 
     public static int textWidth(String str) {

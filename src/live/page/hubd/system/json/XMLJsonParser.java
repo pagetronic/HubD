@@ -95,7 +95,7 @@ public class XMLJsonParser {
             static class DateAdapter extends TypeAdapter<Date> {
                 @Override
                 public void write(JsonWriter out, Date date) throws IOException {
-                    out.jsonValue("\"" + Fx.ISO_DATE.format(date) + "\"");
+                    out.jsonValue("\"" + Fx.dateFormater.format(date) + "\"");
                 }
 
                 @Override
@@ -179,7 +179,7 @@ public class XMLJsonParser {
             }
 
         } else if (object instanceof Date date) {
-            sb.append(Fx.ISO_DATE.format(date));
+            sb.append(Fx.dateFormater.format(date));
 
         } else {
             sb.append(StringEscapeUtils.escapeXml11("" + object));

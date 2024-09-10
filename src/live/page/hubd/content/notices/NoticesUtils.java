@@ -51,7 +51,7 @@ public class NoticesUtils {
         filters.add(Filters.eq("user", user.getId()));
         if (start != null) {
             try {
-                Date date = Fx.ISO_DATE.parse(start);
+                Date date = Fx.dateFormater.parse(start);
                 filters.add(Filters.gt("date", date));
             } catch (Exception e) {
                 Fx.log("Date parse error");

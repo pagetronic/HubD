@@ -42,7 +42,7 @@ public class Json implements Map<String, Object>, Serializable, Bson {
         }
         try {
             ObjectMapper objMapper = new ObjectMapper();
-            objMapper.setDateFormat(Fx.ISO_DATE);
+            objMapper.setDateFormat(Fx.dateFormater);
 
             putAll(objMapper.readValue(json_string, Json.class));
         } catch (Exception e) {
@@ -261,7 +261,7 @@ public class Json implements Map<String, Object>, Serializable, Bson {
     public Date getDate(String key) {
         if (get(key) instanceof String) {
             try {
-                return Fx.ISO_DATE.parse(getString(key));
+                return Fx.dateFormater.parse(getString(key));
             } catch (ParseException e) {
                 return null;
             }
