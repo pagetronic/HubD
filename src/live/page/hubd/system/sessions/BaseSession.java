@@ -12,6 +12,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import live.page.hubd.content.notices.NoticesUtils;
 import live.page.hubd.content.users.UsersUtils;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.db.Db;
@@ -502,7 +503,7 @@ public class BaseSession implements ServletContextListener {
         }
         data.put("join", user.getDate("join"));
 
-        data.put("notices", countNotices(user.getId()));
+        data.put("notices", NoticesUtils.countNotices(user.getId()));
 
         data.put("cash", user.getJson("cash"));
         data.put("coins", user.getInteger("coins", 0));
@@ -552,21 +553,6 @@ public class BaseSession implements ServletContextListener {
             Db.updateOne("Users", Filters.eq("_id", user.getId()), new Json("$unset", new Json("tos", "")));
         }
         return new Json("ok", true);
-    }
-
-    public static String countNotices(String user_id) {
-        List<Json> notices = Db.aggregate("Notices", List.of(
-                Aggregates.match(Filters.and(Filters.eq("user", user_id), Filters.ne("received", true))),
-                Aggregates.project(new Json().put("grouper", true)),
-                Aggregates.group(new Json()
-                        .put("if", new Json("$eq", Arrays.asList("$grouper", new BsonUndefined())))
-                        .put("then", "$_id")
-                        .put("else", "$grouper")
-                ),
-                Aggregates.limit(100)
-        )).into(new ArrayList<>());
-        int counts = notices.size();
-        return counts >= 100 ? "99+" : counts + "";
     }
 
 

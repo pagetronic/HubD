@@ -3,9 +3,9 @@
  */
 package live.page.hubd.system.socket;
 
+import live.page.hubd.content.notices.NoticesUtils;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
-import live.page.hubd.system.sessions.BaseSession;
 
 import java.util.Date;
 import java.util.List;
@@ -37,7 +37,7 @@ public class SocketPusher {
 
     public static void sendNoticesCount(String user_id) {
 
-        send("user", user_id, new Json("action", "notices").put("notices", BaseSession.countNotices(user_id)));
+        send("user", user_id, new Json("action", "notices").put("notices", NoticesUtils.countNotices(user_id)));
     }
 
 }

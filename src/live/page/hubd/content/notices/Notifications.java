@@ -28,7 +28,7 @@ public class Notifications implements ServletContextListener {
 
     public static void notifyUser(String user_id, String title, String message, String url, String icon) {
         Db.find("Devices", Filters.eq("user", user_id))
-                .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId(), "test"));
+                .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId(), null));
 
         SocketPusher.sendNoticesCount(user_id);
 
