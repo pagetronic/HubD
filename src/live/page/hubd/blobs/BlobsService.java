@@ -323,7 +323,7 @@ public class BlobsService {
         if (origin != null) {
             try {
                 URI uriOrigin = new URI(origin);
-                boolean authorized = origin.startsWith("http://localhost:") || Settings.domainAvailable(uriOrigin.getHost()) && uriOrigin.getScheme().equals(Settings.HTTP_PROTO.replace("://", ""));
+                boolean authorized = origin.startsWith("http://localhost:") || Settings.domainAvailable(uriOrigin.getHost());
                 if (Fx.IS_DEBUG || authorized) {
                     resp.setHeader("Access-Control-Allow-Origin", origin);
                 }

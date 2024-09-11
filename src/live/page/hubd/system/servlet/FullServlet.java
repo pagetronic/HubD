@@ -42,7 +42,7 @@ public abstract class FullServlet extends BaseServlet {
             boolean authorized = false;
             try {
                 URI uriOrigin = new URI(origin);
-                authorized = Settings.domainAvailable(uriOrigin.getHost()) && uriOrigin.getScheme().equals(Settings.HTTP_PROTO.replace("://", ""));
+                authorized = Settings.domainAvailable(uriOrigin.getHost()) ;
             } catch (Exception ignore) {
             }
 
