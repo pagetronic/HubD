@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
 
 /**
@@ -49,7 +50,6 @@ public class Compressors {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("brotli", "-f", "-o", out.getAbsolutePath(), in.getAbsolutePath());
             Process process = processBuilder.start();
-            process.waitFor();
             try {
                 if (Thumbnailer.hasError(process.getErrorStream())) {
                     Fx.log("No command brotli");
