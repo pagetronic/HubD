@@ -49,8 +49,8 @@ public class Compressors {
             FileUtils.writeByteArrayToFile(in, data);
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("brotli", "-f", "-o", out.getAbsolutePath(), in.getAbsolutePath());
-            Process process = processBuilder.start();
             try {
+                Process process = processBuilder.start();
                 if (Thumbnailer.hasError(process.getErrorStream())) {
                     Fx.log("No command brotli");
                     return null;
