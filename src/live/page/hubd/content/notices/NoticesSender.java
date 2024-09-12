@@ -106,8 +106,9 @@ public class NoticesSender implements ServletContextListener {
         notice.put("url", url);
         notice.put("channel", channel);
         notice.put("date", new Date());
-        notice.put("icon", icon);
-
+        if (icon != null) {
+            notice.put("icon", icon);
+        }
         Db.save("Notices", notice);
 
         if (user_id != null) {
