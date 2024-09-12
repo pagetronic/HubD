@@ -23,7 +23,7 @@ public class NoticesServlet extends HttpServlet {
     @Override
     public void doGetHttp(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
 
-        Json notice = NoticesUtils.readClick(req.getId());
+        Json notice = NoticesView.readClick(req.getId());
         if (notice == null) {
             resp.sendError(404, Language.get("UNKNOWN", req.getLng()));
             return;
@@ -39,7 +39,7 @@ public class NoticesServlet extends HttpServlet {
             return;
         }
 
-        resp.sendResponse(NoticesUtils.getNotices(user, req.getString("start", null),
+        resp.sendResponse(NoticesView.getNotices(user, req.getString("start", null),
                 req.getString("device", null), req.getString("paging", null)));
     }
 
@@ -53,11 +53,11 @@ public class NoticesServlet extends HttpServlet {
         }
 
         resp.sendResponse(switch (data.getString("action", "")) {
-            case "subscribe" -> Subscriptions.subscribe(user, data.getString("channel"), data.getString("type", ""),
+            case "subscribe" -> NoticesSubs.subscribe(user, data.getString("channel"), data.getString("type", ""),
                     data.getString("device"));
-            case "control" -> Subscriptions.control(user, data.getString("channel"), data.getString("device", ""));
-            case "read" -> NoticesUtils.read(user.getId(), data);
-            case "remove" -> NoticesUtils.remove(user.getId(), data);
+            case "control" -> NoticesSubs.control(user, data.getString("channel"), data.getString("device", ""));
+            case "read" -> NoticesView.read(user.getId(), data);
+            case "remove" -> NoticesView.remove(user.getId(), data.getId() != null ? data.getId() : data.getList("ids"));
             default -> new Json("error", "INVALID_DATA");
         });
 

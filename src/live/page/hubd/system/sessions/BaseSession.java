@@ -12,7 +12,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import live.page.hubd.content.notices.NoticesUtils;
+import live.page.hubd.content.notices.NoticesView;
 import live.page.hubd.content.users.UsersUtils;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.db.Db;
@@ -30,7 +30,6 @@ import live.page.hubd.system.utils.Mailer;
 import org.bson.BsonUndefined;
 import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -503,7 +502,7 @@ public class BaseSession implements ServletContextListener {
         }
         data.put("join", user.getDate("join"));
 
-        data.put("notices", NoticesUtils.countNotices(user.getId()));
+        data.put("notices", NoticesView.count(user.getId()));
 
         data.put("cash", user.getJson("cash"));
         data.put("coins", user.getInteger("coins", 0));

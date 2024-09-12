@@ -4,12 +4,15 @@
 package live.page.hubd.content.notices;
 
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import live.page.hubd.system.db.Db;
+import live.page.hubd.system.db.utils.Pipeline;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.socket.SocketPusher;
 import live.page.hubd.system.utils.Fx;
@@ -22,16 +25,28 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @WebListener
-public class Notifications implements ServletContextListener {
+public class NoticesSender implements ServletContextListener {
 
     private static final ExecutorService service = Executors.newFixedThreadPool(5);
 
     public static void notifyUser(String user_id, String title, String message, String url, String icon) {
-        Db.find("Devices", Filters.eq("user", user_id))
-                .forEach(device -> save(user_id, title, message, url, icon, "user", device.getId(), null));
 
-        SocketPusher.sendNoticesCount(user_id);
-
+        service.submit(() -> {
+            Pipeline pipeline = new Pipeline();
+            if (user_id != null) {
+                pipeline.add(Aggregates.match(Filters.eq("user", user_id)));
+            }
+            pipeline.add(Aggregates.group("$user", List.of(
+                    Accumulators.push("devices", "$_id")
+            )));
+            MongoCursor<Json> devices = Db.aggregate("Devices", pipeline).iterator();
+            while (devices.hasNext() && !service.isShutdown() && !service.isTerminated()) {
+                Json device = devices.next();
+                save(device.getId(), title, message, url, icon, "user", List.of());
+                SocketPusher.sendNoticesCount(user_id);
+            }
+            devices.close();
+        });
     }
 
     public static void notify(String channel, String exclude, String title, String message, String url, String icon) {
@@ -49,19 +64,30 @@ public class Notifications implements ServletContextListener {
                 filters.add(Filters.nin("user", excludes));
             }
             filters.add(Filters.eq("channel", channel));
-            String grouper = Db.getKey();
-            MongoCursor<Json> subscriptions = Db.find("Subscriptions", Filters.and(filters)).sort(Sorts.ascending("date")).iterator();
-            while (subscriptions.hasNext()) {
+
+            MongoCursor<Json> subscriptions = Db.aggregate("Subs",
+                    List.of(
+                            Aggregates.match(Filters.and(filters)),
+                            Aggregates.group("$user",
+                                    List.of(
+                                            Accumulators.push("subs", "$_id")
+                                    )),
+                            Aggregates.sort(Sorts.ascending("date")),
+                            Aggregates.limit(100)
+                    )
+
+
+            ).iterator();
+            while (subscriptions.hasNext() && !service.isShutdown() && !service.isTerminated()) {
                 Json subscription = subscriptions.next();
-                save(subscription.getString("user"), title, message, url, icon,
-                        subscription.getString("channel"), subscription.getString("device"), grouper);
+                save(subscription.getId(), title, message, url, icon, channel, subscription.getList("subs"));
             }
             subscriptions.close();
         });
     }
 
 
-    private static void save(String user_id, String title, String message, String url, String icon, String channel, String device, String grouper) {
+    private static void save(String user_id, String title, String message, String url, String icon, String channel, List<String> subs) {
 
         if (channel == null) {
             channel = Fx.getUnique();
@@ -74,15 +100,14 @@ public class Notifications implements ServletContextListener {
         }
         notice.put("title", title);
         notice.put("message", message);
-        notice.put("device", device);
-
+        if (subs.isEmpty()) {
+            notice.put("subs", subs);
+        }
         notice.put("url", url);
         notice.put("channel", channel);
         notice.put("date", new Date());
         notice.put("icon", icon);
-        if (grouper != null) {
-            notice.put("grouper", grouper);
-        }
+
         Db.save("Notices", notice);
 
         if (user_id != null) {

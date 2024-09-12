@@ -4,7 +4,7 @@
 package live.page.hubd.content.threads;
 
 import com.mongodb.client.model.*;
-import live.page.hubd.content.notices.Notifications;
+import live.page.hubd.content.notices.NoticesSender;
 import live.page.hubd.system.Settings;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.db.utils.Pipeline;
@@ -164,7 +164,7 @@ public class DiscussPoster {
         for (Json parent : parents) {
             if (parent.getString("type").equals("Posts")) {
                 Json threadParent = ThreadsAggregator.getThread(parent.getId(), user, null);
-                Notifications.notify("posts/" + threadParent.getId(), user.getId(),
+                NoticesSender.notify("posts/" + threadParent.getId(), user.getId(),
                         threadParent.getString("title", Fx.truncate(threadParent.getString("text", ""), 80)),
                         post.getString("text"),
                         threadParent.getString("url"));
