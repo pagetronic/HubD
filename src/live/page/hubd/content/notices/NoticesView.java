@@ -39,7 +39,7 @@ public class NoticesView {
     }
 
     public static Json getNotices(Users user, String start, String device, String next_str) {
-        
+
         Aggregator grouper = new Aggregator("ids", "count", "date", "update", "read", "title", "message", "url", "icon", "channel", "type", "devices");
         Paginer paginer = new Paginer(next_str, "-date", device != null ? 40 : 10);
 
@@ -92,9 +92,10 @@ public class NoticesView {
             pipeline.add(Aggregates.match(
                     Filters.or(
                             Filters.eq("subs.device", device),
-                            Filters.eq("subs.device", new BsonUndefined())
+                            Filters.eq("subs.device", null)
                     )
             ));
+            pipeline.add(Aggregates.addFields(new Field<>("_id", "$id")));
         } else {
             pipeline.add(Aggregates.addFields(
                     new Field<>("_id", "$id"),
@@ -118,21 +119,21 @@ public class NoticesView {
                                     )
                     )
                     )));
+
         }
-
-
         pipeline.add(paginer.getLastSort());
         pipeline.add(Aggregates.project(grouper.getProjectionOrder()));
 
         Json notices = paginer.getResult("Notices", pipeline);
-
-        List<Json> result = notices.getListJson("result");
-        if (!result.isEmpty()) {
-            List<String> ids = new ArrayList<>();
-            result.forEach(json -> ids.addAll(json.getList("ids")));
-            if (Db.updateMany("Notices", Filters.in("_id", ids),
-                    new Json("$set", new Json("received", true))).getModifiedCount() > 0) {
-                SocketPusher.sendNoticesCount(user.getId());
+        if (notices != null) {
+            List<Json> result = notices.getListJson("result");
+            if (!result.isEmpty()) {
+                List<String> ids = new ArrayList<>();
+                result.forEach(json -> ids.addAll(json.getList("ids")));
+                if (Db.updateMany("Notices", Filters.in("_id", ids),
+                        new Json("$set", new Json("received", true))).getModifiedCount() > 0) {
+                    SocketPusher.sendNoticesCount(user.getId());
+                }
             }
         }
 
