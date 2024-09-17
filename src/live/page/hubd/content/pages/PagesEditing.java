@@ -22,8 +22,8 @@ public class PagesEditing extends HttpServlet {
     public void doGetHttp(WebServletRequest req, WebServletResponse resp, Users user) throws IOException {
         req.setRobotsIndex(false);
 
-        if (!user.getAdmin()) {
-            resp.sendError(404, "NOT_FOUND");
+        if(user==null || !user.getAdmin()) {
+            resp.sendError(404, req);
             return;
         }
 

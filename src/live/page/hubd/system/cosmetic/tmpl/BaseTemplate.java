@@ -4,6 +4,7 @@
 package live.page.hubd.system.cosmetic.tmpl;
 
 import live.page.hubd.system.Settings;
+import live.page.hubd.system.cosmetic.svg.SVGTemplate;
 import live.page.hubd.system.cosmetic.tmpl.parsers.Cleaner;
 import live.page.hubd.system.cosmetic.tmpl.parsers.PageParser;
 import live.page.hubd.system.cosmetic.tmpl.parsers.PostParser;
@@ -119,6 +120,8 @@ public class BaseTemplate {
         context.put("logo", Settings.getLogo());
         context.put("debug", Fx.IS_DEBUG);
         context.put("Fx", FxTemplate.class);
+
+        context.put("svg",  SVGTemplate.init());
 
     }
 

@@ -9,6 +9,8 @@ import live.page.hubd.system.Settings;
 import live.page.hubd.system.cosmetic.compress.CSSMin;
 import live.page.hubd.system.cosmetic.compress.Compressors;
 import live.page.hubd.system.cosmetic.compress.JSMin;
+import live.page.hubd.system.cosmetic.svg.SVGServlet;
+import live.page.hubd.system.cosmetic.svg.SVGTemplate;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.LightServlet;
 import live.page.hubd.system.servlet.wrapper.BaseServletRequest;
@@ -135,15 +137,23 @@ public class UiStyleServlet extends LightServlet {
                     continue;
                 }
                 dateJs = controleDate(dateJs, jsfile);
+                String fileString = FileUtils.readFileToString(jsfile, StandardCharsets.UTF_8);
+                Matcher matcher = Pattern.compile("\\$\\{?svg\\.([0-9a-z_\\-]+)}?", Pattern.CASE_INSENSITIVE).matcher(fileString);
+                SVGTemplate svgTemplate = new SVGTemplate();
+                while (matcher.find()) {
+                    fileString = fileString.replace(matcher.group(0), svgTemplate.get(matcher.group(1)));
+                }
+
                 if (!minified || jsfile.getName().contains(".min.")) {
-                    wrt.append(FileUtils.readFileToString(jsfile, StandardCharsets.UTF_8)).append("\n");
+                    wrt.append(fileString).append("\n");
                 } else {
-                    wrt.append(JSMin.minify(FileUtils.readFileToString(jsfile, StandardCharsets.UTF_8))).append("\n");
+                    wrt.append(JSMin.minify(fileString)).append("\n");
                 }
             }
             File app = FilesRepos.getFile("/app/main.dart.js");
-            dateJs = controleDate(dateJs, app);
-
+            if (app.exists()) {
+                dateJs = controleDate(dateJs, app);
+            }
             return wrt.toString();
 
         }
@@ -156,12 +166,15 @@ public class UiStyleServlet extends LightServlet {
         if (!Fx.IS_DEBUG) {
             try {
                 uiJs = getJs(true);
-                uiJs = uiJs.replace("/ui/app.js", nameApp);
+                if (nameApp != null) {
+                    uiJs = uiJs.replace("/ui/app.js", nameApp);
+                }
                 uiJsGZip = Compressors.gzipCompressor(uiJs.getBytes());
                 uiJsBr = Compressors.brCompressor(uiJs.getBytes());
                 Fx.log("UI JS cached and compressed at " + Fx.UTCDate() + ", lastModification on " + dateJs);
                 nameJs = "/ui/js-" + Hidder.encodeDate(dateJs) + ".js";
             } catch (Exception e) {
+                e.printStackTrace();
                 Fx.log("Error JS cacher " + Fx.UTCDate());
             }
         }
@@ -225,7 +238,8 @@ public class UiStyleServlet extends LightServlet {
                 WebServletResponse.setHeaderNoCache(resp);
                 resp.getWriter().write(getJs(false));
                 return;
-            } catch (Exception ignore) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -308,6 +322,7 @@ public class UiStyleServlet extends LightServlet {
             buildApp();
             buildJs();
         }
+        SVGServlet.control();
 
     }
 
@@ -352,6 +367,9 @@ public class UiStyleServlet extends LightServlet {
 
         try {
             File appFile = FilesRepos.getFile("/app/main.dart.js");
+            if (!appFile.exists()) {
+                return null;
+            }
             dateApp = new Date(appFile.lastModified());
             String mainDart = FileUtils.readFileToString(appFile, StandardCharsets.UTF_8);
             return getCopyright() + "\n" + mainDart;
@@ -369,6 +387,9 @@ public class UiStyleServlet extends LightServlet {
 
         try {
             uiApp = getApp();
+            if (uiApp == null) {
+                return;
+            }
             uiAppGZip = Compressors.gzipCompressor(uiApp.getBytes());
             uiAppBr = Compressors.brCompressor(uiApp.getBytes());
             nameApp = "/ui/app-" + Hidder.encodeString(Hidder.encodeDate(dateApp)).toLowerCase() + ".js";
