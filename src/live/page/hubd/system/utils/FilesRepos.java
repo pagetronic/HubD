@@ -70,6 +70,7 @@ public class FilesRepos {
     public static List<File> listResourcesFiles(String extension) {
         List<File> files = new ArrayList<>();
         files.addAll(FilesRepos.listFiles("html", extension));
+        files.addAll(FilesRepos.listFiles("libs", extension));
         files.sort(Comparator.comparing(File::getName));
         return files;
     }

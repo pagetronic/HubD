@@ -40,11 +40,14 @@ public class Language {
         lngs.remove(lng);
         lngs.add(0, lng);
         for (String lang : lngs) {
-            if (key != null && !key.isEmpty() && langs.containsKey(lang) && langs.get(lng).containsKey(key)) {
-                Json tag = langs.get(lng);
-                String str = tag.getString(key, "");
+            if (key != null && !key.isEmpty() && langs.containsKey(lang) && langs.get(lang).containsKey(key)) {
+                Json tags = langs.get(lang);
+                String str = tags.getString(key, "");
                 for (int i = 0; i < parameters.length; i++) {
                     str = str.replace("%" + (i + 1), String.valueOf(parameters[i]));
+                }
+                if (Fx.IS_DEBUG && !lang.equals(lng)) {
+                    Fx.log("Langue " + key + " does not exists");
                 }
                 return str;
             }
