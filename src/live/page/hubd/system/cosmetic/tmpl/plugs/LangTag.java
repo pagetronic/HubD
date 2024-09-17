@@ -32,7 +32,7 @@ public class LangTag extends Directive {
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException, MethodInvocationException, ResourceNotFoundException, ParseErrorException {
 
         try {
-            String key = String.valueOf(node.jjtGetChild(0).value(context)).toUpperCase();
+            String key = String.valueOf(node.jjtGetChild(0).value(context));
             Object lng = context.get("lng");
             if (lng == null) {
                 lng = "fr";

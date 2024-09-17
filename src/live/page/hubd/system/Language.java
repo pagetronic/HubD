@@ -5,15 +5,16 @@ package live.page.hubd.system;
 
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.utils.Fx;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class Language {
 
-    private static final Json langs = build();
+    private static final Map<String, Json> langs = build();
 
     /**
      * Test if Language translation exist
@@ -23,80 +24,56 @@ public class Language {
      * @return true|false if exist
      */
     public static boolean exist(String key, String lng) {
-        return langs.containsKey(key) && langs.getJson(key).containsKey(lng);
+        return langs.containsKey(lng) && langs.get(lng).containsKey(key);
     }
 
     /**
      * Get language string for a specific key
      *
-     * @param key      of the translation
-     * @param lng_     language wanted
-     * @param replaces array of strings to replace in order : %1,%2,%3...
-     * @return
+     * @param key        of the translation
+     * @param lng        language wanted
+     * @param parameters array of strings to replace in order : %1,%2,%3...
+     * @return translation
      */
-    public static String get(String key, String lng_, Object... replaces) {
-
-        if (lng_ == null) {
-            return "${" + key + ".null}";
-        }
-
-        String[] lngs = lng_.split("_");
-
-        String country;
-        String lng;
-
-        if (lngs.length > 1) {
-            lng = lngs[0];
-            country = lngs[1];
-        } else {
-            lng = lng_;
-            country = null;
-        }
-        if (key != null && !key.isEmpty() && lng != null && langs.get(key) != null) {
-            Json tag = langs.getJson(key);
-            String str = country != null ? tag.getString(country, tag.getString(lng, null)) : tag.getString(lng, null);
-            for (int i = 0; i < replaces.length; i++) {
-                str = str.replace("%" + (i + 1), String.valueOf(replaces[i]));
+    public static String get(String key, String lng, Object... parameters) {
+        List<String> lngs = new ArrayList<>(Settings.getLangs());
+        lngs.remove(lng);
+        lngs.add(0, lng);
+        for (String lang : lngs) {
+            if (key != null && !key.isEmpty() && langs.containsKey(lang) && langs.get(lng).containsKey(key)) {
+                Json tag = langs.get(lng);
+                String str = tag.getString(key, "");
+                for (int i = 0; i < parameters.length; i++) {
+                    str = str.replace("%" + (i + 1), String.valueOf(parameters[i]));
+                }
+                return str;
             }
-            return str;
-        } else {
-            if (Fx.IS_DEBUG) {
-                Fx.log("Langue " + key + " does not exists");
-            }
-            return "${" + key + "." + lng_ + "}";
         }
+        if (Fx.IS_DEBUG) {
+            Fx.log("Langue " + key + " does not exists");
+        }
+
+        return "${" + key + "." + lng + "}";
     }
 
-    /**
-     * Get language for JavaScript
-     *
-     * @return Json string
-     */
-    public static String getLangsJs() {
-        Json langs_js = new Json();
-        langs.keySet().forEach(key -> {
-            Json lang = langs.getJson(key);
-            if (lang.getBoolean("js", false)) {
-                langs_js.put(key, lang.remove("js"));
-            }
-        });
-        langs_js.put("lng", Settings.getLangs());
-        return langs_js.toString(true) + ";";
-    }
 
     /**
      * Build language data from file
      */
-    private static Json build() {
-        Json langs = new Json();
-
-        try {
+    private static Map<String, Json> build() {
+        Map<String, Json> langs = new HashMap<>();
+        for (String lng : Settings.getLangs()) {
+            Json lang = new Json();
             try {
-                langs.putAll(new Json(FileUtils.readFileToString(new File(Settings.REPO + "/res/langs.json"), StandardCharsets.UTF_8)));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                Iterator<URL> it = Thread.currentThread().getContextClassLoader().getResources("/res/lng/" + lng + ".json").asIterator();
+                while (it.hasNext()) {
+                    Json before = lang.clone();
+                    lang.putAll(new Json(IOUtils.toString(it.next(), StandardCharsets.UTF_8)));
+                    lang.putAll(before);
+                }
+            } catch (IOException ignored) {
             }
-        } catch (Exception ignore) {
+            langs.put(lng, lang);
         }
 
         return langs;
