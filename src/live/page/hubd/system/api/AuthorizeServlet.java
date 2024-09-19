@@ -19,6 +19,7 @@ import live.page.hubd.system.api.oltu.common.message.OAuthResponse;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.HttpServlet;
+import live.page.hubd.system.servlet.utils.Api;
 import live.page.hubd.system.servlet.wrapper.ApiServletRequest;
 import live.page.hubd.system.servlet.wrapper.ApiServletResponse;
 import live.page.hubd.system.servlet.wrapper.WebServletRequest;
@@ -131,6 +132,7 @@ public class AuthorizeServlet extends HttpServlet {
             }
 
         } catch (OAuthProblemException e) {
+            e.printStackTrace();
             resp.sendError(500, "OAUTH_EXCEPTION");
         } catch (OAuthSystemException e) {
             resp.sendError(500, "OAUTH_SYSTEM_EXCEPTION");

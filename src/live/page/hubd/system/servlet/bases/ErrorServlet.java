@@ -22,8 +22,10 @@ public class ErrorServlet extends HttpServlet {
         req.setCanonical(null);
 
         if (req.getServerName().equals(Settings.STANDARD_HOST) || !Settings.domainAvailable(req.getServerName())) {
-            // redirect to standard Host
-            req.getRequestDispatcher("/STANDARD_HOST").forward(req, resp);
+
+            if (!resp.isCommitted()) {
+                req.getRequestDispatcher("/STANDARD_HOST").forward(req, resp);
+            }
 
         } else if (req.getServerName().equals(Settings.STANDARD_HOST) || Settings.domainAvailable(req.getServerName())) {
 

@@ -55,10 +55,13 @@ public class OauthUtils {
     }
 
     public static void requestOauth(WebServletRequest req, WebServletResponse resp) throws IOException {
+        requestOauth(req, resp, OauthDatas.valueOf(req.getQueryString().replaceAll("^(Google|Meta|WeChat).*", "$1").toLowerCase()));
+    }
+
+    public static void requestOauth(WebServletRequest req, WebServletResponse resp, OauthDatas provider) throws IOException {
 
         resp.addHeader(HttpHeaders.VARY, HttpHeaders.REFERER);
         Json session = BaseSession.getOrCreateSession(req, resp);
-        String provider = req.getQueryString().replaceAll("^(Google|Meta|WeChat).*", "$1").toLowerCase();
 
         if (req.getString("client_id", null) != null) {
             Json app = Db.find("ApiApps", Filters.eq("client_id", req.getString("client_id", ""))).first();
@@ -77,7 +80,7 @@ public class OauthUtils {
             session.put("referer", req.getHeader(HttpHeaders.REFERER));
         }
 
-        String urlOauth = OauthDatas.valueOf(provider).getAuthorize();
+        String urlOauth = provider.getAuthorize();
         session.put("provider", provider);
         if (!req.getString("code", "").isEmpty()) {
             session.put("code", req.getString("code", null));
@@ -101,6 +104,11 @@ public class OauthUtils {
     }
 
     public static void validateOauth(WebServletRequest req, WebServletResponse resp) throws IOException {
+        validateOauth(req, resp, OauthDatas.valueOf(req.getQueryString().replaceAll("^(Google|Meta|WeChat).*", "$1").toLowerCase()));
+
+    }
+
+    public static void validateOauth(WebServletRequest req, WebServletResponse resp, OauthDatas provider) throws IOException {
         Json session = BaseSession.getSession(req);
 
         if (session == null) {
@@ -109,7 +117,6 @@ public class OauthUtils {
         }
         session.put("expire", new Date(System.currentTimeMillis() + (Settings.COOKIE_DELAY * 1000L)));
 
-        String provider = session.getString("provider");
         if (provider == null) {
             resp.sendRedirect("/oauth");
             return;
@@ -146,7 +153,7 @@ public class OauthUtils {
         } else {
             for (int i = 0; i < providers.size(); i++) {
                 Json prov = providers.get(i);
-                if (prov.getString("provider", "").equals(provider) && prov.getString("id", "").equals(user_oauth.getString("id"))) {
+                if (prov.getString("provider", "").equals(provider.getName()) && prov.getString("id", "").equals(user_oauth.getString("id"))) {
                     providers.set(i, user_oauth);
                     user.put("providers", providers);
                     break;
@@ -203,19 +210,19 @@ public class OauthUtils {
         }
     }
 
-    public static Json getUserOauth(String code, String provider) throws ParseException, IOException {
+    public static Json getUserOauth(String code, OauthDatas provider) throws ParseException, IOException {
         try (CloseableHttpClient httpclient = HttpClientBuilder.create().build()) {
-            HttpPost httpPost = new HttpPost(OauthDatas.valueOf(provider).getToken());
+            HttpPost httpPost = new HttpPost(provider.getToken());
 
             httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
-            String authorization = Base64.getEncoder().encodeToString((OauthDatas.valueOf(provider).getClient_id() + ":" + OauthDatas.valueOf(provider).getClient_secret()).getBytes(StandardCharsets.UTF_8));
+            String authorization = Base64.getEncoder().encodeToString((provider.getClient_id() + ":" + provider.getClient_secret()).getBytes(StandardCharsets.UTF_8));
             httpPost.addHeader("Authorization", "Basic " + authorization);
             List<NameValuePair> nvps = new ArrayList<>();
             nvps.add(new BasicNameValuePair("code", code));
             nvps.add(new BasicNameValuePair("grant_type", "authorization_code"));
-            nvps.add(new BasicNameValuePair("scope", OauthDatas.valueOf(provider).getScope()));
-            nvps.add(new BasicNameValuePair("client_id", OauthDatas.valueOf(provider).getClient_id()));
-            nvps.add(new BasicNameValuePair("client_secret", OauthDatas.valueOf(provider).getClient_secret()));
+            nvps.add(new BasicNameValuePair("scope", provider.getScope()));
+            nvps.add(new BasicNameValuePair("client_id", provider.getClient_id()));
+            nvps.add(new BasicNameValuePair("client_secret", provider.getClient_secret()));
             nvps.add(new BasicNameValuePair("redirect_uri", Settings.getFullHttp() + "/oauth"));
             httpPost.setEntity(new UrlEncodedFormEntity(nvps));
 
@@ -257,14 +264,14 @@ public class OauthUtils {
 
             HttpGet userinfoRequest;
 
-            if (provider.equals("live")) {
+            if (provider.getName().equals("live")) {
 
-                String url = OauthDatas.valueOf(provider).getUserinfo();
+                String url = provider.getUserinfo();
                 url += "?access_token=" + access_token;
                 userinfoRequest = new HttpGet(url);
 
             } else {
-                userinfoRequest = new HttpGet(OauthDatas.valueOf(provider).getUserinfo());
+                userinfoRequest = new HttpGet(provider.getUserinfo());
                 userinfoRequest.setHeader("Authorization", "Bearer " + access_token);
                 userinfoRequest.setHeader("Content-Type", "application/json");
             }
@@ -276,7 +283,7 @@ public class OauthUtils {
                 Json user_json = new Json(res);
                 Json user = new Json();
 
-                switch (provider) {
+                switch (provider.getName()) {
                     case "google" -> {
                         user.put("id", user_json.getId());
                         user.put("name", user_json.getString("name"));
@@ -302,6 +309,13 @@ public class OauthUtils {
                         user.put("verified", true);
                         user.put("email", user_json.getJson("emails").getString("preferred"));
                         user.put("avatar", "https://apis.live.net/v5.0/" + user_json.getId() + "/picture");
+                    }
+                    default -> {
+                        user.put("id", user_json.getId());
+                        user.put("name", user_json.getString("name", user_json.getString("title")));
+                        user.put("verified", user_json.getBoolean("verified", false));
+                        user.put("email", user_json.getString("email"));
+                        user.put("avatar", user_json.getString("avatar", user_json.getString("logo")));
                     }
                 }
                 if (user.getString("name") == null || user.getString("name").isEmpty()) {

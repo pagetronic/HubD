@@ -31,7 +31,7 @@ public class ProfileServlet extends HttpServlet {
         req.setCanonical("/profile");
         req.setRobotsIndex(false);
 
-        resp.sendTemplate(req, "/index.html");
+        resp.sendTemplate(req, "/profile/profile.html");
 
     }
 
