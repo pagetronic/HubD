@@ -43,10 +43,9 @@ public class ApiServlet extends FullServlet {
             Api api = getClass().getAnnotation(Api.class);
 
             Users user;
-
-            //User use an OAuth procedure
-
-            if (api != null && req.getHeader("Authorization") != null && req.getHeader("Authorization").startsWith("Bearer")) {
+            if (req.getRequestURI().equals("/token")) {
+                user = null;
+            } else if (api != null && req.getHeader("Authorization") != null && req.getHeader("Authorization").startsWith("Bearer")) {
 
 
                 String access_token = req.getHeader("Authorization").replaceFirst(Pattern.compile("^Bearer ", Pattern.CASE_INSENSITIVE).pattern(), "");
@@ -154,7 +153,14 @@ public class ApiServlet extends FullServlet {
                         return;
                     }
                 } else if (contentType.equalsIgnoreCase("application/x-www-form-urlencoded")) {
-                    data = new Json(req.getParameter("data"));
+                    if (req.getParameter("data") != null) {
+                        data = new Json(req.getParameter("data"));
+                    } else {
+                        data = new Json();
+                        for (String key : req.getParameterMap().keySet()) {
+                            data.put(key, req.getParameter(key));
+                        }
+                    }
                 } else {
                     resp.setStatus(500);
                     resp.sendResponse(new Json("error", "INVALID_CONTENT_TYPE"));

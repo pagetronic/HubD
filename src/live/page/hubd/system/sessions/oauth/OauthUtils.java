@@ -133,7 +133,7 @@ public class OauthUtils {
         if (id != null) {
             if (user_oauth.getString("email") != null) {
                 user = Db.find("Users", Filters.eq("email",
-                        user_oauth.getString("email", Fx.getUnique()))).sort(Sorts.descending("join")).first();
+                        user_oauth.getString("email", "___x___"))).sort(Sorts.descending("join")).first();
             }
             if (user == null) {
                 user = Db.find("Users",
@@ -321,7 +321,7 @@ public class OauthUtils {
                 if (user.getString("name") == null || user.getString("name").isEmpty()) {
                     user.put("name", "anonymous");
                 }
-                user.put("provider", provider);
+                user.put("provider", provider.getName());
                 user.put("src", user_json);
                 return user;
             } catch (Exception e) {

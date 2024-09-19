@@ -6,6 +6,7 @@ package live.page.hubd.content.profile;
 import jakarta.servlet.annotation.WebServlet;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.HttpServlet;
+import live.page.hubd.system.servlet.utils.Api;
 import live.page.hubd.system.servlet.utils.ServletUtils;
 import live.page.hubd.system.servlet.wrapper.ApiServletRequest;
 import live.page.hubd.system.servlet.wrapper.ApiServletResponse;
@@ -21,6 +22,7 @@ import java.io.IOException;
 /**
  * Profile servelt used to login users
  */
+@Api(scope = "")
 @WebServlet(asyncSupported = true, urlPatterns = {"/profile"})
 public class ProfileServlet extends HttpServlet {
 

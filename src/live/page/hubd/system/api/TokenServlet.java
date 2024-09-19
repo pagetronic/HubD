@@ -8,7 +8,6 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletResponse;
 import live.page.hubd.system.db.Db;
 import live.page.hubd.system.json.Json;
 import live.page.hubd.system.servlet.HttpServlet;
@@ -43,7 +42,8 @@ public class TokenServlet extends HttpServlet {
 
         Json app = (client_id == null || client_secret == null) ? null : Db.find("ApiApps", Filters.and(Filters.eq("client_id", client_id), Filters.eq("client_secret", client_secret))).first();
         if (app == null) {
-            sendJson(resp, 401, new Json("error", "INVALID_APP"));
+            resp.setStatus(401);
+            resp.sendResponse(new Json("error", "INVALID_APP"));
             return;
         }
 
@@ -54,7 +54,8 @@ public class TokenServlet extends HttpServlet {
             case "refresh_token" -> {
                 access = Db.find("ApiAccess", Filters.and(Filters.eq("refresh_token", refreshToken), Filters.eq("app_id", app.getId()))).first();
                 if (access == null) {
-                    sendJson(resp, 401, new Json("error", "INVALID_REFRESH_TOKEN"));
+                    resp.setStatus(401);
+                    resp.sendResponse(new Json("error", "INVALID_REFRESH_TOKEN"));
                     return;
                 }
             }
@@ -64,7 +65,8 @@ public class TokenServlet extends HttpServlet {
                         new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
                 );
                 if (access == null) {
-                    sendJson(resp, 500, new Json("error", "CODE_VERIFICATION_ERROR"));
+                    resp.setStatus(500);
+                    resp.sendResponse(new Json("error", "CODE_VERIFICATION_ERROR"));
                     return;
                 }
             }
@@ -72,7 +74,8 @@ public class TokenServlet extends HttpServlet {
                 Json userDb = Db.find("Users", Filters.and(Filters.eq("email", email), Filters.eq("password", Fx.crypt(password)))).first();
                 if (userDb == null) {
                     BruteLocker.add(req);
-                    sendJson(resp, 401, new Json("error", "INVALID_ACCESS"));
+                    resp.setStatus(401);
+                    resp.sendResponse(new Json("error", "INVALID_ACCESS"));
                     return;
                 }
                 access = Db.find("ApiAccess", Filters.and(Filters.eq("user", userDb.getId()), Filters.eq("app_id", app.getId()))).first();
@@ -87,7 +90,8 @@ public class TokenServlet extends HttpServlet {
                 access.put("app_id", app.getId());
             }
             default -> {
-                sendJson(resp, 500, new Json("error", "GRANT_TYPE_UNKNOWN"));
+                resp.setStatus(500);
+                resp.sendResponse(new Json("error", "GRANT_TYPE_UNKNOWN"));
                 return;
             }
         }
@@ -104,7 +108,8 @@ public class TokenServlet extends HttpServlet {
 
         if (Db.save("ApiAccess", access)) {
 
-            sendJson(resp, 200, new Json()
+            resp.setStatus(200);
+            resp.sendResponse(new Json()
                     .put("access_token", access.getString("access_token"))
                     .put("refresh_token", access.getString("refresh_token"))
                     .put("expires_in", 3600)
@@ -114,17 +119,9 @@ public class TokenServlet extends HttpServlet {
         }
 
 
-        sendJson(resp, 500, new Json("error", "ERROR_UNKNOWN"));
+        resp.setStatus(500);
+        resp.sendResponse(new Json("error", "ERROR_UNKNOWN"));
 
     }
 
-
-    private void sendJson(HttpServletResponse resp, int status, Json data) throws IOException {
-
-        resp.setStatus(status);
-        resp.setHeader("Content-Type", "application/json; charset=utf-8");
-        resp.setHeader("X-Robots-Tag", "noindex");
-        resp.getWriter().write(data.toString());
-
-    }
 }
