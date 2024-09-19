@@ -349,7 +349,7 @@ public class ApiUtils {
             return null;
         }
         List<String> scopes = new ArrayList<>();
-        for (String scope : scope_str.split("([ ]+)?([,+\\-])([ ]+)?", 60)) {
+        for (String scope : scope_str.split("( +)?([,+\\- ])( +)?", 60)) {
             if (Scopes.scopes.contains(scope)) {
                 scopes.add(scope);
             }

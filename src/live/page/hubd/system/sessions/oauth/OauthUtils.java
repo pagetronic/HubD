@@ -104,7 +104,7 @@ public class OauthUtils {
     }
 
     public static void validateOauth(WebServletRequest req, WebServletResponse resp) throws IOException {
-        validateOauth(req, resp, OauthDatas.valueOf(req.getQueryString().replaceAll("^(Google|Meta|WeChat).*", "$1").toLowerCase()));
+        validateOauth(req, resp, null);
 
     }
 
@@ -115,6 +115,11 @@ public class OauthUtils {
             resp.sendError(401, "INVALID_SESSION");
             return;
         }
+        OauthDatas realProvider = OauthDatas.valueOf(session.getString("provider"));
+        if (realProvider != null) {
+            provider = realProvider;
+        }
+
         session.put("expire", new Date(System.currentTimeMillis() + (Settings.COOKIE_DELAY * 1000L)));
 
         if (provider == null) {
