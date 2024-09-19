@@ -18,6 +18,9 @@ import org.apache.http.HttpHeaders;
 
 import java.io.IOException;
 
+/*
+More : https://gist.github.com/pagetronic/39811c926c505cddc6bbb8f7a923bc06
+ */
 @WebServlet(asyncSupported = true, name = "oAuthServlet", urlPatterns = {"/oauth", "/activate/*", "/logout"})
 public class OAuthServlet extends HttpServlet {
 

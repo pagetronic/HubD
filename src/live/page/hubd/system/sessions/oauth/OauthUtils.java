@@ -81,7 +81,7 @@ public class OauthUtils {
         }
 
         String urlOauth = provider.getAuthorize();
-        session.put("provider", provider);
+        session.put("provider", provider.getName());
         if (!req.getString("code", "").isEmpty()) {
             session.put("code", req.getString("code", null));
         }
@@ -180,7 +180,6 @@ public class OauthUtils {
         user.remove("key");
 
         if (!Db.save("Users", user)) {
-            Fx.log("SYSTEM_ERROR");
             resp.sendError(500, "SYSTEM_ERROR");
             return;
         }
@@ -196,11 +195,9 @@ public class OauthUtils {
         session.put("user", user.getId());
 
         if (!Db.save("Sessions", session)) {
-            Fx.log("SYSTEM_ERROR");
             resp.sendError(500, "SYSTEM_ERROR");
             return;
         }
-
         if (req.contains("redirect")) {
             resp.sendRedirect(req.getString("redirect", ""));
         } else if (session.containsKey("referer")) {

@@ -26,7 +26,7 @@ public class Settings {
     public static final int COOKIE_DELAY = 30 * 24 * 3600;
     // File chunck size, size of an entry in database
     public static final int CHUNK_SIZE = 128 * 1024;
-    private static final Json settings = load();
+    public static final Json settings = load();
     //Dir for the specifics templates and others like style/fonts/javascript..
     public static final String REPO = settings.getString("REPO");
     // Salt for passwords
